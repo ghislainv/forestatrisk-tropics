@@ -19,8 +19,13 @@ import pandas as pd
 import pkg_resources
 import psutil
 import multiprocessing as mp
-from run_modelling_steps import run_modelling_steps
 import matplotlib.pyplot as plt
+# Set wd
+#os.chdir("/home/ghislain/Code/forestatrisk-tropics/America")
+from run_modelling_steps import run_modelling_steps
+
+# Set PROJ_LIB
+os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
 
 # List of countries to process
 countries = ["Senegal", "Gambia (Islamic Republic of the)", "Guinea Bissau",
@@ -63,7 +68,6 @@ total_cpu = psutil.cpu_count()
 num_cpu = int(total_cpu * 0.75) if total_cpu > 2 else 1
 # num_cpu = 2
 
-
 # Function for multiprocessing
 def run_country(iso3):
 
@@ -73,11 +77,14 @@ def run_country(iso3):
     os.chdir(os.path.join(owd, iso3))
 
     # Data
-    far.data.country(iso3=iso3, monthyear="Jan2020",
-                     proj=proj_africa,
-                     data_country=False,
-                     fcc_source="roadless",
-                     gs_bucket="forestatrisk")
+    far.data.country(iso3=iso3, monthyear="Feb2020",
+                     proj=proj_america,
+                     data_country=True,
+                     data_forest=True,
+                     keep_data_raw=True,
+                     fcc_source="jrc",
+                     gdrive_remote_rclone="gdrive_gv",
+                     gdrive_folder="GEE-forestatrisk-tropics")
 
     # Model and Forecast
     run_modelling_steps(fcc_source="roadless")
@@ -85,9 +92,19 @@ def run_country(iso3):
     # Return country iso code
     return(iso3)
 
-# # For loop
-# for i in iso3:
-#    run_country(i)
+# For loop
+for i in iso3:
+    print("GEE for country: " + i + "\n")
+    far.make_dir(i + "/data_raw")
+    far.country_forest_gdrive(
+        iso3=i, proj="EPSG:3395",
+        output_dir=i + "/data_raw",
+        keep_dir=True,
+        fcc_source="jrc", perc=50,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics"
+    )
+   #run_country(i)
 
 # # Parallel computation
 # pool = mp.Pool(processes=num_cpu)
