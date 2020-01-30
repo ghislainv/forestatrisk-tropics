@@ -19,19 +19,15 @@ import pandas as pd
 import pkg_resources
 import psutil
 import multiprocessing as mp
+# Set wd
+#os.chdir("/home/ghislain/Code/forestatrisk-tropics/America")
 from run_modelling_steps import run_modelling_steps
 
 # Set PROJ_LIB
 os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
 
-# Set wd
-os.chdir("/home/ghislain/Code/forestatrisk-tropics/Asia")
-
 # List of countries to process
-countries = ["Bangladesh", "Bhutan", "Cambodia", "Indonesia", "India",
-             "Lao People's Democratic Republic", "Malaysia", "Myanmar",
-             "Nepal", "New Caledonia", "Papua New Guinea", "Philippines",
-             "Sri Lanka", "Viet Nam", "Thailand"]
+countries = ["Brazil", "Colombia", "Peru", "Bolivia (Plurinational State of)"]
 
 # Number of countries
 nctry = len(countries)
@@ -50,12 +46,12 @@ for i in range(nctry):
 iso3.sort()
 
 # Only some countries for test
-# iso3 = ["KHM", "IDN", "LAO", "LKA", "MMR", "MYS", "THA", "VNM"]
-iso3 = ["VNM"]
+# iso3 = ['BOL', 'BRA', 'COL', 'PER']
+iso3 = ["BOL"]
 nctry = len(iso3)
 
 # Projection for Asia (World Mercator)
-proj_asia = "EPSG:3395"
+proj_america = "EPSG:3395"
 
 # Original working directory
 owd = os.getcwd()
@@ -75,17 +71,17 @@ def run_country(iso3):
     os.chdir(os.path.join(owd, iso3))
     
     # Data
-    far.data.country(iso3=iso3, monthyear="Jan2020",
-                     proj=proj_asia,
+    far.data.country(iso3=iso3, monthyear="Feb2020",
+                     proj=proj_america,
                      data_country=True,
-                     data_forest=False,
+                     data_forest=True,
                      keep_data_raw=True,
                      fcc_source="jrc",
                      gdrive_remote_rclone="gdrive_gv",
                      gdrive_folder="GEE-forestatrisk-tropics")
     
-    # # Model and Forecast
-    # run_modelling_steps(fcc_source="roadless")
+    # Model and Forecast
+    run_modelling_steps(fcc_source="jrc")
     
     # Return country iso code
     return(iso3)

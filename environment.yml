@@ -1,0 +1,20 @@
+name: forestatrisk
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - pip
+  - patsy
+  - python
+  - scikit-learn
+  - matplotlib
+  - scipy
+  - gdal
+  - statsmodels
+  - earthengine-api
+  - jupyter
+  - psutil
+  - pip:
+      - https://github.com/ghislainv/forestatrisk/archive/master.zip
+

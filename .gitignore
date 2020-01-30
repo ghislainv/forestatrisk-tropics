@@ -1,8 +1,19 @@
 # Rproj
 *.Rproj
 
+# Rhistory
+.Rhistory
+
 # Data
-*data_raw
+America/*
+!America/America.py
+!America/run_modelling_steps.py
+Africa/*
+!Africa/Africa.py
+!Africa/run_modelling_steps.py
+Asia/*
+!Asia/Asia.py
+!Asia/run_modelling_steps.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
