@@ -20,14 +20,25 @@ import pkg_resources
 import psutil
 import multiprocessing as mp
 # Set wd
-#os.chdir("/home/ghislain/Code/forestatrisk-tropics/America")
+os.chdir("/home/ghislain/Code/forestatrisk-tropics/America")
 from run_modelling_steps import run_modelling_steps
 
-# Set PROJ_LIB
-os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
+# ==================
+# Settings
+# PROJ_LIB
+os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/conda-far/share/proj"
+# Earth engine
+import ee
+ee.Initialize()
+# WDPA API
+from dotenv import load_dotenv
+load_dotenv("/home/ghislain/Code/forestatrisk-tropics/.env")
+from pywdpa import get_token
+get_token()
+# ==================
 
 # List of countries to process
-countries = ["Brazil", "Colombia", "Peru", "Bolivia (Plurinational State of)"]
+countries = ["Mexico", "Bahamas", "Cuba", "Jamaica", "Haiti", "Dominican Republic", "Puerto Rico", "Guatemala", "Belize", "El Salvador", "Honduras", "Nicaragua", "Costa Rica", "Panama", "Antigua and Barbuda", "Montserrat", "Guadeloupe", "Dominica", "Martinique", "Saint Lucia", "Saint Vincent and the Grenadines", "Barbados", "Grenada", "Trinidad and Tobago", "Colombia", "Venezuela, Bolivarian Republic of", "Guyana", "Suriname", "French Guiana", "Ecuador", "Peru", "Bolivia (Plurinational State of)", "Paraguay"]
 
 # Number of countries
 nctry = len(countries)
@@ -46,7 +57,6 @@ for i in range(nctry):
 iso3.sort()
 
 # Only some countries for test
-# iso3 = ['BOL', 'BRA', 'COL', 'PER']
 iso3 = ["BOL"]
 nctry = len(iso3)
 
@@ -89,7 +99,19 @@ def run_country(iso3):
 
 # For loop
 for i in iso3:
-    run_country(i)
+    print("\n#===================")
+    print("GEE for country: " + i)
+    far.make_dir(i + "/data_raw")
+    far.country_forest_gdrive(
+        iso3=i, proj="EPSG:3395",
+        output_dir=i + "/data_raw",
+        keep_dir=True,
+        fcc_source="jrc", perc=50,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics"
+    )
+   #run_country(i)
+
 
 # # Parallel computation
 # pool = mp.Pool(processes=num_cpu)

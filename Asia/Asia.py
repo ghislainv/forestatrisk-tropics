@@ -25,14 +25,19 @@ from run_modelling_steps import run_modelling_steps
 os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
 
 # Set wd
-os.chdir("/home/ghislain/Code/forestatrisk-tropics/Asia")
+#os.chdir("/home/ghislain/Code/forestatrisk-tropics/Asia")
 
 # List of countries to process
-countries = ["Bangladesh", "Bhutan", "Cambodia", "Indonesia", "India",
+# countries = ["Bangladesh", "Bhutan", "Cambodia", "Indonesia", "India",
+#              "Lao People's Democratic Republic", "Malaysia", "Myanmar",
+#              "Nepal", "New Caledonia", "Papua New Guinea", "Philippines",
+#              "Sri Lanka", "Viet Nam", "Thailand"]
+
+countries = ["Bangladesh", "Bhutan", "Cambodia", "India",
              "Lao People's Democratic Republic", "Malaysia", "Myanmar",
              "Nepal", "New Caledonia", "Papua New Guinea", "Philippines",
              "Sri Lanka", "Viet Nam", "Thailand"]
-
+             
 # Number of countries
 nctry = len(countries)
 
@@ -50,8 +55,8 @@ for i in range(nctry):
 iso3.sort()
 
 # Only some countries for test
-# iso3 = ["KHM", "IDN", "LAO", "LKA", "MMR", "MYS", "THA", "VNM"]
-iso3 = ["VNM"]
+#iso3 = ["BGD","BTN","IDN", "KHM","LAO", "LKA", "MMR", "MYS", "PNG", "THA", "VNM"]
+#iso3 = ["VNM"]
 nctry = len(iso3)
 
 # Projection for Asia (World Mercator)
@@ -90,10 +95,19 @@ def run_country(iso3):
     # Return country iso code
     return(iso3)
 
-
 # For loop
 for i in iso3:
-    run_country(i)
+    print("GEE for country: " + i + "\n")
+    far.make_dir(i + "/data_raw")
+    far.country_forest_gdrive(
+        iso3=i, proj="EPSG:3395",
+        output_dir=i + "/data_raw",
+        keep_dir=True,
+        fcc_source="jrc", perc=50,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics"
+    )
+   #run_country(i)
 
 # # Parallel computation
 # pool = mp.Pool(processes=num_cpu)
