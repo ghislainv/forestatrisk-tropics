@@ -38,7 +38,14 @@ get_token()
 # ==================
 
 # List of countries to process
-countries = ["Mexico", "Bahamas", "Cuba", "Jamaica", "Haiti", "Dominican Republic", "Puerto Rico", "Guatemala", "Belize", "El Salvador", "Honduras", "Nicaragua", "Costa Rica", "Panama", "Antigua and Barbuda", "Montserrat", "Guadeloupe", "Dominica", "Martinique", "Saint Lucia", "Saint Vincent and the Grenadines", "Barbados", "Grenada", "Trinidad and Tobago", "Colombia", "Venezuela, Bolivarian Republic of", "Guyana", "Suriname", "French Guiana", "Ecuador", "Peru", "Bolivia (Plurinational State of)", "Paraguay"]
+countries = ["Mexico", "Bahamas", "Cuba", "Jamaica", "Haiti", "Dominican Republic",
+             "Puerto Rico", "Guatemala", "Belize", "El Salvador", "Honduras",
+             "Nicaragua", "Costa Rica", "Panama", "Antigua and Barbuda", "Montserrat",
+             "Guadeloupe", "Dominica", "Martinique", "Saint Lucia",
+             "Saint Vincent and the Grenadines", "Barbados", "Grenada",
+             "Trinidad and Tobago", "Colombia", "Venezuela, Bolivarian Republic of",
+             "Guyana", "Suriname", "French Guiana", "Ecuador", "Peru",
+             "Bolivia (Plurinational State of)", "Paraguay"]
 
 # Number of countries
 nctry = len(countries)
@@ -57,7 +64,7 @@ for i in range(nctry):
 iso3.sort()
 
 # Only some countries for test
-iso3 = ["BOL"]
+# iso3 = ["BOL"]
 nctry = len(iso3)
 
 # Projection for Asia (World Mercator)
@@ -98,19 +105,40 @@ def run_country(iso3):
 
 
 # For loop
-for i in iso3:
+for i in range(nctry):
+
+    # Make directory
+    far.make_dir(iso3[i] + "/data_raw")
+
+    # # GEE
+    # print("\n#===================")
+    # print("GEE for country: " + iso3[i])
+    # far.country_forest_gdrive(
+    #     iso3=iso3[i], proj="EPSG:3395",
+    #     output_dir=iso3[i] + "/data_raw",
+    #     keep_dir=True,
+    #     fcc_source="jrc", perc=50,
+    #     gdrive_remote_rclone="gdrive_gv",
+    #     gdrive_folder="GEE-forestatrisk-tropics"
+    # )
+
+    # Google drive download
     print("\n#===================")
-    print("GEE for country: " + i)
-    far.make_dir(i + "/data_raw")
-    far.country_forest_gdrive(
-        iso3=i, proj="EPSG:3395",
-        output_dir=i + "/data_raw",
-        keep_dir=True,
-        fcc_source="jrc", perc=50,
+    print("gdrive -> folder: " + iso3[i])
+    far.data.country_forest_download(
+        iso3=iso3[i],
         gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics"
-    )
-   #run_country(i)
+        gdrive_folder="GEE-forestatrisk-tropics",
+        output_dir=iso3[i] + "/data_raw")
+
+    
+    # # WDPA
+    # print("\n#===================")
+    # print("WDPA for country: " + iso3[i])
+    # far.data.country_wdpa(iso3=iso3[i],
+    #                       output_dir=iso3[i] + "/data_raw")
+    
+    #run_country(i)
 
 
 # # Parallel computation
