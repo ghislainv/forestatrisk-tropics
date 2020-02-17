@@ -6,14 +6,15 @@
 
 # Data
 America/*
-!America/America.py
-!America/run_modelling_steps.py
-Africa/*
-!Africa/Africa.py
-!Africa/run_modelling_steps.py
+!America/*.py
 Asia/*
-!Asia/Asia.py
-!Asia/run_modelling_steps.py
+!Asia/*.py
+Africa/*
+!Africa/*.py
+AGB/*
+
+# Singularity
+*.simg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
