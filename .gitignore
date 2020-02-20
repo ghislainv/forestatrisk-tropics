@@ -7,10 +7,13 @@
 # Data
 America/*
 !America/*.py
+!America/*.sge
 Asia/*
 !Asia/*.py
+!Asia/*.sge
 Africa/*
 !Africa/*.py
+!Africa/*.sge
 AGB/*
 
 # Singularity
