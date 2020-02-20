@@ -27,7 +27,8 @@ def run_modelling_steps(fcc_source="jrc"):
     # Sample points
     # ========================================================
 
-    dataset = far.sample(nsamp=10000, Seed=1234, csize=10,
+    dataset = far.sample(nsamp=10000, adapt=True,
+                         Seed=1234, csize=10,
                          var_dir="data",
                          input_forest_raster="fcc23.tif",
                          output_file="output_jrc/sample.txt",
@@ -179,8 +180,8 @@ def run_modelling_steps(fcc_source="jrc"):
 
     # Forest cover
     fc = list()
-    for i in range(4):
-        rast = "data/forest/forest_t" + str(i) + ".tif"
+    for i in range(3):
+        rast = "data/forest/forest_t" + str(i+1) + ".tif"
         val = far.countpix(input_raster=rast,
                            value=1)
         fc.append(val["area"])
@@ -192,7 +193,7 @@ def run_modelling_steps(fcc_source="jrc"):
 
     # Annual deforestation
     T = 9.0 if (fcc_source == "jrc") else 9.0
-    annual_defor = (fc[1] - fc[3]) / T
+    annual_defor = (fc[1] - fc[2]) / T
     # Amount of deforestation (ha)
     defor_2030 = np.rint(annual_defor * 11)
     defor_2050 = np.rint(annual_defor * 31)

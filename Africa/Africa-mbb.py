@@ -18,23 +18,22 @@ import os
 import forestatrisk as far
 from run_modelling_steps import run_modelling_steps
 
-
-#index_ctry = int(sys.argv[1])
-index_ctry = 24 # REU
+index_ctry = int(sys.argv[1])-1
 
 # ==================
 # Settings
-# PROJ_LIB
-os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/conda-far/share/proj"
 # Earth engine
 import ee
 ee.Initialize()
 # WDPA API
 from dotenv import load_dotenv
-load_dotenv("/home/ghislain/Code/forestatrisk-tropics/.env")
+load_dotenv("/home/gvieilledent/Code/forestatrisk-tropics/.env")
 from pywdpa import get_token
 get_token()
 # ==================
+
+# Change working directory to nas
+os.chdir("/share/nas2-amap/gvieilledent/")
 
 # Print iso3
 iso3 = ['AGO', 'BDI', 'BEN', 'CAF', 'CIV', 'CMR', 'COD', 'COG', 'COM',
