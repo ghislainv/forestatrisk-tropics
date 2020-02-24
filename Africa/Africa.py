@@ -21,11 +21,23 @@ import psutil
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 # Set wd
-#os.chdir("/home/ghislain/Code/forestatrisk-tropics/America")
+os.chdir("/home/ghislain/Code/forestatrisk-tropics/Africa")
 from run_modelling_steps import run_modelling_steps
 
+# ==================
+# Settings
+# Earth engine
+import ee
+ee.Initialize()
+# WDPA API
+from dotenv import load_dotenv
+load_dotenv("/home/ghislain/Code/forestatrisk-tropics/.env")
+from pywdpa import get_token
+get_token()
+# ==================
+
 # Set PROJ_LIB
-os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
+# os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
 
 # List of countries to process
 countries = ["Senegal", "Gambia (Islamic Republic of the)", "Guinea Bissau",
@@ -53,9 +65,9 @@ for i in range(nctry):
     iso3.append(code.iloc[0])
 iso3.sort()
 
-# # Only some countries for test
-# iso3 = ["CMR", "ETH", "MDG"]
-# nctry = len(iso3)
+# Only some countries for test
+iso3 = ["REU"]
+nctry = len(iso3)
 
 # Projection for Africa (World Mercator)
 proj_africa = "EPSG:3395"
@@ -66,7 +78,7 @@ owd = os.getcwd()
 # Number of cpu
 total_cpu = psutil.cpu_count()
 num_cpu = int(total_cpu * 0.75) if total_cpu > 2 else 1
-# num_cpu = 2
+num_cpu = 4
 
 # Function for multiprocessing
 def run_country(iso3):
@@ -77,8 +89,8 @@ def run_country(iso3):
     os.chdir(os.path.join(owd, iso3))
 
     # Data
-    far.data.country(iso3=iso3, monthyear="Feb2020",
-                     proj=proj_america,
+    far.data.country(iso3=iso3,
+                     proj="EPSG:3395",
                      data_country=True,
                      data_forest=True,
                      keep_data_raw=True,
@@ -87,32 +99,22 @@ def run_country(iso3):
                      gdrive_folder="GEE-forestatrisk-tropics")
 
     # Model and Forecast
-    run_modelling_steps(fcc_source="roadless")
+    run_modelling_steps(fcc_source="jrc")
 
     # Return country iso code
     return(iso3)
 
 # For loop
-for i in iso3:
-    print("GEE for country: " + i + "\n")
-    far.make_dir(i + "/data_raw")
-    far.country_forest_gdrive(
-        iso3=i, proj="EPSG:3395",
-        output_dir=i + "/data_raw",
-        keep_dir=True,
-        fcc_source="jrc", perc=50,
-        gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics"
-    )
-   #run_country(i)
+#for i in iso3:
+#    run_country(i)
 
-# # Parallel computation
-# pool = mp.Pool(processes=num_cpu)
-# results = [pool.apply_async(run_country, args=(x,)) for x in iso3]
-# pool.close()
-# pool.join()
-# output = [p.get() for p in results]
-# print(output)
+# Parallel computation
+pool = mp.Pool(processes=num_cpu)
+results = [pool.apply_async(run_country, args=(x,)) for x in iso3]
+pool.close()
+pool.join()
+output = [p.get() for p in results]
+print(output)
 
 # Combine results
 

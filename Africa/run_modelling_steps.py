@@ -159,11 +159,11 @@ def run_modelling_steps(fcc_source="jrc"):
     # Predicting spatial probability of deforestation
     # ========================================================
 
-    # Update dist_edge and dist_defor between t2 and t3
+    # Update dist_edge and dist_defor at t3
     os.rename("data/dist_edge.tif", "data/dist_edge.tif.bak")
     os.rename("data/dist_defor.tif", "data/dist_defor.tif.bak")
-    copy2("data/proj/dist_edge_proj.tif", "data/dist_edge.tif")
-    copy2("data/proj/dist_defor_proj.tif", "data/dist_defor.tif")
+    copy2("data/forecast/dist_edge_forecast.tif", "data/dist_edge.tif")
+    copy2("data/forecast/dist_defor_forecast.tif", "data/dist_defor.tif")
 
     # Compute predictions
     far.predict_raster_binomial_iCAR(
@@ -238,11 +238,18 @@ def run_modelling_steps(fcc_source="jrc"):
                                  output_file="output_jrc/forest_t3.png")
     plt.close(fig_forest)
 
-    # Forest-cover change 2010-2019
+    # Forest-cover change 2000-2019
     fig_fcc = far.plot.fcc("data/forest/fcc13.tif",
                            borders="data/ctry_PROJ.shp",
                            output_file="output_jrc/fcc13.png")
     plt.close(fig_fcc)
+
+    # Forest-cover change 2010-2019
+    fig_fcc = far.plot.fcc("data/fcc23.tif",
+                           borders="data/ctry_PROJ.shp",
+                           output_file="output_jrc/fcc23.png")
+    plt.close(fig_fcc)
+
 
     # Original spatial random effects
     fig_rho_orig = far.plot.rho("output_jrc/rho_orig.tif",

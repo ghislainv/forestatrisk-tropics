@@ -6,6 +6,7 @@
 #$ -t 1-34
 #$ -tc 5
 #$ -pe multithread60 20
+#$ -N far-Afr
 
 # load singularity
 module load singularity-3.4.2

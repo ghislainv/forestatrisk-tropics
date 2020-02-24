@@ -2,8 +2,9 @@
 #$ -S /bin/bash
 #$ -cwd
 #$ -j y
-#$ -l h_rt=01:00:00
-#$ -pe multithread8 4
+#$ -l h_rt=00:30:00
+#$ -pe multithread8 2
+#$ -N far-REU
 
 # load singularity
 module load singularity-3.4.2
