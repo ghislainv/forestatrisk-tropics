@@ -50,6 +50,7 @@ iso3.sort()
 #         'ETH', 'GAB', 'GHA', 'GIN', 'GMB', 'GNB', 'GNQ', 'KEN', 'LBR',
 #         'MDG', 'MOZ', 'MUS', 'MWI', 'MYT', 'NGA', 'REU', 'RWA', 'SEN',
 #         'SLE', 'SSD', 'STP', 'TGO', 'TZA', 'UGA', 'ZMB']
+#iso3 = ["AGO", "COD"]
 
 
 # Function for multiprocessing
@@ -71,8 +72,7 @@ def run_country(iso3):
     #                  gdrive_folder="GEE-forestatrisk-tropics")
     
     # Model and Forecast
-    if not os.path.isfile("output_jrc/fcc_2050.png"):
-        run_modelling_steps(fcc_source="jrc")
+    run_modelling_steps(fcc_source="jrc")
     
     # Return country iso code
     return(iso3)

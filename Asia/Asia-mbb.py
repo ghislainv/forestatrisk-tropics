@@ -48,7 +48,7 @@ iso3.sort()
 # print(iso3)
 # iso3 = ['BGD', 'BRN', 'BTN', 'FJI', 'IDN', 'IND', 'KHM', 'LAO', 'LKA', 'MMR',
 #         'MYS', 'NCL', 'PHL', 'PNG', 'SGP', 'SLB', 'THA', 'TLS', 'VNM', 'VUT']
-
+iso3 = ["IDN", "IND", "LAO"]
 
 # Function for multiprocessing
 def run_country(iso3):
