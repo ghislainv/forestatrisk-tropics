@@ -4,6 +4,9 @@
 # Rhistory
 .Rhistory
 
+# ssh
+knocking
+
 # Data
 America/*
 !America/*.py

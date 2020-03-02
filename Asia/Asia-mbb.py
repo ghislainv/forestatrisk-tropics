@@ -59,13 +59,11 @@ def run_country(iso3):
     os.chdir(os.path.join(owd, iso3))
 
     # Download data
-    # 2 runs to be sure data have been downloaded
-    for i in range(2):
-        far.data.country_download(
-            iso3,
-            gdrive_remote_rclone="gdrive_gv",
-            gdrive_folder="GEE-forestatrisk-tropics",
-            output_dir="data_raw")
+    far.data.country_download(
+        iso3,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics",
+        output_dir="data_raw")
     
     # Compute variables
     far.data.country_compute(

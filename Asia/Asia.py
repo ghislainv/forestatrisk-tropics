@@ -19,93 +19,91 @@ import pandas as pd
 import pkg_resources
 import psutil
 import multiprocessing as mp
-from run_modelling_steps import run_modelling_steps
 
 # Set PROJ_LIB
-os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
+# os.environ["PROJ_LIB"] = "/home/ghislain/miniconda3/envs/forestatrisk/share/proj"
+
+# ==================
+# Settings
+# Earth engine
+import ee
+ee.Initialize()
+# WDPA API
+from dotenv import load_dotenv
+load_dotenv(os.path.expanduser("~/Code/forestatrisk-tropics/.env"))
+from pywdpa import get_token
+get_token()
+# ==================
 
 # Set wd
-#os.chdir("/home/ghislain/Code/forestatrisk-tropics/Asia")
+owd = "/home/ghislain/Code/forestatrisk-tropics/Asia"
+os.chdir(owd)
+from run_modelling_steps import run_modelling_steps
 
-# List of countries to process
-# countries = ["Bangladesh", "Bhutan", "Cambodia", "Indonesia", "India",
-#              "Lao People's Democratic Republic", "Malaysia", "Myanmar",
-#              "Nepal", "New Caledonia", "Papua New Guinea", "Philippines",
-#              "Sri Lanka", "Viet Nam", "Thailand"]
-
-countries = ["Bangladesh", "Bhutan", "Cambodia", "India",
-             "Lao People's Democratic Republic", "Malaysia", "Myanmar",
-             "Nepal", "New Caledonia", "Papua New Guinea", "Philippines",
-             "Sri Lanka", "Viet Nam", "Thailand"]
-             
-# Number of countries
-nctry = len(countries)
-
-# Data-frame of country codes
-file_countrycode = pkg_resources.resource_filename("forestatrisk",
-                                                   "data/countrycode.csv")
-data_countrycode = pd.read_csv(file_countrycode, sep=";", header=0)
-
-# Get iso3c from country name
-iso3 = list()
-for i in range(nctry):
-    code = data_countrycode.iso3c[
-        data_countrycode["country.name.en"] == countries[i]]
-    iso3.append(code.iloc[0])
+# Country isocode
+file_ctry_run = pkg_resources.resource_filename("forestatrisk",
+                                                "data/ctry_run.csv")
+data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
+iso3 = list(data_ctry_run.iso3[data_ctry_run.cont_run == "Asia"])
 iso3.sort()
+# print(iso3)
+# iso3 = ['BGD', 'BRN', 'BTN', 'FJI', 'IDN', 'IND', 'KHM', 'LAO', 'LKA', 'MMR',
+#         'MYS', 'NCL', 'PHL', 'PNG', 'SGP', 'SLB', 'THA', 'TLS', 'VNM', 'VUT']
+iso3 = ['IDN', 'IND', 'KHM', 'LAO', 'LKA', 'MMR',
+        'MYS', 'NCL', 'PHL', 'PNG', 'SGP', 'SLB', 'THA', 'TLS', 'VNM', 'VUT']
 
-# Only some countries for test
-#iso3 = ["BGD","BTN","IDN", "KHM","LAO", "LKA", "MMR", "MYS", "PNG", "THA", "VNM"]
-#iso3 = ["VNM"]
+# Number of countries
 nctry = len(iso3)
-
-# Projection for Asia (World Mercator)
-proj_asia = "EPSG:3395"
-
-# Original working directory
-owd = os.getcwd()
 
 # Number of cpu
 total_cpu = psutil.cpu_count()
 num_cpu = int(total_cpu * 0.75) if total_cpu > 2 else 1
 # num_cpu = 3
 
+#far.data.country_wdpa(iso3[0], output_dir=iso3[0] + "/data_raw")
 
 # Function for multiprocessing
 def run_country(iso3):
-    
+
     # Make new directory for country
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
+
+    # Download data
+    far.data.country_download(
+        iso3,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics",
+        output_dir="data_raw")
     
-    # Data
-    far.data.country(iso3=iso3, monthyear="Jan2020",
-                     proj=proj_asia,
-                     data_country=True,
-                     data_forest=False,
-                     keep_data_raw=True,
-                     fcc_source="jrc",
-                     gdrive_remote_rclone="gdrive_gv",
-                     gdrive_folder="GEE-forestatrisk-tropics")
+    # Compute variables
+    far.data.country_compute(
+        iso3,
+        temp_dir="data_raw",
+        output_dir="data",
+        proj="EPSG:3395",
+        data_country=True,
+        data_forest=True,
+        keep_temp_dir=True)
     
-    # # Model and Forecast
-    # run_modelling_steps(fcc_source="roadless")
-    
+    # Model and Forecast
+    run_modelling_steps(fcc_source="jrc")
+
     # Return country iso code
     return(iso3)
 
 # For loop
 for i in iso3:
-    print("GEE for country: " + i + "\n")
+    print("\nGEE for country: " + i)
     far.make_dir(i + "/data_raw")
-    far.country_forest_gdrive(
+    far.data.country_forest_run(
         iso3=i, proj="EPSG:3395",
         output_dir=i + "/data_raw",
         keep_dir=True,
-        fcc_source="jrc", perc=50,
+        fcc_source="gfc", perc=50,
         gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics"
+        gdrive_folder="GEE-forestatrisk-tropics-gfc-50"
     )
    #run_country(i)
 
