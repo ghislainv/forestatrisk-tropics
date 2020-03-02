@@ -52,25 +52,34 @@ iso3 = ["IDN", "IND", "LAO"]
 
 # Function for multiprocessing
 def run_country(iso3):
-    
+
     # Make new directory for country
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
+
+    # Download data
+    # 2 runs to be sure data have been downloaded
+    for i in range(2):
+        far.data.country_download(
+            iso3,
+            gdrive_remote_rclone="gdrive_gv",
+            gdrive_folder="GEE-forestatrisk-tropics",
+            output_dir="data_raw")
     
-    # Data
-    far.data.country(iso3=iso3,
-                     proj="EPSG:3395",
-                     data_country=True,
-                     data_forest=True,
-                     keep_data_raw=True,
-                     fcc_source="jrc",
-                     gdrive_remote_rclone="gdrive_gv",
-                     gdrive_folder="GEE-forestatrisk-tropics")
+    # Compute variables
+    far.data.country_compute(
+        iso3,
+        temp_dir="data_raw",
+        output_dir="data",
+        proj="EPSG:3395",
+        data_country=True,
+        data_forest=True,
+        keep_temp_dir=True)
     
     # Model and Forecast
     run_modelling_steps(fcc_source="jrc")
-    
+
     # Return country iso code
     return(iso3)
 
