@@ -1,0 +1,17 @@
+#!/bin/bash -e
+#$ -S /bin/bash
+#$ -cwd
+#$ -j y
+#$ -l h_rt=20:00:00
+#$ -t 1-39
+#$ -tc 6
+#$ -pe multithread60 24
+#$ -N far-Asi
+
+# load singularity
+module load singularity-3.4.2
+
+# run python script inside container
+singularity exec --bind /share/nas2-amap/gvieilledent Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 Code/forestatrisk-tropics/America/America-mbb.py $SGE_TASK_ID
+
+# EOF

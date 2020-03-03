@@ -27,7 +27,8 @@ def run_modelling_steps(fcc_source="jrc"):
     # Sample points
     # ========================================================
 
-    dataset = far.sample(nsamp=10000, Seed=1234, csize=10,
+    dataset = far.sample(nsamp=10000, adapt=True,
+                         Seed=1234, csize=10,
                          var_dir="data",
                          input_forest_raster="fcc23.tif",
                          output_file="output_jrc/sample.txt",
@@ -158,11 +159,11 @@ def run_modelling_steps(fcc_source="jrc"):
     # Predicting spatial probability of deforestation
     # ========================================================
 
-    # Update dist_edge and dist_defor between t2 and t3
+    # Update dist_edge and dist_defor at t3
     os.rename("data/dist_edge.tif", "data/dist_edge.tif.bak")
     os.rename("data/dist_defor.tif", "data/dist_defor.tif.bak")
-    copy2("data/proj/dist_edge_proj.tif", "data/dist_edge.tif")
-    copy2("data/proj/dist_defor_proj.tif", "data/dist_defor.tif")
+    copy2("data/forecast/dist_edge_forecast.tif", "data/dist_edge.tif")
+    copy2("data/forecast/dist_defor_forecast.tif", "data/dist_defor.tif")
 
     # Compute predictions
     far.predict_raster_binomial_iCAR(
@@ -173,14 +174,20 @@ def run_modelling_steps(fcc_source="jrc"):
         blk_rows=128
     )
 
+    # Reinitialize data
+    os.remove("data/dist_edge.tif")
+    os.remove("data/dist_defor.tif")
+    os.rename("data/dist_edge.tif.bak", "data/dist_edge.tif")
+    os.rename("data/dist_defor.tif.bak", "data/dist_defor.tif")
+
     # ========================================================
     # Mean annual deforestation rate (ha.yr-1)
     # ========================================================
 
     # Forest cover
     fc = list()
-    for i in range(4):
-        rast = "data/forest/forest_t" + str(i) + ".tif"
+    for i in range(3):
+        rast = "data/forest/forest_t" + str(i+1) + ".tif"
         val = far.countpix(input_raster=rast,
                            value=1)
         fc.append(val["area"])
@@ -192,7 +199,7 @@ def run_modelling_steps(fcc_source="jrc"):
 
     # Annual deforestation
     T = 9.0 if (fcc_source == "jrc") else 9.0
-    annual_defor = (fc[1] - fc[3]) / T
+    annual_defor = (fc[1] - fc[2]) / T
     # Amount of deforestation (ha)
     defor_2030 = np.rint(annual_defor * 11)
     defor_2050 = np.rint(annual_defor * 31)
@@ -237,11 +244,18 @@ def run_modelling_steps(fcc_source="jrc"):
                                  output_file="output_jrc/forest_t3.png")
     plt.close(fig_forest)
 
-    # Forest-cover change 2010-2019
+    # Forest-cover change 2000-2019
     fig_fcc = far.plot.fcc("data/forest/fcc13.tif",
                            borders="data/ctry_PROJ.shp",
                            output_file="output_jrc/fcc13.png")
     plt.close(fig_fcc)
+
+    # Forest-cover change 2010-2019
+    fig_fcc = far.plot.fcc("data/fcc23.tif",
+                           borders="data/ctry_PROJ.shp",
+                           output_file="output_jrc/fcc23.png")
+    plt.close(fig_fcc)
+
 
     # Original spatial random effects
     fig_rho_orig = far.plot.rho("output_jrc/rho_orig.tif",
