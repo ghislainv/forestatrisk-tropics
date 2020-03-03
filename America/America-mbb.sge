@@ -4,8 +4,8 @@
 #$ -j y
 #$ -l h_rt=20:00:00
 #$ -t 1-39
-#$ -tc 6
-#$ -pe multithread60 24
+#$ -tc 5
+#$ -pe multithread60 20
 #$ -N farAm
 
 # load singularity
