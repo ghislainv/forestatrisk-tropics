@@ -50,6 +50,7 @@ iso3.sort()
 # 'DOM', 'ECU', 'GLP', 'GRD', 'GTM', 'GUF', 'GUY', 'HND', 'HTI', 'JAM',
 # 'KNA', 'LCA', 'MAF', 'MEX', 'MSR', 'MTQ', 'NIC', 'PAN', 'PER', 'PRI',
 # 'PRY', 'SLV', 'SUR', 'SXM', 'TTO', 'VCT', 'VEN', 'VGB', 'VIR']
+iso3 = ['TTO', 'VEN']
 
 # Function for multiprocessing
 def run_country(iso3):
