@@ -20,7 +20,7 @@ load_dotenv("/home/ghislain/Code/forestatrisk-tropics/.env")
 import ee
 ee.Initialize()
 
-# Isocode for Brazi states
+# Isocode for Brazil states
 iso3 = ["BRA-AC", "BRA-AL", "BRA-AM", "BRA-AP", "BRA-BA", "BRA-CE", "BRA-ES",
         "BRA-GO", "BRA-MA", "BRA-MG", "BRA-MS", "BRA-MT", "BRA-PA", "BRA-PB",
         "BRA-PE", "BRA-PI", "BRA-PR", "BRA-RJ", "BRA-RN", "BRA-RO", "BRA-RR",
@@ -43,7 +43,7 @@ subprocess.call(cmd, shell=True)
 
 # Brazil PA
 pywdpa.get_token()
-pywdpa.get_wdpa("BRA")
+pywdpa.get_wdpa("AUS")
 
 # State boundaries
 for i in range(nstates):
