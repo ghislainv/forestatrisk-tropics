@@ -18,7 +18,24 @@ import pickle
 
 
 # run_modelling_steps
-def run_modelling_steps(fcc_source="jrc"):
+def run_modelling_steps(iso3, fcc_source="jrc"):
+    """Runs the modelling steps.
+
+    Runs the modelling steps: (1) select the significant variables,
+    (2) model the deforestation process, (3) interpolate the spatial
+    random effects, (3) predict the probability of deforestation, (4)
+    compute mean annula dorested areas, and (4) forecast the future
+    forest cover at different date in the future following a
+    business-as-usual scenario.
+
+    :param iso3: Country ISO 3166-1 alpha-3 code. This is used to
+    handle exceptions in the modelling process for specific countries.
+
+    :param fcc_source: Source of the forest cover data to compute
+    time-interval for the observation of the past
+    deforestation. Either "jrc" or "gfc".
+
+    """
 
     # Make output directory
     far.make_dir("output_jrc")
@@ -40,7 +57,7 @@ def run_modelling_steps(fcc_source="jrc"):
     # dataset.head(5)
 
     # Descriptive statistics
-    # Model formulas
+    # Model formula
     formula_1 = "fcc23 ~ dist_road + dist_town + dist_river + \
     dist_defor + dist_edge + altitude + slope - 1"
     # Standardized variables (mean=0, std=1)
@@ -48,6 +65,17 @@ def run_modelling_steps(fcc_source="jrc"):
     scale(dist_river) + scale(dist_defor) + scale(dist_edge) + \
     scale(altitude) + scale(slope) - 1"
     formulas = (formula_1, formula_2)
+
+    # Exceptions
+    if iso3 == "VIR":  # No river for VIR
+        # Model formula
+        formula_1 = "fcc23 ~ dist_road + dist_town + \
+        dist_defor + dist_edge + altitude + slope - 1"
+        # Standardized variables (mean=0, std=1)
+        formula_2 = "fcc23 ~ scale(dist_road) + scale(dist_town) + \
+        scale(dist_defor) + scale(dist_edge) + \
+        scale(altitude) + scale(slope) - 1"
+        formulas = (formula_1, formula_2)
 
     # Remove NA from data-set (otherwise scale() and
     # model_binomial_iCAR doesn't work)
@@ -84,6 +112,18 @@ def run_modelling_steps(fcc_source="jrc"):
                  "scale(dist_town)", "scale(dist_river)"]
     variables = np.array(variables)
 
+    # Exceptions
+    if iso3 == "VIR":
+        variables = ["C(pa)", "scale(altitude)", "scale(slope)",
+                 "scale(dist_defor)", "scale(dist_edge)", "scale(dist_road)",
+                 "scale(dist_town)"]
+        variables = np.array(variables)
+    if iso3 == "SXM":  # No PA for SXM
+        variables = ["scale(altitude)", "scale(slope)",
+                 "scale(dist_defor)", "scale(dist_edge)", "scale(dist_road)",
+                 "scale(dist_town)"]
+        variables = np.array(variables)
+     
     # Run model while there is non-significant variables
     var_remove = True
     while(np.any(var_remove)):
