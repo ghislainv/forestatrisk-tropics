@@ -4,12 +4,12 @@
 #$ -j y
 #$ -l h_rt=12:00:00
 #$ -pe multithread8 4
-#$ -N farAsiQLD
+#$ -N farAsi-IDN
 
 # load singularity
 module load singularity/3.5.3
 
 # run python script inside container
-singularity exec --bind /share/nas2-amap/gvieilledent Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u Code/forestatrisk-tropics/Asia/Asia-mbb.py 1
+singularity exec --bind /share/nas2-amap/gvieilledent Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u Code/forestatrisk-tropics/Asia/Asia-mbb-IDN.py 1
 
 # EOF

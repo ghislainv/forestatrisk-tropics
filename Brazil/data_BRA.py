@@ -28,22 +28,15 @@ iso3 = ["BRA-AC", "BRA-AL", "BRA-AM", "BRA-AP", "BRA-BA", "BRA-CE", "BRA-ES",
 nstates = len(iso3)
 
 # Dissolve
-output_f = "_gadm36_BRA_1.shp"
-cmd = "ogr2ogr -f 'ESRI Shapefile' -dialect SQLITE \
-      -sql 'SELECT ST_union(ST_buffer(Geometry,0.001)),GID_1 \
-      FROM gadm36_BRA_2 GROUP BY GID_1' " + output_f + " gadm36_BRA_2.shp"
-subprocess.call(cmd, shell=True)
-
-# Merge distrito-federal (BRA.9_1) and goias (BRA.7_1)
 output_f = "gadm36_BRA_1.shp"
-cmd = "ogr2ogr -f 'ESRI Shapefile' -dialect SQLITE \
-      -sql 'SELECT ST_union(ST_buffer(Geometry,0.001)),GID_1 \
-      FROM _gadm36_BRA_1 GROUP BY GID_1' " + output_f + " _gadm36_BRA_1.shp"
+cmd = "ogr2ogr -f 'ESRI Shapefile' -dialect SQLITE -lco ENCODING=UTF-8 \
+      -sql 'SELECT ST_union(ST_buffer(Geometry,0.001)),GID_1,NAME_1 \
+      FROM gadm36_BRA_2 GROUP BY GID_1' " + output_f + " gadm36_BRA_2.shp"
 subprocess.call(cmd, shell=True)
 
 # Brazil PA
 pywdpa.get_token()
-pywdpa.get_wdpa("AUS")
+pywdpa.get_wdpa("BRA")
 
 # State boundaries
 for i in range(nstates):
@@ -72,9 +65,9 @@ for i in range(nstates):
         proj="EPSG:3395",
         output_dir=iso + "/data_raw",
         keep_dir=True,
-        fcc_source="jrc",
+        fcc_source="gfc",
         perc=50,
         gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics")
+        gdrive_folder="GEE-forestatrisk-tropics-gfc-50")
 
 # EOF

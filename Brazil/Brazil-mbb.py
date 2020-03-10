@@ -50,7 +50,8 @@ iso3.sort()
 # 'BRA-ES', 'BRA-GO', 'BRA-MA', 'BRA-MG', 'BRA-MS', 'BRA-MT', 'BRA-PA',
 # 'BRA-PB', 'BRA-PE', 'BRA-PI', 'BRA-PR', 'BRA-RJ', 'BRA-RN', 'BRA-RO',
 # 'BRA-RR', 'BRA-RS', 'BRA-SC', 'BRA-SE', 'BRA-SP', 'BRA-TO']
-iso3.remove("BRA-DF")  # Remove distrito-federal 
+iso3 = ["BRA-AM", "BRA-SC"]
+#iso3.remove("BRA-DF")  # Remove distrito-federal 
 
 # Function for multiprocessing
 def run_country(iso3):
@@ -66,7 +67,7 @@ def run_country(iso3):
         gdrive_remote_rclone="gdrive_gv",
         gdrive_folder="GEE-forestatrisk-tropics",
         output_dir="data_raw")
-    
+
     # Compute variables
     far.data.country_compute(
         iso3,

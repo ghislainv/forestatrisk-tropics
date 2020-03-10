@@ -46,9 +46,9 @@ data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3[data_ctry_run.cont_run == "Asia"])
 iso3.sort()
 # print(iso3)
-# iso3 = ['BGD', 'BRN', 'BTN', 'FJI', 'IDN', 'IND', 'KHM', 'LAO', 'LKA', 'MMR',
+# iso3 = ['AUS-QLD', 'BGD', 'BRN', 'BTN', 'FJI', 'IDN', 'IND', 'KHM', 'LAO', 'LKA', 'MMR',
 #         'MYS', 'NCL', 'PHL', 'PNG', 'SGP', 'SLB', 'THA', 'TLS', 'VNM', 'VUT']
-iso3 = ["FJI"]
+iso3 = ['AUS-QLD']
 
 # Function for multiprocessing
 def run_country(iso3):

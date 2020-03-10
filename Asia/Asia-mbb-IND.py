@@ -71,7 +71,7 @@ def run_country(iso3):
     #     temp_dir="data_raw",
     #     output_dir="data",
     #     proj="EPSG:3395",
-    #     data_country=True,
+    #     data_country=False,
     #     data_forest=True,
     #     keep_temp_dir=True)
     

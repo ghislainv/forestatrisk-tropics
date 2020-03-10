@@ -174,6 +174,12 @@ def run_modelling_steps(fcc_source="jrc"):
         blk_rows=128
     )
 
+    # Reinitialize data
+    os.remove("data/dist_edge.tif")
+    os.remove("data/dist_defor.tif")
+    os.rename("data/dist_edge.tif.bak", "data/dist_edge.tif")
+    os.rename("data/dist_defor.tif.bak", "data/dist_defor.tif")
+
     # ========================================================
     # Mean annual deforestation rate (ha.yr-1)
     # ========================================================
