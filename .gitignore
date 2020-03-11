@@ -18,8 +18,9 @@ Africa/*
 !Africa/*.py
 !Africa/*.sge
 AGB/*
-Maps/*
-!Maps/combine.py
+Maps/Africa/*
+Maps/America/*
+Maps/Asia/*
 
 # Singularity
 *.simg
