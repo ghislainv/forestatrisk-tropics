@@ -65,15 +65,15 @@ def run_country(iso3):
     #     gdrive_folder="GEE-forestatrisk-tropics",
     #     output_dir="data_raw")
     
-    # # Compute variables
-    # far.data.country_compute(
-    #     iso3,
-    #     temp_dir="data_raw",
-    #     output_dir="data",
-    #     proj="EPSG:3395",
-    #     data_country=False,
-    #     data_forest=True,
-    #     keep_temp_dir=True)
+    # Compute variables
+    far.data.country_compute(
+        iso3,
+        temp_dir="data_raw",
+        output_dir="data",
+        proj="EPSG:3395",
+        data_country=False,
+        data_forest=True,
+        keep_temp_dir=True)
     
     # Model and Forecast
     run_modelling_steps(fcc_source="jrc")
