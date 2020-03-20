@@ -15,6 +15,9 @@ from patsy import dmatrices
 import forestatrisk as far
 import matplotlib.pyplot as plt
 import pickle
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import log_loss
+import pandas as pd
 
 
 # run_modelling_steps
@@ -53,6 +56,14 @@ def run_modelling_steps(fcc_source="jrc"):
     # model_binomial_iCAR doesn't work)
     dataset = dataset.dropna(axis=0)
 
+    # Sample size
+    ndefor = sum(dataset.fcc23 == 0)
+    nfor = sum(dataset.fcc23 == 1)
+    with open("output_jrc/sample_size.csv", "w") as f:
+        f.write("var, n\n")
+        f.write("ndefor, " + str(ndefor) + "\n")
+        f.write("nfor, " + str(nfor) + "\n")
+    
     # Loop on formulas
     for f in range(len(formulas)):
         # Output file
@@ -72,76 +83,71 @@ def run_modelling_steps(fcc_source="jrc"):
     # hSDM model
     # ========================================================
 
-    # Set number of trials to one
-    dataset["trial"] = 1
+# Set number of trials to one
+dataset["trial"] = 1
 
-    # Spatial cells for spatial-autocorrelation
-    nneigh, adj = far.cellneigh(raster="data/fcc23.tif", csize=10, rank=1)
+# Spatial cells for spatial-autocorrelation
+nneigh, adj = far.cellneigh(raster="data/fcc23.tif", csize=10, rank=1)
 
-    # List of variables
-    variables = ["C(pa)", "scale(altitude)", "scale(slope)",
-                 "scale(dist_defor)", "scale(dist_edge)", "scale(dist_road)",
-                 "scale(dist_town)", "scale(dist_river)"]
-    variables = np.array(variables)
+# List of variables
+variables = ["C(pa)", "scale(altitude)", "scale(slope)",
+             "scale(dist_defor)", "scale(dist_edge)", "scale(dist_road)",
+             "scale(dist_town)", "scale(dist_river)"]
+variables = np.array(variables)
 
-    # Run model while there is non-significant variables
-    var_remove = True
-    while(np.any(var_remove)):
-
-        # Formula
-        right_part = " + ".join(variables) + " + cell"
-        left_part = "I(1-fcc23) + trial ~ "
-        formula = left_part + right_part
-
-        # Model
-        mod_binomial_iCAR = far.model_binomial_iCAR(
-            # Observations
-            suitability_formula=formula, data=dataset,
-            # Spatial structure
-            n_neighbors=nneigh, neighbors=adj,
-            # Chains
-            burnin=1000, mcmc=1000, thin=1,
-            # Starting values
-            beta_start=-99)
-
-        # Ecological and statistical significance
-        effects = mod_binomial_iCAR.betas[1:]
-        # MCMC = mod_binomial_iCAR.mcmc
-        # CI_low = np.percentile(MCMC, 2.5, axis=0)[1:-2]
-        # CI_high = np.percentile(MCMC, 97.5, axis=0)[1:-2]
-        positive_effects = (effects >= 0)
-        # zero_in_CI = ((CI_low * CI_high) <= 0)
-
-        # Keeping only significant variables
-        var_remove = positive_effects
-        # var_remove = np.logical_or(positive_effects, zero_in_CI)
-        var_keep = np.logical_not(var_remove)
-        variables = variables[var_keep]
-
-    # Re-run the model with longer MCMC and estimated initial values
+# Run model while there is non-significant variables
+var_remove = True
+while(np.any(var_remove)):
+    # Formula
+    right_part = " + ".join(variables) + " + cell"
+    left_part = "I(1-fcc23) + trial ~ "
+    formula = left_part + right_part
+    # Model
     mod_binomial_iCAR = far.model_binomial_iCAR(
         # Observations
         suitability_formula=formula, data=dataset,
         # Spatial structure
         n_neighbors=nneigh, neighbors=adj,
         # Chains
-        burnin=5000, mcmc=5000, thin=5,
+        burnin=100, mcmc=100, thin=1,
         # Starting values
-        beta_start=mod_binomial_iCAR.betas)
+        beta_start=-99)
+    # Ecological and statistical significance
+    effects = mod_binomial_iCAR.betas[1:]
+    # MCMC = mod_binomial_iCAR.mcmc
+    # CI_low = np.percentile(MCMC, 2.5, axis=0)[1:-2]
+    # CI_high = np.percentile(MCMC, 97.5, axis=0)[1:-2]
+    positive_effects = (effects >= 0)
+    # zero_in_CI = ((CI_low * CI_high) <= 0)
+    # Keeping only significant variables
+    var_remove = positive_effects
+    # var_remove = np.logical_or(positive_effects, zero_in_CI)
+    var_keep = np.logical_not(var_remove)
+    variables = variables[var_keep]
 
-    # Summary
-    print(mod_binomial_iCAR)
-    # Write summary in file
-    f = open("output_jrc/summary_hSDM.txt", "w")
+# Re-run the model with longer MCMC and estimated initial values
+mod_binomial_iCAR = far.model_binomial_iCAR(
+    # Observations
+    suitability_formula=formula, data=dataset,
+    # Spatial structure
+    n_neighbors=nneigh, neighbors=adj,
+    # Chains
+    burnin=500, mcmc=500, thin=5,
+    # Starting values
+    beta_start=mod_binomial_iCAR.betas)
+
+# Summary
+print(mod_binomial_iCAR)
+# Write summary in file
+with open("output_jrc/summary_hSDM.txt", "w") as f:
     f.write(str(mod_binomial_iCAR))
-    f.close()
 
-    # Plot
-    figs = mod_binomial_iCAR.plot(output_file="output_jrc/mcmc.pdf",
-                                  plots_per_page=3,
-                                  figsize=(9, 6),
-                                  dpi=300)
-    plt.close("all")
+# Plot
+figs = mod_binomial_iCAR.plot(output_file="output_jrc/mcmc.pdf",
+                              plots_per_page=3,
+                              figsize=(9, 6),
+                              dpi=300)
+plt.close("all")
 
     # ========================================================
     # Interpolating spatial random effects
@@ -154,6 +160,48 @@ def run_modelling_steps(fcc_source="jrc"):
     far.interpolate_rho(rho=rho, input_raster="data/fcc23.tif",
                         output_file="output_jrc/rho.tif",
                         csize_orig=10, csize_new=1)
+
+# ========================================================
+# Model comparison: deviance
+# ========================================================
+
+# Temp
+os.chdir("/home/gvieilledent/nas/Africa/MDG/")
+dataset = pd.read_table("output_jrc/sample.txt", delimiter=",")
+dataset["trial"] = 1
+dataset = dataset.dropna(axis=0)
+
+# Null model
+formula_null = "I(1-fcc23) ~ 1"
+y, x = dmatrices(formula_null, data=dataset, NA_action="drop")
+Y = y[:, 0]
+X_null = x[:, :]
+mod_null = LogisticRegression(solver="lbfgs")
+mod_null = mod_null.fit(X_null, Y)
+
+# Simple glm with no spatial random effects
+formula_glm = formula
+y, x = dmatrices(formula_glm, data=dataset, NA_action="drop")
+Y = y[:, 0]
+X_glm = x[:, :-1]  # We remove the last column (cells)
+mod_glm = LogisticRegression(solver="lbfgs")
+mod_glm = mod_glm.fit(X_glm, Y)
+deviance_glm = 2*log_loss(Y, mod_glm.predict_proba(X_glm), normalize=False)
+
+# Deviances
+deviance_null = 2*log_loss(Y, mod_null.predict_proba(X_null), normalize=False)
+deviance_glm = 2*log_loss(Y, mod_glm.predict_proba(X_glm), normalize=False)
+deviance_icar = mod_binomial_iCAR.deviance
+deviance_full = 0
+dev = [deviance_null, deviance_glm, deviance_icar, deviance_full]
+
+# Result table
+mod_dev = pd.DataFrame({"model": ["null", "glm", "icar", "full"],
+                        "deviance": dev})
+perc = 100*(1-mod_dev.deviance/deviance_null)
+mod_dev["perc"] = perc
+mod_dev = mod_dev.round(0)
+mod_dev.to_csv("output_jrc/model_deviance.csv", header=True, index=False)
 
     # ========================================================
     # Predicting spatial probability of deforestation
