@@ -50,7 +50,6 @@ iso3.sort()
 #         'ETH', 'GAB', 'GHA', 'GIN', 'GMB', 'GNB', 'GNQ', 'KEN', 'LBR',
 #         'MDG', 'MOZ', 'MUS', 'MWI', 'MYT', 'NGA', 'REU', 'RWA', 'SEN',
 #         'SLE', 'SSD', 'STP', 'TGO', 'TZA', 'UGA', 'ZMB']
-iso3 = ["ETH"]
 
 
 # Function for multiprocessing
@@ -61,15 +60,15 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
     
-    # Data
-    far.data.country(iso3=iso3,
-                     proj="EPSG:3395",
-                     data_country=False,
-                     data_forest=True,
-                     keep_data_raw=True,
-                     fcc_source="jrc",
-                     gdrive_remote_rclone="gdrive_gv",
-                     gdrive_folder="GEE-forestatrisk-tropics")
+    # # Data
+    # far.data.country(iso3=iso3,
+    #                  proj="EPSG:3395",
+    #                  data_country=False,
+    #                  data_forest=True,
+    #                  keep_data_raw=True,
+    #                  fcc_source="jrc",
+    #                  gdrive_remote_rclone="gdrive_gv",
+    #                  gdrive_folder="GEE-forestatrisk-tropics")
     
     # Model and Forecast
     run_modelling_steps(fcc_source="jrc")

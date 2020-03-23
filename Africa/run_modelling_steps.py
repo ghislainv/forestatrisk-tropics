@@ -37,35 +37,22 @@ def run_modelling_steps(fcc_source="jrc"):
     #                      output_file="output_jrc/sample.txt",
     #                      blk_rows=0)
 
-# Import data as pandas DataFrame if necessary
-dataset = pd.read_table("output_jrc/sample.txt", delimiter=",")
+    # Import data as pandas DataFrame if necessary
+    dataset = pd.read_table("output_jrc/sample.txt", delimiter=",")
 
-# Remove NA from data-set (otherwise scale() and
-# model_binomial_iCAR doesn't work)
-dataset = dataset.dropna(axis=0)
+    # Remove NA from data-set (otherwise scale() and
+    # model_binomial_iCAR doesn't work)
+    dataset = dataset.dropna(axis=0)
+    # Set number of trials to one for far.model_binomial_iCAR()
+    dataset["trial"] = 1
 
-# Sample size
-ndefor = sum(dataset.fcc23 == 0)
-nfor = sum(dataset.fcc23 == 1)
-with open("output_jrc/sample_size.csv", "w") as f:
-    f.write("var, n\n")
-    f.write("ndefor, " + str(ndefor) + "\n")
-    f.write("nfor, " + str(nfor) + "\n")
-
-# Data-sets for cross-validation (70/30)
-nobs = ndefor + nfor
-nobs_test = int(round(0.30 * nobs))
-rows = np.arange(nobs)
-rows_test = np.random.choice(rows, size=nobs_test, replace=False)
-rows_train = np.where(np.isin(rows, rows_test, invert=True))
-data_test = dataset.iloc[rows_test]
-data_train = dataset.iloc[rows_train]
-
-# True threshold in data_test (might be slightly different from 0.5)
-nfor_test = sum(data_test.fcc23==1)
-ndefor_test = sum(data_test.fcc23==0)
-thresh_test = 1 - (ndefor_test / nobs_test)
-
+    # Sample size
+    ndefor = sum(dataset.fcc23 == 0)
+    nfor = sum(dataset.fcc23 == 1)
+    with open("output_jrc/sample_size.csv", "w") as f:
+        f.write("var, n\n")
+        f.write("ndefor, " + str(ndefor) + "\n")
+        f.write("nfor, " + str(nfor) + "\n")
 
     # # Descriptive statistics
     # # Model formulas
@@ -96,9 +83,6 @@ thresh_test = 1 - (ndefor_test / nobs_test)
     # hSDM model
     # ========================================================
 
-    # Set number of trials to one
-    dataset["trial"] = 1
-
     # Spatial cells for spatial-autocorrelation
     nneigh, adj = far.cellneigh(raster="data/fcc23.tif", csize=10, rank=1)
 
@@ -122,7 +106,7 @@ thresh_test = 1 - (ndefor_test / nobs_test)
             # Spatial structure
             n_neighbors=nneigh, neighbors=adj,
             # Chains
-            burnin=100, mcmc=100, thin=1,
+            burnin=1000, mcmc=1000, thin=1,
             # Starting values
             beta_start=-99)
         # Ecological and statistical significance
@@ -145,12 +129,9 @@ thresh_test = 1 - (ndefor_test / nobs_test)
         # Spatial structure
         n_neighbors=nneigh, neighbors=adj,
         # Chains
-        burnin=500, mcmc=500, thin=5,
+        burnin=5000, mcmc=5000, thin=5,
         # Starting values
         beta_start=mod_binomial_iCAR.betas)
-
-    # Cross-validation
-    
 
     # Summary
     print(mod_binomial_iCAR)
@@ -166,26 +147,23 @@ thresh_test = 1 - (ndefor_test / nobs_test)
     plt.close("all")
 
     # ========================================================
-    # Interpolating spatial random effects
+    # Model performance comparison: cross-validation
     # ========================================================
 
-    # Spatial random effects
-    rho = mod_binomial_iCAR.rho
+    # Cross-validation for icar and glm
+    CV_df_icar = far.cross_validation(dataset, formula, mod_type="icar", ratio=30, nrep=5,
+                                      icar_args={"n_neighbors": nneigh, "neighbors": adj,
+                                                 "burnin": 1000, "mcmc": 1000, "thin": 1,
+                                                 "beta_start": mod_binomial_iCAR.betas})
+    CV_df_glm = far.cross_validation(dataset, formula, mod_type="glm", ratio=30, nrep=5)
 
-    # Interpolate
-    far.interpolate_rho(rho=rho, input_raster="data/fcc23.tif",
-                        output_file="output_jrc/rho.tif",
-                        csize_orig=10, csize_new=1)
-
+    # Save result to disk
+    CV_df_icar.to_csv("output_jrc/CV_icar.csv", header=True, index=False)
+    CV_df_glm.to_csv("output_jrc/CV_glm.csv", header=True, index=False)
+    
     # ========================================================
-    # Model comparison: deviance
+    # Model performance comparison: deviance
     # ========================================================
-
-    # # Temp
-    # os.chdir("/home/gvieilledent/nas/Africa/MDG/")
-    # dataset = pd.read_table("output_jrc/sample.txt", delimiter=",")
-    # dataset["trial"] = 1
-    # dataset = dataset.dropna(axis=0)
 
     # Null model
     formula_null = "I(1-fcc23) ~ 1"
@@ -217,6 +195,18 @@ thresh_test = 1 - (ndefor_test / nobs_test)
     mod_dev["perc"] = perc
     mod_dev = mod_dev.round(0)
     mod_dev.to_csv("output_jrc/model_deviance.csv", header=True, index=False)
+
+    # # ========================================================
+    # # Interpolating spatial random effects
+    # # ========================================================
+
+    # # Spatial random effects
+    # rho = mod_binomial_iCAR.rho
+
+    # # Interpolate
+    # far.interpolate_rho(rho=rho, input_raster="data/fcc23.tif",
+    #                     output_file="output_jrc/rho.tif",
+    #                     csize_orig=10, csize_new=1)
 
     # # ========================================================
     # # Predicting spatial probability of deforestation
@@ -253,7 +243,7 @@ thresh_test = 1 - (ndefor_test / nobs_test)
         rast = "data/forest/forest_t" + str(i+1) + ".tif"
         val = far.countpix(input_raster=rast,
                            value=1)
-        fc.append(val["area"])
+        fc.append(val["area"])  # area in ha
     # Save results to disk
     f = open("output_jrc/forest_cover.txt", "w")
     for i in fc:
@@ -266,8 +256,8 @@ thresh_test = 1 - (ndefor_test / nobs_test)
 
     # Dates and time intervals
     date = ["2035", "2050", "2055", "2085", "2100"]
-    ti = [16, 31, 36, 66, 81]
     ndate = len(date)
+    ti = [16, 31, 36, 66, 81]
     
     # ========================================================
     # Predicting forest cover change
@@ -297,22 +287,24 @@ thresh_test = 1 - (ndefor_test / nobs_test)
 
     # Forest in 2019
     fig_forest = far.plot.forest("data/forest/forest_t3.tif",
+                                 maxpixels=1e7,
                                  borders="data/ctry_PROJ.shp",
                                  output_file="output_jrc/forest_t3.png")
     plt.close(fig_forest)
 
     # Forest-cover change 2000-2019
     fig_fcc = far.plot.fcc("data/forest/fcc13.tif",
+                           maxpixels=1e7,
                            borders="data/ctry_PROJ.shp",
                            output_file="output_jrc/fcc13.png")
     plt.close(fig_fcc)
 
     # Forest-cover change 2010-2019
     fig_fcc = far.plot.fcc("data/fcc23.tif",
+                           maxpixels=1e7,
                            borders="data/ctry_PROJ.shp",
                            output_file="output_jrc/fcc23.png")
     plt.close(fig_fcc)
-
 
     # Original spatial random effects
     fig_rho_orig = far.plot.rho("output_jrc/rho_orig.tif",
@@ -328,6 +320,7 @@ thresh_test = 1 - (ndefor_test / nobs_test)
 
     # Spatial probability of deforestation
     fig_prob = far.plot.prob("output_jrc/prob.tif",
+                             maxpixels=1e7,
                              borders="data/ctry_PROJ.shp",
                              output_file="output_jrc/prob.png")
     plt.close(fig_prob)
@@ -335,6 +328,7 @@ thresh_test = 1 - (ndefor_test / nobs_test)
     # Projected future forest-cover change
     for i in range(ndate):
         fig_fcc = far.plot.fcc("output_jrc/fcc_" + date[i] + ".tif",
+                               maxpixels=1e7,
                                borders="data/ctry_PROJ.shp",
                                output_file="output_jrc/fcc_" + date[i] + ".png")
         plt.close(fig_fcc)

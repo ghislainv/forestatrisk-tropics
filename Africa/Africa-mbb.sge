@@ -3,15 +3,14 @@
 #$ -cwd
 #$ -j y
 #$ -l h_rt=12:00:00
-#$ -t 1-2
-#$ -tc 4
-#$ -pe multithread8 8
+#$ -t 1-34 -tc 5
+#$ -pe multithread8 3
 #$ -N far-Afr
 
 # load singularity
-module load singularity-3.4.2
+module load singularity/3.5.3
 
 # run python script inside container
-singularity exec --bind /share/nas2-amap/gvieilledent Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 Code/forestatrisk-tropics/Africa/Africa-mbb.py $SGE_TASK_ID
+singularity exec --bind /share/nas2-amap/gvieilledent ~/Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Africa/Africa-mbb.py $SGE_TASK_ID
 
 # EOF
