@@ -287,21 +287,21 @@ def run_modelling_steps(fcc_source="jrc"):
 
     # Forest in 2019
     fig_forest = far.plot.forest("data/forest/forest_t3.tif",
-                                 maxpixels=1e7,
+                                 maxpixels=1e8,
                                  borders="data/ctry_PROJ.shp",
                                  output_file="output_jrc/forest_t3.png")
     plt.close(fig_forest)
 
     # Forest-cover change 2000-2019
     fig_fcc = far.plot.fcc("data/forest/fcc13.tif",
-                           maxpixels=1e7,
+                           maxpixels=1e8,
                            borders="data/ctry_PROJ.shp",
                            output_file="output_jrc/fcc13.png")
     plt.close(fig_fcc)
 
     # Forest-cover change 2010-2019
     fig_fcc = far.plot.fcc("data/fcc23.tif",
-                           maxpixels=1e7,
+                           maxpixels=1e8,
                            borders="data/ctry_PROJ.shp",
                            output_file="output_jrc/fcc23.png")
     plt.close(fig_fcc)
@@ -320,7 +320,7 @@ def run_modelling_steps(fcc_source="jrc"):
 
     # Spatial probability of deforestation
     fig_prob = far.plot.prob("output_jrc/prob.tif",
-                             maxpixels=1e7,
+                             maxpixels=1e8,
                              borders="data/ctry_PROJ.shp",
                              output_file="output_jrc/prob.png")
     plt.close(fig_prob)
@@ -328,7 +328,7 @@ def run_modelling_steps(fcc_source="jrc"):
     # Projected future forest-cover change
     for i in range(ndate):
         fig_fcc = far.plot.fcc("output_jrc/fcc_" + date[i] + ".tif",
-                               maxpixels=1e7,
+                               maxpixels=1e8,
                                borders="data/ctry_PROJ.shp",
                                output_file="output_jrc/fcc_" + date[i] + ".png")
         plt.close(fig_fcc)
