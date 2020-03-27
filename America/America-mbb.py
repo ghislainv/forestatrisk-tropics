@@ -66,7 +66,7 @@ def run_country(iso3):
         gdrive_remote_rclone="gdrive_gv",
         gdrive_folder="GEE-forestatrisk-tropics",
         output_dir="data_raw")
-    
+
     # Compute variables
     far.data.country_compute(
         iso3,

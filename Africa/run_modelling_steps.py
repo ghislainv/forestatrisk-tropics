@@ -30,15 +30,15 @@ def run_modelling_steps(fcc_source="jrc"):
     # Sample points
     # ========================================================
     
-    # dataset = far.sample(nsamp=10000, adapt=True,
-    #                      Seed=1234, csize=10,
-    #                      var_dir="data",
-    #                      input_forest_raster="fcc23.tif",
-    #                      output_file="output_jrc/sample.txt",
-    #                      blk_rows=0)
+    dataset = far.sample(nsamp=10000, adapt=True,
+                         Seed=1234, csize=10,
+                         var_dir="data",
+                         input_forest_raster="fcc23.tif",
+                         output_file="output_jrc/sample.txt",
+                         blk_rows=0)
 
-    # Import data as pandas DataFrame if necessary
-    dataset = pd.read_table("output_jrc/sample.txt", delimiter=",")
+    # # Import data as pandas DataFrame if necessary
+    # dataset = pd.read_table("output_jrc/sample.txt", delimiter=",")
 
     # Remove NA from data-set (otherwise scale() and
     # model_binomial_iCAR doesn't work)
@@ -54,30 +54,30 @@ def run_modelling_steps(fcc_source="jrc"):
         f.write("ndefor, " + str(ndefor) + "\n")
         f.write("nfor, " + str(nfor) + "\n")
 
-    # # Descriptive statistics
-    # # Model formulas
-    # formula_1 = "fcc23 ~ dist_road + dist_town + dist_river + \
-    # dist_defor + dist_edge + altitude + slope - 1"
-    # # Standardized variables (mean=0, std=1)
-    # formula_2 = "fcc23 ~ scale(dist_road) + scale(dist_town) + \
-    # scale(dist_river) + scale(dist_defor) + scale(dist_edge) + \
-    # scale(altitude) + scale(slope) - 1"
-    # formulas = (formula_1, formula_2)
+    # Descriptive statistics
+    # Model formulas
+    formula_1 = "fcc23 ~ dist_road + dist_town + dist_river + \
+    dist_defor + dist_edge + altitude + slope - 1"
+    # Standardized variables (mean=0, std=1)
+    formula_2 = "fcc23 ~ scale(dist_road) + scale(dist_town) + \
+    scale(dist_river) + scale(dist_defor) + scale(dist_edge) + \
+    scale(altitude) + scale(slope) - 1"
+    formulas = (formula_1, formula_2)
     
-    # # Loop on formulas
-    # for f in range(len(formulas)):
-    #     # Output file
-    #     of = "output_jrc/correlation_" + str(f) + ".pdf"
-    #     # Data
-    #     y, data = dmatrices(formulas[f], data=dataset,
-    #                         return_type="dataframe")
-    #     # Plots
-    #     figs = far.plot.correlation(y=y, data=data,
-    #                                 plots_per_page=3,
-    #                                 figsize=(7, 8),
-    #                                 dpi=300,
-    #                                 output_file=of)
-    #     plt.close("all")
+    # Loop on formulas
+    for f in range(len(formulas)):
+        # Output file
+        of = "output_jrc/correlation_" + str(f) + ".pdf"
+        # Data
+        y, data = dmatrices(formulas[f], data=dataset,
+                            return_type="dataframe")
+        # Plots
+        figs = far.plot.correlation(y=y, data=data,
+                                    plots_per_page=3,
+                                    figsize=(7, 8),
+                                    dpi=300,
+                                    output_file=of)
+        plt.close("all")
 
     # ========================================================
     # hSDM model
@@ -196,42 +196,42 @@ def run_modelling_steps(fcc_source="jrc"):
     mod_dev = mod_dev.round(0)
     mod_dev.to_csv("output_jrc/model_deviance.csv", header=True, index=False)
 
-    # # ========================================================
-    # # Interpolating spatial random effects
-    # # ========================================================
+    # ========================================================
+    # Interpolating spatial random effects
+    # ========================================================
 
-    # # Spatial random effects
-    # rho = mod_binomial_iCAR.rho
+    # Spatial random effects
+    rho = mod_binomial_iCAR.rho
 
-    # # Interpolate
-    # far.interpolate_rho(rho=rho, input_raster="data/fcc23.tif",
-    #                     output_file="output_jrc/rho.tif",
-    #                     csize_orig=10, csize_new=1)
+    # Interpolate
+    far.interpolate_rho(rho=rho, input_raster="data/fcc23.tif",
+                        output_file="output_jrc/rho.tif",
+                        csize_orig=10, csize_new=1)
 
-    # # ========================================================
-    # # Predicting spatial probability of deforestation
-    # # ========================================================
+    # ========================================================
+    # Predicting spatial probability of deforestation
+    # ========================================================
 
-    # # Update dist_edge and dist_defor at t3
-    # os.rename("data/dist_edge.tif", "data/dist_edge.tif.bak")
-    # os.rename("data/dist_defor.tif", "data/dist_defor.tif.bak")
-    # copy2("data/forecast/dist_edge_forecast.tif", "data/dist_edge.tif")
-    # copy2("data/forecast/dist_defor_forecast.tif", "data/dist_defor.tif")
+    # Update dist_edge and dist_defor at t3
+    os.rename("data/dist_edge.tif", "data/dist_edge.tif.bak")
+    os.rename("data/dist_defor.tif", "data/dist_defor.tif.bak")
+    copy2("data/forecast/dist_edge_forecast.tif", "data/dist_edge.tif")
+    copy2("data/forecast/dist_defor_forecast.tif", "data/dist_defor.tif")
 
-    # # Compute predictions
-    # far.predict_raster_binomial_iCAR(
-    #     mod_binomial_iCAR, var_dir="data",
-    #     input_cell_raster="output_jrc/rho.tif",
-    #     input_forest_raster="data/forest/forest_t3.tif",
-    #     output_file="output_jrc/prob.tif",
-    #     blk_rows=128
-    # )
+    # Compute predictions
+    far.predict_raster_binomial_iCAR(
+        mod_binomial_iCAR, var_dir="data",
+        input_cell_raster="output_jrc/rho.tif",
+        input_forest_raster="data/forest/forest_t3.tif",
+        output_file="output_jrc/prob.tif",
+        blk_rows=128
+    )
 
-    # # Reinitialize data
-    # os.remove("data/dist_edge.tif")
-    # os.remove("data/dist_defor.tif")
-    # os.rename("data/dist_edge.tif.bak", "data/dist_edge.tif")
-    # os.rename("data/dist_defor.tif.bak", "data/dist_defor.tif")
+    # Reinitialize data
+    os.remove("data/dist_edge.tif")
+    os.remove("data/dist_defor.tif")
+    os.rename("data/dist_edge.tif.bak", "data/dist_edge.tif")
+    os.rename("data/dist_defor.tif.bak", "data/dist_defor.tif")
 
     # ========================================================
     # Mean annual deforestation rate (ha.yr-1)
