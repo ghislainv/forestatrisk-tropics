@@ -46,9 +46,10 @@ data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3[data_ctry_run.cont_run == "Asia"])
 iso3.sort()
 # print(iso3)
-# iso3 = ['AUS-QLD', 'BGD', 'BRN', 'BTN', 'FJI', 'IDN', 'IND', 'KHM', 'LAO', 'LKA', 'MMR',
-#         'MYS', 'NCL', 'PHL', 'PNG', 'SGP', 'SLB', 'THA', 'TLS', 'VNM', 'VUT']
-iso3 = ['AUS-QLD']
+# iso3 = ['AUS-QLD', 'BGD', 'BRN', 'BTN', 'FJI', 'IND-AND', 'IND-EAST',
+#         'IND-WEST', 'IDN', 'KHM', 'LAO', 'LKA', 'MMR', 'MYS', 'NCL',
+#         'PHL', 'PNG', 'SGP', 'SLB', 'THA', 'TLS', 'VNM', 'VUT']
+
 
 # Function for multiprocessing
 def run_country(iso3):
@@ -58,25 +59,25 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    # Download data
-    far.data.country_download(
-        iso3,
-        gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics",
-        output_dir="data_raw")
+    # # Download data
+    # far.data.country_download(
+    #     iso3,
+    #     gdrive_remote_rclone="gdrive_gv",
+    #     gdrive_folder="GEE-forestatrisk-tropics",
+    #     output_dir="data_raw")
     
-    # Compute variables
-    far.data.country_compute(
-        iso3,
-        temp_dir="data_raw",
-        output_dir="data",
-        proj="EPSG:3395",
-        data_country=True,
-        data_forest=True,
-        keep_temp_dir=True)
+    # # Compute variables
+    # far.data.country_compute(
+    #     iso3,
+    #     temp_dir="data_raw",
+    #     output_dir="data",
+    #     proj="EPSG:3395",
+    #     data_country=True,
+    #     data_forest=True,
+    #     keep_temp_dir=True)
     
     # Model and Forecast
-    run_modelling_steps(fcc_source="jrc")
+    run_modelling_steps(iso3, fcc_source="jrc")
 
     # Return country iso code
     return(iso3)

@@ -50,7 +50,6 @@ iso3.sort()
 # 'DOM', 'ECU', 'GLP', 'GRD', 'GTM', 'GUF', 'GUY', 'HND', 'HTI', 'JAM',
 # 'KNA', 'LCA', 'MAF', 'MEX', 'MSR', 'MTQ', 'NIC', 'PAN', 'PER', 'PRI',
 # 'PRY', 'SLV', 'SUR', 'SXM', 'TTO', 'VCT', 'VEN', 'VGB', 'VIR']
-iso3 = ['SXM']
 
 # Function for multiprocessing
 def run_country(iso3):
@@ -60,22 +59,22 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    # Download data
-    far.data.country_download(
-        iso3,
-        gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics",
-        output_dir="data_raw")
+    # # Download data
+    # far.data.country_download(
+    #     iso3,
+    #     gdrive_remote_rclone="gdrive_gv",
+    #     gdrive_folder="GEE-forestatrisk-tropics",
+    #     output_dir="data_raw")
 
-    # Compute variables
-    far.data.country_compute(
-        iso3,
-        temp_dir="data_raw",
-        output_dir="data",
-        proj="EPSG:3395",
-        data_country=True,
-        data_forest=True,
-        keep_temp_dir=True)
+    # # Compute variables
+    # far.data.country_compute(
+    #     iso3,
+    #     temp_dir="data_raw",
+    #     output_dir="data",
+    #     proj="EPSG:3395",
+    #     data_country=True,
+    #     data_forest=True,
+    #     keep_temp_dir=True)
     
     # Model and Forecast
     run_modelling_steps(iso3, fcc_source="jrc")

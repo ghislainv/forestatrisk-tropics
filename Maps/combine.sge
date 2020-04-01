@@ -2,9 +2,9 @@
 #$ -S /bin/bash
 #$ -cwd
 #$ -j y
-#$ -l h_rt=04:00:00
-#$ -t 2-3 -tc 3
-#$ -pe multithread60 8
+#$ -l h_rt=06:00:00
+#$ -t 1-3 -tc 3
+#$ -pe multithread8 8
 #$ -N combine
 
 # load singularity
