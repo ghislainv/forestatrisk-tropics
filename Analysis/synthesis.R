@@ -282,3 +282,5 @@ r11 <- "Global CO2 emissions at each date in the future"
 r12 <- "CO2 emissions per continent at each date in the future"
 
 ## Fragmentation?
+
+## End
