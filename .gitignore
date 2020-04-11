@@ -18,6 +18,7 @@ Africa/*
 !Africa/*.py
 !Africa/*.sge
 AGB/*
+Analysis/results/sample_allctry.csv
 
 # Singularity
 *.simg
