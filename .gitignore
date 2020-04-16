@@ -19,6 +19,9 @@ Africa/*
 !Africa/*.sge
 AGB/*
 Analysis/results/sample_allctry.csv
+Maps/Africa
+Maps/America
+Maps/Asia
 
 # Singularity
 *.simg
