@@ -48,13 +48,13 @@ nctry = len(iso3)  # 120
 # Function for multiprocessing
 def run_country(iso3):
 
-    # Temporary directory for GDAL
-    os.mkdir("/export/scrach/gvieilledent/tmp_" + iso3)
-    os.environ["CPL_TMPDIR"] = "/export/scrach/gvieilledent/tmp_" + iso3
+    # Create temporary directory for GDAL
+    far.make_dir("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
+    os.environ["CPL_TMPDIR"] = "/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/gfc2019_50/" + cont
+    owd = "/share/nas2-amap/gvieilledent/jrc2020/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
@@ -63,7 +63,7 @@ def run_country(iso3):
     far.data.country_forest_download(
         iso3,
         gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics-gfc-50",
+        gdrive_folder="GEE-forestatrisk-tropics-jrc-2020",
         output_dir="data_raw")
 
     # Compute variables
@@ -77,10 +77,10 @@ def run_country(iso3):
         keep_temp_dir=True)
 
     # Model and Forecast
-    run_modelling_steps(iso3, fcc_source="gfc")
+    run_modelling_steps(iso3, fcc_source="jrc")
 
     # Remove GDAL tmp directory
-    shutil.rmtree("/export/scrach/gvieilledent/tmp_" + iso3)
+    shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
     
     # Return country iso code
     return(iso3)
