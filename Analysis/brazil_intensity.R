@@ -13,7 +13,7 @@ library(dplyr)
 ## library(ggplot2)
 
 ## Set working directory
-setwd("/home/gvieilledent/Code/forestatrisk-tropics/")
+setwd("~/Code/forestatrisk-tropics/")
 
 ## =================
 ## Countries info
@@ -56,6 +56,9 @@ fcc_tab2 <- fcc_tab %>%
 
 ## Save results
 write.table(fcc_tab2, file="Analysis/results/fcc_brazil.csv", sep=",", row.names=FALSE)
+
+## Load results
+fcc_tab2 <- read.table("Analysis/results/fcc_brazil.csv", sep=",", header=TRUE)
 
 ## ===================
 ## Neighbors
@@ -103,42 +106,81 @@ n.neighbor <- apply(mat2, 2, sum)
 #= a constant deforestation at the ecoregion scale: defor.tot.mean = 8069130 pixels
 
 # Year and deforestation periods
-for.year <- paste("for",seq(2010,2100,by=10),sep="")
-defor.period <- c("defor10.20","defor20.30","defor30.40","defor40.50",
-                  "defor50.60","defor60.70","defor70.80","defor80.90",
-                  "defor90.100")
-n.period <- length(defor.period) # 9
+for.year <- paste("for",c(2019, seq(2030,2100,by=10)),sep="")
+defor.period <- c("defor19.30", "defor30.40", "defor40.50",
+                 "defor50.60", "defor60.70", "defor70.80",
+                 "defor80.90", "defor90.100")
+time.interval <- c(11, rep(10, 7))
+n.period <- length(defor.period)
 
-# Initialization
-nfor <- data.di2$nfor2010
-defor <- data.di2$defor.mean
+## Initialization
+nfor <- fcc_tab2$for2019
+andef <- fcc_tab2$andef
 mat <- nfor
+ctry_for <- rep(1, nctry)
 
-# Loop on years for simulations
+## Loop on time periods for simulations
 for (t in 1:n.period) {
-    ## Two conditions: deforestation must not exceed forest cover
-    while(!all(nfor>=defor) & sum(defor)<=sum(nfor)) {
-        for (i in 1:ncell.grid) {
-            ## We need to have nfor > defor for each cell
-            if (nfor[i] < defor[i]) { # if nfor[i]=0 and defor[i]=0: nothing
-                ## Attributing excess of deforestation to neighbouring cells
-                n.neigh <- n.neighbors[i]
-                neigh <- neighbors.mat[neighbors.mat[,1]==i,2]
-                defor.rest <- defor[i]-nfor[i]
-                defor.neigh <- floor(defor.rest/n.neigh)
-                defor.neigh.adjust <- defor.rest-(defor.neigh*n.neigh)
-                defor[neigh] <- defor[neigh]+defor.neigh
-                draw.neigh <- sample(neigh,size=1)
-                defor[draw.neigh] <- defor[draw.neigh]+defor.neigh.adjust
-                defor[i] <- nfor[i]
+    defor <- andef * time.interval[t]
+    ## While a country has defor > nfor
+    while(!all(nfor >= defor)) {
+        excess <- 0
+        for (i in 1:nctry) {
+            ## We need to have nfor > defor for each ctry
+            if (defor[i] > nfor[i]) { # if nfor[i]=0 and defor[i]=0: nothing
+                ctry_for[i] <- 0
+                excess <- excess + (defor[i] - nfor[i]) # Compute excess of deforestation
+                defor[i] <- nfor[i] # Set defor to nfor for number in mat
             }
         }
+        ## Number of countries with forest
+        ncf <- sum(ctry_for == 1)
+        ## We split the excess of deforestation among countries with forest
+        ## This can make defor > nfor, thus implying the while loop
+        defor[ctry_for == 1] <- defor[ctry_for == 1] + excess / ncf
     }
-    nfor <- nfor-defor
-    mat <- cbind(mat,defor,nfor)
+    nfor <- nfor - defor
+    mat <- cbind(mat, defor, nfor)
+    andef <- defor / time.interval[t]
 }
-mat <- as.data.frame(mat)
-names(mat) <- as.vector(rbind(for.year,c(defor.period,0)))[-c(20)]
+
+df <- as.data.frame(mat)
+names(df) <- as.vector(rbind(for.year, c(defor.period, 0)))[-c(2*length(for.year))]
+df2 <- cbind(fcc_tab2[,2], df)
+
+apply(df2[,2:8], 2, sum)
+
+## Function diffusion
+fcc_diffusion <- function(forest_t0, t0, annual_defor, t) {
+    ## Variables
+    nctry <- length(forest_t0)
+    ctry_for <- as.numeric(forest_t0 > 0)
+    ti <- t-t0  # time-interval
+    defor <- annual_defor * ti
+    nfor <- forest_t0
+    ## While a country has defor > nfor
+    while(!all(nfor >= defor)) {
+        excess <- 0
+        for (i in 1:nctry) {
+            ## We need to have nfor > defor for each ctry
+            if (defor[i] > nfor[i]) { # if nfor[i]=0 and defor[i]=0: nothing
+                ctry_for[i] <- 0
+                excess <- excess + (defor[i] - nfor[i]) # Compute excess of deforestation
+                defor[i] <- nfor[i] # Set defor to nfor for number in mat
+            }
+        }
+        ## Number of countries with forest
+        ncf <- sum(ctry_for == 1)
+        ## We split the excess of deforestation among countries with forest
+        ## This can make defor > nfor, thus implying the while loop
+        defor[ctry_for == 1] <- defor[ctry_for == 1] + excess / ncf
+    }
+    nfor <- nfor - defor
+    return(list(forest_t0=forest_t0, forest_t=nfor, defor_t0_t=defor))
+}
+
+brazil_fcc_diffusion <- fcc_diffusion(forest_t0=fcc_tab2$for2019, t0=2019, annual_defor=fcc_tab2$andef, t=2050)
+all((brazil_fcc_diffusion$forest_t0 - brazil_fcc_diffusion$defor_t0_t) == brazil_fcc_diffusion$forest_t)
 
 #= Export results
 data.di3 <- cbind(data.di2,mat)

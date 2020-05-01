@@ -1,0 +1,33 @@
+# Appendices
+
+## Appendix 1: Mathematical formulas for accuracy indices
+
+(ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm} 
+
+```{r confusion-matrix, results="asis", echo=FALSE}
+df <- read.table("tables/confusion-matrix.txt", header=TRUE, sep=",")
+vect.align <- rep("l",2)
+col.names <- c("","","Observations","","Total")
+options(knitr.kable.NA="")
+knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
+			 escape=FALSE,
+			 col.names=col.names,
+			 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"),
+				  full_width=FALSE, position="center")
+```
+
+(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix. \vspace{0.5cm} 
+
+```{r accuracy-indices, results="asis", echo=FALSE}
+df <- read.table("tables/accuracy-indices.txt", header=TRUE, sep=",")
+vect.align <- rep("l",2)
+col.names <- c("Index","Formula")
+knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
+			 escape=FALSE,
+			 col.names=col.names,
+			 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+\newpage

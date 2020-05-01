@@ -1,0 +1,19 @@
+# Introduction
+
+**Context**
+
+- Importance of modelling and forecasting deforestation.
+
+**Gap**
+
+- Difficult task as highly stochastic and mutlifactorial process.
+- Deforestation process highly variable in space [@Vieilledent2018; @Yesuf2019]
+- Spatial explanatory variables explain only a small part of the deforestation process [@Vieilledent2013]
+- Socio-economic factors are often obtained at large spatial scale (administrative boundaries) and are weak informative factors for small scale deforestation [@Vieilledent2013]
+- Bad models can lead to completely wrong projections
+
+**Process-based vs. pattern-oriented models** [@Castella2007].
+
+**Present study** Spatial autocorrelated random effect to account for unmeasured hidden factors explaining the residual spatial variability [@Clark2005].
+
+\newpage

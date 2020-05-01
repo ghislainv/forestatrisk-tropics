@@ -1,0 +1,18 @@
+# Tables
+
+(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They described topography, forest accessibility, forest landscape, land tenure and deforestation history.\vspace{0.5cm} 
+
+```{r variables, results="asis", echo=FALSE}
+df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
+vect.align <- c(rep("l",3), rep("r",2))
+col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)")
+knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
+			 col.names=col.names,
+			 align=vect.align, linesep="") %>%
+	column_spec(c(1:3),width="3cm") %>%
+	column_spec(4,width="2cm") %>%
+	column_spec(5,width="3cm") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+\newpage

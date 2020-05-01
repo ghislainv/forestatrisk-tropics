@@ -1,0 +1,3 @@
+delete_merged_file: true
+book_filename: "manuscript.Rmd"
+output_dir: "article"
