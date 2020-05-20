@@ -39,13 +39,13 @@ get_token()
 os.environ["GDAL_CACHEMAX"] = "1024"
 # ==================
 
-# Country isocode
+# Country isocode for Brazil
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
                                                 "data/ctry_run.csv")
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
-iso3 = list(data_ctry_run.iso3)
-iso3 = ["AUS-QLD", "ATG", "BEN"]
-nctry = len(iso3)  # 120
+iso3 = data_ctry_run.loc[data_ctry_run["cont_run"]=="Brazil", "iso3"].tolist()
+nctry = len(iso3)  # 26
+iso3 = ["BRA-AM"]
 
 # Function for multiprocessing
 def run_country(iso3):
@@ -61,33 +61,12 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    # # Download data
-    # far.data.country_forest_download(
-    #     iso3,
-    #     gdrive_remote_rclone="gdrive_gv",
-    #     gdrive_folder="GEE-forestatrisk-tropics-gfc-70",
-    #     output_dir="data_raw")
-
-    # # Compute variables
-    # far.data.country_compute(
-    #     iso3,
-    #     temp_dir="data_raw",
-    #     output_dir="data",
-    #     proj="EPSG:3395",
-    #     data_country=False,
-    #     data_forest=True,
-    #     keep_temp_dir=True)
-
-    # If not Brazil
-    p = re.compile("BRA-.*")
-    m = p.match(iso3)
-    if m is None:
-        # Model and Forecast
-        run_modelling_steps(iso3, fcc_source="gfc")
+    # Model and Forecast
+    run_modelling_steps(iso3, fcc_source="gfc")
 
     # Remove GDAL tmp directory
     shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    
+
     # Return country iso code
     return(iso3)
 

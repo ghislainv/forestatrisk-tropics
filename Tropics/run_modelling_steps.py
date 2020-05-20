@@ -19,6 +19,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import log_loss
 import pandas as pd
+import re  # Regular expressions
 
 
 # run_modelling_steps
@@ -48,7 +49,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
     # Sample points
     # ========================================================
-    
+
     dataset = far.sample(nsamp=10000, adapt=True,
                          Seed=1234, csize=10,
                          var_dir="data",
@@ -271,7 +272,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
         input_cell_raster="output/rho.tif",
         input_forest_raster="data/forest/forest_t3.tif",
         output_file="output/prob.tif",
-        blk_rows=128
+        blk_rows=10  # Reduced number of lines to avoid memory problems
     )
 
     # Reinitialize data
@@ -285,47 +286,56 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
 
     # Forest cover
-    fc = list()
-    dates = ["t1", "2005", "t2", "2015", "t3"]
-    ndates = len(dates)
-    for i in range(ndates):
-        rast = "data/forest/forest_" + dates[i] + ".tif"
-        val = far.countpix(input_raster=rast,
-                           value=1)
-        fc.append(val["area"])  # area in ha
-    # Save results to disk
-    f = open("output/forest_cover.txt", "w")
-    for i in fc:
-        f.write(str(i) + "\n")
-    f.close()
-
-    # Annual deforestation
-    T = 10.0 if (fcc_source == "jrc") else 9.0
-    annual_defor = (fc[2] - fc[4]) / T
+    p = re.compile("BRA-.*")
+    m = p.match(iso3)
+    if m is not None:  # For Brazil
+        if (fcc_source == "jrc"):
+            fcc_BRA = pd.read_csv("../fcc_BRA_jrc.csv")
+        else:
+            fcc_BRA = pd.read_csv("../fcc_BRA_gfc.csv")
+    else:  # Other country
+        fc = list()
+        dates = ["t1", "2005", "t2", "2015", "t3"]
+        ndates = len(dates)
+        for i in range(ndates):
+            rast = "data/forest/forest_" + dates[i] + ".tif"
+            val = far.countpix(input_raster=rast,
+                               value=1)
+            fc.append(val["area"])  # area in ha
+        # Save results to disk
+        f = open("output/forest_cover.txt", "w")
+        for i in fc:
+            f.write(str(i) + "\n")
+        f.close()
+        # Annual deforestation
+        T = 10.0 if (fcc_source == "jrc") else 9.0
+        annual_defor = (fc[2] - fc[4]) / T
 
     # Dates and time intervals
-    date = ["2035", "2050", "2055", "2085", "2100"]
-    ndate = len(date)
-    if (fcc_source == "jrc"):
-        ti = [15, 30, 35, 65, 80]
-    else:
-        ti = [16, 31, 36, 66, 81]
-    
+    dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100"]
+    ndates_fut = len(dates_fut)
+    ti = [10, 15, 20, 30, 35, 40, 50, 60, 65, 70, 80]
+    if (fcc_source == "gfc"):
+        ti = [x + 1 for x in ti]
+
     # ========================================================
     # Predicting forest cover change
     # ========================================================
 
     # Loop on dates
-    for i in range(ndate):
+    for i in range(ndates_fut):
         # Amount of deforestation (ha)
-        defor = np.rint(annual_defor * ti[i])
+        if m is not None:  # For Brazil
+            defor = fcc_BRA.loc[fcc_BRA["iso3"]==iso3, "defor" + dates_fut[i]].values[0]
+        else:
+            defor = np.rint(annual_defor * ti[i])
         # Compute future forest cover
         stats = far.deforest(input_raster="output/prob.tif",
                              hectares=defor,
-                             output_file="output/fcc_" + date[i] + ".tif",
+                             output_file="output/fcc_" + dates_fut[i] + ".tif",
                              blk_rows=128)
         # Save some stats if date = 2050
-        if date[i] == "2050":
+        if dates_fut[i] == "2050":
             # Save stats to disk with pickle
             pickle.dump(stats, open("output/stats.pickle", "wb"))
             # Plot histograms of probabilities
@@ -338,13 +348,18 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
 
     # Create dataframe
-    C_df = pd.DataFrame({"date": date, "C": np.repeat(-99, ndate)},
+    dpast = "2020" if fcc_source == "jrc" else "2019"
+    C_df = pd.DataFrame({"date": dpast.extend(dates_fut), "C": np.repeat(-99, ndates_fut + 1)},
                         columns=["date","C"])
     # Loop on date
-    for i in range(ndate):
+    for i in range(ndates_fut):
         carbon = far.emissions(input_stocks="data/emissions/AGB.tif",
-                               input_forest="output/fcc_" + date[i] + ".tif")
-        C_df.loc[C_df["date"]==date[i], ["C"]] = carbon
+                               input_forest="output/fcc_" + dates_fut[i] + ".tif")
+        C_df.loc[C_df["date"]==dates_fut[i], ["C"]] = carbon
+    # Past emissions 
+    carbon = far.emissions(input_stocks="data/emissions/AGB.tif",
+                           input_forest="data/fcc23.tif")
+    C_df.loc[C_df["date"]==dpast, ["C"]] = carbon
     # Save dataframe
     C_df.to_csv("output/C_emissions.csv", header=True, index=False)
 
@@ -393,11 +408,11 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     plt.close(fig_prob)
 
     # Projected future forest-cover change
-    for i in range(ndate):
-        fig_fcc = far.plot.fcc("output/fcc_" + date[i] + ".tif",
+    for i in range(ndates_fut):
+        fig_fcc = far.plot.fcc("output/fcc_" + dates_fut[i] + ".tif",
                                maxpixels=1e8,
                                borders="data/ctry_PROJ.shp",
-                               output_file="output/fcc_" + date[i] + ".png")
+                               output_file="output/fcc_" + dates_fut[i] + ".png")
         plt.close(fig_fcc)
 
 # End

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # ==============================================================================
@@ -16,14 +16,12 @@
 
 import sys
 import os
-import shutil  # for rmtree
-import re  # regular expressions
+import subprocess
 import pkg_resources
 import pandas as pd
 import forestatrisk as far
-from run_modelling_steps import run_modelling_steps
 
-index_ctry = int(sys.argv[1])-1
+#index_ctry = int(sys.argv[1])-1
 
 # ==================
 # Settings
@@ -35,8 +33,6 @@ from dotenv import load_dotenv
 load_dotenv("/home/gvieilledent/Code/forestatrisk-tropics/.env")
 from pywdpa import get_token
 get_token()
-# GDAL
-os.environ["GDAL_CACHEMAX"] = "1024"
 # ==================
 
 # Country isocode
@@ -44,15 +40,10 @@ file_ctry_run = pkg_resources.resource_filename("forestatrisk",
                                                 "data/ctry_run.csv")
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3)
-iso3 = ["AUS-QLD", "ATG", "BEN"]
 nctry = len(iso3)  # 120
 
 # Function for multiprocessing
 def run_country(iso3):
-
-    # Create temporary directory for GDAL
-    far.make_dir("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    os.environ["CPL_TMPDIR"] = "/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
@@ -61,37 +52,30 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    # # Download data
-    # far.data.country_forest_download(
-    #     iso3,
-    #     gdrive_remote_rclone="gdrive_gv",
-    #     gdrive_folder="GEE-forestatrisk-tropics-gfc-70",
-    #     output_dir="data_raw")
+    # Copy borders
+    far.make_dir("data_raw")
+    in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_50",
+                          cont, iso3, "data_raw/")
+    out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
+                           cont, iso3, "data_raw/")
+    in_f = in_dir + "gadm36_" + iso3 + "_0.*"
+    cmd = " ".join(["cp", in_f, out_dir])
+    subprocess.call(cmd, shell=True)
 
-    # # Compute variables
-    # far.data.country_compute(
-    #     iso3,
-    #     temp_dir="data_raw",
-    #     output_dir="data",
-    #     proj="EPSG:3395",
-    #     data_country=False,
-    #     data_forest=True,
-    #     keep_temp_dir=True)
+    # Compute gee forest data
+    far.data.country_forest_run(
+        iso3, proj="EPSG:3395",
+        output_dir="data_raw",
+        keep_dir=True,
+        fcc_source="gfc", perc=70,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics-gfc-70")
 
-    # If not Brazil
-    p = re.compile("BRA-.*")
-    m = p.match(iso3)
-    if m is None:
-        # Model and Forecast
-        run_modelling_steps(iso3, fcc_source="gfc")
-
-    # Remove GDAL tmp directory
-    shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    
     # Return country iso code
     return(iso3)
 
 # Run country
-run_country(iso3[index_ctry])
+for i in range(nctry):
+    run_country(iso3[i])
 
 # End

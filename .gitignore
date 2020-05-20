@@ -18,7 +18,7 @@ Africa/*
 !Africa/*.py
 !Africa/*.sge
 AGB/*
-Analysis/results/sample_allctry.csv
+*/sample_allctry.csv
 Maps/Africa
 Maps/America
 Maps/Asia

@@ -15,6 +15,9 @@ library(dplyr)
 ## Set working directory
 setwd("/home/gvieilledent/Code/forestatrisk-tropics/")
 
+## Dataset
+dataset <- "gfc2019_70" 
+
 ## =================
 ## Countries info
 ## =================
@@ -24,7 +27,7 @@ ctry_df <- read.csv2("Analysis/ctry_run.csv", header=TRUE, sep=";", encoding="UT
 
 ## List of countries
 iso3 <- ctry_df$iso3
-iso3 <- as.character(iso3[-which(iso3 %in% c("BRA-DF","STP"))])
+iso3 <- as.character(iso3[-which(iso3 %in% c("ATG", "STP", "SEN", "GMB"))])  ## TO BE UPDATED
 nctry <- length(iso3)
 
 ## ==========================
@@ -38,9 +41,9 @@ sample_allctry_tab <- data.frame()
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Sample size
-    f_name <- paste0(dir, "/", iso, "/output_jrc/sample.txt")
+    f_name <- file.path(dir, iso, "/output/sample.txt")
     sample_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     sample_df$iso3 <- iso
     sample_df$continent <- continent
@@ -48,49 +51,64 @@ for (i in 1:nctry) {
     sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
 }
 
+## !! NA in datasets (65535), see eg VIR and ATG 
+
 ## Save results
-write.table(sample_allctry_tab, file="Analysis/results/sample_allctry.csv", sep=",", row.names=FALSE)
+write.table(sample_allctry_tab, file=file.path("Analysis", dataset, "results/sample_allctry.csv"), sep=",", row.names=FALSE)
 
 ## =================
 ## Model performance
 ## =================
 
 ## Create table to store model performance results
-ind_tab <- data.frame(matrix(NA, nrow=2*nctry, ncol=12))
+ind_tab <- data.frame(matrix(NA, nrow=3*nctry, ncol=14))
 names(ind_tab) <- c("cont", "iso3", "mod", "D", "AUC", "OA",
-                    "EA", "FOM", "Sen", "Spe", "TSS", "K")
+                    "EA", "FOM", "Sen", "Spe", "TSS", "K",
+                    "nfor", "ndefor")
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Deviance
-    f_name <- paste0(dir, "/", iso, "/output_jrc/model_deviance.csv")
+    f_name <- file.path(dir, iso, "output/model_deviance.csv")
     dev_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     dev_glm <- dev_df$perc[dev_df$model=="glm"]
     dev_icar <- dev_df$perc[dev_df$model=="icar"]
+    dev_rf <- dev_df$perc[dev_df$model=="rf"]
     ## Performance index
-    f_name <- paste0(dir, "/", iso, "/output_jrc/CV_glm.csv")
+    ## glm
+    f_name <- file.path(dir, iso, "output/CV_glm.csv")
     CV_glm_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     CV_glm <- round(CV_glm_df$mean*100)
-    f_name <- paste0(dir, "/", iso, "/output_jrc/CV_icar.csv")
+    ## icar
+    f_name <- file.path(dir, iso, "output/CV_icar.csv")
     CV_icar_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     CV_icar <- round(CV_icar_df$mean*100)
+    ## RF
+    f_name <- file.path(dir, iso, "output/CV_rf.csv")
+    CV_rf_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+    CV_rf <- round(CV_rf_df$mean*100)
     ## Sample size
-    f_name <- paste0(dir, "/", iso, "/output_jrc/sample_size.csv")
+    f_name <- file.path(dir, iso, "output/sample_size.csv")
     samp_size_df <- read.table(f_name, header=TRUE, sep=",")
-    nfor <- samp_size_df
-    ndefor <- samp_size_df
+    nfor <- samp_size_df$n[samp_size_df$var=="nfor"]
+    ndefor <- samp_size_df$n[samp_size_df$var=="ndefor"]
     ## Fill in the table
-    ind_tab[2*(i-1)+1, 1:3] <- c(continent, iso, "icar")
-    ind_tab[2*(i-1)+1, 4:12] <- c(dev_icar, CV_icar)
-    ind_tab[2*(i-1)+2, 1:3] <- c(continent, iso, "glm")
-    ind_tab[2*(i-1)+2, 4:12] <- c(dev_glm, CV_glm)
+    ind_tab[3*(i-1)+1, 1:3] <- c(continent, iso, "icar")
+    ind_tab[3*(i-1)+1, 4:12] <- c(dev_icar, CV_icar)
+    ind_tab[3*(i-1)+1, 13:14] <- c(nfor, ndefor)
+    ind_tab[3*(i-1)+2, 1:3] <- c(continent, iso, "glm")
+    ind_tab[3*(i-1)+2, 4:12] <- c(dev_glm, CV_glm)
+    ind_tab[3*(i-1)+2, 13:14] <- c(nfor, ndefor)
+    ind_tab[3*(i-1)+3, 1:3] <- c(continent, iso, "rf")
+    ind_tab[3*(i-1)+3, 4:12] <- c(dev_rf, CV_rf)
+    ind_tab[3*(i-1)+3, 13:14] <- c(nfor, ndefor)
 }
 
 ## Save results
-write.table(ind_tab, file="Analysis/results/performance_index.csv", sep=",", row.names=FALSE)
+write.table(ind_tab, file=file.path("Analysis", dataset, "results/performance_index.csv"), sep=",", row.names=FALSE)
 
 ## =================
 ## Sample size
@@ -104,40 +122,44 @@ names(samp_size_tab) <- c("cont", "iso3", "nfor", "ndef")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Sample size
-    f_name <- paste0(dir, "/", iso, "/output_jrc/sample_size.csv")
-    samp_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-    nfor <- samp_df$n[samp_df$var=="nfor"]
-    ndef <- samp_df$n[samp_df$var=="ndefor"]
+    f_name <- file.path(dir, iso, "output/sample_size.csv")
+    samp_size_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+    nfor <- samp_size_df$n[samp_size_df$var=="nfor"]
+    ndef <- samp_size_df$n[samp_size_df$var=="ndefor"]
     ## Fill in the table
     samp_size_tab[i, 1:2] <- c(continent, iso)
     samp_size_tab[i, 3:4] <- c(nfor, ndef)
 }
 
+## Equivalence in ha
+samp_size_tab$nforHa <- round(samp_size_tab$nfor*30*30/10000)
+samp_size_tab$ndefHa <- round(samp_size_tab$ndef*30*30/10000)
+
 ## Save results
-write.table(samp_size_tab, file="Analysis/results/samp_size.csv", sep=",", row.names=FALSE)
+write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
 
 ## ===================
 ## Forest cover change
 ## ===================
 
 ## Create table to store results
-fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=5))
-names(fcc_tab) <- c("cont", "iso3", "for2000", "for2010", "for2019")
+fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=7))
+names(fcc_tab) <- c("cont", "iso3", "for2000", "for2005", "for2010", "for2015", "for2019")
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Forest cover change
-    f_name <- paste0(dir, "/", iso, "/output_jrc/forest_cover.txt")
+    f_name <- file.path(dir, iso, "/output/forest_cover.txt")
     fcc_df <- read.table(f_name, header=FALSE, sep=",", stringsAsFactors=FALSE)
     area <- round(fcc_df[, 1])
     ## Fill in the table
     fcc_tab[i,1:2] <- c(continent, iso)
-    fcc_tab[i,3:5] <- area
+    fcc_tab[i,3:7] <- area
 }
 
 ## Annual defor
@@ -150,8 +172,15 @@ fcc_tab2 <- fcc_tab %>%
     # Year during which forest should have disappeared
     mutate(yrdis=floor(2019 + for2019/andef))
 
+## Corrections for Brazil with deforestation diffusion
+fcc_BRA <- read.table(file.path("/share/nas2-amap/gvieilledent", dataset, "Brazil/fcc_BRA_gfc.csv"), sep=",",
+                      header=TRUE, stringsAsFactors=FALSE)
+if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) {
+    fcc_tab2[fcc_tab2$cont=="Brazil", c(10:15)] <- round(fcc_BRA[, c(7, 9, 11, 13, 15, 18)])
+}
+
 ## Save results
-write.table(fcc_tab2, file="Analysis/results/forest_cover_change.csv", sep=",", row.names=FALSE)
+write.table(fcc_tab2, file=file.path("Analysis", dataset, "results/forest_cover_change.csv"), sep=",", row.names=FALSE)
 
 ## ===================
 ## Model parameters
@@ -171,9 +200,9 @@ long_var_names <- c("Intercept", "C(pa)[T.1.0]", "scale(altitude)",
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Parameter estimates
-    f_name <- paste0(dir, "/", iso, "/output_jrc/summary_hSDM.txt")
+    f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
     names(par) <- c("Var", "Mean", "Sd", "CI_low", "CI_high")
     ## Fill in the table
@@ -185,7 +214,7 @@ for (i in 1:nctry) {
 }
 
 ## Save results
-write.table(par_tab, file="Analysis/results/parameter_estimates.csv", sep=",", row.names=FALSE)
+write.table(par_tab, file=file.path("Analysis", dataset, "results/parameter_estimates.csv"), sep=",", row.names=FALSE)
 
 ## ===================
 ## PA effect
@@ -199,9 +228,9 @@ names(parea_tab) <- c("cont", "iso3", "Mean", "Sd", "CI_low", "CI_high")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Parameter estimates
-    f_name <- paste0(dir, "/", iso, "/output_jrc/summary_hSDM.txt")
+    f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
     names(par) <- c("Var", "Mean", "Sd", "CI_low", "CI_high")
     ## Fill in the table
@@ -213,7 +242,7 @@ for (i in 1:nctry) {
 }
 
 ## Save results
-write.table(parea_tab, file="Analysis/results/parea_estimates.csv", sep=",", row.names=FALSE)
+write.table(parea_tab, file=file.path("Analysis", dataset,"results/parea_estimates.csv"), sep=",", row.names=FALSE)
 
 ## ===================
 ## Road effect
@@ -227,9 +256,9 @@ names(road_tab) <- c("cont", "iso3", "Mean", "Sd", "CI_low", "CI_high")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- paste0("/share/nas2-amap/gvieilledent/", continent)
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
     ## Parameter estimates
-    f_name <- paste0(dir, "/", iso, "/output_jrc/summary_hSDM.txt")
+    f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
     names(par) <- c("Var", "Mean", "Sd", "CI_low", "CI_high")
     ## Fill in the table
@@ -241,11 +270,112 @@ for (i in 1:nctry) {
 }
 
 ## Save results
-write.table(road_tab, file="Analysis/results/road_estimates.csv", sep=",", row.names=FALSE)
+write.table(road_tab, file=file.path("Analysis", dataset, "results/road_estimates.csv"), sep=",", row.names=FALSE)
 
-## ===================
-## Emissions
-## ===================
+## =========================
+## Significance PA and roads
+## =========================
+
+## Significance PA
+parea_tab <- parea_tab %>%
+    mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
+## Percentage of country for which the effet of protected areas is significant
+perc_sign_PA <- 100*sum(parea_tab$sign==1)/nrow(parea_tab) ## 65%
+## Weighted percentage with forest size in 2010
+fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
+weights <- fcc_tab$for2010
+perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights) ## 89%
+
+## Significance road
+road_tab <- road_tab %>%
+    mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
+## Percentage of country for which the effet of protected areas is significant
+perc_sign_road <- 100*sum(road_tab$sign==1)/nrow(road_tab) ## 65%
+## Weighted percentage with forest size in 2010
+fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
+weights <- fcc_tab$for2010
+perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights) ## 91%
+
+## Save results
+nctry <- length(fcc_tab$iso3)
+perc <- c(perc_sign_PA, perc_sign_road)
+perc_w <- c(perc_sign_w_PA, perc_sign_w_road) 
+sign_PA_road <- data.frame(var=c("PA","road"), nctry=nctry, perc=round(perc), perc_w=round(perc_w))
+
+## Save results
+write.table(sign_PA_road, file=file.path("Analysis", dataset, "results/sign_PA_road.csv"), sep=",", row.names=FALSE)
+
+## =====================================
+## Carbon emissions (in tonnes=10e6 g C)
+## =====================================
+
+## Create table to store results
+Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=7), stringsAsFactors=FALSE)
+names(Cem_tab) <- c("cont", "iso3", "C2035", "C2050", "C2055", "C2085", "C2100")
+
+## Loop on countries
+for (i in 1:nctry) {
+    iso <- iso3[i]
+    continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    ## Carbon emissions
+    f_name <- file.path(dir, iso, "/output/C_emissions.csv")
+    Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+    ## Fill in the table
+    Cem_tab[i,1:2] <- c(continent, iso)
+    Cem_tab[i,3:7] <- Cem_df$C
+}
+
+## Save results
+write.table(Cem_tab, file=file.path("Analysis", dataset, "results/C_emissions.csv"), sep=",", row.names=FALSE)
+
+## ========================
+## Summary carbon emissions
+## ========================
+
+## Summarize results
+Cem_tab2 <- Cem_tab %>%
+    mutate(cont=ifelse(cont=="Brazil", "America", cont)) %>%
+    group_by(cont) %>%
+    summarize_at(vars(C2035, C2050, C2055, C2085, C2100), sum) %>%
+    bind_rows(data.frame(cont="TOTAL",
+                         summarize_at(Cem_tab, vars(C2035, C2050, C2055, C2085, C2100), sum),
+                         stringsAsFactors=FALSE)) %>%
+    mutate_at(vars(C2035:C2100), function(x){x*1e-9})  # Results in PgC
+
+## Save results
+write.table(Cem_tab2, file=file.path("Analysis", dataset, "results/C_emissions_summary.csv"), sep=",", row.names=FALSE)
+
+## In 2019-2050, 22.4 billions of tonnes of C emitted = 22.4 PgC (0.72 PgC/year on 2019-2050)
+##
+## References for comparison:
+## Baccini et al. (2017) only 0.8 PgC/year for 2003–2014. Land use and land-cover change (LULCC) are believed to release between 0.81 and 1.14 PgC/yr.
+## Baccini 2012 et al. reported 1 PgC/year on the period 2000-2010.
+## See Van Der Werf, G. R. et al. CO2 emissions from forest loss. Nature Geosci. 2, 737–738 (2009).
+## Friedlingstein, P. et al. Update on CO2 emissions. Nature Geosci. 3, 811–812 (2010).
+## Le Quéré, C. et al. Trends in the sources and sinks of carbon dioxide. Nature Geosci. 2, 831–836 (2009).
+
+## ======================
+## Carbon emission trends
+## ======================
+
+## Compute carbon emission trends in the future
+C_trend <- Cem_tab2 %>%
+    mutate(T19_35=C2035/16, T35_50=(C2050-C2035)/15, T50_55=(C2055-C2050)/5,
+           T55_85=(C2085-C2055)/30, T50_85=(C2085-C2050)/35, T85_100=(C2100-C2085)/15) %>%
+    select(cont, T19_35, T35_50, T50_85, T85_100)
+
+## Carbon emissions should continue to increase: from 0.66 PgC/yr on 2019-2035 to 0.814 PgC/yr on 2050-2085.
+## Deforestation of forest areas with higher carbon stocks in the future.
+## Higher carbon stocks because of environmental/elevation gradient (see Asner article) and because of remote, less degraded forests.
+## Will decrease in Asia because many countries with no more forests after 2085.
+
+## Deforestation => increase in C source with time (deforestation of forest with higher carbon stocks).
+## Climate change => decrease in C sink with time (higher mortality), see Hubau2020.
+## The result is that forests will likely become a major C source in the future. 
+
+## Save results
+write.table(C_trend, file=file.path("Analysis", dataset, "results/C_trend.csv"), sep=",", row.names=FALSE)
 
 ## ===================
 ## Main results
