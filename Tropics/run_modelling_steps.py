@@ -348,8 +348,9 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
 
     # Create dataframe
-    dpast = "2020" if fcc_source == "jrc" else "2019"
-    C_df = pd.DataFrame({"date": dpast.extend(dates_fut), "C": np.repeat(-99, ndates_fut + 1)},
+    dpast = ["2020"] if fcc_source == "jrc" else ["2019"]
+    dpast.extend(dates_fut)
+    C_df = pd.DataFrame({"date": dpast, "C": np.repeat(-99, ndates_fut + 1)},
                         columns=["date","C"])
     # Loop on date
     for i in range(ndates_fut):
@@ -359,7 +360,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # Past emissions 
     carbon = far.emissions(input_stocks="data/emissions/AGB.tif",
                            input_forest="data/fcc23.tif")
-    C_df.loc[C_df["date"]==dpast, ["C"]] = carbon
+    C_df.loc[C_df["date"]==dpast[0], ["C"]] = carbon
     # Save dataframe
     C_df.to_csv("output/C_emissions.csv", header=True, index=False)
 

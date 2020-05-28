@@ -52,15 +52,15 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    # Copy borders
-    far.make_dir("data_raw")
-    in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2019",
-                             cont, iso3, "data_raw/")
-    out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
-                             cont, iso3, "data_raw/")
-    in_f = in_dir + "gadm36_" + iso3 + "_0.*"
-    cmd = " ".join(["cp", in_f, out_dir])
-    subprocess.call(cmd, shell=True)
+    # # Copy borders
+    # far.make_dir("data_raw")
+    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2019",
+    #                          cont, iso3, "data_raw/")
+    # out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
+    #                          cont, iso3, "data_raw/")
+    # in_f = in_dir + "gadm36_" + iso3 + "_0.*"
+    # cmd = " ".join(["cp", in_f, out_dir])
+    # subprocess.call(cmd, shell=True)
 
     # Compute gee forest data
     far.data.country_forest_run(
