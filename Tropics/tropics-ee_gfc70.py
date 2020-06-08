@@ -47,16 +47,16 @@ def run_country(iso3):
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/gfc2019_70/" + cont
+    owd = "/share/nas2-amap/gvieilledent/gfc2020_70/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
     # Copy borders
     far.make_dir("data_raw")
-    in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_50",
+    in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
                           cont, iso3, "data_raw/")
-    out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
+    out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2020_70",
                            cont, iso3, "data_raw/")
     in_f = in_dir + "gadm36_" + iso3 + "_0.*"
     cmd = " ".join(["cp", in_f, out_dir])
@@ -69,7 +69,7 @@ def run_country(iso3):
         keep_dir=True,
         fcc_source="gfc", perc=70,
         gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE-forestatrisk-tropics-gfc-70")
+        gdrive_folder="GEE-forestatrisk-tropics-gfc-2020-70")
 
     # Return country iso code
     return(iso3)

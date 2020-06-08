@@ -17,6 +17,7 @@ setwd("/home/gvieilledent/Code/forestatrisk-tropics/")
 
 ## Dataset
 dataset <- "gfc2019_70" 
+#dataset <- "jrc2020"
 
 ## =================
 ## Countries info

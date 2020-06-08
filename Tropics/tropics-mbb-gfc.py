@@ -37,6 +37,7 @@ from pywdpa import get_token
 get_token()
 # GDAL
 os.environ["GDAL_CACHEMAX"] = "1024"
+os.environ["CPL_TMPDIR"] = "/export/scrach/gvieilledent/tmp"
 # ==================
 
 # Country isocode
@@ -44,39 +45,35 @@ file_ctry_run = pkg_resources.resource_filename("forestatrisk",
                                                 "data/ctry_run.csv")
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3)
-iso3 = ["AUS-QLD", "ATG", "BEN"]
 nctry = len(iso3)  # 120
+
 
 # Function for multiprocessing
 def run_country(iso3):
 
-    # Create temporary directory for GDAL
-    far.make_dir("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    os.environ["CPL_TMPDIR"] = "/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3
-
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/gfc2019_70/" + cont
+    owd = "/share/nas2-amap/gvieilledent/gfc2020_70/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    # # Download data
-    # far.data.country_forest_download(
-    #     iso3,
-    #     gdrive_remote_rclone="gdrive_gv",
-    #     gdrive_folder="GEE-forestatrisk-tropics-gfc-70",
-    #     output_dir="data_raw")
+    # Download data
+    far.data.country_forest_download(
+        iso3,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE-forestatrisk-tropics-gfc-2020-70",
+        output_dir="data_raw")
 
-    # # Compute variables
-    # far.data.country_compute(
-    #     iso3,
-    #     temp_dir="data_raw",
-    #     output_dir="data",
-    #     proj="EPSG:3395",
-    #     data_country=False,
-    #     data_forest=True,
-    #     keep_temp_dir=True)
+    # Compute variables
+    far.data.country_compute(
+        iso3,
+        temp_dir="data_raw",
+        output_dir="data",
+        proj="EPSG:3395",
+        data_country=False,
+        data_forest=True,
+        keep_temp_dir=True)
 
     # If not Brazil
     p = re.compile("BRA-.*")
@@ -85,9 +82,6 @@ def run_country(iso3):
         # Model and Forecast
         run_modelling_steps(iso3, fcc_source="gfc")
 
-    # Remove GDAL tmp directory
-    shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    
     # Return country iso code
     return(iso3)
 

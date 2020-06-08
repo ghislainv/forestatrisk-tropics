@@ -47,10 +47,11 @@ def run_country(iso3):
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/gfc2019_70/" + cont
+    owd = "/share/nas2-amap/gvieilledent/gfc2020_70/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
+    far.make_dir("data")
 
     # # Copy borders
     # far.make_dir("data_raw")
@@ -63,10 +64,10 @@ def run_country(iso3):
     # subprocess.call(cmd, shell=True)
 
     # Copy country data
-    in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
-                          cont, iso3)
-    out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
-                           cont, iso3)
+    in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
+                          cont, iso3, "data")
+    out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2020_70",
+                           cont, iso3, "data")
     cmd = " ".join(["rclone sync", in_dir, out_dir])
     subprocess.call(cmd, shell=True)
 

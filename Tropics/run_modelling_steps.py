@@ -36,9 +36,8 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     :param iso3: Country ISO 3166-1 alpha-3 code. This is used to
     handle exceptions in the modelling process for specific countries.
 
-    :param fcc_source: Source of the forest cover data to compute
-    time-interval for the observation of the past
-    deforestation. Either "jrc" or "gfc".
+    :param fcc_source: Source of forest cover data. Either "jrc" or
+    "gfc".
 
     """
 
@@ -308,15 +307,13 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
             f.write(str(i) + "\n")
         f.close()
         # Annual deforestation
-        T = 10.0 if (fcc_source == "jrc") else 9.0
+        T = 10.0
         annual_defor = (fc[2] - fc[4]) / T
 
     # Dates and time intervals
     dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100"]
     ndates_fut = len(dates_fut)
     ti = [10, 15, 20, 30, 35, 40, 50, 60, 65, 70, 80]
-    if (fcc_source == "gfc"):
-        ti = [x + 1 for x in ti]
 
     # ========================================================
     # Predicting forest cover change
@@ -348,7 +345,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
 
     # Create dataframe
-    dpast = ["2020"] if fcc_source == "jrc" else ["2019"]
+    dpast = ["2020"]
     dpast.extend(dates_fut)
     C_df = pd.DataFrame({"date": dpast, "C": np.repeat(-99, ndates_fut + 1)},
                         columns=["date","C"])

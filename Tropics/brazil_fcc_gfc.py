@@ -18,7 +18,7 @@ import numpy as np
 import forestatrisk as far
 
 # Original working directory
-owd = "/share/nas2-amap/gvieilledent/gfc2019_70/Brazil"
+owd = "/share/nas2-amap/gvieilledent/gfc2020_70/Brazil"
 
 # Country isocode for Brazil
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
@@ -52,7 +52,7 @@ for i in range(nctry):
 # Create data-frame to store results
 fcc_BRA = pd.DataFrame({"iso3": iso3},
                        columns=["iso3", "for2000", "for2005",
-                                "for2010", "for2015", "for2019"])
+                                "for2010", "for2015", "for2020"])
 
 # Fill in the data-frame
 for i in range(nctry):
@@ -64,13 +64,14 @@ for i in range(nctry):
     fcc_BRA.loc[i, 1:] = fc.loc[:, 0].values.tolist() # fc
 
 # Dates for future predictions
-dates_fut = ["2035", "2050", "2055", "2085", "2100"]
+dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100"]
 ndates_fut = len(dates_fut)
 
 # Deforestation diffusion parameters
-forest_t0 = np.array(fcc_BRA["for2019"])
-andef = np.array((fcc_BRA["for2010"] - fcc_BRA["for2019"]) / 9)
-t0 = 2019
+forest_t0 = np.array(fcc_BRA["for2020"])
+T = 10.0
+andef = np.array((fcc_BRA["for2010"] - fcc_BRA["for2020"]) / T)
+t0 = 2020
 
 # Loop on dates
 for i in range(ndates_fut):  

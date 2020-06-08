@@ -3,14 +3,21 @@
 #$ -cwd
 #$ -j y
 #$ -l h_rt=999:00:00
-#$ -t 1-3 -tc 3
+#$ -t 1-120 -tc 20
 #$ -pe multithread8 3
 #$ -N farTrop
+
+# create scratch directory
+scrach="/export/scrach/gvieilledent/tmp"
+mkdir -p $scrach
 
 # load singularity
 module load singularity/3.5.3
 
 # run python script inside container
 singularity exec --bind /share/nas2-amap/gvieilledent ~/Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Tropics/tropics-mbb-gfc.py $SGE_TASK_ID
+
+# remove scratch directory
+rm -rf $scrach
 
 # EOF

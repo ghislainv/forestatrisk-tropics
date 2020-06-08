@@ -17,6 +17,7 @@
 import sys
 import os
 import shutil  # for rmtree
+import re  # regular expressions
 import pkg_resources
 import pandas as pd
 import forestatrisk as far
@@ -48,9 +49,8 @@ nctry = len(iso3)  # 120
 # Function for multiprocessing
 def run_country(iso3):
 
-    # Create temporary directory for GDAL
-    far.make_dir("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    os.environ["CPL_TMPDIR"] = "/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3
+    # Set GDAL temp directory
+    os.environ["CPL_TMPDIR"] = "/scratch/gvieilledent/tmp"
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
@@ -76,12 +76,13 @@ def run_country(iso3):
         data_forest=True,
         keep_temp_dir=True)
 
-    # Model and Forecast
-    run_modelling_steps(iso3, fcc_source="jrc")
+    # If not Brazil
+    p = re.compile("BRA-.*")
+    m = p.match(iso3)
+    if m is None:
+        # Model and Forecast
+        run_modelling_steps(iso3, fcc_source="jrc")
 
-    # Remove GDAL tmp directory
-    shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    
     # Return country iso code
     return(iso3)
 
