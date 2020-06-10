@@ -37,7 +37,6 @@ from pywdpa import get_token
 get_token()
 # GDAL
 os.environ["GDAL_CACHEMAX"] = "1024"
-os.environ["CPL_TMPDIR"] = "/export/scrach/gvieilledent/tmp"
 # ==================
 
 # Country isocode for Brazil
@@ -51,6 +50,10 @@ nctry = len(iso3)  # 26
 # Function for multiprocessing
 def run_country(iso3):
 
+    # GDAL temp directory
+    far.make_dir("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
+    os.environ["CPL_TMPDIR"] = "/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3
+
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
     owd = "/share/nas2-amap/gvieilledent/gfc2020_70/" + cont
@@ -60,6 +63,9 @@ def run_country(iso3):
 
     # Model and Forecast
     run_modelling_steps(iso3, fcc_source="gfc")
+
+    # Remove GDAL tmp directory
+    shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
 
     # Return country iso code
     return(iso3)

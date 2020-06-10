@@ -125,6 +125,10 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     if iso3 == "SXM": variables.remove("C(pa)")
     # Transform into numpy array
     variables = np.array(variables)
+    # Starting values
+    beta_start = 0.0 if iso3 == "MEX" else -99  # For MCMC convergence
+    # Priors
+    priorVrho = 10.0 if iso3 == "ATG" else -1  # -1="1/Gamma"
 
     # Run model while there is non-significant variables
     var_remove = True
@@ -139,10 +143,12 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
             suitability_formula=formula, data=dataset,
             # Spatial structure
             n_neighbors=nneigh, neighbors=adj,
+            # Priors
+            priorVrho=priorVrho,
             # Chains
             burnin=1000, mcmc=1000, thin=1,
             # Starting values
-            beta_start=-99)
+            beta_start=beta_start)
         # Ecological and statistical significance
         effects = mod_binomial_iCAR.betas[1:]
         # MCMC = mod_binomial_iCAR.mcmc
@@ -162,6 +168,8 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
         suitability_formula=formula, data=dataset,
         # Spatial structure
         n_neighbors=nneigh, neighbors=adj,
+        # Priors
+        priorVrho=priorVrho,
         # Chains
         burnin=5000, mcmc=5000, thin=5,
         # Starting values
