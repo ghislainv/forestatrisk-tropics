@@ -7,7 +7,7 @@
 # license         :GPLv3
 # ==============================================================================
 
-source_path="mbb:/share/nas2-amap/gvieilledent/gfc2020_70/"
+source_path="gvieilledent@162.38.181.66:/share/nas2-amap/gvieilledent/gfc2020_70/"
 dest_path="/home/forestatrisk-tropics/gfc2020_70/"
 data_raw="*/data_raw/*"
 data="*/data/*"
