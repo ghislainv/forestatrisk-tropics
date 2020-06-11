@@ -11,6 +11,6 @@ source_path="gvieilledent@162.38.181.66:/share/nas2-amap/gvieilledent/gfc2020_70
 dest_path="/home/forestatrisk-tropics/gfc2020_70/"
 data_raw="*/data_raw/*"
 data="*/data/*"
-rsync -e ssh -av --exclude {$data_raw, $data} --delete-after --stats --progress --dry-run $source_path $dest_path
+rsync -av --exclude {$data_raw, $data} --delete-after --stats --progress --dry-run $source_path $dest_path
 
 # EOF
