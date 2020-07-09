@@ -7,7 +7,7 @@
 #$ -N ee_jrc
 
 # load singularity
-module load singularity/3.5.3
+module load singularity
 
 # run python script inside container
 singularity exec --bind /share/nas2-amap/gvieilledent ~/Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Tropics/tropics-ee_jrc.py
