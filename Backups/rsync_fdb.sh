@@ -19,9 +19,9 @@ rsync -e "ssh -i /home/ghislain/.ssh/id_rsa" -av --exclude $data_raw --delete-af
 # data_raw="*/data_raw/*"
 # rsync -e "ssh -i /home/ghislain/.ssh/id_rsa" -av --exclude $data_raw --delete-after --stats --progress $source_path $dest_path
 
-# Code
-source_path="mbb:/home/gvieilledent/Code/forestatrisk-tropics/"
-dest_path="/home/forestatrisk-tropics/Code/"
+# home mbb
+source_path="mbb:/home/gvieilledent/"
+dest_path="/home/forestatrisk-tropics/home_mbb/"
 rsync -e "ssh -i /home/ghislain/.ssh/id_rsa" -av --delete-after --stats --progress $source_path $dest_path
 
 # EOF
