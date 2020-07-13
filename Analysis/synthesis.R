@@ -8,15 +8,15 @@
 ## ==============================================================================
 
 ## Libraries
-## library(readr)
-library(dplyr)
-## library(ggplot2)
+## require(readr)
+require(dplyr)
+## require(ggplot2)
 
 ## Set working directory
 setwd("/home/gvieilledent/Code/forestatrisk-tropics/")
 
 ## Dataset
-dataset <- "gfc2019_70" 
+dataset <- "gfc2020_70" 
 #dataset <- "jrc2020"
 
 ## =================
