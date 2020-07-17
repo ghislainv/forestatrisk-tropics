@@ -293,21 +293,21 @@ write.table(road_tab, file=file.path("Analysis", dataset, "results/road_estimate
 parea_tab <- parea_tab %>%
     mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
 ## Percentage of country for which the effet of protected areas is significant
-perc_sign_PA <- 100*sum(parea_tab$sign==1)/nrow(parea_tab) ## 68%
+perc_sign_PA <- 100*sum(parea_tab$sign==1)/nrow(parea_tab)
 ## Weighted percentage with forest size in 2010
 fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
 weights <- fcc_tab$for2010
-perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights) ## 90%
+perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights)
 
 ## Significance road
 road_tab <- road_tab %>%
     mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
 ## Percentage of country for which the effet of protected areas is significant
-perc_sign_road <- 100*sum(road_tab$sign==1)/nrow(road_tab) ## 63%
+perc_sign_road <- 100*sum(road_tab$sign==1)/nrow(road_tab)
 ## Weighted percentage with forest size in 2010
 fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
 weights <- fcc_tab$for2010
-perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights) ## 88%
+perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights)
 
 ## Save results
 nctry <- length(fcc_tab$iso3)
@@ -323,8 +323,9 @@ write.table(sign_PA_road, file=file.path("Analysis", dataset, "results/sign_PA_r
 ## =====================================
 
 ## Create table to store results
-Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=7), stringsAsFactors=FALSE)
-names(Cem_tab) <- c("cont", "iso3", "C2035", "C2050", "C2055", "C2085", "C2100")
+Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=14), stringsAsFactors=FALSE)
+C_var <- paste0("C", 2020 + c(0, 10, 15, 20, 30, 35, 40, 50, 60, 65, 70, 80))
+names(Cem_tab) <- c("cont", "iso3", C_var)
 
 ## Loop on countries
 for (i in 1:nctry) {
@@ -332,11 +333,11 @@ for (i in 1:nctry) {
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
     ## Carbon emissions
-    f_name <- file.path(dir, iso, "/output/C_emissions.csv")
+    f_name <- file.path(dir, iso, "output/C_emissions.csv")
     Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     ## Fill in the table
-    Cem_tab[i,1:2] <- c(continent, iso)
-    Cem_tab[i,3:7] <- Cem_df$C
+    Cem_tab[i, 1:2] <- c(continent, iso)
+    Cem_tab[i, 3:14] <- Cem_df$C
 }
 
 ## Save results
@@ -350,11 +351,11 @@ write.table(Cem_tab, file=file.path("Analysis", dataset, "results/C_emissions.cs
 Cem_tab2 <- Cem_tab %>%
     mutate(cont=ifelse(cont=="Brazil", "America", cont)) %>%
     group_by(cont) %>%
-    summarize_at(vars(C2035, C2050, C2055, C2085, C2100), sum) %>%
+    summarize_at(vars(C_var), sum) %>%
     bind_rows(data.frame(cont="TOTAL",
-                         summarize_at(Cem_tab, vars(C2035, C2050, C2055, C2085, C2100), sum),
+                         summarize_at(Cem_tab, vars(C_var), sum),
                          stringsAsFactors=FALSE)) %>%
-    mutate_at(vars(C2035:C2100), function(x){x*1e-9})  # Results in PgC
+    mutate_at(vars(C2020:C2100), function(x){x*1e-9})  # Results in PgC
 
 ## Save results
 write.table(Cem_tab2, file=file.path("Analysis", dataset, "results/C_emissions_summary.csv"), sep=",", row.names=FALSE)
@@ -374,9 +375,16 @@ write.table(Cem_tab2, file=file.path("Analysis", dataset, "results/C_emissions_s
 
 ## Compute carbon emission trends in the future
 C_trend <- Cem_tab2 %>%
-    mutate(T19_35=C2035/16, T35_50=(C2050-C2035)/15, T50_55=(C2055-C2050)/5,
-           T55_85=(C2085-C2055)/30, T50_85=(C2085-C2050)/35, T85_100=(C2100-C2085)/15) %>%
-    select(cont, T19_35, T35_50, T50_85, T85_100)
+    mutate(T10_20=C2020/10,
+           T20_30=C2030/10,
+           T30_40=(C2040-C2030)/10,
+           T40_50=(C2050-C2040)/10,
+           T50_60=(C2060-C2050)/10,
+           T60_70=(C2070-C2060)/10,
+           T70_80=(C2080-C2070)/10,
+           T80_90=(C2090-C2080)/10,
+           T90_100=(C2100-C2090)/10) %>%
+    select(cont, T10_20:T90_100)
 
 ## Carbon emissions should continue to increase: from 0.66 PgC/yr on 2019-2035 to 0.814 PgC/yr on 2050-2085.
 ## Deforestation of forest areas with higher carbon stocks in the future.
