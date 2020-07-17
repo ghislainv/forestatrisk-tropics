@@ -37,7 +37,7 @@ def rgb2hex(r, g, b):
     return hex
 
 # Extent
-iso3 = "BEN"
+iso3 = "REU"
 #iso3 = "MDG"
 if iso3 == "REU":
     extent_latlong = [55.216251, -21.389860, 55.837360, -20.871805]
