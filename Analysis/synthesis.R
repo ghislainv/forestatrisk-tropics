@@ -16,8 +16,8 @@ require(dplyr)
 setwd("/home/ghislain/Code/forestatrisk-tropics/")
 
 ## Dataset
-dataset <- "gfc2020_70" 
-##dataset <- "jrc2020"
+##dataset <- "gfc2020_70" 
+dataset <- "jrc2020"
 dir.create(file.path("Analysis", dataset, "results"), recursive=TRUE)
 
 ## Result directory
@@ -32,7 +32,11 @@ ctry_df <- read.csv2("Analysis/ctry_run.csv", header=TRUE, sep=";", encoding="UT
 
 ## List of countries
 iso3 <- ctry_df$iso3
-iso3 <- as.character(iso3[-which(iso3 %in% c("STP", "SEN", "GMB"))])  ## TO BE UPDATED
+if (dataset=="gfc2020_70") {
+    iso3 <- as.character(iso3[-which(iso3 %in% c("STP", "SEN", "GMB"))])
+} else if (dataset=="jrc2020") {
+    iso3 <- as.character(iso3[-which(iso3 %in% c("STP"))])
+}
 nctry <- length(iso3)
 
 ## ## ==========================
