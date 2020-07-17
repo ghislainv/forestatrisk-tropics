@@ -13,11 +13,15 @@ require(dplyr)
 ## require(ggplot2)
 
 ## Set working directory
-setwd("/home/gvieilledent/Code/forestatrisk-tropics/")
+setwd("/home/ghislain/Code/forestatrisk-tropics/")
 
 ## Dataset
 dataset <- "gfc2020_70" 
-#dataset <- "jrc2020"
+##dataset <- "jrc2020"
+dir.create(file.path("Analysis", dataset, "results"), recursive=TRUE)
+
+## Result directory
+dir_fdb <- "/home/forestatrisk-tropics"
 
 ## =================
 ## Countries info
@@ -28,34 +32,34 @@ ctry_df <- read.csv2("Analysis/ctry_run.csv", header=TRUE, sep=";", encoding="UT
 
 ## List of countries
 iso3 <- ctry_df$iso3
-iso3 <- as.character(iso3[-which(iso3 %in% c("ATG", "STP", "SEN", "GMB"))])  ## TO BE UPDATED
+iso3 <- as.character(iso3[-which(iso3 %in% c("STP", "SEN", "GMB"))])  ## TO BE UPDATED
 nctry <- length(iso3)
 
-## ==========================
-## Dataset with all countries
-## ==========================
+## ## ==========================
+## ## Dataset with all countries
+## ## ==========================
 
-## Create table to store model performance results
-sample_allctry_tab <- data.frame()
+## ## Create table to store model performance results
+## sample_allctry_tab <- data.frame()
 
-## Loop on countries
-for (i in 1:nctry) {
-    iso <- iso3[i]
-    continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
-    ## Sample size
-    f_name <- file.path(dir, iso, "/output/sample.txt")
-    sample_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-    sample_df$iso3 <- iso
-    sample_df$continent <- continent
-    ## Fill in the table
-    sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
-}
+## ## Loop on countries
+## for (i in 1:nctry) {
+##     iso <- iso3[i]
+##     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+##     dir <- file.path(dir_fdb, dataset, continent)
+##     ## Sample size
+##     f_name <- file.path(dir, iso, "/output/sample.txt")
+##     sample_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+##     sample_df$iso3 <- iso
+##     sample_df$continent <- continent
+##     ## Fill in the table
+##     sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
+## }
 
-## !! NA in datasets (65535), see eg VIR and ATG 
+## ## !! NA in datasets (65535), see eg VIR and ATG 
 
-## Save results
-write.table(sample_allctry_tab, file=file.path("Analysis", dataset, "results/sample_allctry.csv"), sep=",", row.names=FALSE)
+## ## Save results
+## write.table(sample_allctry_tab, file=file.path("Analysis", dataset, "results/sample_allctry.csv"), sep=",", row.names=FALSE)
 
 ## =================
 ## Model performance
@@ -71,7 +75,7 @@ names(ind_tab) <- c("cont", "iso3", "mod", "D", "AUC", "OA",
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Deviance
     f_name <- file.path(dir, iso, "output/model_deviance.csv")
     dev_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
@@ -123,7 +127,7 @@ names(samp_size_tab) <- c("cont", "iso3", "nfor", "ndef")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Sample size
     f_name <- file.path(dir, iso, "output/sample_size.csv")
     samp_size_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
@@ -147,13 +151,13 @@ write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_siz
 
 ## Create table to store results
 fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=7))
-names(fcc_tab) <- c("cont", "iso3", "for2000", "for2005", "for2010", "for2015", "for2019")
+names(fcc_tab) <- c("cont", "iso3", "for2000", "for2005", "for2010", "for2015", "for2020")
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Forest cover change
     f_name <- file.path(dir, iso, "/output/forest_cover.txt")
     fcc_df <- read.table(f_name, header=FALSE, sep=",", stringsAsFactors=FALSE)
@@ -164,24 +168,32 @@ for (i in 1:nctry) {
 }
 
 ## Annual defor
+TI <- 2020-2010  ## Time-interval
 fcc_tab2 <- fcc_tab %>%
-    mutate(andef=round((for2010-for2019)/9)) %>%
-    mutate(pdef=round(100*(1-(1-(for2010-for2019)/for2010)^(1/9)), 1)) %>%
-    mutate(for2035=pmax(0, for2019-16*andef), for2050=pmax(0, for2019-31*andef),
-           for2055=pmax(0, for2019-36*andef), for2085=pmax(0, for2019-66*andef),
-           for2100=pmax(0, for2019-81*andef)) %>%
+    mutate(andef=round((for2010-for2020)/TI)) %>%
+    mutate(pdef=round(100*(1-(1-(for2010-for2020)/for2010)^(1/TI)), 1)) %>%
+    mutate(for2030=pmax(0, for2020-10*andef), for2035=pmax(0, for2020-15*andef),
+           for2040=pmax(0, for2020-20*andef),
+           for2050=pmax(0, for2020-30*andef), for2055=pmax(0, for2020-35*andef),
+           for2060=pmax(0, for2020-40*andef),
+           for2070=pmax(0, for2020-50*andef),
+           for2080=pmax(0, for2020-60*andef), for2085=pmax(0, for2020-65*andef),
+           for2090=pmax(0, for2020-70*andef),
+           for2100=pmax(0, for2020-80*andef)) %>%
     # Year during which forest should have disappeared
-    mutate(yrdis=floor(2019 + for2019/andef))
+    mutate(yrdis=floor(2020 + for2020/andef))
 
 ## Corrections for Brazil with deforestation diffusion
-fcc_BRA <- read.table(file.path("/share/nas2-amap/gvieilledent", dataset, "Brazil/fcc_BRA_gfc.csv"), sep=",",
+fcc_BRA <- read.table(file.path(dir_fdb, dataset, "Brazil/fcc_BRA_gfc.csv"), sep=",",
                       header=TRUE, stringsAsFactors=FALSE)
-if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) {
-    fcc_tab2[fcc_tab2$cont=="Brazil", c(10:15)] <- round(fcc_BRA[, c(7, 9, 11, 13, 15, 18)])
+if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) { # Check order
+    fcc_tab2[fcc_tab2$cont=="Brazil", c(10:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
 }
 
 ## Save results
 write.table(fcc_tab2, file=file.path("Analysis", dataset, "results/forest_cover_change.csv"), sep=",", row.names=FALSE)
+
+## Graph showing the % decrease per continent with time compared with 2000.
 
 ## ===================
 ## Model parameters
@@ -201,7 +213,7 @@ long_var_names <- c("Intercept", "C(pa)[T.1.0]", "scale(altitude)",
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Parameter estimates
     f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
@@ -229,7 +241,7 @@ names(parea_tab) <- c("cont", "iso3", "Mean", "Sd", "CI_low", "CI_high")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Parameter estimates
     f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
@@ -257,7 +269,7 @@ names(road_tab) <- c("cont", "iso3", "Mean", "Sd", "CI_low", "CI_high")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Parameter estimates
     f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
@@ -281,21 +293,21 @@ write.table(road_tab, file=file.path("Analysis", dataset, "results/road_estimate
 parea_tab <- parea_tab %>%
     mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
 ## Percentage of country for which the effet of protected areas is significant
-perc_sign_PA <- 100*sum(parea_tab$sign==1)/nrow(parea_tab) ## 65%
+perc_sign_PA <- 100*sum(parea_tab$sign==1)/nrow(parea_tab) ## 68%
 ## Weighted percentage with forest size in 2010
 fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
 weights <- fcc_tab$for2010
-perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights) ## 89%
+perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights) ## 90%
 
 ## Significance road
 road_tab <- road_tab %>%
     mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
 ## Percentage of country for which the effet of protected areas is significant
-perc_sign_road <- 100*sum(road_tab$sign==1)/nrow(road_tab) ## 65%
+perc_sign_road <- 100*sum(road_tab$sign==1)/nrow(road_tab) ## 63%
 ## Weighted percentage with forest size in 2010
 fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
 weights <- fcc_tab$for2010
-perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights) ## 91%
+perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights) ## 88%
 
 ## Save results
 nctry <- length(fcc_tab$iso3)
@@ -318,7 +330,7 @@ names(Cem_tab) <- c("cont", "iso3", "C2035", "C2050", "C2055", "C2085", "C2100")
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path("/share/nas2-amap/gvieilledent", dataset, continent)
+    dir <- file.path(dir_fdb, dataset, continent)
     ## Carbon emissions
     f_name <- file.path(dir, iso, "/output/C_emissions.csv")
     Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
