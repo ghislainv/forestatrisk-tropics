@@ -8,20 +8,12 @@
 knocking
 
 # Data
-America/*
-!America/*.py
-!America/*.sge
-Asia/*
-!Asia/*.py
-!Asia/*.sge
-Africa/*
-!Africa/*.py
-!Africa/*.sge
 AGB/*
 */sample_allctry.csv
 Maps/Africa
 Maps/America
 Maps/Asia
+geemap/*.html
 
 # Singularity
 *.simg
