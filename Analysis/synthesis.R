@@ -188,7 +188,12 @@ fcc_tab2 <- fcc_tab %>%
     mutate(yrdis=floor(2020 + for2020/andef))
 
 ## Corrections for Brazil with deforestation diffusion
-fcc_BRA <- read.table(file.path(dir_fdb, dataset, "Brazil/fcc_BRA_gfc.csv"), sep=",",
+if (dataset=="gfc2020_70") {
+    fname_BRA <- "Brazil/fcc_BRA_gfc.csv"
+} elif (dataset=="jrc2020") {
+    fname_BRA <- "Brazil/fcc_BRA_jrc.csv"
+}
+fcc_BRA <- read.table(file.path(dir_fdb, dataset, fname_BRA), sep=",",
                       header=TRUE, stringsAsFactors=FALSE)
 if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) { # Check order
     fcc_tab2[fcc_tab2$cont=="Brazil", c(10:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
