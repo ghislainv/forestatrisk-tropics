@@ -13,7 +13,7 @@ library(knitr)
 library(kableExtra)
 
 # Working directory
-setwd("Manuscript")
+setwd("Manuscript/Supplementary_Materials")
 
 # Bookdown
 # pdf
@@ -25,7 +25,7 @@ params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- "Still some time to save the rainforests... but not everywhere"
+title_html <- 'SUPPLEMENTARY MATERIALS\nForecasting tropical moist forest cover change in the 21st century under a "business-as-usual" scenario'
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)

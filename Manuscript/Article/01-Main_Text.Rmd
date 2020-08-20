@@ -1,0 +1,7 @@
+# Introduction
+
+(brief introduction describing the paper's significance)
+
+In general, this should include a brief (1-2 paragraph) introduction, followed by a statement of the specific scope of the study, followed by results and then interpretations.
+
+# Results and discussion

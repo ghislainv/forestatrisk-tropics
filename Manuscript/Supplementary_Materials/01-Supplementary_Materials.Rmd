@@ -37,9 +37,7 @@ We used a random sample of 20,000 forest pixels in 2000 to fit the two models. T
 
 Parameter inference was done in a hierarchical Bayesian framework. Non-informative priors were used for all parameters: $\beta \sim \mathcal{N}ormal(\text{mean}=0,\text{var}=10^6)$ and $V_{\rho} \sim 1/\mathcal{G}amma(\text{shape}=0.05,\text{rate}=0.0005)$. We run a Markov Chain Monte Carlo (MCMC) of 7000 iterations. We discarded the first 2000 iterations (burn-in phase) and we thinned the chain each 5 iterations (to reduce autocorrelation between samples). We obtained 1000 estimates for each parameter. MCMC convergence was visually checked looking at MCMC traces and parameter posterior distributions. Function `model_binomial_iCAR()` from the `forestatrisk` Python package was used for parameter inference. This function calls an adaptive Metropolis-within-Gibbs algorithm [@Rosenthal2011] written in C for maximum computation speed. 
 
-## Model comparison and validation
-
-### Model comparison using percentage of deviance explained and cross-validation
+## Model comparison
 
 We computed the deviance $\mathcal{D}$ of the two models with the formula $\mathcal{D}=-2 \log \mathcal{L}$, $\mathcal{L}$ being the likelihood of the model, i.e. the probability of observing the data given the model and estimated parameters. We compared the deviance of the two models with the deviances of both the "null" model and the "full" model. The "null" model assumes a constant probability of deforestation for all theobservations and has only one parameter, the intercept of the linear relationship. At the other extreme, the "full" model has as many parameters as there are observations. We then computed the percentage of deviance explained by each model, considering that the "null" model explains 0% of the deviance and the "full" model explains 100% of the deviance.
 
@@ -47,11 +45,7 @@ We also performed a cross-validation to compare models using an independent vali
 
 Because the value of these indices depends on the deforestation rate [@Pontius2008], we computed the accuracy indices for various percentage of deforested pixels: 1, 5, 10, 25 and 50%. To do so, we selected subsamples of the deforested pixels in our validation data-set at random.
 
-### Comparing model forecasting skills
-
-#### Computing the spatial probability of deforestation in 2010
-
-We used the fitted models to predict the deforestation probability of all the forest pixels for the year 2010. Distances to forest edge in 2010 and to past deforestation in 2000--2010 were recomputed from forest cover maps in 2000 and 2010. All other explanatory variables were supposed constant. Spatial random effects were also supposed constant through time.
+## Computing the spatial probability of deforestation in 2010
 
 For the "icar" model, before computing the predictions of the deforestation probability, the spatial random effects at 10 km were interpolated at 1 km using a bicubic interpolation method. This was done in order to obtain spatial random effects at a resolution closer to the original forest raster resolution of 30 m, and to smooth the deforestation probability spatially. 
 
@@ -59,24 +53,8 @@ Deforestation probabilities (float values in the interval $[0, 1]$) were transfo
 
 In 2010, Madagascar was covered by 9.3 Mha of natural forest corresponding to more than 104 M pixels at 30 m resolution. Predictions were computed using functions `predict_raster*()` from the `forestatrisk` Python package which make computation fast and efficient (with low memory usage) by treating raster data by blocks.
 
-#### Forecasting forest cover change on the period 2010--2017
+## Forecasting forest cover change on the period 2010--2017
 
 We computed the observed deforestation $D$ (in ha) on the period 2010--2017 from the forest cover maps at these two dates. To forecast the forest cover change in 2010--2017 with our models, we used the previously derived maps of relative probability of deforestation in 2010. The resolution of these maps is $r=30$ m, equivalent to $r_{\text{ha}}=0.09$ ha. We computed a probability threshold $\theta_T$ in the interval $[\![1, 65535]\!]$ identifying the $n$ forest pixels in 2010 with the highest probability of deforestation so that $n r_{\text{ha}} = D + \epsilon$. Because deforestation probabilities have finite values in $[\![1, 65535]\!]$, some forest pixels might have the same deforestation probability and it might not be possible to identify $\theta_T$ such that $\epsilon=0$. We thus selected the threshold $\theta_T$ minimizing $\epsilon$. We obtained negligible $\epsilon$ ($<$ 32,000 ha) compared to $D$ (874,211 ha) for both models. We considered those $n$ forest pixels in 2010 as deforested on the period 2010--2017 and derived the forest cover change map on that period.
-
-#### Model validation on the period 2010--2017
-
-We compared the forest cover change maps obtained from the modelling and forecasting procedure with the observed forest cover change map on the period 2010--2017. Forest cover change maps have a high resolution of 30 m. At high resolution, a pixel-to-pixel comparison provides limited information on the spatial accuracy of the predictions because it ignores neighborhood relationships. To overcome this problem, a multiple resolution accuracy assessment can be performed [@Pontius2004]. Following the methodology proposed by @Pontius2004, we computed two accuracy indices, the Figure of Merit (FOM) and the Overall Accuracy (OA), at multiple resolutions from 30 m to 15 km. In our case, the "quantity disagreement" census @Pontius2004 between observations and predictions, equivalent to our previously estimated $\epsilon$, was assumed negligeable. The accuracy indices we computed allow us to estimate a "location disagreement" census @Pontius2004 between observations and predictions. Confusion matrices and accuracy indices at multiple resolutions were compute with functions `resample_sum()`, `confmat()`, and `accuracy()` from the `forestatrisk` Python package.
-
-### Comparing model outputs for long-term forecasts (2010--2050)
-
-To look at the consequences of using either the "glm" or the "icar" model for long-term forecasts, we forecasted deforestation on the period 2010--2050 using our two models calibrated on the period 2000--2010. Explanatory variables and spatial random effects were supposed constant for this period of time. We considered an "average" scenario assuming that annual deforestation on the period 2010--2050 would roughly be the same as the observed mean annual deforestion on the period 2000--2017 (84 Kha/yr, @Vieilledent2018data). Based on this "average" scenario, 3.4 Mha of natural forest should be deforested on the 40-year period 2010--2050. This would correspond to a future forest cover of 6.0 Mha in 2050.
-
-## Forecasting deforestation in Madagascar for 2017--2050 and 2050--2100
-
-We used only the "icar" model.
-
-Model parameters were re-estimated using data on the two periods 2000-2010 and 2010-2017. We selected 
-
-The second scenario takes into account the demographic growth in Madagascar, which is close to 3 \%/yr [@Raftery2012; @Vieilledent2013], and the link between population and deforestation. We considered the following model adapted from @Barnes1990: $\log(D_{t,t+1}) = \beta_0 + 0.607 \log(F_t) + 0.493 \log(P_t) + \varepsilon_t$ with $\varepsilon_t \sim \mathcal{N}ormal(0,\sigma^2)$, where $D_{t,t+1}$ is the mean annual deforestation (in ha/yr) between times $t$ and $t+1$, $F_t$ is the forest cover (in thousand hectares) at time $t$, and $P_t$ is the population size (in thousand people) at time $t$. This model was fitted to data from 22 African countries in 1980, but not including Madagascar. We assumed that the relationship between people and deforestation in continental Africa holds true for Madagascar as well, as deforestation is mainly due to small scale family farming in both regions [@Curtis2018]. Using historical deforestation data from @Vieilledent2018data on the interval 2000--2017 (4 different time periods) and population data from the United Nations World Population Prospect [@UN2017], we estimated parameters $\beta_0$ and $\sigma^2$ for Madagascar with a weighted linear regression (weights were equal to period length). We obtained $\beta_0 = -6.088$ and $\sigma^2 = 0.279$. Following @Barnes1990, we used this model to iteratively forecast deforestation and forest cover from 2017 to 2050 using a time step of 3 years for 2017-2020 and 5 years for 2020-2050 (Appendix 2). Based on this demographic scenario, 3.3 Mha should be deforested on the period 2017--2050, and 7.4 Mha on the period 2017--2100. This corresponds to a projected forest cover of 5.2 Mha in 2050 and 1.0 Mha in 2100.
 
 \newpage

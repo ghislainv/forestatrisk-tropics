@@ -1,6 +1,23 @@
-# Appendices
+# Tables
 
-## Appendix 1: Mathematical formulas for accuracy indices
+## Variables
+
+(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They described topography, forest accessibility, forest landscape, land tenure and deforestation history.\vspace{0.5cm} 
+
+```{r variables, results="asis", echo=FALSE}
+df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
+vect.align <- c(rep("l",3), rep("r",2))
+col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)")
+knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
+			 col.names=col.names,
+			 align=vect.align, linesep="") %>%
+	column_spec(c(1:3),width="3cm") %>%
+	column_spec(4,width="2cm") %>%
+	column_spec(5,width="3cm") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+## Mathematical formulas for accuracy indices
 
 (ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm} 
 
@@ -16,6 +33,7 @@ knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
 	kable_styling(latex_options=c("HOLD_position","striped"),
 				  full_width=FALSE, position="center")
 ```
+
 
 (ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix. \vspace{0.5cm} 
 

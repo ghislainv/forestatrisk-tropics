@@ -1,0 +1,64 @@
+---
+title: "`r params$title`"
+author: "`r params$author`"
+date: "`r params$date`"
+fontsize: 12pt
+output:
+  bookdown::gitbook:
+    number_sections: yes
+    split_by: chapter  
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: yes
+        before: null
+        after: null
+      toolbar:
+        position: fixed
+      edit: null
+      download: ["pdf"]
+      search: yes
+      fontsettings:
+        theme: white
+        family: sans
+        size: 2
+      sharing:
+        facebook: yes
+        twitter: yes
+        google: no
+        linkedin: no
+        weibo: no
+        instapper: no
+        vk: no
+        all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
+bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
+biblio-style: bib/jae.bst
+link-citations: yes
+csl: bib/journal-of-applied-ecology.csl
+---
+
+```{r options, echo=FALSE, results="hide"}
+library(bookdown)
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo=FALSE, cache=FALSE,
+               # results="hide", 
+               warning=FALSE,
+               message=FALSE, highlight=TRUE,
+               # fig.show="hide",
+			   size="small",
+               fig.align="center",
+               fig.pos="H",
+               tidy=FALSE)
+#load("forestatrisk-tropics.rda")
+```
+
+# Abstract {-}
+
+Tropical forests are disappearing at an alarming rate because of human activities. Here we modelled spatially the anthropogenic deforestation process in 119 tropical territories (X countries) including all the humid tropical forests in the world. We demonstrated the effectiveness of protectead areas at deplacing deforestation and the negative impact of road infrastructures on forest conservation globally. We derived high resolution global maps of the deforestation risk and likely future forest cover for the 21st century under a "business-as-usual" scenario. If large areas of tropical forest will still remain in 2100 at the heart of Amazon, in the Congo Basin and in New-Guinea, many countries will entirely loose their tropical forest before the end of the 21st century. The remaining forest will be strongly fragmented and located in remote places.
+
+**Keywords:** deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios.
+
+**Short title:** Forecasting tropical moist forest cover change.
+
+\newpage

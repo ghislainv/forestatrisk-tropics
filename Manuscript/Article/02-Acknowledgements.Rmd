@@ -1,0 +1,5 @@
+# Ackowledgements
+
+Authors warmly thank Rémy Dernat and Philippe Verley for their help on using the computing cluster of the Montpellier Bioinformatics Biodiversity (MBB) plateform. **Funding**: BioSceneMada project funded by FRB-FFEM (AAP-SCEN-2013 I), Roadless Forest funded by the European Commission, RELIQUES project funded by CNRT, LabEx CeMEB funded by ANR "Investissements d'avenir" program (ANR-10-LABX-04-01). **Authors contributions**: GV and FA conceived the study, CV provided the historical forest cover change maps and advices on using the deforestation annual product, GV performed the analysis and wrote the original draft, all authors reviewed and edited the final manuscript. **Competing interests**: All authors declare that they have no competing interests. **Data and materials availability**: All data, code, and materials used for the analysis are available on the following GitHub repository: https://github.com/ghislainv/forestatrisk-tropics.
+
+\newpage

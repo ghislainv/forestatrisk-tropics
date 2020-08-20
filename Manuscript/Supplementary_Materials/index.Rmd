@@ -53,12 +53,4 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
 #load("forestatrisk-tropics.rda")
 ```
 
-# Abstract {-}
-
-blabla
-
-**Keywords:** deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios
-
-Target journals (selection): _Nature_ (IF: x), _Science_ (IF: x), _Nature Climate Change_ (IF: x), _PNAS_ (IF: x).
-
 \newpage
