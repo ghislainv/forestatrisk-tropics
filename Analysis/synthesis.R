@@ -16,8 +16,8 @@ require(dplyr)
 setwd("/home/ghislain/Code/forestatrisk-tropics/")
 
 ## Dataset
-##dataset <- "gfc2020_70" 
-dataset <- "jrc2020"
+dataset <- "gfc2020_70" 
+##dataset <- "jrc2020"
 dir.create(file.path("Analysis", dataset, "results"), recursive=TRUE)
 
 ## Result directory
@@ -190,7 +190,7 @@ fcc_tab2 <- fcc_tab %>%
 ## Corrections for Brazil with deforestation diffusion
 if (dataset=="gfc2020_70") {
     fname_BRA <- "Brazil/fcc_BRA_gfc.csv"
-} elif (dataset=="jrc2020") {
+} else if (dataset=="jrc2020") {
     fname_BRA <- "Brazil/fcc_BRA_jrc.csv"
 }
 fcc_BRA <- read.table(file.path(dir_fdb, dataset, fname_BRA), sep=",",
