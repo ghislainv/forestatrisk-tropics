@@ -1,20 +1,56 @@
 # Tables
 
+## Categories of the forest cover annual product
+
+(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31st of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date.\vspace{0.5cm} 
+
+```{r cat-annual-product, results="asis", echo=FALSE}
+df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")
+vect.align <- c("l", "r")
+col.names <- c("Class", "Definition")
+knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	column_spec(1,width="2cm") %>%
+	column_spec(2,width="10cm") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
 ## Variables
 
-(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They described topography, forest accessibility, forest landscape, land tenure and deforestation history.\vspace{0.5cm} 
+(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm} 
 
 ```{r variables, results="asis", echo=FALSE}
 df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
-vect.align <- c(rep("l",3), rep("r",2))
-col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)")
+vect.align <- c(rep("l",3), rep("r",3))
+col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)","Date")
 knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
-			 col.names=col.names,
-			 align=vect.align, linesep="") %>%
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
 	column_spec(c(1:3),width="3cm") %>%
 	column_spec(4,width="2cm") %>%
 	column_spec(5,width="3cm") %>%
+	column_spec(5,width="2cm") %>%
 	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+## Sample size
+
+(ref:cap-samp-size) **Number of observations used for the spatial model of deforestation for each study area**. The table includes the number of non-deforested (nfor) and deforested (ndef) pixels per study area. These numbers include the forest pixels with full information regarding the explanatory variables. The corresponding number of hectares is also provided (nfHa and ndHa, respectively).\vspace{0.5cm} 
+
+```{r samp-size, results="asis", echo=FALSE}
+df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
+vect.align <- c(rep("l", 2), rep("r", 4))
+col.names <- c("Continent","iso3","nfor","ndef","nfHa","ndHa")
+knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center",
+								font_size=10)
 ```
 
 ## Mathematical formulas for accuracy indices
@@ -27,24 +63,24 @@ vect.align <- rep("l",2)
 col.names <- c("","","Observations","","Total")
 options(knitr.kable.NA="")
 knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
-			 escape=FALSE,
-			 col.names=col.names,
-			 align=vect.align, linesep="") %>%
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
 	kable_styling(latex_options=c("HOLD_position","striped"),
 				  full_width=FALSE, position="center")
 ```
 
 
-(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix. \vspace{0.5cm} 
+(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix.\vspace{0.5cm} 
 
 ```{r accuracy-indices, results="asis", echo=FALSE}
 df <- read.table("tables/accuracy-indices.txt", header=TRUE, sep=",")
 vect.align <- rep("l",2)
 col.names <- c("Index","Formula")
 knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
-			 escape=FALSE,
-			 col.names=col.names,
-			 align=vect.align, linesep="") %>%
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
 	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
 

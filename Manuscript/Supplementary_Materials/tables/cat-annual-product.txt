@@ -1,0 +1,17 @@
+Class; Definition
+1; Tropical moist forest (TMF including bamboo-dominated forest and mangroves)
+2; TMF converted later in a tree plantation
+3; NEW degradation
+4; Ongoing degradation (disturbances still detected)
+5; Degraded forest (former degradation, no disturbances detected anymore)
+6; NEW deforestation (may follow degradation)
+7; Ongoing deforestation (disturbances still detected)
+8; NEW Regrowth
+9; Regrowthing
+10; Other land cover (not water)
+11; Permanent Water (Pekel et al, 2015)
+12; Seasonal Water (Pekel et al, 2015)
+13; Init period without valid data - Init class = TMF
+14; Init period with min 1 valid obs - Init class = TMF
+15; Nodata - Init class = other LC
+16; Init period without valid data - Init class = Plantation

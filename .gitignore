@@ -7,6 +7,9 @@
 # ssh
 knocking
 
+# Manuscript
+Manuscript/*.pdf
+
 # Data
 AGB/*
 */sample_allctry.csv

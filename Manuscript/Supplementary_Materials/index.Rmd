@@ -46,7 +46,7 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
                warning=FALSE,
                message=FALSE, highlight=TRUE,
                # fig.show="hide",
-			   size="small",
+			         size="small",
                fig.align="center",
                fig.pos="H",
                tidy=FALSE)
