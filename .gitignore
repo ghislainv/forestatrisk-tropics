@@ -8,7 +8,8 @@
 knocking
 
 # Manuscript
-Manuscript/*.pdf
+Manuscript/Supplementary_Materials/doc/sm.pdf
+Manuscript/Article/doc/article.pdf
 
 # Data
 AGB/*
