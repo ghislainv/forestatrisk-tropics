@@ -10,7 +10,6 @@
 # Libraries
 library(bookdown)
 library(knitr)
-library(kableExtra)
 library(here)
 
 # ==============================================================================
@@ -51,6 +50,11 @@ bookdown::render_book("index.Rmd", output_format=docx_format)
 # ==============================================================================
 # Supplementary materials
 # ==============================================================================
+
+# Libraries
+require(bookdown)
+require(knitr)
+require(here)
 
 # Working directory
 setwd(here::here("Manuscript/Supplementary_Materials"))
