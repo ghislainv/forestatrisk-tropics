@@ -16,8 +16,8 @@ require(dplyr)
 setwd("/home/ghislain/Code/forestatrisk-tropics/")
 
 ## Dataset
-dataset <- "gfc2020_70" 
-##dataset <- "jrc2020"
+##dataset <- "gfc2020_70" 
+dataset <- "jrc2020"
 dir.create(file.path("Analysis", dataset, "results"), recursive=TRUE)
 
 ## Result directory

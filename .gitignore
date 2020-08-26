@@ -11,6 +11,12 @@ knocking
 Manuscript/Supplementary_Materials/doc/sm.pdf
 Manuscript/Article/doc/article.pdf
 
+# GIS data
+*.gpkg
+
+# Figures
+*.png
+
 # Data
 AGB/*
 */sample_allctry.csv
