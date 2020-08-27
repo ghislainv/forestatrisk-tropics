@@ -25,6 +25,18 @@ continent <- c("Africa", "America", "Asia")
 ncont <- length(continent)
 dir_fdb <- "/home/forestatrisk-tropics"
 
+## Equator
+eq <- st_linestring(rbind(c(-180,0), c(180,0)))
+eq_geom <- st_sfc(eq, crs=4326)
+eq_sf <- st_sf(id=1, geometry=eq_geom)
+
+## Tropics
+cancer <- st_linestring(rbind(c(-180,23.43661), c(180,23.43661)))
+capricorn <- st_linestring(rbind(c(-180,-23.43661), c(180,-23.43661)))
+trop_geom <- st_sfc(cancer, capricorn, crs=4326)
+trop_df <- data.frame(id=c(1,2),name=c("Cancer","Capricorn"))
+trop_sf <- st_sf(trop_df, row.names=trop_df$id, geometry=trop_geom)
+
 ## =======================
 ## Figures for study areas
 ## =======================
@@ -101,20 +113,25 @@ for (i in 1:ncont) {
 	borders <- st_read(f) 
 	if (dataset=="jrc2020" & cont=="Africa") {borders <- borders %>% filter(GID_0 != "STP")}
 	
-	## Bounding box
-	bb <- st_bbox(borders)
-	
 	## Map with tmap
-	tm <- tm_shape(gadm0_cont, bbox=bb) +
-		tm_fill() +
-		tm_shape(borders) +
-		tm_fill() +
-		tm_borders() +
-		tm_text("GID_0", size=0.8)
-	
+	tm <- 
+		tm_shape(eq_sf) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+		tm_shape(borders, is.master=TRUE) +
+		  tm_fill(col=grey(0.8)) +
+		  tm_borders(col="black") +
+		  tm_text("GID_0", size=0.7, auto.placement=FALSE)
+		
 }
 
-## Save maps
+## Save maps png
 tmap_save(tm, file=file.path("Maps", dataset, "maps", paste0("study_areas_", cont, ".png")))
+
+## Save maps svg (for modifications of label position with Inkscape)
+tmap_save(tm, file=file.path("Maps", dataset, "maps", paste0("study_areas_", cont, ".svg")))
 
 # EOF

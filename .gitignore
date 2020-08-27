@@ -16,6 +16,8 @@ Manuscript/Article/doc/article.pdf
 
 # Figures
 *.png
+*.svg
+!*ink.png
 
 # Data
 AGB/*
