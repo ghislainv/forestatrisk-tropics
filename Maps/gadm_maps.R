@@ -73,6 +73,18 @@ st_write(America, file.path("Maps", dataset, "maps", "borders_America.gpkg"), de
 ## Remove Brazil
 file.remove(file.path("Maps", dataset, "maps", "borders_Brazil.gpkg"))
 
+## Corrections for Asia on iso
+Asia_in <- st_read(file.path("Maps", dataset, "maps", "borders_Asia.gpkg"))
+Asia_df <- Asia_in %>%
+	st_drop_geometry() %>%
+	mutate(NAME_0=replace(as.character(NAME_0), c(4, 11, 13, 12, 16),
+												c("Western Ghats", "Andaman and Nicobar",
+													"North-East India", "Queensland", "Indonesia"))) %>%
+	mutate(GID_0=replace(as.character(GID_0), c(4, 11, 13, 12, 16),
+												c("WG", "AN", "NE", "QLD", "IDN")))
+Asia <- st_sf(Asia_df, geom=Asia_in$geom)
+st_write(Asia, file.path("Maps", dataset, "maps", "borders_Asia.gpkg"), delete_dsn=TRUE)
+
 ## Reset continents
 continent <- c("Africa", "America", "Asia")
 ncont <- length(continent)
@@ -157,12 +169,12 @@ for (i in 1:ncont) {
 		tm_shape(borders, is.master=TRUE) +
 		  tmap_options(max.categories=nrow(borders)+1) +
 		  #tm_fill(col=grey(0.8)) +
-		  tm_fill(col="GID_0", legend.show=FALSE) +
+		  tm_fill(col="GID_0", legend.show=FALSE, palette="cat") +
 		  tm_borders(col="black") +
 		  tm_text("GID_0", size="iso_size", auto.placement=FALSE, legend.size.show=FALSE)
 	
-	## Save maps as png
-	tmap_save(tm, file=file.path("Maps", dataset, "maps", paste0("study_areas_", cont, ".png")))
+	# ## Save maps as png
+	# tmap_save(tm, file=file.path("Maps", dataset, "maps", paste0("study_areas_", cont, ".png")))
 	## Save maps as svg (for modifications of label position with Inkscape)
 	tmap_save(tm, file=file.path("Maps", dataset, "maps", paste0("study_areas_", cont, ".svg")))
 		
