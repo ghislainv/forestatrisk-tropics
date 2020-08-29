@@ -9,8 +9,8 @@ Class; Definition
 8; NEW Regrowth
 9; Regrowthing
 10; Other land cover (not water)
-11; Permanent Water (Pekel et al, 2015)
-12; Seasonal Water (Pekel et al, 2015)
+11; Permanent Water (Pekel et al. 2016)
+12; Seasonal Water (Pekel et al. 2016)
 13; Init period without valid data - Init class = TMF
 14; Init period with min 1 valid obs - Init class = TMF
 15; Nodata - Init class = other LC

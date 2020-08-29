@@ -1,7 +1,40 @@
 # Introduction
 
-(brief introduction describing the paper's significance)
+Tropical forests are the "Jewels of the Earth". They shelter 30 million species of plants and animals representing half of the Earth's wildlife and at least two-thirds of its plant species [@Gibson2011; @Wilson2012]. They also play an important role in the global carbon cycle, and at regulating the global climate [@Baccini2017; @Pan2011; @Bonan2008]. At the local scale, they regulate the regional climate [@Dickinson1992], cooling the atmosphere [@Ellison2017; @DeFrenne2019], and facilitating access to water [@Ellison2017]. They also provide protection against erosion and flooding [@Bradshaw2007]. Close to 1.6 billion people (a quarter of the world's population) rely on forest resources for their livelihoods [@FAO2015]. Despite the many ecosystem services they provide, tropical forests are disappearing at an alarming rate [@Keenan2015; @Hansen2013; @Vancutsem2020; @Achard2014], mostly because of human activites [@Curtis2018; @Geist2001]. Currently, around 8 Mha (twice the size of Switzerland) of tropical forest are disappearing each year [@FAO2015]. At this rate, will there still be tropical forests in 2100 and where will they be concentrated?
 
-In general, this should include a brief (1-2 paragraph) introduction, followed by a statement of the specific scope of the study, followed by results and then interpretations.
+Statistical modelling of deforestation can help understand better the deforestation process, identifying the main drivers of deforestation and quantifying their relative effects. Regarding roads, modelling deforestation can help assess the impact of roads on the risk of deforestation and anticipate the changes in forest-cover associated to the potential development of road infrastructure.
 
-# Results and discussion
+Spatial forecast of tropical deforestation and inform policy makers on what's going to happen if they do nothing versus what is likely to happen in response to decisions.
+
+In this study, we present the first attempt to model and forecast tropical deforestation globally using high resolution data.
+
+# Spatial model of deforestation
+
+- Some methodological information
+
+# Effectiveness of protected areas
+
+# Road's impact on deforestation
+
+# Remaining forests in 2100
+
+
+- Countries having lost their forest
+- Residual fragmented forest
+- Intact forest blocks
+
+# Impact on ecosystem services
+
+- Impact on carbon emissions
+- Biodiversity loss (map of biodiversity)
+- Risk of zoonose and pandemy associated to deforestation
+
+# Priority areas for conservation
+
+- Refuge areas
+- Impact on policies
+- Various scenarios: map of probability can be used with different scenarios regarding deforestation intensity.
+
+# Importance of assessing tropical forest resilience to climate change
+
+[@Vieilledent2016; @Zellweger2020; @Esquivel-Muelbert2018]
