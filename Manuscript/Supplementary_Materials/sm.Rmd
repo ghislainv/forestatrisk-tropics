@@ -1,3 +1,62 @@
+---
+title: "`r params$title`"
+author: "`r params$author`"
+date: "`r params$date`"
+fontsize: 12pt
+output:
+  bookdown::gitbook:
+    number_sections: yes
+    split_by: chapter  
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: yes
+        before: null
+        after: null
+      toolbar:
+        position: fixed
+      edit: null
+      download: ["pdf"]
+      search: yes
+      fontsettings:
+        theme: white
+        family: sans
+        size: 2
+      sharing:
+        facebook: yes
+        twitter: yes
+        google: no
+        linkedin: no
+        weibo: no
+        instapper: no
+        vk: no
+        all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
+bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
+biblio-style: bib/jae.bst
+link-citations: yes
+csl: bib/journal-of-applied-ecology.csl
+---
+
+```{r options, echo=FALSE, results="hide"}
+library(bookdown)
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo=FALSE, cache=FALSE,
+               # results="hide", 
+               warning=FALSE,
+               message=FALSE, highlight=TRUE,
+               # fig.show="hide",
+			         size="small",
+               fig.align="center",
+               fig.pos="H",
+               tidy=FALSE)
+#load("forestatrisk-tropics.rda")
+```
+
+\newpage
+
+<!--chapter:end:index.Rmd-->
+
 # Materials and Methods
 
 ## Study areas
@@ -82,3 +141,120 @@ We computed the observed deforestation $D$ (in ha) on the period 2010--2017 from
 
 
 \newpage
+
+<!--chapter:end:01-Supplementary_Materials.Rmd-->
+
+# Tables
+
+## Categories of the forest cover annual product
+
+(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm} 
+
+```{r cat-annual-product, results="asis", echo=FALSE}
+df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")
+vect.align <- c("l", "r")
+col.names <- c("Class", "Definition")
+knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	column_spec(1,width="2cm") %>%
+	column_spec(2,width="10cm") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+## Variables
+
+(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm} 
+
+```{r variables, results="asis", echo=FALSE}
+df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
+vect.align <- c(rep("l",3), rep("r",3))
+col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)","Date")
+knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	column_spec(c(1:3),width="3cm") %>%
+	column_spec(4,width="2cm") %>%
+	column_spec(5,width="3cm") %>%
+	column_spec(5,width="2cm") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+## Sample size
+
+(ref:cap-samp-size) **Number of observations used for the spatial model of deforestation for each study area**. The table includes the number of non-deforested (nfor) and deforested (ndef) pixels per study area. These numbers include the forest pixels with full information regarding the explanatory variables. The corresponding number of hectares is also provided (nfHa and ndHa, respectively).\vspace{0.5cm} 
+
+```{r samp-size, results="asis", echo=FALSE}
+df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
+vect.align <- c(rep("l", 2), rep("r", 4))
+col.names <- c("Continent","iso3","nfor","ndef","nfHa","ndHa")
+knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center",
+								font_size=10)
+```
+
+## Mathematical formulas for accuracy indices
+
+(ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm} 
+
+```{r confusion-matrix, results="asis", echo=FALSE}
+df <- read.table("tables/confusion-matrix.txt", header=TRUE, sep=",")
+vect.align <- rep("l",2)
+col.names <- c("","","Observations","","Total")
+options(knitr.kable.NA="")
+knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"),
+				  full_width=FALSE, position="center")
+```
+
+
+(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix.\vspace{0.5cm} 
+
+```{r accuracy-indices, results="asis", echo=FALSE}
+df <- read.table("tables/accuracy-indices.txt", header=TRUE, sep=",")
+vect.align <- rep("l",2)
+col.names <- c("Index","Formula")
+knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+\newpage
+
+<!--chapter:end:02-Tables-S.Rmd-->
+
+# Figures
+
+(ref:cap-study-areas) **Study areas in the three continents: America, Africa, and Asia**. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guyana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
+
+```{r study-areas-am, out.width="\\textwidth", fig.cap=NULL}
+knitr::include_graphics(c("figures/study_areas_America_ink.png"))
+```
+
+```{r study-areas-af, out.width="\\textwidth", fig.cap=NULL}
+knitr::include_graphics(c("figures/study_areas_Africa_ink.png"))
+```
+
+```{r study-areas, out.width="\\textwidth", fig.cap="(ref:cap-study-areas)"}
+knitr::include_graphics(c("figures/study_areas_Asia_ink.png"))
+```
+
+\newpage
+
+<!--chapter:end:03-Figures-S.Rmd-->
+
+# References {-}
+
+<!--chapter:end:04-References.Rmd-->
+

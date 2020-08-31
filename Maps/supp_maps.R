@@ -43,10 +43,12 @@ ctry_PROJ <- st_read(ctry_PROJ_shp)
 proj <- st_crs(ctry_PROJ)
 
 ## Resample r at 500m resolution with gdal
-in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
-out_f <- file.path("Maps", dataset, "fcc123_COD_500m.tif")
-system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
-							-co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_500m.tif")
+if (!file.exists(out_f)) {
+  in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
+  system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
 
 ## Raster of historical deforestation 2000-2010-2020
 r <- read_stars(out_f)
