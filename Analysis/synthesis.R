@@ -131,10 +131,13 @@ perf_mod <- ind_tab %>%
 ## 3. Summarize per cont and mod
 perf_cont_mod <- ind_tab %>% 
     mutate(w=weights) %>%
+    mutate(cont=ifelse(cont=="Brazil", "America", cont)) %>%
+    mutate(cont_id=ifelse(cont=="America", 1, ifelse(cont=="Africa", 2, 3))) %>%
     group_by(cont, mod) %>%
     summarize(D=weighted.mean(D, w), AUC=weighted.mean(AUC,w),
               OA=weighted.mean(OA,w), FOM=weighted.mean(FOM,w),
-              TSS=weighted.mean(TSS,w))
+              TSS=weighted.mean(TSS,w)) %>%
+    arrange(cont_id)
 
 ## Save results
 write.table(ind_tab, file=file.path("Analysis", dataset, "results/performance_index.csv"), sep=",", row.names=FALSE)
