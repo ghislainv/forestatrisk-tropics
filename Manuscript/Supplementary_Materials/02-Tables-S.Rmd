@@ -84,4 +84,21 @@ knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
 	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
 
+## Accuracy indices
+
+(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged accross study areas using areas of forest cover in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
+
+```{r accuracy, results="asis", echo=FALSE}
+df.cat <- read.table("tables/perf_mod.csv", header=TRUE, sep=",")
+vect.align <- c(rep("l", 1), rep("r", 5))
+col.names <- c("Model","D","AUC","OA","FOM","TSS")
+knitr::kable(df.cat, caption="(ref:cap-accuracy)", booktabs=TRUE,
+						 escape=FALSE,
+						 digits=1,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+
 \newpage

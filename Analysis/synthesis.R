@@ -10,10 +10,11 @@
 ## Libraries
 ## require(readr)
 require(dplyr)
+require(here)
 ## require(ggplot2)
 
 ## Set working directory
-setwd("/home/ghislain/Code/forestatrisk-tropics/")
+setwd(here())
 
 ## Dataset
 ##dataset <- "gfc2020_70" 
@@ -116,8 +117,29 @@ for (i in 1:nctry) {
     ind_tab[3*(i-1)+3, 13:14] <- c(nfor, ndefor)
 }
 
+## Performance per continent
+## 1. Weighted percentage with forest size in 2010
+fcc_tab <- read.table(file.path("Analysis", dataset, "results/forest_cover_change.csv"), header=TRUE, sep=",")
+weights <- rep(fcc_tab$for2010, each=3)
+## 2. Summarize per mod
+perf_mod <- ind_tab %>% 
+    mutate(w=weights) %>%
+    group_by(mod) %>%
+    summarize(D=weighted.mean(D, w), AUC=weighted.mean(AUC,w),
+              OA=weighted.mean(OA,w), FOM=weighted.mean(FOM,w),
+              TSS=weighted.mean(TSS,w))
+## 3. Summarize per cont and mod
+perf_cont_mod <- ind_tab %>% 
+    mutate(w=weights) %>%
+    group_by(cont, mod) %>%
+    summarize(D=weighted.mean(D, w), AUC=weighted.mean(AUC,w),
+              OA=weighted.mean(OA,w), FOM=weighted.mean(FOM,w),
+              TSS=weighted.mean(TSS,w))
+
 ## Save results
 write.table(ind_tab, file=file.path("Analysis", dataset, "results/performance_index.csv"), sep=",", row.names=FALSE)
+write.table(perf_mod, file=file.path("Analysis", dataset, "results/perf_mod.csv"), sep=",", row.names=FALSE)
+write.table(perf_cont_mod, file=file.path("Analysis", dataset, "results/perf_cont_mod.csv"), sep=",", row.names=FALSE)
 
 ## =================
 ## Sample size
