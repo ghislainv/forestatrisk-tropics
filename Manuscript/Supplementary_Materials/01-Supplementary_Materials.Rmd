@@ -99,6 +99,10 @@ We also developed another smaller Python module called `pywdpa` that allows down
 
 While the raw results of our study (which implied intensive computations on large raster data) were obtained using the Python programming language, the summarized results (tables and figures) presented in this article (main text and supplementary materials) were obtained using the R software [@R2020].
 
+## Repeating the analysis with the tree cover loss product by @Hansen2013
+
+We performed the exact same analysis replacing historical forest cover change maps derived from the annual product of @Vancutsem2020 by forest cover change maps derived from the tree cover products of @Hansen2013. We assumed that the extent of the natural old-growth moist tropical forest cover in 2000 could be approximated by using a tree cover >70% at this date [@Vieilledent2018; @Aleman2017a]. Then, we used the tree cover loss provided by @Hansen2013 on the periods 2001-2009 and 2010-2019 to derive pantropical forest cover change maps on the periods 2000-2010-2020 at 30 m resolution. All the results we obtained were robust to the change of the historical forest cover change map. Results obtained with the forest cover change maps dervied from the tree cover products of @Hansen2013 are available on the CIRAD Dataverse repository (see below).
+
 ## Reproducibility of the results
 
 All the data and code used for this study have been made permanently and publicly available on the CIRAD Dataverse repository so that the results are entirely reproducible.
