@@ -86,7 +86,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
 
 ## Accuracy indices
 
-(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged accross study areas using areas of forest cover in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
+(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged accross study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
 
 ```{r accuracy, results="asis", echo=FALSE}
 df.cat <- read.table("tables/perf_mod.csv", header=TRUE, sep=",")
@@ -97,11 +97,11 @@ knitr::kable(df.cat, caption="(ref:cap-accuracy)", booktabs=TRUE,
 						 digits=1,
 						 col.names=col.names,
 						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+	kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2), full_width=FALSE, position="center")
 ```
 
 
-(ref:cap-accuracy-cont) **Accuracy indices' weighted averages by continent/region for the three statistical models**. Accuracy indices were averaged accross the study study areas of each continent/region using areas of forest cover in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
+(ref:cap-accuracy-cont) **Accuracy indices' weighted averages for the three statistical models by continent**. Accuracy indices were averaged accross study areas for each continent using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
 
 ```{r accuracy-cont, results="asis", echo=FALSE}
 df.cat <- read.table("tables/perf_cont_mod.csv", header=TRUE, sep=",")
@@ -112,7 +112,9 @@ knitr::kable(df.cat, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 						 digits=1,
 						 col.names=col.names,
 						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+  kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2,5,8,11), full_width=FALSE, position="center") %>%
+  column_spec(1, bold=TRUE) %>%
+  collapse_rows(columns=1, latex_hline = "major", valign = "middle")
 ```
 
 \newpage
