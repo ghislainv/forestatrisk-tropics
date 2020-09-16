@@ -150,13 +150,14 @@ write.table(perf_cont_mod, file=file.path("Analysis", dataset, "results/perf_con
 ## =================
 
 ## Create table to store results
-samp_size_tab <- data.frame(matrix(NA, nrow=nctry, ncol=4))
-names(samp_size_tab) <- c("cont", "iso3", "nfor", "ndef")
+samp_size_tab <- data.frame(matrix(NA, nrow=nctry, ncol=5))
+names(samp_size_tab) <- c("cont", "ctry", "iso3", "nfor", "ndef")
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+    country <- as.character(ctry_df$ctry_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
     ## Sample size
     f_name <- file.path(dir, iso, "output/sample_size.csv")
@@ -164,13 +165,41 @@ for (i in 1:nctry) {
     nfor <- samp_size_df$n[samp_size_df$var=="nfor"]
     ndef <- samp_size_df$n[samp_size_df$var=="ndefor"]
     ## Fill in the table
-    samp_size_tab[i, 1:2] <- c(continent, iso)
-    samp_size_tab[i, 3:4] <- c(nfor, ndef)
+    samp_size_tab[i, 1:3] <- c(continent, country, iso)
+    samp_size_tab[i, 4:5] <- c(nfor, ndef)
 }
 
 ## Equivalence in ha
 samp_size_tab$nforHa <- round(samp_size_tab$nfor*30*30/10000)
 samp_size_tab$ndefHa <- round(samp_size_tab$ndef*30*30/10000)
+
+## Updating continent, country, region and code
+samp_size_tab <- samp_size_tab %>%
+    # Continent
+    mutate(cont2=ifelse(cont=="Brazil", "America", cont)) %>%
+    # Country
+    mutate(ctry2=ifelse(cont=="Brazil", "Brazil", ctry)) %>%
+    mutate(ctry2=ifelse(iso3=="AUS-QLD", "Australia", ctry2)) %>%
+    mutate(ctry2=ifelse(iso3=="IND-AND", "India", ctry2)) %>%
+    mutate(ctry2=ifelse(iso3=="IND-WEST", "India", ctry2)) %>%
+    mutate(ctry2=ifelse(iso3=="IND-EAST", "India", ctry2)) %>%
+    # Region
+    mutate(region=ifelse(cont=="Brazil", ctry, "")) %>%
+    mutate(region=ifelse(iso3=="AUS-QLD", "Queensland", region)) %>%
+    mutate(region=ifelse(iso3=="IND-AND", "Andaman and N.", region)) %>%
+    mutate(region=ifelse(iso3=="IND-WEST", "West. Ghats", region)) %>%
+    mutate(region=ifelse(iso3=="IND-EAST", "North-East", region)) %>%
+    # Code
+    mutate(code=ifelse(cont=="Brazil", substr(iso3,5,6), iso3)) %>%
+    mutate(code=ifelse(iso3=="AUS-QLD", "QLD", code)) %>%
+    mutate(code=ifelse(iso3=="IND-AND", "AN", code)) %>%
+    mutate(code=ifelse(iso3=="IND-WEST", "WG", code)) %>%
+    mutate(code=ifelse(iso3=="IND-EAST", "NE", code)) %>%
+    # Id
+    mutate(id=ifelse(cont2=="America", 1, ifelse(cont=="Brazil", 2, ifelse(cont=="Africa", 3, 4)))) %>%
+    arrange(id, ctry2) %>%
+    # Select columns
+    select(cont2, ctry2, region, code, nfor, ndef, nforHa, ndefHa)
 
 ## Save results
 write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
