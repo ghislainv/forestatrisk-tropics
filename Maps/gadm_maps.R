@@ -134,7 +134,7 @@ for (i in 1:ncont) {
 	iso3_cont <- World %>%
 		st_drop_geometry() %>%
 		filter(continent %in% cont_world) %>%
-		select(iso_a3) %>%
+		dplyr::select(iso_a3) %>%
 		pull() %>%
 		as.character()
 	
@@ -179,7 +179,5 @@ for (i in 1:ncont) {
 	tmap_save(tm, file=file.path("Maps", dataset, "maps", paste0("study_areas_", cont, ".svg")))
 		
 }
-
-
 
 # EOF
