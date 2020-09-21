@@ -85,43 +85,10 @@ asp <- (xy$xmax - xy$xmin)/(xy$ymax - xy$ymin)
 ## Viewport for inset
 w <- 0.25
 h <- asp * w
-vp <- viewport(x=0.025, y=0.975, width=w, height=h, just=c("left", "top"))
+vp_Afr <- viewport(x=0.025, y=0.975, width=w, height=h, just=c("left", "top"))
 
 #=========================================
-# Historical deforestation map
-#=========================================
-
-## Resample r at 500m resolution with gdal
-out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_500m.tif")
-if (!file.exists(out_f)) {
-  in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
-  system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
-							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
-}
-
-## Raster of historical deforestation 2000-2010-2020
-r <- read_stars(out_f)
-
-## Deforestation color
-orange <- rgb(255, 165, 0, 255, maxColorValue=255)
-red <- rgb(227, 26, 28, 255, maxColorValue=255)
-green <- rgb(34, 139, 34, 255, maxColorValue=255)
-	
-## Plot with tmap
-tm_COD_fcc <- 
-	tm_shape(r) +
-	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
-	  tm_raster(palette=c(orange, red, green),
-		  				style="cat", legend.show=FALSE) +
-  tm_shape(ctry_PROJ) +
-	  tm_borders(col="black")
-
-## Save plot
-tmap_save(tm_COD_fcc, file=file.path("Maps", dataset, "maps", "fcc123_COD.png"),
-					insets_tm=tm_Afr, insets_vp=vp)
-
-#=========================================
-# Zoom with sample points
+# Zoom on fcc
 #=========================================
 
 #' Function to compute zoom extent on same grid as raster
@@ -144,40 +111,165 @@ zoom_grid <- function(rast, x_zoom_start, y_zoom_start, size_x_start, size_y_sta
 	y_zoom <- r_ymin + ((y_zoom_start - r_ymin) %/% res[2]) * res[2]
 	size_x <- size_x_start - (size_x_start %% res[1])
 	size_y <- size_y_start - (size_y_start %% res[2])
-	return(paste(x_zoom, y_zoom, x_zoom+size_x, y_zoom+size_y))
+	return(list(xmin=x_zoom, ymin=y_zoom, xmax=x_zoom+size_x, ymax=y_zoom+size_y))
 }
 
 ## Zoom on region with gdal
 in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
+z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000, 
+									 size_x_start=48000, size_y_start=48000)
+
+## Rectangle polygon for zoom
+rect_ext <- extent(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax)
+rect_bbox <- st_bbox(rect_ext, crs=3395)
+rect_geom <- st_as_sfc(rect_bbox)
+rect <- st_sf(id=1, geometry=rect_geom)
+
+## Zoom on region with gdal
 out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
-z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3280000, y_zoom_start=55000, 
-									 size_x_start=16000, size_y_start=16000)
+z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
 if (!file.exists(out_f)) {
-	system(paste0('gdalwarp -te ', z_ext,' -overwrite \\
+	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
 							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
 }
 
-## Import zoom raster
+## Deforestation color
+orange <- rgb(255, 165, 0, 255, maxColorValue=255)
+red <- rgb(227, 26, 28, 255, maxColorValue=255)
+green <- rgb(34, 139, 34, 255, maxColorValue=255)
+
+## Plot
+r_zoom <- read_stars(out_f)
+tm_COD_fcc_zoom <- 
+	tm_shape(r_zoom) +
+	tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+  tm_raster(palette=c(orange, red, green),
+  					style="cat", legend.show=FALSE)
+
+## Aspect ratio
+asp <- (z_ext$xmax - z_ext$xmin)/(z_ext$ymax - z_ext$ymin)
+
+## Viewport for inset
+w <- 0.25
+h <- asp * w
+vp_COD_fcc_zoom <- viewport(x=0.025, y=0.025, width=w, height=h, just=c("left", "bottom"))
+
+#=========================================
+# Historical deforestation map
+#=========================================
+
+## Resample r at 500m resolution with gdal
+out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_500m.tif")
+if (!file.exists(out_f)) {
+  in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
+  system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Raster of historical deforestation 2000-2010-2020
 r <- read_stars(out_f)
 
+## Plot with tmap
+tm_COD_fcc <- 
+	tm_shape(r) +
+	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+	  tm_raster(palette=c(orange, red, green),
+		  				style="cat", legend.show=FALSE) +
+  tm_shape(ctry_PROJ) +
+	  tm_borders(col="black") +
+	tm_shape(rect) +
+	  tm_borders(col="black", lwd=2)
+
+## Save plot
+f <- file.path("Maps", dataset, "maps", "fcc123_COD.png")
+tmap_save(tm_COD_fcc, file=f,
+					insets_tm=list(tm_Afr,tm_COD_fcc_zoom), insets_vp=list(vp_Afr,vp_COD_fcc_zoom))
+
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "fcc123_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+#=========================================
+# Extra zoom on fcc
+#=========================================
+
+## Zoom on region with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
+z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3274440, y_zoom_start=60800, 
+									 size_x_start=1795, size_y_start=1795)
+
+## Rectangle polygon for zoom
+rect_ext <- extent(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax)
+rect_bbox <- st_bbox(rect_ext, crs=3395)
+rect_geom <- st_as_sfc(rect_bbox)
+rect <- st_sf(id=1, geometry=rect_geom)
+
+## Zoom on region with gdal
+out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
+z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
+if (!file.exists(out_f)) {
+	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
 ## Deforestation color
-orange <- rgb(255, 165, 0, 130, maxColorValue=255)
-red <- rgb(227, 26, 28, 130, maxColorValue=255)
-green <- rgb(34, 139, 34, 130, maxColorValue=255)
+orange <- rgb(255, 165, 0, 255, maxColorValue=255)
+red <- rgb(227, 26, 28, 255, maxColorValue=255)
+green <- rgb(34, 139, 34, 255, maxColorValue=255)
+
+## Deforestation color with transparency
+orange_transp <- rgb(255, 165, 0, 100, maxColorValue=255)
+red_transp <- rgb(227, 26, 28, 100, maxColorValue=255)
+green_transp <- rgb(34, 139, 34, 100, maxColorValue=255)
 
 ## Sampled points for COD
 in_f_sp <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "sample.txt")
 sp_df <- read.table(in_f_sp, header=TRUE, sep=",")
 sp_COD <- st_as_sf(sp_df, coords = c("X", "Y"), crs=3395)
 
-## Plot with tmap
-tm_COD_zoom <- 
-	tm_shape(r) +
-	tm_raster(palette=c(orange, red, green),
-						style="cat", legend.show=FALSE) +
-	tm_shape(ctry_PROJ) +
-	tm_borders(col="black") +
+## Plot
+in_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
+r_zoom_extra <- read_stars(in_f)
+tm_COD_fcc_zoom_extra <- 
+	tm_shape(r_zoom_extra) +
+	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
+						  style="cat", legend.show=FALSE) +
 	tm_shape(sp_COD) +
-	tm_dots(size=1, shape=21)
+	  tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
+					  palette=c(red, green), legend.show=FALSE)
+
+#=========================================
+# Zoom with sample points
+#=========================================
+
+## Import zoom raster
+in_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
+r <- read_stars(in_f)
+
+## Plot with tmap
+tm_COD_fcc_zoom <- 
+	tm_shape(r) +
+	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
+						  style="cat", legend.show=FALSE) +
+	tm_shape(rect) +
+	  tm_borders(col="black", lwd=2) +
+	tm_shape(sp_COD) +
+	  tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
+					  palette=c(red, green), legend.show=FALSE)
+
+## Arrange plot with grid package
+f <- file.path("Maps", dataset, "maps", "sample_COD.png")
+png(filename=f, width=1000, height=500)
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(1,2)))
+print(tm_COD_fcc_zoom, vp=viewport(layout.pos.col=1))
+print(tm_COD_fcc_zoom_extra, vp=viewport(layout.pos.col=2))
+dev.off()
+
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF

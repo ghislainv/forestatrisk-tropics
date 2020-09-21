@@ -1,17 +1,41 @@
 # Figures
 
+<!--------------------------------------------->
+<!-- Study areas -->
+<!--------------------------------------------->
+
 (ref:cap-study-areas) **Study areas in the three continents: America, Africa, and Asia**. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guyana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
 
 ```{r study-areas-am, out.width="\\textwidth", fig.cap=NULL}
-knitr::include_graphics(c("figures/study_areas_America_ink.png"))
+knitr::include_graphics(c("figures/study_areas_America.png"))
 ```
 
 ```{r study-areas-af, out.width="\\textwidth", fig.cap=NULL}
-knitr::include_graphics(c("figures/study_areas_Africa_ink.png"))
+knitr::include_graphics(c("figures/study_areas_Africa.png"))
 ```
 
 ```{r study-areas, out.width="\\textwidth", fig.cap="(ref:cap-study-areas)"}
-knitr::include_graphics(c("figures/study_areas_Asia_ink.png"))
+knitr::include_graphics(c("figures/study_areas_Asia.png"))
+```
+
+<!--------------------------------------------->
+<!-- Historical forest cover change maps -->
+<!--------------------------------------------->
+
+(ref:cap-fcc-maps) **Historical forest cover change maps**.
+
+```{r fcc-maps, out.width="\\textwidth", fig.cap="(ref:cap-fcc-maps)"}
+knitr::include_graphics(c("figures/fcc123_COD.png"))
+```
+
+<!--------------------------------------------->
+<!-- Sampling -->
+<!--------------------------------------------->
+
+(ref:cap-sampling) **Sampling**.
+
+```{r sampling, out.width="\\textwidth", fig.cap="(ref:cap-sampling)"}
+knitr::include_graphics(c("figures/sample_COD.png"))
 ```
 
 \newpage
