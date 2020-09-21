@@ -132,4 +132,17 @@ def run_combine(index_cont):
 #for index_cont in range(ncont):
 run_combine(index_cont)
 
+
+# # ===================
+# # Resample for Maxime
+# # ===================
+
+# subprocess.call("gdalinfo AnthropogenicPressure.tif", shell=True)
+# subprocess.call("gdalinfo prob.tif", shell=True)
+# subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -r average \
+# -ot UInt16 -t_srs EPSG:4326 \
+# -te 7.9999248 -6.0000216 29.9999160 7.4999730 -tr 0.00833333 0.00833333 \
+# -co 'COMPRESS=DEFLATE' -co 'PREDICTOR=2' -co 'BIGTIFF=YES' \
+# prob.tif prob_10km.tif", shell=True)
+
 # EOF
