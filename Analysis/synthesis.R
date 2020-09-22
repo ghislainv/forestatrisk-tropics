@@ -189,6 +189,8 @@ samp_size_tab <- samp_size_tab %>%
     mutate(region=ifelse(iso3=="IND-AND", "Andaman and N.", region)) %>%
     mutate(region=ifelse(iso3=="IND-WEST", "West. Ghats", region)) %>%
     mutate(region=ifelse(iso3=="IND-EAST", "North-East", region)) %>%
+    # Country-Study-area
+    mutate(ctry_area=ifelse()) %>%
     # Code
     mutate(code=ifelse(cont=="Brazil", substr(iso3,5,6), iso3)) %>%
     mutate(code=ifelse(iso3=="AUS-QLD", "QLD", code)) %>%
