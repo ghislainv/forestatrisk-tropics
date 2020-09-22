@@ -199,7 +199,7 @@ samp_size_tab <- samp_size_tab %>%
     mutate(id=ifelse(cont2=="America", 1, ifelse(cont=="Brazil", 2, ifelse(cont=="Africa", 3, 4)))) %>%
     arrange(id, ctry2) %>%
     # Select columns
-    select(cont2, ctry2, region, code, nfor, ndef, nforHa, ndefHa)
+    dplyr::select(cont2, ctry2, region, code, nfor, ndef, nforHa, ndefHa)
 
 ## Save results
 write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
