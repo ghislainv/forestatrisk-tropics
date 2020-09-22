@@ -22,7 +22,7 @@ knitr::include_graphics(c("figures/study_areas_Asia.png"))
 <!-- Historical forest cover change maps -->
 <!--------------------------------------------->
 
-(ref:cap-fcc-maps) **Historical forest cover change maps**.
+(ref:cap-fcc-maps) **Historical forest cover change maps**. This figure shows the forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2020. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/tropics>.
 
 ```{r fcc-maps, out.width="\\textwidth", fig.cap="(ref:cap-fcc-maps)"}
 knitr::include_graphics(c("figures/fcc123_COD.png"))
@@ -32,7 +32,7 @@ knitr::include_graphics(c("figures/fcc123_COD.png"))
 <!-- Sampling -->
 <!--------------------------------------------->
 
-(ref:cap-sampling) **Sampling**.
+(ref:cap-sampling) **Data sampling for spatial modelling of the deforestation**. Map on the left corresponds to the bottom left inset in Fig. \@ref(fig:fcc-maps) representing a zoom of the forest cover change map on the period 2000--2010--2020 for an area at the North-East of the Democratic Republic of the Congo. Map on the right presents an inner zoom showing the delimitation of the 30 m forest pixels with three sample points. We used a stratified balanced sampling between (i) forest pixels in 2010 which have been deforested on the period 2010--2020 ("deforested" pixels in \textcolor{red}{red}), and (ii) forest pixels in 2010 which have not been deforested on that period of time and which represent the remaining forest in 2020 ("non-deforested" pixels in \textcolor{darkgreen}{green}). Forest pixels in each category were sampled randomly.
 
 ```{r sampling, out.width="\\textwidth", fig.cap="(ref:cap-sampling)"}
 knitr::include_graphics(c("figures/sample_COD.png"))
