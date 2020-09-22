@@ -1,120 +1,120 @@
-"cont","iso3","nfor","ndef","nforHa","ndefHa"
-"Africa","AGO",10000,10000,900,900
-"Africa","BDI",10000,9999,900,900
-"Africa","BEN",9981,9995,898,900
-"Africa","CAF",10000,10000,900,900
-"Africa","CIV",10000,10000,900,900
-"Africa","CMR",22983,22987,2068,2069
-"Africa","COD",50000,50000,4500,4500
-"Africa","COG",23412,23411,2107,2107
-"Africa","COM",9990,9984,899,899
-"Africa","ETH",10000,10000,900,900
-"Africa","GAB",23986,23966,2159,2157
-"Africa","GHA",9999,10000,900,900
-"Africa","GIN",9978,9998,898,900
-"Africa","GMB",9988,9999,899,900
-"Africa","GNB",9882,9977,889,898
-"Africa","GNQ",9997,9988,900,899
-"Africa","KEN",9986,9998,899,900
-"Africa","LBR",9999,9997,900,900
-"Africa","MDG",9994,9998,899,900
-"Africa","MUS",9968,9969,897,897
-"Africa","MWI",10000,10000,900,900
-"Africa","MYT",9963,9983,897,898
-"Africa","NGA",9984,9995,899,900
-"Africa","REU",9996,9995,900,900
-"Africa","RWA",10000,10000,900,900
-"Africa","SEN",9892,9976,890,898
-"Africa","SLE",9997,9999,900,900
-"Africa","SSD",5737,7613,516,685
-"Africa","TGO",10000,9999,900,900
-"Africa","TZA",9983,9970,898,897
-"Africa","UGA",10000,10000,900,900
-"Africa","ZMB",10000,10000,900,900
-"America","ATG",9840,6336,886,570
-"America","BHS",9923,9946,893,895
-"America","BLZ",9995,9999,900,900
-"America","BOL",30476,30476,2743,2743
-"America","BRB",9958,8251,896,743
-"America","COL",49995,49999,4500,4500
-"America","CRI",9997,9991,900,899
-"America","CUB",9955,9958,896,896
-"America","DMA",9991,9878,899,889
-"America","DOM",9992,9997,899,900
-"America","ECU",14395,14395,1296,1296
-"America","GLP",9979,9923,898,893
-"America","GRD",9974,9928,898,894
-"America","GTM",9999,9999,900,900
-"America","GUF",10000,10000,900,900
-"America","GUY",18511,18511,1666,1666
-"America","HND",9997,9999,900,900
-"America","HTI",9952,9970,896,897
-"America","JAM",9988,9996,899,900
-"America","KNA",9988,4614,899,415
-"America","LCA",9994,9967,899,897
-"America","MAF",3156,3808,284,343
-"America","MEX",9994,9997,899,900
-"America","MSR",9982,1258,898,113
-"America","MTQ",9972,9973,897,898
-"America","NIC",9999,9999,900,900
-"America","PAN",9996,9994,900,899
-"America","PER",50000,50000,4500,4500
-"America","PRI",9993,9984,899,899
-"America","PRY",10000,10000,900,900
-"America","SLV",9965,9982,897,898
-"America","SUR",13699,13698,1233,1233
-"America","SXM",1305,1396,117,126
-"America","TTO",9993,9984,899,899
-"America","VCT",9981,9792,898,881
-"America","VEN",41916,41911,3772,3772
-"America","VGB",9869,9851,888,887
-"America","VIR",9945,9874,895,889
-"Asia","AUS-QLD",9979,9984,898,899
-"Asia","BGD",9962,9993,897,899
-"Asia","BRN",9989,9997,899,900
-"Asia","BTN",10000,10000,900,900
-"Asia","FJI",9983,9957,898,896
-"Asia","IDN",49967,49984,4497,4499
-"Asia","IND-AND",9950,9908,896,892
-"Asia","IND-WEST",9989,9990,899,899
-"Asia","IND-EAST",9997,10000,900,900
-"Asia","KHM",9993,9999,899,900
-"Asia","LAO",10000,10000,900,900
-"Asia","LKA",10000,9993,900,899
-"Asia","MMR",16076,16078,1447,1447
-"Asia","MYS",20199,20209,1818,1819
-"Asia","NCL",9961,9932,896,894
-"Asia","PHL",13251,13251,1193,1193
-"Asia","PNG",39738,39691,3576,3572
-"Asia","SGP",9904,9961,891,896
-"Asia","SLB",9939,9853,895,887
-"Asia","THA",9990,9997,899,900
-"Asia","TLS",9994,9966,899,897
-"Asia","VNM",9998,10000,900,900
-"Asia","VUT",9977,9925,898,893
-"Brazil","BRA-AC",13164,13164,1185,1185
-"Brazil","BRA-AL",9996,9998,900,900
-"Brazil","BRA-AM",50000,50000,4500,4500
-"Brazil","BRA-AP",11466,11469,1032,1032
-"Brazil","BRA-BA",9986,9998,899,900
-"Brazil","BRA-CE",9996,9999,900,900
-"Brazil","BRA-ES",9989,9999,899,900
-"Brazil","BRA-GO",10000,10000,900,900
-"Brazil","BRA-MA",9987,9997,899,900
-"Brazil","BRA-MG",10000,10000,900,900
-"Brazil","BRA-MS",10000,10000,900,900
-"Brazil","BRA-MT",31678,31678,2851,2851
-"Brazil","BRA-PA",49999,49999,4500,4500
-"Brazil","BRA-PB",9973,10000,898,900
-"Brazil","BRA-PE",9964,9999,897,900
-"Brazil","BRA-PI",10000,10000,900,900
-"Brazil","BRA-PR",9996,10000,900,900
-"Brazil","BRA-RJ",9994,9991,899,899
-"Brazil","BRA-RN",9949,9992,895,899
-"Brazil","BRA-RO",12964,12964,1167,1167
-"Brazil","BRA-RR",15548,15548,1399,1399
-"Brazil","BRA-RS",10000,9999,900,900
-"Brazil","BRA-SC",9999,10000,900,900
-"Brazil","BRA-SE",9970,9999,897,900
-"Brazil","BRA-SP",9997,9997,900,900
-"Brazil","BRA-TO",10000,10000,900,900
+"cont2","ctry2","region","code","nfor","ndef","nforHa","ndefHa"
+"America","Antigua and B.","","ATG",9840,6336,886,570
+"America","Bahamas","","BHS",9923,9946,893,895
+"America","Barbados","","BRB",9958,8251,896,743
+"America","Belize","","BLZ",9995,9999,900,900
+"America","Bolivia","","BOL",30476,30476,2743,2743
+"America","Brazil","Acre","AC",13164,13164,1185,1185
+"America","Brazil","Alagoas","AL",9996,9998,900,900
+"America","Brazil","Amazonas","AM",50000,50000,4500,4500
+"America","Brazil","Amapa","AP",11466,11469,1032,1032
+"America","Brazil","Bahia","BA",9986,9998,899,900
+"America","Brazil","Ceara","CE",9996,9999,900,900
+"America","Brazil","Espirito Santo","ES",9989,9999,899,900
+"America","Brazil","Goias","GO",10000,10000,900,900
+"America","Brazil","Maranhao","MA",9987,9997,899,900
+"America","Brazil","Minas Gerais","MG",10000,10000,900,900
+"America","Brazil","Mato Grosso do Sul","MS",10000,10000,900,900
+"America","Brazil","Mato Grosso","MT",31678,31678,2851,2851
+"America","Brazil","Para","PA",49999,49999,4500,4500
+"America","Brazil","Paraiba","PB",9973,10000,898,900
+"America","Brazil","Pernambouco","PE",9964,9999,897,900
+"America","Brazil","Piaui","PI",10000,10000,900,900
+"America","Brazil","Parana","PR",9996,10000,900,900
+"America","Brazil","Rio de Janeiro","RJ",9994,9991,899,899
+"America","Brazil","Rio Grande do Norte","RN",9949,9992,895,899
+"America","Brazil","Rondonia","RO",12964,12964,1167,1167
+"America","Brazil","Roraima","RR",15548,15548,1399,1399
+"America","Brazil","Rio Grande do Sul","RS",10000,9999,900,900
+"America","Brazil","Santa Catarina","SC",9999,10000,900,900
+"America","Brazil","Sergipe","SE",9970,9999,897,900
+"America","Brazil","Sao Paulo","SP",9997,9997,900,900
+"America","Brazil","Tocantins","TO",10000,10000,900,900
+"America","Colombia","","COL",49995,49999,4500,4500
+"America","Costa Rica","","CRI",9997,9991,900,899
+"America","Cuba","","CUB",9955,9958,896,896
+"America","Dominica","","DMA",9991,9878,899,889
+"America","Dominican Rep.","","DOM",9992,9997,899,900
+"America","Ecuador","","ECU",14395,14395,1296,1296
+"America","El Salvador","","SLV",9965,9982,897,898
+"America","French Guiana","","GUF",10000,10000,900,900
+"America","Grenada","","GRD",9974,9928,898,894
+"America","Guadeloupe","","GLP",9979,9923,898,893
+"America","Guatemala","","GTM",9999,9999,900,900
+"America","Guyana","","GUY",18511,18511,1666,1666
+"America","Haiti","","HTI",9952,9970,896,897
+"America","Honduras","","HND",9997,9999,900,900
+"America","Jamaica","","JAM",9988,9996,899,900
+"America","Martinique","","MTQ",9972,9973,897,898
+"America","Mexico","","MEX",9994,9997,899,900
+"America","Montserrat","","MSR",9982,1258,898,113
+"America","Nicaragua","","NIC",9999,9999,900,900
+"America","Panama","","PAN",9996,9994,900,899
+"America","Paraguay","","PRY",10000,10000,900,900
+"America","Peru","","PER",50000,50000,4500,4500
+"America","Puerto Rico","","PRI",9993,9984,899,899
+"America","Saint Kitts and N.","","KNA",9988,4614,899,415
+"America","Saint Lucia","","LCA",9994,9967,899,897
+"America","Saint Martin","","MAF",3156,3808,284,343
+"America","Saint Vincent","","VCT",9981,9792,898,881
+"America","Sint Maarten","","SXM",1305,1396,117,126
+"America","Suriname","","SUR",13699,13698,1233,1233
+"America","Trinidad and Tobago","","TTO",9993,9984,899,899
+"America","Venezuela","","VEN",41916,41911,3772,3772
+"America","Virgin Isl. UK","","VGB",9869,9851,888,887
+"America","Virgin Isl. US","","VIR",9945,9874,895,889
+"Africa","Angola","","AGO",10000,10000,900,900
+"Africa","Benin","","BEN",9981,9995,898,900
+"Africa","Burundi","","BDI",10000,9999,900,900
+"Africa","Cameroon","","CMR",22983,22987,2068,2069
+"Africa","CAR","","CAF",10000,10000,900,900
+"Africa","Comoros","","COM",9990,9984,899,899
+"Africa","Congo","","COG",23412,23411,2107,2107
+"Africa","DRC","","COD",50000,50000,4500,4500
+"Africa","Eq. Guinea","","GNQ",9997,9988,900,899
+"Africa","Ethiopia","","ETH",10000,10000,900,900
+"Africa","Gabon","","GAB",23986,23966,2159,2157
+"Africa","Gambia","","GMB",9988,9999,899,900
+"Africa","Ghana","","GHA",9999,10000,900,900
+"Africa","Guinea","","GIN",9978,9998,898,900
+"Africa","Guinea Bissau","","GNB",9882,9977,889,898
+"Africa","Ivory Coast","","CIV",10000,10000,900,900
+"Africa","Kenya","","KEN",9986,9998,899,900
+"Africa","Liberia","","LBR",9999,9997,900,900
+"Africa","Madagascar","","MDG",9994,9998,899,900
+"Africa","Malawi","","MWI",10000,10000,900,900
+"Africa","Mauritius","","MUS",9968,9969,897,897
+"Africa","Mayotte","","MYT",9963,9983,897,898
+"Africa","Nigeria","","NGA",9984,9995,899,900
+"Africa","Reunion","","REU",9996,9995,900,900
+"Africa","Rwanda","","RWA",10000,10000,900,900
+"Africa","Senegal","","SEN",9892,9976,890,898
+"Africa","Sierra Leone","","SLE",9997,9999,900,900
+"Africa","South Sudan","","SSD",5737,7613,516,685
+"Africa","Tanzania","","TZA",9983,9970,898,897
+"Africa","Togo","","TGO",10000,9999,900,900
+"Africa","Uganda","","UGA",10000,10000,900,900
+"Africa","Zambia","","ZMB",10000,10000,900,900
+"Asia","Australia","Queensland","QLD",9979,9984,898,899
+"Asia","Bangladesh","","BGD",9962,9993,897,899
+"Asia","Bhutan","","BTN",10000,10000,900,900
+"Asia","Brunei","","BRN",9989,9997,899,900
+"Asia","Cambodia","","KHM",9993,9999,899,900
+"Asia","Fiji","","FJI",9983,9957,898,896
+"Asia","India","Andaman and N.","AN",9950,9908,896,892
+"Asia","India","West. Ghats","WG",9989,9990,899,899
+"Asia","India","North-East","NE",9997,10000,900,900
+"Asia","Indonesia","","IDN",49967,49984,4497,4499
+"Asia","Laos","","LAO",10000,10000,900,900
+"Asia","Malaysia","","MYS",20199,20209,1818,1819
+"Asia","Myanmar","","MMR",16076,16078,1447,1447
+"Asia","New Caledonia","","NCL",9961,9932,896,894
+"Asia","Papua New Guinea","","PNG",39738,39691,3576,3572
+"Asia","Philippines","","PHL",13251,13251,1193,1193
+"Asia","Singapore","","SGP",9904,9961,891,896
+"Asia","Solomon Isl.","","SLB",9939,9853,895,887
+"Asia","Sri Lanka","","LKA",10000,9993,900,899
+"Asia","Thailand","","THA",9990,9997,899,900
+"Asia","Timor-Leste","","TLS",9994,9966,899,897
+"Asia","Vanuatu","","VUT",9977,9925,898,893
+"Asia","Vietnam","","VNM",9998,10000,900,900
