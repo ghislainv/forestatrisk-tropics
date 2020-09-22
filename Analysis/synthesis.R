@@ -190,7 +190,7 @@ samp_size_tab <- samp_size_tab %>%
     mutate(region=ifelse(iso3=="IND-WEST", "West. Ghats", region)) %>%
     mutate(region=ifelse(iso3=="IND-EAST", "North-East", region)) %>%
     # Country-Study-area
-    mutate(ctry_area=ifelse()) %>%
+    mutate(ctry_area=ifelse(region=="", ctry2, paste(ctry2, region, sep=" - "))) %>%
     # Code
     mutate(code=ifelse(cont=="Brazil", substr(iso3,5,6), iso3)) %>%
     mutate(code=ifelse(iso3=="AUS-QLD", "QLD", code)) %>%
@@ -201,7 +201,10 @@ samp_size_tab <- samp_size_tab %>%
     mutate(id=ifelse(cont2=="America", 1, ifelse(cont=="Brazil", 2, ifelse(cont=="Africa", 3, 4)))) %>%
     arrange(id, ctry2) %>%
     # Select columns
-    dplyr::select(cont2, ctry2, region, code, nfor, ndef, nforHa, ndefHa)
+    dplyr::select(cont2, ctry_area, code, nfor, ndef, nforHa, ndefHa) %>%
+    # Add total
+    dplyr::add_row(cont2="All continents", ctry_area="TOTAL", code="", 
+            nfor=sum(.$nfor), ndef=sum(.$ndef), nforHa=sum(.$nforHa), ndefHa=sum(.$ndefHa))
 
 ## Save results
 write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
