@@ -150,86 +150,74 @@ write.table(perf_cont_mod, file=file.path("Analysis", dataset, "results/perf_con
 ## =================
 
 ## Create table to store results
-samp_size_tab <- data.frame(matrix(NA, nrow=nctry, ncol=5))
-names(samp_size_tab) <- c("cont", "ctry", "iso3", "nfor", "ndef")
+samp_size_tab <- data.frame(matrix(NA, nrow=nctry, ncol=6))
+names(samp_size_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", "nfor", "ndef")
 
 ## Loop on countries
 for (i in 1:nctry) {
+    ## File path
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    country <- as.character(ctry_df$ctry_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
+    ## Area info
+    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
     ## Sample size
     f_name <- file.path(dir, iso, "output/sample_size.csv")
     samp_size_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     nfor <- samp_size_df$n[samp_size_df$var=="nfor"]
     ndef <- samp_size_df$n[samp_size_df$var=="ndefor"]
     ## Fill in the table
-    samp_size_tab[i, 1:3] <- c(continent, country, iso)
-    samp_size_tab[i, 4:5] <- c(nfor, ndef)
+    samp_size_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
+    samp_size_tab[i, 5:6] <- cbind(nfor, ndef)
 }
 
 ## Equivalence in ha
 samp_size_tab$nforHa <- round(samp_size_tab$nfor*30*30/10000)
 samp_size_tab$ndefHa <- round(samp_size_tab$ndef*30*30/10000)
 
-## Updating continent, country, region and code
-samp_size_tab <- samp_size_tab %>%
-    # Continent
-    mutate(cont2=ifelse(cont=="Brazil", "America", cont)) %>%
-    # Country
-    mutate(ctry2=ifelse(cont=="Brazil", "Brazil", ctry)) %>%
-    mutate(ctry2=ifelse(iso3=="AUS-QLD", "Australia", ctry2)) %>%
-    mutate(ctry2=ifelse(iso3=="IND-AND", "India", ctry2)) %>%
-    mutate(ctry2=ifelse(iso3=="IND-WEST", "India", ctry2)) %>%
-    mutate(ctry2=ifelse(iso3=="IND-EAST", "India", ctry2)) %>%
-    # Region
-    mutate(region=ifelse(cont=="Brazil", ctry, "")) %>%
-    mutate(region=ifelse(iso3=="AUS-QLD", "Queensland", region)) %>%
-    mutate(region=ifelse(iso3=="IND-AND", "Andaman and N.", region)) %>%
-    mutate(region=ifelse(iso3=="IND-WEST", "West. Ghats", region)) %>%
-    mutate(region=ifelse(iso3=="IND-EAST", "North-East", region)) %>%
-    # Country-Study-area
-    mutate(ctry_area=ifelse(region=="", ctry2, paste(ctry2, region, sep=" - "))) %>%
-    # Code
-    mutate(code=ifelse(cont=="Brazil", substr(iso3,5,6), iso3)) %>%
-    mutate(code=ifelse(iso3=="AUS-QLD", "QLD", code)) %>%
-    mutate(code=ifelse(iso3=="IND-AND", "AN", code)) %>%
-    mutate(code=ifelse(iso3=="IND-WEST", "WG", code)) %>%
-    mutate(code=ifelse(iso3=="IND-EAST", "NE", code)) %>%
+## Sort continents, select col, and add total
+samp_size_tab2 <- samp_size_tab %>%
     # Id
-    mutate(id=ifelse(cont2=="America", 1, ifelse(cont=="Brazil", 2, ifelse(cont=="Africa", 3, 4)))) %>%
-    arrange(id, ctry2) %>%
+    mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    arrange(id, area_name) %>%
     # Select columns
-    dplyr::select(cont2, ctry_area, code, nfor, ndef, nforHa, ndefHa) %>%
+    dplyr::select(area_cont, area_name, area_code, nfor, ndef, nforHa, ndefHa) %>%
     # Add total
-    dplyr::add_row(cont2="All continents", ctry_area="TOTAL", code="", 
+    dplyr::add_row(area_cont="All continents", area_name="TOTAL", area_code="", 
             nfor=sum(.$nfor), ndef=sum(.$ndef), nforHa=sum(.$nforHa), ndefHa=sum(.$ndefHa))
 
 ## Save results
-write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
+write.table(samp_size_tab2, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
 
 ## ===================
 ## Forest cover change
 ## ===================
 
 ## Create table to store results
-fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=8))
-names(fcc_tab) <- c("cont", "ctry", "iso3", "for2000", "for2005", "for2010", "for2015", "for2020")
+fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=9))
+names(fcc_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", "for2000", "for2005", "for2010", "for2015", "for2020")
 
 ## Loop on countries
 for (i in 1:nctry) {
+    ## File path
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    country <- as.character(ctry_df$ctry_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
+    ## Area info
+    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
     ## Forest cover change
     f_name <- file.path(dir, iso, "/output/forest_cover.txt")
     fcc_df <- read.table(f_name, header=FALSE, sep=",", stringsAsFactors=FALSE)
-    area <- round(fcc_df[, 1])
+    area_df <- round(fcc_df[, 1])
     ## Fill in the table
-    fcc_tab[i,1:3] <- c(continent, country, iso)
-    fcc_tab[i,4:8] <- area
+    fcc_tab[i,1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
+    fcc_tab[i,5:9] <- area_df
 }
 
 ## Annual defor
@@ -260,35 +248,13 @@ if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) { # Check order
     fcc_tab2[fcc_tab2$cont=="Brazil", c(11:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
 }
 
-## Updating continent, country, region and code
+## Sort continents, and select col
 fcc_tab3 <- fcc_tab2 %>%
-    # Continent
-    mutate(cont2=ifelse(cont=="Brazil", "America", cont)) %>%
-    # Country
-    mutate(ctry2=ifelse(cont=="Brazil", "Brazil", ctry)) %>%
-    mutate(ctry2=ifelse(iso3=="AUS-QLD", "Australia", ctry2)) %>%
-    mutate(ctry2=ifelse(iso3=="IND-AND", "India", ctry2)) %>%
-    mutate(ctry2=ifelse(iso3=="IND-WEST", "India", ctry2)) %>%
-    mutate(ctry2=ifelse(iso3=="IND-EAST", "India", ctry2)) %>%
-    # Region
-    mutate(region=ifelse(cont=="Brazil", ctry, "")) %>%
-    mutate(region=ifelse(iso3=="AUS-QLD", "Queensland", region)) %>%
-    mutate(region=ifelse(iso3=="IND-AND", "Andaman and N.", region)) %>%
-    mutate(region=ifelse(iso3=="IND-WEST", "West. Ghats", region)) %>%
-    mutate(region=ifelse(iso3=="IND-EAST", "North-East", region)) %>%
-    # Country-Study-area
-    mutate(ctry_area=ifelse(region=="", ctry2, paste(ctry2, region, sep=" - "))) %>%
-    # Code
-    mutate(code=ifelse(cont=="Brazil", substr(iso3,5,6), iso3)) %>%
-    mutate(code=ifelse(iso3=="AUS-QLD", "QLD", code)) %>%
-    mutate(code=ifelse(iso3=="IND-AND", "AN", code)) %>%
-    mutate(code=ifelse(iso3=="IND-WEST", "WG", code)) %>%
-    mutate(code=ifelse(iso3=="IND-EAST", "NE", code)) %>%
     # Id
-    mutate(id=ifelse(cont2=="America", 1, ifelse(cont=="Brazil", 2, ifelse(cont=="Africa", 3, 4)))) %>%
-    arrange(id, ctry2) %>%
+    mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    arrange(id, area_name) %>%
     # Select columns
-    dplyr::select(cont2, ctry2, ctry_area, code, for2000:yrdis)
+    dplyr::select(area_cont, area_ctry, area_name, area_code, for2000:yrdis)
 
 ## Save results
 write.table(fcc_tab3, file=file.path("Analysis", dataset, "results/forest_cover_change.csv"), sep=",", row.names=FALSE)
