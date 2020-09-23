@@ -42,15 +42,21 @@ knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
 
 ```{r samp-size, results="asis", echo=FALSE}
 df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
+df.cat <- df.cat[,-c(1)]
 vect.align <- c(rep("l", 2), rep("r", 4))
-col.names <- c("Continent","iso3","nfor","ndef","nfHa","ndHa")
+col.names <- c("Country - Study-area","iso3","nfor","ndef","nfHa","ndHa")
 knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
 						 format.args=list(big.mark=","),
 						 escape=FALSE,
 						 col.names=col.names,
 						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center",
-								font_size=10)
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE,
+	              position="center", font_size=11) %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+  pack_rows("All continents", 120, 120)
+
 ```
 
 ## Mathematical formulas for accuracy indices
