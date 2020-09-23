@@ -214,21 +214,22 @@ write.table(samp_size_tab, file=file.path("Analysis", dataset, "results/samp_siz
 ## ===================
 
 ## Create table to store results
-fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=7))
-names(fcc_tab) <- c("cont", "iso3", "for2000", "for2005", "for2010", "for2015", "for2020")
+fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=8))
+names(fcc_tab) <- c("cont", "ctry", "iso3", "for2000", "for2005", "for2010", "for2015", "for2020")
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+    country <- as.character(ctry_df$ctry_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
     ## Forest cover change
     f_name <- file.path(dir, iso, "/output/forest_cover.txt")
     fcc_df <- read.table(f_name, header=FALSE, sep=",", stringsAsFactors=FALSE)
     area <- round(fcc_df[, 1])
     ## Fill in the table
-    fcc_tab[i,1:2] <- c(continent, iso)
-    fcc_tab[i,3:7] <- area
+    fcc_tab[i,1:3] <- c(continent, country, iso)
+    fcc_tab[i,4:8] <- area
 }
 
 ## Annual defor
@@ -256,11 +257,41 @@ if (dataset=="gfc2020_70") {
 fcc_BRA <- read.table(file.path(dir_fdb, dataset, fname_BRA), sep=",",
                       header=TRUE, stringsAsFactors=FALSE)
 if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) { # Check order
-    fcc_tab2[fcc_tab2$cont=="Brazil", c(10:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
+    fcc_tab2[fcc_tab2$cont=="Brazil", c(11:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
 }
 
+## Updating continent, country, region and code
+fcc_tab3 <- fcc_tab2 %>%
+    # Continent
+    mutate(cont2=ifelse(cont=="Brazil", "America", cont)) %>%
+    # Country
+    mutate(ctry2=ifelse(cont=="Brazil", "Brazil", ctry)) %>%
+    mutate(ctry2=ifelse(iso3=="AUS-QLD", "Australia", ctry2)) %>%
+    mutate(ctry2=ifelse(iso3=="IND-AND", "India", ctry2)) %>%
+    mutate(ctry2=ifelse(iso3=="IND-WEST", "India", ctry2)) %>%
+    mutate(ctry2=ifelse(iso3=="IND-EAST", "India", ctry2)) %>%
+    # Region
+    mutate(region=ifelse(cont=="Brazil", ctry, "")) %>%
+    mutate(region=ifelse(iso3=="AUS-QLD", "Queensland", region)) %>%
+    mutate(region=ifelse(iso3=="IND-AND", "Andaman and N.", region)) %>%
+    mutate(region=ifelse(iso3=="IND-WEST", "West. Ghats", region)) %>%
+    mutate(region=ifelse(iso3=="IND-EAST", "North-East", region)) %>%
+    # Country-Study-area
+    mutate(ctry_area=ifelse(region=="", ctry2, paste(ctry2, region, sep=" - "))) %>%
+    # Code
+    mutate(code=ifelse(cont=="Brazil", substr(iso3,5,6), iso3)) %>%
+    mutate(code=ifelse(iso3=="AUS-QLD", "QLD", code)) %>%
+    mutate(code=ifelse(iso3=="IND-AND", "AN", code)) %>%
+    mutate(code=ifelse(iso3=="IND-WEST", "WG", code)) %>%
+    mutate(code=ifelse(iso3=="IND-EAST", "NE", code)) %>%
+    # Id
+    mutate(id=ifelse(cont2=="America", 1, ifelse(cont=="Brazil", 2, ifelse(cont=="Africa", 3, 4)))) %>%
+    arrange(id, ctry2) %>%
+    # Select columns
+    dplyr::select(cont2, ctry2, ctry_area, code, for2000:yrdis)
+
 ## Save results
-write.table(fcc_tab2, file=file.path("Analysis", dataset, "results/forest_cover_change.csv"), sep=",", row.names=FALSE)
+write.table(fcc_tab3, file=file.path("Analysis", dataset, "results/forest_cover_change.csv"), sep=",", row.names=FALSE)
 
 ## Graph showing the % decrease per continent with time compared with 2000.
 
