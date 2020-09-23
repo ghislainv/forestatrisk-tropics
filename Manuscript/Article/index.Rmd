@@ -41,6 +41,7 @@ csl: bib/journal-of-applied-ecology.csl
 library(bookdown)
 library(knitr)
 library(kableExtra)
+library(dplyr)
 opts_chunk$set(echo=FALSE, cache=FALSE,
                # results="hide", 
                warning=FALSE,
