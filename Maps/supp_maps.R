@@ -218,9 +218,9 @@ red <- rgb(227, 26, 28, 255, maxColorValue=255)
 green <- rgb(34, 139, 34, 255, maxColorValue=255)
 
 ## Deforestation color with transparency
-orange_transp <- rgb(255, 165, 0, 100, maxColorValue=255)
-red_transp <- rgb(227, 26, 28, 100, maxColorValue=255)
-green_transp <- rgb(34, 139, 34, 100, maxColorValue=255)
+orange_transp <- rgb(255, 165, 0, 130, maxColorValue=255)
+red_transp <- rgb(227, 26, 28, 130, maxColorValue=255)
+green_transp <- rgb(34, 139, 34, 130, maxColorValue=255)
 
 ## Sampled points for COD
 in_f_sp <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "sample.txt")

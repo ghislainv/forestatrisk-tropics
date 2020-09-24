@@ -190,7 +190,12 @@ samp_size_tab2 <- samp_size_tab %>%
             nfor=sum(.$nfor), ndef=sum(.$ndef), nforHa=sum(.$nforHa), ndefHa=sum(.$ndefHa))
 
 ## Save results
-write.table(samp_size_tab2, file=file.path("Analysis", dataset, "results/samp_size.csv"), sep=",", row.names=FALSE)
+f <- file.path("Analysis", dataset, "results/samp_size.csv")
+write.table(samp_size_tab2, file=f, sep=",", row.names=FALSE)
+
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
 ## Forest cover change
@@ -257,7 +262,12 @@ fcc_tab3 <- fcc_tab2 %>%
     dplyr::select(area_cont, area_ctry, area_name, area_code, for2000:yrdis)
 
 ## Save results
-write.table(fcc_tab3, file=file.path("Analysis", dataset, "results/forest_cover_change.csv"), sep=",", row.names=FALSE)
+f <- file.path("Analysis", dataset, "results/forest_cover_change.csv")
+write.table(fcc_tab3, file=f, sep=",", row.names=FALSE)
+
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## Graph showing the % decrease per continent with time compared with 2000.
 
