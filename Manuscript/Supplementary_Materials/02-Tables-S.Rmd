@@ -164,7 +164,7 @@ df <- df %>%
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 5))
 col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
-knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=TRUE,
+knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALSE,
 						 format.args=list(big.mark=","),
 						 escape=FALSE,
 						 col.names=col.names,
@@ -217,7 +217,7 @@ df <- df %>%
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
 col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr95dis")
-knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=TRUE,
+knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
 						 format.args=list(big.mark=","),
 						 escape=FALSE,
 						 col.names=col.names,
