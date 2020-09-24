@@ -128,7 +128,7 @@ knitr::kable(df.cat, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 
 ## Historical forest cover change
 
-(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the 2010--2020 period is given in hectare per year (ha/yr). For comparison of the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm} 
+(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm} 
 
 ```{r fcc-hist, results="asis", echo=FALSE}
 ## Import data
