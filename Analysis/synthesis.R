@@ -194,7 +194,7 @@ f <- file.path("Analysis", dataset, "results/samp_size.csv")
 write.table(samp_size_tab2, file=f, sep=",", row.names=FALSE)
 
 ## Copy for manuscript
-f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables", "samp_size.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
@@ -249,8 +249,11 @@ if (dataset=="gfc2020_70") {
 }
 fcc_BRA <- read.table(file.path(dir_fdb, dataset, fname_BRA), sep=",",
                       header=TRUE, stringsAsFactors=FALSE)
-if (all(fcc_BRA$iso3==fcc_tab2$iso3[fcc_tab2$cont=="Brazil"])) { # Check order
-    fcc_tab2[fcc_tab2$cont=="Brazil", c(11:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
+## Check order and replace with correct values for Brazil
+codes_fcc <- paste0("BRA-",fcc_tab2$area_code[fcc_tab2$area_ctry=="Brazil"])
+codes_BRA <- fcc_BRA$iso3
+if (all(codes_fcc==codes_BRA)) {
+    fcc_tab2[fcc_tab2$area_ctry=="Brazil", c(12:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
 }
 
 ## Sort continents, and select col
@@ -266,10 +269,71 @@ f <- file.path("Analysis", dataset, "results/forest_cover_change.csv")
 write.table(fcc_tab3, file=f, sep=",", row.names=FALSE)
 
 ## Copy for manuscript
-f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables", "forest_cover_change.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## Graph showing the % decrease per continent with time compared with 2000.
+
+## =========================================
+## Forest cover change summarized per region
+## =========================================
+
+## Load previous fcc table
+f <- file.path("Analysis", dataset, "results/forest_cover_change.csv")
+fcc_df <- read.table(f, header=TRUE, sep=",")
+
+## For each continent
+fcc_cont <- fcc_df %>%
+    dplyr::group_by(area_cont) %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max)
+
+## For all continents
+fcc_all <- fcc_df %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::mutate(area_cont="All continents") %>%
+    dplyr::relocate(area_cont, .before=for2000_sum)
+
+## For Brazil
+fcc_bra <- fcc_df %>%
+    dplyr::filter(area_ctry=="Brazil") %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::rename(area_cont=area_ctry)
+
+## For India
+fcc_ind <- fcc_df %>%
+    dplyr::filter(area_ctry=="India") %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::rename(area_cont=area_ctry)
+
+## Combine
+fcc_comb <- fcc_bra %>%
+    # Add India
+    rbind(fcc_ind) %>%
+    # Add continents
+    rbind(fcc_cont) %>%
+    rbind(fcc_all) %>%
+    # Compute pdef
+    dplyr::mutate(pdef=round(100*(1-(1-(for2010_sum-for2020_sum)/for2010_sum)^(1/TI)), 1)) %>%
+    # Rename
+    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+    dplyr::rename(andef=andef_sum, yrdis=yrdis_max) %>%
+    # Arrange columns
+    dplyr::relocate(pdef, .after=andef)
+
+## Save results
+f <- file.path("Analysis", dataset, "results/fcc_by_region.csv")
+write.table(fcc_comb, file=f, sep=",", row.names=FALSE)
+
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables", "fcc_by_region.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
 
 ## ===================
 ## Model parameters
