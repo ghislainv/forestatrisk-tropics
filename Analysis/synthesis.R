@@ -286,7 +286,10 @@ fcc_df <- read.table(f, header=TRUE, sep=",")
 fcc_cont <- fcc_df %>%
     dplyr::group_by(area_cont) %>%
     dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max)
+    dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::mutate(id_cont=c(2, 1, 3)) %>%
+    dplyr::arrange(id_cont) %>%
+    dplyr::select(-id_cont)
 
 ## For all continents
 fcc_all <- fcc_df %>%
@@ -312,9 +315,9 @@ fcc_ind <- fcc_df %>%
     dplyr::rename(area_cont=area_ctry)
 
 ## Combine
-fcc_comb <- fcc_bra %>%
-    # Add India
-    rbind(fcc_ind) %>%
+fcc_comb <- fcc_ind %>%
+    # Add Brazil
+    rbind(fcc_bra) %>%
     # Add continents
     rbind(fcc_cont) %>%
     rbind(fcc_all) %>%
