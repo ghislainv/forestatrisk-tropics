@@ -272,8 +272,6 @@ write.table(fcc_tab3, file=f, sep=",", row.names=FALSE)
 f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables", "forest_cover_change.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-## Graph showing the % decrease per continent with time compared with 2000.
-
 ## =========================================
 ## Forest cover change summarized per region
 ## =========================================
@@ -337,6 +335,21 @@ write.table(fcc_comb, file=f, sep=",", row.names=FALSE)
 f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables", "fcc_by_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
+## ==========================================
+## Percentage of forest cover loss per region
+## ==========================================
+
+## All study-areas
+fcc_perc <- fcc_df %>%
+    dplyr::select(1:3, for2000, andef)
+
+## Brazil
+fcc_perc_bra <- fcc_perc %>%
+    dplyr::filter(area_ctry=="Brazil") %>%
+    dplyr::group_by(area_cont, area_ctry) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
+    dplyr::mutate(area_name="Brazil") %>%
+    dplyr::relocate(area_name, .after=area_ctry)
 
 ## ===================
 ## Model parameters
