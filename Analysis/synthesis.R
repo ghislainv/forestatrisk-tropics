@@ -11,7 +11,7 @@
 ## require(readr)
 require(dplyr)
 require(here)
-## require(ggplot2)
+require(ggplot2)
 
 ## Set working directory
 setwd(here())
@@ -339,6 +339,10 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Percentage of forest cover loss per region
 ## ==========================================
 
+## Load previous fcc table
+f <- file.path("Analysis", dataset, "results/forest_cover_change.csv")
+fcc_df <- read.table(f, header=TRUE, sep=",")
+
 ## All study-areas
 fcc_perc <- fcc_df %>%
     dplyr::select(1:3, for2000, andef)
@@ -350,6 +354,61 @@ fcc_perc_bra <- fcc_perc %>%
     dplyr::summarise_if(is.numeric, sum) %>%
     dplyr::mutate(area_name="Brazil") %>%
     dplyr::relocate(area_name, .after=area_ctry)
+
+## India
+fcc_perc_ind <- fcc_perc %>%
+    dplyr::filter(area_ctry=="India") %>%
+    dplyr::group_by(area_cont, area_ctry) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
+    dplyr::mutate(area_name="India") %>%
+    dplyr::relocate(area_name, .after=area_ctry)
+
+## Replace Brazilian states with whole Brazil
+fcc_perc <- fcc_perc %>%
+    dplyr::filter(area_ctry!="Brazil") %>%
+    rbind(fcc_perc_bra)
+
+## Project forest cover until year 2250
+fc_proj_cont <- data.frame(cont=rep(c("America","Africa","Asia"), 401),
+                           year=rep(c(2000:2400), each=3),
+                           fc=NA)
+## Loop on year (starting from 0 for year 2000)
+for (i in 0:400) {
+    fc_proj <- pmax(0, fcc_perc$for2000-(i*fcc_perc$andef))
+    fc_yr_cont <- fcc_perc %>%
+        dplyr::mutate(fc_proj=fc_proj) %>%
+        dplyr::select(area_cont, fc_proj) %>%
+        dplyr::group_by(area_cont) %>%
+        dplyr::summarise_all(sum) %>%
+        dplyr::mutate(id=c(2,1,3)) %>%
+        dplyr::arrange(id) %>%
+        dplyr::select(fc_proj) %>%
+        dplyr::pull()
+    fc_proj_cont$fc[fc_proj_cont$year==2000+i] <- fc_yr_cont
+}
+
+## Percentage of loss compared to fc2020
+fc_cont_df <- fc_proj_cont %>% 
+    dplyr::group_by(cont) %>% 
+    dplyr::mutate(perc=100*(fc[year==2000]-fc)/fc[year==2000]) %>%
+    dplyr::ungroup()
+
+## yr75dis
+yr75dis <- fc_cont_df %>%
+    dplyr::filter(perc>=75) %>%
+    dplyr::group_by(cont) %>%
+    dplyr::filter(year==min(year)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(yrdis=year-1)
+
+## loss21
+loss21 <- fc_cont_df %>%
+    dplyr::filter(year==2100)
+    
+
+## Plot change in percentage with time
+ggplot(aes(x=year, y=perc, group=cont, col=cont), data=fc_cont_df) +
+    geom_line()
 
 ## ===================
 ## Model parameters

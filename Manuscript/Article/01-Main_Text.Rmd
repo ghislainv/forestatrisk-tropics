@@ -35,6 +35,12 @@ In this study, we present the first attempt to model and forecast tropical defor
 - Impact on policies
 - Various scenarios: map of probability can be used with different scenarios regarding deforestation intensity.
 
+# Scenarios of deforestation
+
+- Alternatives to "business-as-usual" scenarios of deforestation
+- Which mean do we consider 2000--2010 or 2010--2020 or mean?
+- No need to take into account diffusion of deforestation between countries and continents before 2100 (see linear change of perc with time per continent)
+
 # Importance of assessing tropical forest resilience to climate change
 
 [@Vieilledent2016; @Zellweger2020; @Esquivel-Muelbert2018]
