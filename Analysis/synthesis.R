@@ -10,6 +10,7 @@
 ## Libraries
 ## require(readr)
 require(dplyr)
+require(tidyr)
 require(here)
 require(ggplot2)
 
@@ -280,134 +281,156 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 f <- file.path("Analysis", dataset, "results/forest_cover_change.csv")
 fcc_df <- read.table(f, header=TRUE, sep=",")
 
-## For each continent
-fcc_cont <- fcc_df %>%
-    dplyr::group_by(area_cont) %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::mutate(id_cont=c(2, 1, 3)) %>%
-    dplyr::arrange(id_cont) %>%
-    dplyr::select(-id_cont)
-
-## For all continents
-fcc_all <- fcc_df %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::mutate(area_cont="All continents") %>%
-    dplyr::relocate(area_cont, .before=for2000_sum)
-
-## For Brazil
-fcc_bra <- fcc_df %>%
-    dplyr::filter(area_ctry=="Brazil") %>%
-    dplyr::group_by(area_ctry) %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::rename(area_cont=area_ctry)
-
-## For India
-fcc_ind <- fcc_df %>%
-    dplyr::filter(area_ctry=="India") %>%
-    dplyr::group_by(area_ctry) %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::rename(area_cont=area_ctry)
-
-## Combine
-fcc_comb <- fcc_ind %>%
-    # Add Brazil
-    rbind(fcc_bra) %>%
-    # Add continents
-    rbind(fcc_cont) %>%
-    rbind(fcc_all) %>%
-    # Compute pdef
-    dplyr::mutate(pdef=round(100*(1-(1-(for2010_sum-for2020_sum)/for2010_sum)^(1/TI)), 1)) %>%
-    # Rename
-    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
-    dplyr::rename(andef=andef_sum, yrdis=yrdis_max) %>%
-    # Arrange columns
-    dplyr::relocate(pdef, .after=andef)
-
-## Save results
-f <- file.path("Analysis", dataset, "results/fcc_by_region.csv")
-write.table(fcc_comb, file=f, sep=",", row.names=FALSE)
-
-## Copy for manuscript
-f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables", "fcc_by_region.csv")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
-
-## ==========================================
-## Percentage of forest cover loss per region
-## ==========================================
-
-## Load previous fcc table
-f <- file.path("Analysis", dataset, "results/forest_cover_change.csv")
-fcc_df <- read.table(f, header=TRUE, sep=",")
-
 ## All study-areas
-fcc_perc <- fcc_df %>%
-    dplyr::select(1:3, for2000, andef)
+fcc_hist <- fcc_df %>%
+    dplyr::select(1:3, for2000, for2010, for2020, andef)
 
 ## Brazil
-fcc_perc_bra <- fcc_perc %>%
+fcc_hist_bra <- fcc_hist %>%
     dplyr::filter(area_ctry=="Brazil") %>%
     dplyr::group_by(area_cont, area_ctry) %>%
     dplyr::summarise_if(is.numeric, sum) %>%
     dplyr::mutate(area_name="Brazil") %>%
     dplyr::relocate(area_name, .after=area_ctry)
 
-## India
-fcc_perc_ind <- fcc_perc %>%
-    dplyr::filter(area_ctry=="India") %>%
-    dplyr::group_by(area_cont, area_ctry) %>%
-    dplyr::summarise_if(is.numeric, sum) %>%
-    dplyr::mutate(area_name="India") %>%
-    dplyr::relocate(area_name, .after=area_ctry)
-
-## Replace Brazilian states with whole Brazil
-fcc_perc <- fcc_perc %>%
+## Replace Brazilian states data with data from whole Brazil.
+## This is necessary as the annual deforestation is constant
+## at the country scale but not at the federal state scale.
+fcc_hist <- fcc_hist %>%
     dplyr::filter(area_ctry!="Brazil") %>%
-    rbind(fcc_perc_bra)
+    rbind(fcc_hist_bra)
 
-## Project forest cover until year 2250
-fc_proj_cont <- data.frame(cont=rep(c("America","Africa","Asia"), 401),
-                           year=rep(c(2000:2400), each=3),
+## Historical deforestation per continent
+fcc_hist_cont <- fcc_hist %>%
+    dplyr::group_by(area_cont) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
+    dplyr::select(-andef) %>%
+    tidyr::pivot_longer(c(for2000, for2010, for2020),
+                        names_to="year", values_to="fc") %>%
+    dplyr::rename(cont=area_cont) %>%
+    dplyr::mutate(year=as.integer(substr(year, 4, 7)))
+
+## Project forest cover until year 2400
+fc_proj_cont <- data.frame(cont=rep(c("Africa","America","Asia"), 381),
+                           year=rep(c(2020:2400), each=3),
                            fc=NA)
-## Loop on year (starting from 0 for year 2000)
-for (i in 0:400) {
-    fc_proj <- pmax(0, fcc_perc$for2000-(i*fcc_perc$andef))
-    fc_yr_cont <- fcc_perc %>%
+## Loop on year (starting from 0 for year 2020)
+for (i in 0:380) {
+    fc_proj <- pmax(0, fcc_hist$for2020-(i*fcc_hist$andef))
+    fc_yr_cont <- fcc_hist %>%
         dplyr::mutate(fc_proj=fc_proj) %>%
         dplyr::select(area_cont, fc_proj) %>%
         dplyr::group_by(area_cont) %>%
         dplyr::summarise_all(sum) %>%
-        dplyr::mutate(id=c(2,1,3)) %>%
-        dplyr::arrange(id) %>%
         dplyr::select(fc_proj) %>%
         dplyr::pull()
-    fc_proj_cont$fc[fc_proj_cont$year==2000+i] <- fc_yr_cont
+    fc_proj_cont$fc[fc_proj_cont$year==2020+i] <- fc_yr_cont
 }
 
-## Percentage of loss compared to fc2020
-fc_cont_df <- fc_proj_cont %>% 
+## Bind with historical deforestation
+fc_cont <- fc_proj_cont %>%
+    ## Remove 2020 to avoid repetition
+    dplyr::filter(year!=2020) %>%
+    rbind(fcc_hist_cont) %>%
+    dplyr::arrange(year, cont)
+
+## Percentage of loss compared to fc2000
+fc_perc_cont <- fc_cont %>% 
     dplyr::group_by(cont) %>% 
     dplyr::mutate(perc=100*(fc[year==2000]-fc)/fc[year==2000]) %>%
     dplyr::ungroup()
+## Save results
+f <- file.path("Analysis", dataset, "results/fc_perc_cont.csv")
+write.table(fc_perc_cont, file=f, sep=",", row.names=FALSE)
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables",
+                   "fc_perc_cont.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## yr75dis
-yr75dis <- fc_cont_df %>%
+yr75dis_cont <- fc_perc_cont %>%
     dplyr::filter(perc>=75) %>%
     dplyr::group_by(cont) %>%
     dplyr::filter(year==min(year)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(yrdis=year-1)
+    dplyr::mutate(yrdis=year-1) %>%
+    dplyr::arrange(cont)
 
 ## loss21
-loss21 <- fc_cont_df %>%
-    dplyr::filter(year==2100)
-    
+loss21_cont <- fc_perc_cont %>%
+    dplyr::filter(year==2100)%>%
+    dplyr::arrange(cont)
+
+## Results in one table for continents
+fc_proj_res <- fc_proj_cont %>%
+    dplyr::filter(year %in% c(2040, 2060, 2080, 2100)) %>%
+    tidyr::pivot_wider(names_from=year,
+                       values_from=fc, names_prefix="for") %>%
+    dplyr::mutate(loss21=loss21_cont$perc) %>%
+    dplyr::mutate(yr75dis=yr75dis_cont$yrdis) %>%
+    dplyr::mutate(id=c(2,1,3)) %>%
+    dplyr::arrange(id) %>%
+    dplyr::select(-id)
+
+## Results for Brazil
+fcc_bra <- fcc_df %>%
+    dplyr::filter(area_ctry=="Brazil") %>%
+    dplyr::select(-pdef, -yrdis) %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
+    dplyr::rename(cont=area_ctry) %>%
+    dplyr::mutate(loss21=100*(for2000-for2100)/for2000) %>%
+    dplyr::mutate(yr75dis=floor(2000+(for2000*0.75)/andef)) %>%
+    dplyr::select(cont, for2040, for2060, for2080, for2100,
+                 loss21, yr75dis)
+
+## Results for India
+fcc_ind <- fcc_df %>%
+    dplyr::filter(area_ctry=="India") %>%
+    dplyr::select(-pdef, -yrdis) %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
+    dplyr::rename(cont=area_ctry) %>%
+    dplyr::mutate(loss21=100*(for2000-for2100)/for2000)
+## yr75dis for India
+df <- fcc_df %>%
+        dplyr::filter(area_ctry=="India") %>%
+        dplyr::select(area_name, for2000, for2010, for2020, andef)
+for2000_ind <- sum(df$for2000)
+perc_ind <- vector()
+## Loop from i=1 for 2021
+for (i in 1:80) {
+    ## Deforestation from 2020
+    fc_proj_ind <- sum(pmax(0, df$for2020-i*df$andef))
+    ## Percentage of forest loss compared with 2000
+    perc_ind[i] <- 100*(for2000_ind-fc_proj_ind)/for2000_ind
+}
+yr75dis_ind <- 2000+(which(perc_ind>=75)[1])-1
+## Add yr75dis_ind to table for India
+fcc_ind <- fcc_ind %>%
+    dplyr::mutate(yr75dis=yr75dis_ind) %>%
+    dplyr::select(cont, for2040, for2060, for2080, for2100,
+                 loss21, yr75dis)
+
+## All continents
+
+
+## Combine regions
+fcc_proj_reg <- fcc_ind %>%
+    rbind(fcc_bra) %>%
+    rbind(fc_proj_res)
+
+## Save results
+f <- file.path("Analysis", dataset, "results/fcc_proj_region.csv")
+write.table(fcc_proj_reg, file=f, sep=",", row.names=FALSE)
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables",
+                   "fcc_proj_region.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
 
 ## Plot change in percentage with time
-ggplot(aes(x=year, y=perc, group=cont, col=cont), data=fc_cont_df) +
+ggplot(aes(x=year, y=perc, group=cont, col=cont), data=fc_perc_cont) +
     geom_line()
 
 ## ===================
