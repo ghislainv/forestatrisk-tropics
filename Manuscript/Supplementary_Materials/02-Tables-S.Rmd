@@ -156,7 +156,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
 
 ```{r fcc-hist-reg, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/fcc_by_region.csv", header=TRUE, sep=",")
+df <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>% 
   dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef) %>%
@@ -172,6 +172,8 @@ knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALS
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
+
+\newpage
 
 ## Forest cover projections
 
@@ -201,24 +203,22 @@ knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes no sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 95% of the forest cover in 2000 will have disappeared ("yr95dis").\vspace{0.5cm} 
+(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm} 
 
 ```{r fcc-proj-reg, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/fcc_by_region.csv", header=TRUE, sep=",")
+df <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
-  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
-  # Here, be careful to take year 2000 as a reference
-  mutate(yr95dis=floor(2000 + (for2000*0.95)/andef)) %>%
-  dplyr::mutate(yr95dis=as.character(yr95dis)) %>%
-  dplyr::select(area_cont, for2040, for2060, for2080, for2100, loss21, yr95dis) %>%
+  dplyr::mutate(yr75dis=as.character(yr75dis)) %>%
+  dplyr::select(cont, for2040, for2060, for2080, for2100, loss21, yr75dis) %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
-col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr95dis")
+col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr75dis")
 knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
 						 format.args=list(big.mark=","),
+						 digits=0,
 						 escape=FALSE,
 						 col.names=col.names,
 						 align=vect.align, linesep="") %>%

@@ -415,8 +415,20 @@ f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables",
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## Plot change in percentage with time
-ggplot(aes(x=year, y=perc, group=cont, col=cont), data=fc_perc_cont) +
-    geom_line()
+df_hist <- fc_perc_cont %>%
+    dplyr::filter(year %in% c(2000, 2010, 2020))
+df_proj <- fc_perc_cont %>%
+    dplyr::filter(!(year %in% c(2000, 2010, 2020)))
+p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
+    geom_point() +
+    geom_line(data=df_proj)
+## Save results
+f <- file.path("Analysis", dataset, "results/perc_loss_cont.png")
+ggsave(f, p)
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures",
+                   "perc_loss_cont.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## =========================================================================
 ## Forest cover projections including yr75dis per region
@@ -504,7 +516,7 @@ yr75dis_allcont <- fc_allcont %>%
 
 fc_proj_allcont <- fc_proj_cont %>%
     dplyr::summarise_if(is.numeric, sum) %>%
-    dplyr::mutate(cont="All_continents") %>%
+    dplyr::mutate(cont="All continents") %>%
     dplyr::mutate(loss21=100*(for2000_allcont-for2100)/for2000_allcont) %>%
     dplyr::mutate(yr75dis=yr75dis_allcont) %>%
     dplyr::relocate(cont, .before=for2040)

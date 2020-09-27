@@ -38,6 +38,14 @@ knitr::include_graphics(c("figures/fcc123_COD.png"))
 knitr::include_graphics(c("figures/sample_COD.png"))
 ```
 
+<!--------------------------------------------->
+<!-- Percentage of forest cover loss -->
+<!--------------------------------------------->
 
+(ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. blabla.
+
+```{r perc-loss, out.width="\\textwidth", fig.cap="(ref:cap-perc-loss)"}
+knitr::include_graphics(c("figures/perc_loss_cont.png"))
+```
 
 \newpage
