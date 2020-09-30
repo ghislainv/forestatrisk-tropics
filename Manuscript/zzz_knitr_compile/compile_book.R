@@ -29,7 +29,7 @@ params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- 'Forecasting tropical moist forest cover change in the 21st century under a "business-as-usual" scenario'
+title_html <- 'Spatial forecasting of tropical moist forest cover change over the 21$^{\text{st}}$ century'
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)
@@ -69,7 +69,7 @@ params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- 'SUPPLEMENTARY MATERIALS\nForecasting tropical moist forest cover change in the 21st century under a "business-as-usual" scenario'
+title_html <- 'SUPPLEMENTARY MATERIALS\nSpatial forecasting of tropical moist forest cover change over the 21$^{\text{st}}$ century'
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)
