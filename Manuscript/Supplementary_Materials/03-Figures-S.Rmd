@@ -52,7 +52,7 @@ knitr::include_graphics(c("figures/grid_COD.png"))
 <!-- Percentage of forest cover loss -->
 <!--------------------------------------------->
 
-(ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. blabla.
+(ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for years 2000 (0%), 2010, and 2020, for the three continents: America (in green), Africa (in red), and Asia (in blue). Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries (see section \@ref(forecast) in Methods). When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have nor more forest (in 2242, 2160, and 2122, respectively, Table \@ref(tab:fcc-proj)), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2099, 2145, and 2201 for Asia, Africa, and America, respectively (see Table \@ref(tab:fcc-proj-reg)). 
 
 ```{r perc-loss, out.width="\\textwidth", fig.cap="(ref:cap-perc-loss)"}
 knitr::include_graphics(c("figures/perc_loss_cont.png"))

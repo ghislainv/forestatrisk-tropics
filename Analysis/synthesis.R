@@ -414,14 +414,38 @@ f_doc <- file.path("Manuscript", "Supplementary_Materials", "tables",
                    "perc_loss_cont.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
+## ===================================
 ## Plot change in percentage with time
+## ====================================
+
+## Load data
+fc_perc_cont <- read.table(f, header=TRUE, sep=",")
 df_hist <- fc_perc_cont %>%
     dplyr::filter(year %in% c(2000, 2010, 2020))
 df_proj <- fc_perc_cont %>%
     dplyr::filter(!(year %in% c(2000, 2010, 2020)))
+
+## mytheme
+mytheme <- theme(
+    axis.text=element_text(size=20),
+    axis.title=element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text=element_text(size=20),
+    legend.position=c(0.95, 0.05),
+    legend.justification=c(1, 0))
+
+## Plot
 p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
-    geom_point() +
-    geom_line(data=df_proj)
+    geom_point(size=2) +
+    geom_line(data=df_proj, size=1.2) +
+    xlab("Year") + ylab("Percentage of forest cover loss\n(in comparison with year 2000)") +
+    scale_color_discrete(name="Continents",
+                         breaks=c("America", "Africa", "Asia"),
+                         labels=c("America", "Africa", "Asia")) +
+    ylim(0,100) +
+    geom_hline(yintercept=75) +
+    theme_bw() + mytheme
+
 ## Save results
 f <- file.path("Analysis", dataset, "results/perc_loss_cont.png")
 ggsave(f, p)
