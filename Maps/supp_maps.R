@@ -297,7 +297,7 @@ z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000,
 ## Plot
 tm_COD_rho_grid <- 
 	tm_shape(fcc_500) +
-	tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+	tmap_options(max.raster=c(plot=1e5, view=1e5)) +
 	tm_raster(palette=c(orange, red, green),
 						style="cat", legend.show=FALSE) +
 	tm_shape(ctry_PROJ) +
@@ -305,7 +305,8 @@ tm_COD_rho_grid <-
 	tm_shape(g) +
 	tm_borders(col="black", lwd=0.1) +
 	tm_shape(rect) +
-	tm_borders(col="black", lwd=2)
+	tm_borders(col="black", lwd=2) + 
+	tm_scale_bar(c(0,100,200,300,400,500), position=c("center","bottom"))
 
 ## Zoom
 tm_COD_rho_grid_zoom <- 
