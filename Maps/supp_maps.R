@@ -55,6 +55,11 @@ trop_geom <- st_sfc(cancer, capricorn, crs=4326)
 trop_df <- data.frame(id=c(1,2),name=c("Cancer","Capricorn"))
 trop_sf <- st_sf(trop_df, row.names=trop_df$id, geometry=trop_geom)
 
+## Deforestation color
+orange <- rgb(255, 165, 0, 255, maxColorValue=255)
+red <- rgb(227, 26, 28, 255, maxColorValue=255)
+green <- rgb(34, 139, 34, 255, maxColorValue=255)
+
 ## Load GADM level0 data
 gadm0 <- st_read(file.path("Maps", "GADM_data", "gadm36_level0.gpkg"))
 
@@ -133,11 +138,6 @@ if (!file.exists(out_f)) {
 							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
 }
 
-## Deforestation color
-orange <- rgb(255, 165, 0, 255, maxColorValue=255)
-red <- rgb(227, 26, 28, 255, maxColorValue=255)
-green <- rgb(34, 139, 34, 255, maxColorValue=255)
-
 ## Plot
 r_zoom <- read_stars(out_f)
 tm_COD_fcc_zoom <- 
@@ -202,7 +202,7 @@ z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3274440, y_zoom_start=60800,
 rect_ext <- extent(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax)
 rect_bbox <- st_bbox(rect_ext, crs=3395)
 rect_geom <- st_as_sfc(rect_bbox)
-rect <- st_sf(id=1, geometry=rect_geom)
+rect_extra <- st_sf(id=1, geometry=rect_geom)
 
 ## Zoom on region with gdal
 out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
@@ -253,13 +253,13 @@ tm_COD_fcc_zoom <-
 	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
 	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						  style="cat", legend.show=FALSE) +
-	tm_shape(rect) +
+	tm_shape(rect_extra) +
 	  tm_borders(col="black", lwd=2) +
 	tm_shape(sp_COD) +
 	  tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
 					  palette=c(red, green), legend.show=FALSE)
 
-## Arrange plot with grid package
+## Arrange plots with grid package
 f <- file.path("Maps", dataset, "maps", "sample_COD.png")
 png(filename=f, width=1000, height=500)
 grid.newpage()
@@ -271,5 +271,66 @@ dev.off()
 ## Copy for manuscript
 f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+#=========================================
+# Map with grid for spatial random effects
+#=========================================
+
+## File paths
+in_fcc_500 <- file.path("Maps", dataset, "maps", "fcc123_COD_500m.tif")
+in_fcc_zoom <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
+in_fcc23 <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "fcc23.tif")
+
+## Rasters
+fcc_500 <- read_stars(in_fcc_500)
+fcc_zoom <- read_stars(in_fcc_zoom)
+fcc23 <- read_stars(in_fcc23)
+
+## Grid
+g <- st_make_grid(st_as_sfc(st_bbox(fcc23)), cellsize=10000)
+
+## Zoom
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
+z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000, 
+									 size_x_start=48000, size_y_start=48000)
+
+## Plot
+tm_COD_rho_grid <- 
+	tm_shape(fcc_500) +
+	tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+	tm_raster(palette=c(orange, red, green),
+						style="cat", legend.show=FALSE) +
+	tm_shape(ctry_PROJ) +
+	tm_borders(col="black") +
+	tm_shape(g) +
+	tm_borders(col="black", lwd=0.1) +
+	tm_shape(rect) +
+	tm_borders(col="black", lwd=2)
+
+## Zoom
+tm_COD_rho_grid_zoom <- 
+	tm_shape(fcc_zoom) +
+	tmap_options(max.raster=c(plot=1e8, view=1e8)) +
+	tm_raster(palette=c(orange_transp, red_transp, green_transp),
+						style="cat", legend.show=FALSE) +
+	tm_shape(sp_COD) +
+	tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
+					palette=c(red, green), legend.show=FALSE) +
+	tm_shape(g) +
+	tm_borders(col="black", lwd=1.5)
+
+## Arrange plots with grid package
+f <- file.path("Maps", dataset, "maps", "grid_COD.png")
+png(filename=f, width=1000, height=500)
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(1,2)))
+print(tm_COD_rho_grid, vp=viewport(layout.pos.col=1))
+print(tm_COD_rho_grid_zoom, vp=viewport(layout.pos.col=2))
+dev.off()
+
+## Copy for manuscript
+f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "grid_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
 
 # EOF
