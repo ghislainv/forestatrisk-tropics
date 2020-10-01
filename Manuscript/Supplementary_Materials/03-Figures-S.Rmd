@@ -44,7 +44,7 @@ knitr::include_graphics(c("figures/sample_COD.png"))
 
 (ref:cap-grid) **Grid used to compute the spatial random effects**. Left: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). Right: Zoom at the North-East of the country showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). One random effect is estimated for each grid cell. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects for the eight neighbouring cells (see Eq. \@ref(eq:icar)).
 
-```{r sampling, out.width="\\textwidth", fig.cap="(ref:cap-grid)"}
+```{r grid, out.width="\\textwidth", fig.cap="(ref:cap-grid)"}
 knitr::include_graphics(c("figures/grid_COD.png"))
 ```
 
