@@ -1,61 +1,83 @@
 # Figures
 
 <!--------------------------------------------->
-<!-- Study areas -->
+<!-- Study-areas -->
 <!--------------------------------------------->
 
-(ref:cap-study-areas) **Study areas in the three continents: America, Africa, and Asia**. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guyana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
+## Study-areas in the three continents
+
+(ref:cap-study-areas) **Study-areas in the three continents: America, Africa, and Asia**. America included 64 study-areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study-areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guyana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study-area. In the three figures, each study-area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
 
 ```{r study-areas-am, out.width="\\textwidth", fig.cap=NULL}
-knitr::include_graphics(c("figures/study_areas_America.png"))
+knitr::include_graphics("figures/study_areas_America.png")
 ```
 
 ```{r study-areas-af, out.width="\\textwidth", fig.cap=NULL}
-knitr::include_graphics(c("figures/study_areas_Africa.png"))
+knitr::include_graphics("figures/study_areas_Africa.png")
 ```
 
 ```{r study-areas, out.width="\\textwidth", fig.cap="(ref:cap-study-areas)"}
-knitr::include_graphics(c("figures/study_areas_Asia.png"))
+knitr::include_graphics("figures/study_areas_Asia.png")
 ```
 
 <!--------------------------------------------->
-<!-- Historical forest cover change maps -->
+<!-- Historical forest cover change map -->
 <!--------------------------------------------->
 
-(ref:cap-fcc-maps) **Historical forest cover change maps**. This figure shows the forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2020. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/tropics>.
+## Historical forest cover change map
+
+(ref:cap-fcc-maps) **Historical forest cover change map**. This figure shows the forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2020. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/tropics>.
 
 ```{r fcc-maps, out.width="\\textwidth", fig.cap="(ref:cap-fcc-maps)"}
-knitr::include_graphics(c("figures/fcc123_COD.png"))
+knitr::include_graphics("figures/fcc123_COD.png")
 ```
 
 <!--------------------------------------------->
-<!-- Sampling -->
+<!-- Data sampling -->
 <!--------------------------------------------->
+
+## Data sampling
 
 (ref:cap-sampling) **Data sampling for spatial modelling of the deforestation**. Map on the left corresponds to the bottom left inset in Fig. \@ref(fig:fcc-maps) representing a zoom of the forest cover change map on the period 2000--2010--2020 for an area at the North-East of the Democratic Republic of the Congo. Map on the right presents an inner zoom showing the delimitation of the 30 m forest pixels with three sample points. We used a stratified balanced sampling between (i) forest pixels in 2010 which have been deforested on the period 2010--2020 ("deforested" pixels in \textcolor{red}{red}), and (ii) forest pixels in 2010 which have not been deforested on that period of time and which represent the remaining forest in 2020 ("non-deforested" pixels in \textcolor{darkgreen}{green}). Forest pixels in each category were sampled randomly.
 
 ```{r sampling, out.width="\\textwidth", fig.cap="(ref:cap-sampling)"}
-knitr::include_graphics(c("figures/sample_COD.png"))
+knitr::include_graphics("figures/sample_COD.png")
 ```
 
 <!--------------------------------------------->
-<!-- Grid for spatial random effect -->
+<!-- Grid for spatial random effects -->
 <!--------------------------------------------->
+
+## Grid for spatial random effects
 
 (ref:cap-grid) **Grid used to compute the spatial random effects**. Left: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). Right: Zoom at the North-East of the country showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). One random effect is estimated for each grid cell. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects for the eight neighbouring cells (see Eq. \@ref(eq:icar)).
 
 ```{r grid, out.width="\\textwidth", fig.cap="(ref:cap-grid)"}
-knitr::include_graphics(c("figures/grid_COD.png"))
+knitr::include_graphics("figures/grid_COD.png")
+```
+
+<!--------------------------------------------->
+<!-- Spatial random effects -->
+<!--------------------------------------------->
+
+## Estimated spatial random effects
+
+(ref:cap-rho) **Estimated spatial random effects**. Left: Estimated spatial random effects at 10 km resolution for the Democratic Republic of the Congo (DRC). Right: Interpolated spatial random effects at 1 km resolution. A bicubic interpolation method was used. Bottom: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. Due to the structure of the intrinsic CAR model (see Eq. \@ref(eq:icar)), spatial random effects are also estimated for cells without sampled points. This includes cells for which there was no forest cover on the period 2000--2010--2020, and also cells outside country's borders.
+
+```{r rho, out.width="\\textwidth", fig.cap="(ref:cap-rho)"}
+knitr::include_graphics("figures/rho_COD.png")
 ```
 
 <!--------------------------------------------->
 <!-- Percentage of forest cover loss -->
 <!--------------------------------------------->
 
+## Percentage of forest cover loss
+
 (ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for years 2000 (0%), 2010, and 2020, for the three continents: America (in green), Africa (in red), and Asia (in blue). Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries (see section \@ref(forecast) in Methods). When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have nor more forest (in 2242, 2160, and 2122, respectively, Table \@ref(tab:fcc-proj)), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2099, 2145, and 2201 for Asia, Africa, and America, respectively (see Table \@ref(tab:fcc-proj-reg)). 
 
 ```{r perc-loss, out.width="\\textwidth", fig.cap="(ref:cap-perc-loss)"}
-knitr::include_graphics(c("figures/perc_loss_cont.png"))
+knitr::include_graphics("figures/perc_loss_cont.png")
 ```
 
 \newpage

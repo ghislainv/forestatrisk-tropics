@@ -18,11 +18,12 @@ require(tmap)
 require(raster)
 require(stars)
 require(grid)
+require(here)
 
 ## Some variables
 ##dataset <- "gfc2020_70" 
 dataset <- "jrc2020"
-dir.create(file.path("Maps", dataset, "maps"), recursive=TRUE)
+dir.create(here("Maps", dataset, "maps"), recursive=TRUE)
 dir_fdb <- "/home/forestatrisk-tropics"
 
 ## Countries and continent
@@ -60,8 +61,15 @@ orange <- rgb(255, 165, 0, 255, maxColorValue=255)
 red <- rgb(227, 26, 28, 255, maxColorValue=255)
 green <- rgb(34, 139, 34, 255, maxColorValue=255)
 
+## tmap_options
+tmap_opt <- function(x=1e5, ...) {
+  tmap_options_reset()
+  tmap_options(max.raster=c(plot=x, view=x), ...)
+  cat("max.raster set to: ", x, "\n")
+}
+
 ## Load GADM level0 data
-gadm0 <- st_read(file.path("Maps", "GADM_data", "gadm36_level0.gpkg"))
+gadm0 <- st_read(here("Maps", "GADM_data", "gadm36_level0.gpkg"))
 
 #=========================================
 # Africa with COD border
@@ -131,7 +139,7 @@ rect_geom <- st_as_sfc(rect_bbox)
 rect <- st_sf(id=1, geometry=rect_geom)
 
 ## Zoom on region with gdal
-out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
+out_f <- here("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
 z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
 if (!file.exists(out_f)) {
 	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
@@ -142,9 +150,10 @@ if (!file.exists(out_f)) {
 r_zoom <- read_stars(out_f)
 tm_COD_fcc_zoom <- 
 	tm_shape(r_zoom) +
-	tmap_options(max.raster=c(plot=1e8, view=1e8)) +
   tm_raster(palette=c(orange, red, green),
-  					style="cat", legend.show=FALSE)
+  					style="cat", legend.show=FALSE) +
+	tm_scale_bar(breaks=c(0,5,10), position=c(0.5,0),
+							 just=c("center", "bottom"))
 
 ## Aspect ratio
 asp <- (z_ext$xmax - z_ext$xmin)/(z_ext$ymax - z_ext$ymin)
@@ -159,7 +168,7 @@ vp_COD_fcc_zoom <- viewport(x=0.025, y=0.025, width=w, height=h, just=c("left", 
 #=========================================
 
 ## Resample r at 500m resolution with gdal
-out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_500m.tif")
+out_f <- here("Maps", dataset, "maps", "fcc123_COD_500m.tif")
 if (!file.exists(out_f)) {
   in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
   system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
@@ -172,21 +181,22 @@ r <- read_stars(out_f)
 ## Plot with tmap
 tm_COD_fcc <- 
 	tm_shape(r) +
-	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
 	  tm_raster(palette=c(orange, red, green),
 		  				style="cat", legend.show=FALSE) +
   tm_shape(ctry_PROJ) +
 	  tm_borders(col="black") +
 	tm_shape(rect) +
-	  tm_borders(col="black", lwd=2)
+	  tm_borders(col="black", lwd=2) +
+	tm_scale_bar(c(0,250,500), position=c(0.5,0), just=c("center", "bottom"))
 
 ## Save plot
-f <- file.path("Maps", dataset, "maps", "fcc123_COD.png")
-tmap_save(tm_COD_fcc, file=f,
+tmap_opt(1e8, 1.2)
+f <- here("Maps", dataset, "maps", "fcc123_COD.png")
+tmap_save(tm_COD_fcc, file=f, width=16, units="cm", dpi=300,
 					insets_tm=list(tm_Afr,tm_COD_fcc_zoom), insets_vp=list(vp_Afr,vp_COD_fcc_zoom))
 
 ## Copy for manuscript
-f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "fcc123_COD.png")
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc123_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 #=========================================
@@ -205,7 +215,7 @@ rect_geom <- st_as_sfc(rect_bbox)
 rect_extra <- st_sf(id=1, geometry=rect_geom)
 
 ## Zoom on region with gdal
-out_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
+out_f <- here("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
 z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
 if (!file.exists(out_f)) {
 	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
@@ -228,7 +238,7 @@ sp_df <- read.table(in_f_sp, header=TRUE, sep=",")
 sp_COD <- st_as_sf(sp_df, coords = c("X", "Y"), crs=3395)
 
 ## Plot
-in_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
+in_f <- here("Maps", dataset, "maps", "fcc123_COD_zoom_extra.tif")
 r_zoom_extra <- read_stars(in_f)
 tm_COD_fcc_zoom_extra <- 
 	tm_shape(r_zoom_extra) +
@@ -236,15 +246,16 @@ tm_COD_fcc_zoom_extra <-
 	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						  style="cat", legend.show=FALSE) +
 	tm_shape(sp_COD) +
-	  tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
-					  palette=c(red, green), legend.show=FALSE)
+	  tm_dots(col="fcc23", size=0.1, shape=21, style="cat", n=2, 
+					  palette=c(red, green), legend.show=FALSE) +
+	tm_scale_bar(c(0,0.5,1), position=c(0.5,0), just=c("center", "bottom"))
 
 #=========================================
 # Zoom with sample points
 #=========================================
 
 ## Import zoom raster
-in_f <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
+in_f <- here("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
 r <- read_stars(in_f)
 
 ## Plot with tmap
@@ -253,15 +264,17 @@ tm_COD_fcc_zoom <-
 	  tmap_options(max.raster=c(plot=1e8, view=1e8)) +
 	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						  style="cat", legend.show=FALSE) +
+	tm_shape(sp_COD) +
+	  tm_dots(col="fcc23", size=0.1, shape=21, style="cat", n=2, 
+					  palette=c(red, green), legend.show=FALSE) +
 	tm_shape(rect_extra) +
 	  tm_borders(col="black", lwd=2) +
-	tm_shape(sp_COD) +
-	  tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
-					  palette=c(red, green), legend.show=FALSE)
+	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
 
 ## Arrange plots with grid package
-f <- file.path("Maps", dataset, "maps", "sample_COD.png")
-png(filename=f, width=1000, height=500)
+f <- here("Maps", dataset, "maps", "sample_COD.png")
+#png(filename=f, width=10, height=5, units="cm", res=300)
+png(filename=f, width=1000)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(1,2)))
 print(tm_COD_fcc_zoom, vp=viewport(layout.pos.col=1))
@@ -269,7 +282,7 @@ print(tm_COD_fcc_zoom_extra, vp=viewport(layout.pos.col=2))
 dev.off()
 
 ## Copy for manuscript
-f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "sample_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 #=========================================
@@ -277,8 +290,8 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 #=========================================
 
 ## File paths
-in_fcc_500 <- file.path("Maps", dataset, "maps", "fcc123_COD_500m.tif")
-in_fcc_zoom <- file.path("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
+in_fcc_500 <- here("Maps", dataset, "maps", "fcc123_COD_500m.tif")
+in_fcc_zoom <- here("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
 in_fcc23 <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "fcc23.tif")
 
 ## Rasters
@@ -306,7 +319,7 @@ tm_COD_rho_grid <-
 	tm_borders(col="black", lwd=0.1) +
 	tm_shape(rect) +
 	tm_borders(col="black", lwd=2) + 
-	tm_scale_bar(c(0,100,200,300,400,500), position=c("center","bottom"))
+	tm_scale_bar(c(0,250,500), position=c(0.5,0), just=c("center", "bottom"))
 
 ## Zoom
 tm_COD_rho_grid_zoom <- 
@@ -318,11 +331,12 @@ tm_COD_rho_grid_zoom <-
 	tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
 					palette=c(red, green), legend.show=FALSE) +
 	tm_shape(g) +
-	tm_borders(col="black", lwd=1.5)
+	tm_borders(col="black", lwd=1.5) + 
+	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
 
 ## Arrange plots with grid package
-f <- file.path("Maps", dataset, "maps", "grid_COD.png")
-png(filename=f, width=1000, height=500)
+f <- here("Maps", dataset, "maps", "grid_COD.png")
+png(filename=f, width=16.6, height=8.4, units="cm", res=300)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(1,2)))
 print(tm_COD_rho_grid, vp=viewport(layout.pos.col=1))
@@ -330,8 +344,86 @@ print(tm_COD_rho_grid_zoom, vp=viewport(layout.pos.col=2))
 dev.off()
 
 ## Copy for manuscript
-f_doc <- file.path("Manuscript", "Supplementary_Materials", "figures", "grid_COD.png")
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "grid_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
+#=======================================
+# Map the spatial random effects
+#=======================================
+
+## File paths
+in_rho_orig <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "rho_orig.tif")
+in_rho <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "rho.tif")
+
+## Rasters
+rho_orig <- read_stars(in_rho_orig)
+rho <- read_stars(in_rho)
+
+## Quantiles
+q <- quantile(rho_orig[[1]], c(0.01, 0.99))
+q_max <- ceiling(max(abs(q)))
+
+## Colors
+red_rho <- "#cc3300"
+yellow_rho <- "#ffffbf"
+green_rho <- green # "#228B22FF"
+
+## tm_options
+tmap_options_reset()
+tmap_options(max.raster=c(plot=1e8, view=1e8))
+
+## Plot rho_orig
+tm_rho_orig <- 
+	tm_shape(rho_orig) +
+	tm_raster(palette=c(green_rho, yellow_rho, red_rho), title="",
+						legend.reverse=TRUE,
+						style="cont", midpoint=0, breaks=seq(-q_max, q_max, b=1)) +
+	tm_shape(rect) +
+	tm_borders(col="black", lwd=2) +
+	tm_shape(ctry_PROJ) +
+	tm_borders(col="black") +
+	tm_scale_bar(c(0,250,500), position=c(0.5, 0), just=c(0.5, 0))
+## Zoom rho_orig
+tm_rho_orig_zoom <- 
+	tm_shape(rho_orig, bbox=st_bbox(rect)) +
+	tm_raster(palette=c(green_rho, yellow_rho, red_rho), title="",
+						legend.reverse=TRUE,
+						style="cont", midpoint=0, breaks=seq(-q_max, q_max, b=1)) +
+	tm_shape(ctry_PROJ) +
+	tm_borders(col="black") +
+	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
+
+## Plot interpolated rho
+tm_rho <- 
+	tm_shape(rho) +
+	tm_raster(palette=c(green_rho, yellow_rho, red_rho), title="",
+						legend.reverse=TRUE, legend.show=FALSE,
+						style="cont", midpoint=0, breaks=seq(-q_max, q_max, b=1)) +
+	tm_shape(rect) +
+	tm_borders(col="black", lwd=2) +
+	tm_shape(ctry_PROJ) +
+	tm_borders(col="black")
+## Zoom interpolated rho
+tm_rho_zoom <- 
+	tm_shape(rho, bbox=st_bbox(rect)) +
+	tm_raster(palette=c(green_rho, yellow_rho, red_rho), title="",
+						legend.reverse=TRUE, legend.show=FALSE,
+						style="cont", midpoint=0, breaks=seq(-q_max, q_max, b=1)) +
+	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
+
+## Arrange plots with grid package
+f <- here("Maps", dataset, "maps", "rho_COD.png")
+png(filename=f, width=15, height=15, units="cm", res=300)
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(tm_rho_orig, vp=viewport(layout.pos.row=1, layout.pos.col=1))
+print(tm_rho_orig_zoom, vp=viewport(layout.pos.row=2, layout.pos.col=1))
+print(tm_rho, vp=viewport(layout.pos.row=1, layout.pos.col=2))
+print(tm_rho_zoom, vp=viewport(layout.pos.row=2, layout.pos.col=2))
+dev.off()
+
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "rho_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
