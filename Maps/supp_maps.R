@@ -62,9 +62,9 @@ red <- rgb(227, 26, 28, 255, maxColorValue=255)
 green <- rgb(34, 139, 34, 255, maxColorValue=255)
 
 ## tmap_options
-tmap_opt <- function(x=1e5, ...) {
+tmap_opt <- function(npix=1e5, ...) {
   tmap_options_reset()
-  tmap_options(max.raster=c(plot=x, view=x), ...)
+  tmap_options(max.raster=c(plot=npix, view=npix), ...)
   cat("max.raster set to: ", x, "\n")
 }
 
