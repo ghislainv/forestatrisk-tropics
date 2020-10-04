@@ -24,7 +24,8 @@ require(here)
 ##dataset <- "gfc2020_70" 
 dataset <- "jrc2020"
 dir.create(here("Maps", dataset, "maps"), recursive=TRUE)
-dir_fdb <- "/home/forestatrisk-tropics"
+#dir_fdb <- "/home/forestatrisk-tropics"
+dir_fdb <- here("Data")
 
 ## Countries and continent
 data("World")
@@ -65,8 +66,11 @@ green <- rgb(34, 139, 34, 255, maxColorValue=255)
 tmap_opt <- function(npix=1e5, ...) {
   tmap_options_reset()
   tmap_options(max.raster=c(plot=npix, view=npix), ...)
-  cat("max.raster set to: ", x, "\n")
+  cat("max.raster set to: ", npix, "\n")
 }
+
+## textwidth (in cm) for figure width
+textwidth <- 16.6
 
 ## Load GADM level0 data
 gadm0 <- st_read(here("Maps", "GADM_data", "gadm36_level0.gpkg"))
@@ -152,8 +156,8 @@ tm_COD_fcc_zoom <-
 	tm_shape(r_zoom) +
   tm_raster(palette=c(orange, red, green),
   					style="cat", legend.show=FALSE) +
-	tm_scale_bar(breaks=c(0,5,10), position=c(0.5,0),
-							 just=c("center", "bottom"))
+	tm_scale_bar(breaks=c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom"))
 
 ## Aspect ratio
 asp <- (z_ext$xmax - z_ext$xmin)/(z_ext$ymax - z_ext$ymin)
@@ -178,6 +182,10 @@ if (!file.exists(out_f)) {
 ## Raster of historical deforestation 2000-2010-2020
 r <- read_stars(out_f)
 
+## Aspect
+bbox_r <- st_bbox(r)
+asp <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+
 ## Plot with tmap
 tm_COD_fcc <- 
 	tm_shape(r) +
@@ -187,12 +195,13 @@ tm_COD_fcc <-
 	  tm_borders(col="black") +
 	tm_shape(rect) +
 	  tm_borders(col="black", lwd=2) +
-	tm_scale_bar(c(0,250,500), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,250,500), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom"))
 
 ## Save plot
-tmap_opt(1e8, 1.2)
+tmap_opt(1e8, outer.margins=c(0,0,0,0))
 f <- here("Maps", dataset, "maps", "fcc123_COD.png")
-tmap_save(tm_COD_fcc, file=f, width=16, units="cm", dpi=300,
+tmap_save(tm_COD_fcc, file=f, width=textwidth, height=textwidth/asp, units="cm", dpi=300,
 					insets_tm=list(tm_Afr,tm_COD_fcc_zoom), insets_vp=list(vp_Afr,vp_COD_fcc_zoom))
 
 ## Copy for manuscript
@@ -246,9 +255,11 @@ tm_COD_fcc_zoom_extra <-
 	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						  style="cat", legend.show=FALSE) +
 	tm_shape(sp_COD) +
-	  tm_dots(col="fcc23", size=0.1, shape=21, style="cat", n=2, 
+	  tm_dots(col="fcc23", size=0.2, shape=21, style="cat", n=2, 
 					  palette=c(red, green), legend.show=FALSE) +
-	tm_scale_bar(c(0,0.5,1), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,0.5,1), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_layout(outer.margins=c(0,0.025,0,0))
 
 #=========================================
 # Zoom with sample points
@@ -265,16 +276,17 @@ tm_COD_fcc_zoom <-
 	  tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						  style="cat", legend.show=FALSE) +
 	tm_shape(sp_COD) +
-	  tm_dots(col="fcc23", size=0.1, shape=21, style="cat", n=2, 
+	  tm_dots(col="fcc23", size=0.2, shape=21, style="cat", n=2, 
 					  palette=c(red, green), legend.show=FALSE) +
 	tm_shape(rect_extra) +
 	  tm_borders(col="black", lwd=2) +
-	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_layout(outer.margins=c(0,0,0,0.025))
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "sample_COD.png")
-#png(filename=f, width=10, height=5, units="cm", res=300)
-png(filename=f, width=1000)
+png(filename=f, width=textwidth, height=(textwidth*1.05)/2, units="cm", res=300)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(1,2)))
 print(tm_COD_fcc_zoom, vp=viewport(layout.pos.col=1))
@@ -292,15 +304,16 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## File paths
 in_fcc_500 <- here("Maps", dataset, "maps", "fcc123_COD_500m.tif")
 in_fcc_zoom <- here("Maps", dataset, "maps", "fcc123_COD_zoom.tif")
-in_fcc23 <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "fcc23.tif")
+in_fcc123 <- file.path(dir_fdb, dataset, "Africa", "COD", "data",
+                       "forest", "fcc123.tif")
 
 ## Rasters
 fcc_500 <- read_stars(in_fcc_500)
 fcc_zoom <- read_stars(in_fcc_zoom)
-fcc23 <- read_stars(in_fcc23)
+fcc123 <- read_stars(in_fcc123)
 
 ## Grid
-g <- st_make_grid(st_as_sfc(st_bbox(fcc23)), cellsize=10000)
+g <- st_make_grid(st_as_sfc(st_bbox(fcc123)), cellsize=10000)
 
 ## Zoom
 in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
@@ -319,7 +332,9 @@ tm_COD_rho_grid <-
 	tm_borders(col="black", lwd=0.1) +
 	tm_shape(rect) +
 	tm_borders(col="black", lwd=2) + 
-	tm_scale_bar(c(0,250,500), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,250,500), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_layout(outer.margins=c(0,0,0,0.025))
 
 ## Zoom
 tm_COD_rho_grid_zoom <- 
@@ -328,17 +343,19 @@ tm_COD_rho_grid_zoom <-
 	tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						style="cat", legend.show=FALSE) +
 	tm_shape(sp_COD) +
-	tm_dots(col="fcc23", size=0.25, shape=21, style="cat", n=2, 
+	tm_dots(col="fcc23", size=0.2, shape=21, style="cat", n=2, 
 					palette=c(red, green), legend.show=FALSE) +
 	tm_shape(g) +
 	tm_borders(col="black", lwd=1.5) + 
-	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_layout(outer.margins=c(0,0.025,0,0))
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "grid_COD.png")
-png(filename=f, width=16.6, height=8.4, units="cm", res=300)
+png(filename=f, width=textwidth, height=(textwidth*1.05)/2, units="cm", res=300)
 grid.newpage()
-pushViewport(viewport(layout=grid.layout(1,2)))
+pushViewport(viewport(layout=grid.layout(3,3)))
 print(tm_COD_rho_grid, vp=viewport(layout.pos.col=1))
 print(tm_COD_rho_grid_zoom, vp=viewport(layout.pos.col=2))
 dev.off()
@@ -413,7 +430,7 @@ tm_rho_zoom <-
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "rho_COD.png")
-png(filename=f, width=15, height=15, units="cm", res=300)
+png(filename=f, width=16.6, height=16.6, units="cm", res=300)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(2,2)))
 print(tm_rho_orig, vp=viewport(layout.pos.row=1, layout.pos.col=1))
