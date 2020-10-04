@@ -353,11 +353,11 @@ tm_COD_rho_grid_zoom <-
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "grid_COD.png")
-png(filename=f, width=textwidth, height=(textwidth*1.05)/2, units="cm", res=300)
+png(filename=f, width=textwidth, height=textwidth, units="cm", res=300)
 grid.newpage()
-pushViewport(viewport(layout=grid.layout(3,3)))
+pushViewport(viewport(layout=grid.layout(1,1)))
 print(tm_COD_rho_grid, vp=viewport(layout.pos.col=1))
-print(tm_COD_rho_grid_zoom, vp=viewport(layout.pos.col=2))
+#print(tm_COD_rho_grid_zoom, vp=viewport(layout.pos.col=2))
 dev.off()
 
 ## Copy for manuscript
