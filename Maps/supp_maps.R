@@ -184,7 +184,7 @@ r <- read_stars(out_f)
 
 ## Aspect
 bbox_r <- st_bbox(r)
-asp <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+asp_fcc <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
 
 ## Plot with tmap
 tm_COD_fcc <- 
@@ -201,7 +201,7 @@ tm_COD_fcc <-
 ## Save plot
 tmap_opt(1e8, outer.margins=c(0,0,0,0))
 f <- here("Maps", dataset, "maps", "fcc123_COD.png")
-tmap_save(tm_COD_fcc, file=f, width=textwidth, height=textwidth/asp, units="cm", dpi=300,
+tmap_save(tm_COD_fcc, file=f, width=textwidth, height=textwidth/asp_fcc, units="cm", dpi=300,
 					insets_tm=list(tm_Afr,tm_COD_fcc_zoom), insets_vp=list(vp_Afr,vp_COD_fcc_zoom))
 
 ## Copy for manuscript
@@ -298,7 +298,7 @@ f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "sample_COD.pn
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 #=========================================
-# Map with grid for spatial random effects
+# Grid for spatial random effects
 #=========================================
 
 ## File paths
@@ -313,7 +313,11 @@ fcc_zoom <- read_stars(in_fcc_zoom)
 fcc123 <- read_stars(in_fcc123)
 
 ## Grid
-g <- st_make_grid(st_as_sfc(st_bbox(fcc123)), cellsize=10000)
+g <- st_make_grid(st_as_sfc(st_bbox(fcc123), crs=3395), cellsize=10000)
+
+## Small grid for diagram
+g_neigh <- st_sf(target=c(rep(0,3), c(0,1,0), rep(0,3)),
+                 geometry=g[c(33147:33149, 33361:33363, 33575:33577)])
 
 ## Zoom
 in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
@@ -333,7 +337,7 @@ tm_COD_rho_grid <-
 	tm_shape(rect) +
 	tm_borders(col="black", lwd=2) + 
 	tm_scale_bar(c(0,250,500), text.size=1,
-	             position=c(0.5,0), just=c("center", "bottom")) +
+	             position=c(0.5,0), just=c("left", "bottom")) +
   tm_layout(outer.margins=c(0,0,0,0))
 
 ## Zoom
@@ -343,7 +347,7 @@ tm_COD_rho_grid_zoom <-
 	tm_raster(palette=c(orange_transp, red_transp, green_transp),
 						style="cat", legend.show=FALSE) +
 	tm_shape(sp_COD) +
-	tm_dots(col="fcc23", size=0.2, shape=21, style="cat", n=2, 
+	tm_dots(col="fcc23", size=0.1, shape=21, style="cat", n=2, 
 					palette=c(red, green), legend.show=FALSE) +
 	tm_shape(g) +
 	tm_borders(col="black", lwd=1.5) + 
@@ -351,21 +355,32 @@ tm_COD_rho_grid_zoom <-
 	             position=c(0.5,0), just=c("center", "bottom")) +
   tm_layout(outer.margins=c(0,0,0,0))
 
-## Arrange plots with grid package
+## Diagram
+tm_COD_grid_diag <- 
+	tm_shape(g, bbox=st_bbox(fcc_zoom)) +
+	  tm_borders(col=grey(0.7), lwd=1.5) + 
+  tm_shape(g_neigh, bbox=st_bbox(fcc_zoom)) +
+	  tm_fill(col="target", style="cat", n=2, title="", palette=c(grey(0.9), grey(0.7)),
+	          labels=c("Neighbouring cells with rho_j'", "Target cell with rho_j")) +
+    tm_borders(col="black", lwd=1.5) +
+  tm_layout(outer.margins=c(0,0,0,0)) +
+  tm_legend(legend.text.size=0.8,
+            legend.position=c("center","bottom"),
+            legend.just=c("center","bottom"), legend.width=1)
+
+## Save plot
+vp_grid_zoom <- viewport(x=0.01, y=0.01, width=0.45, height=0.45, just=c("left", "bottom"))
+vp_grid_diag <- viewport(x=0.01, y=0.99, width=0.45, height=0.45, just=c("left", "top"))
 f <- here("Maps", dataset, "maps", "grid_COD.png")
-png(filename=f, width=textwidth, height=textwidth, units="cm", res=300)
-grid.newpage()
-pushViewport(viewport(layout=grid.layout(1,1)))
-print(tm_COD_rho_grid, vp=viewport(layout.pos.col=1))
-#print(tm_COD_rho_grid_zoom, vp=viewport(layout.pos.col=2))
-dev.off()
+tmap_save(tm_COD_rho_grid, file=f, width=textwidth, height=textwidth/asp_fcc, units="cm", dpi=300,
+					insets_tm=list(tm_COD_rho_grid_zoom, tm_COD_grid_diag), insets_vp=list(vp_grid_zoom, vp_grid_diag))
 
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "grid_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 #=======================================
-# Map the spatial random effects
+# Spatial random effects
 #=======================================
 
 ## File paths
@@ -375,6 +390,10 @@ in_rho <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "rho.tif")
 ## Rasters
 rho_orig <- read_stars(in_rho_orig)
 rho <- read_stars(in_rho)
+
+## Ncells for COD
+ncell_COD <- ncell(rho_orig)
+ncell_COD
 
 ## Quantiles
 q <- quantile(rho_orig[[1]], c(0.01, 0.99))

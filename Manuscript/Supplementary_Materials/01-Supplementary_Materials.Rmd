@@ -39,10 +39,6 @@ Using observations of the deforestation on the period 2010--2020, we modelled th
 (\#eq:icar)
 \end{equation}
 
-**Add figure for CAR model (damier).**
-
-**Add figure for the grid over a country, e.g. DRC.**
-
 ## Variable selection
 
 Variable selection was performed using a backward elimination procedure. All the spatial explanatory variables in our data-set should decrease the deforestation risk (having a negative effect on the probability of deforestation). For example, the probability of deforestation should decrease with the distance to forest edge and should also decrease inside a protected area. Our variable selection procedure was thus not based on statistical significance but on background knowledge regarding the deforestation process and on the interpretabiliy of the variable effects [@Heinze2018]. For each study-area, we started to fit a model with the full set of explanatory variables (8 variables). At each step of the procedure, we removed the variables having a positive effect on the probability of deforestation. This was done in order to avoid unrealistic predictions of the spatial probability of deforestation at the scale of the study-area. For example, it is not realistic to observe, at a country scale, a decrease of the deforestation with the distance to forest edge (higher deforestation risk in the core of the forest compared with forest edge). This might happen in a particular context for a very specific region but is very unlikely at a country scale. In most of the cases, when we found a positive effect for a given explanatory variable, it was non-significant (95% credible interval including zero). On the contrary, when whe found a negative but non-significant effect for a given explanatory variable, we kept this variable in the model. This effect, albeit non-significant, was interpretable given our background knowledge of the deforestation process and was relatively lower than the effects associated to the other variables.

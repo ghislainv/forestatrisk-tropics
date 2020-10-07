@@ -50,7 +50,7 @@ knitr::include_graphics("figures/sample_COD.png")
 
 ## Grid for spatial random effects
 
-(ref:cap-grid) **Grid used to compute the spatial random effects**. Left: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). Right: Zoom at the North-East of the country showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). One random effect is estimated for each grid cell. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects for the eight neighbouring cells (see Eq. \@ref(eq:icar)).
+(ref:cap-grid) **Grid used to compute the spatial random effects**. _Main image_: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The grid over DRC includes 45,154 $10 \times 10$ km cells (214 cells on the x axis by 211 cells on the y axis). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). _Bottom left inset_: Zoom for an area at the North-East of the country (black square) showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). _Top left inset_: One random effect $\rho_j$ is estimated for each grid cell $j$. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects $\rho_{j^{\prime}}$ for the eight neighbouring cells $j^{\prime}$ (see Eq. \@ref(eq:icar)).
 
 ```{r grid, out.width="\\textwidth", fig.cap="(ref:cap-grid)"}
 knitr::include_graphics("figures/grid_COD.png")
@@ -62,7 +62,7 @@ knitr::include_graphics("figures/grid_COD.png")
 
 ## Estimated spatial random effects
 
-(ref:cap-rho) **Estimated spatial random effects**. Left: Estimated spatial random effects at 10 km resolution for the Democratic Republic of the Congo (DRC). Right: Interpolated spatial random effects at 1 km resolution. A bicubic interpolation method was used. Bottom: Zoom (black square) for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. Due to the structure of the intrinsic CAR model (see Eq. \@ref(eq:icar)), spatial random effects are also estimated for cells without sampled points. This includes cells for which there was no forest cover on the period 2000--2010--2020, and also cells outside country's borders.
+(ref:cap-rho) **Estimated spatial random effects**. Left: Estimated spatial random effects at 10 km resolution for the Democratic Republic of the Congo (DRC). Right: Interpolated spatial random effects at 1 km resolution. A bicubic interpolation method was used. Bottom: Zoom for an area at the North-East of the country (black square) which is close to the city of Beni and the Virunga national park. Due to the structure of the intrinsic CAR model (see Eq. \@ref(eq:icar)), spatial random effects are also estimated for cells without sampled points. This includes cells for which there was no forest cover on the period 2000--2010--2020, and also cells outside country's borders.
 
 ```{r rho, out.width="\\textwidth", fig.cap="(ref:cap-rho)"}
 knitr::include_graphics("figures/rho_COD.png")
