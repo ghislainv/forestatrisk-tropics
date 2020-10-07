@@ -257,9 +257,9 @@ tm_COD_fcc_zoom_extra <-
 	tm_shape(sp_COD) +
 	  tm_dots(col="fcc23", size=0.2, shape=21, style="cat", n=2, 
 					  palette=c(red, green), legend.show=FALSE) +
-	tm_scale_bar(c(0,0.5,1), text.size=1,
-	             position=c(0.5,0), just=c("center", "bottom")) +
-  tm_layout(outer.margins=c(0,0.025,0,0))
+	tm_scale_bar(c(0,0.5,1), text.size=0.8,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0,0.015,0,0))
 
 #=========================================
 # Zoom with sample points
@@ -280,13 +280,13 @@ tm_COD_fcc_zoom <-
 					  palette=c(red, green), legend.show=FALSE) +
 	tm_shape(rect_extra) +
 	  tm_borders(col="black", lwd=2) +
-	tm_scale_bar(c(0,5,10), text.size=1,
-	             position=c(0.5,0), just=c("center", "bottom")) +
-  tm_layout(outer.margins=c(0,0,0,0.025))
+	tm_scale_bar(c(0,5,10), text.size=0.8,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0,0,0,0.015))
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "sample_COD.png")
-png(filename=f, width=textwidth, height=(textwidth*1.05)/2, units="cm", res=300)
+png(filename=f, width=textwidth, height=textwidth/2, units="cm", res=300)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(1,2)))
 print(tm_COD_fcc_zoom, vp=viewport(layout.pos.col=1))
@@ -334,7 +334,7 @@ tm_COD_rho_grid <-
 	tm_borders(col="black", lwd=2) + 
 	tm_scale_bar(c(0,250,500), text.size=1,
 	             position=c(0.5,0), just=c("center", "bottom")) +
-  tm_layout(outer.margins=c(0,0,0,0.025))
+  tm_layout(outer.margins=c(0,0,0,0))
 
 ## Zoom
 tm_COD_rho_grid_zoom <- 
@@ -349,7 +349,7 @@ tm_COD_rho_grid_zoom <-
 	tm_borders(col="black", lwd=1.5) + 
 	tm_scale_bar(c(0,5,10), text.size=1,
 	             position=c(0.5,0), just=c("center", "bottom")) +
-  tm_layout(outer.margins=c(0,0.025,0,0))
+  tm_layout(outer.margins=c(0,0,0,0))
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "grid_COD.png")
@@ -386,8 +386,7 @@ yellow_rho <- "#ffffbf"
 green_rho <- green # "#228B22FF"
 
 ## tm_options
-tmap_options_reset()
-tmap_options(max.raster=c(plot=1e8, view=1e8))
+tmap_opt(npi=1e8)
 
 ## Plot rho_orig
 tm_rho_orig <- 
@@ -399,7 +398,9 @@ tm_rho_orig <-
 	tm_borders(col="black", lwd=2) +
 	tm_shape(ctry_PROJ) +
 	tm_borders(col="black") +
-	tm_scale_bar(c(0,250,500), position=c(0.5, 0), just=c(0.5, 0))
+	tm_scale_bar(c(0,250,500), text.size=0.8,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0.015,0,0,00.015))
 ## Zoom rho_orig
 tm_rho_orig_zoom <- 
 	tm_shape(rho_orig, bbox=st_bbox(rect)) +
@@ -408,7 +409,9 @@ tm_rho_orig_zoom <-
 						style="cont", midpoint=0, breaks=seq(-q_max, q_max, b=1)) +
 	tm_shape(ctry_PROJ) +
 	tm_borders(col="black") +
-	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,5,10), text.size=0.8,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0,0,0.015,0.015))
 
 ## Plot interpolated rho
 tm_rho <- 
@@ -419,18 +422,23 @@ tm_rho <-
 	tm_shape(rect) +
 	tm_borders(col="black", lwd=2) +
 	tm_shape(ctry_PROJ) +
-	tm_borders(col="black")
+	tm_borders(col="black") +
+  tm_scale_bar(c(0,250,500),  text.size=0.8,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0.015,0.015,0,0))
 ## Zoom interpolated rho
 tm_rho_zoom <- 
 	tm_shape(rho, bbox=st_bbox(rect)) +
 	tm_raster(palette=c(green_rho, yellow_rho, red_rho), title="",
 						legend.reverse=TRUE, legend.show=FALSE,
 						style="cont", midpoint=0, breaks=seq(-q_max, q_max, b=1)) +
-	tm_scale_bar(c(0,5,10), position=c(0.5,0), just=c("center", "bottom"))
+	tm_scale_bar(c(0,5,10),  text.size=0.8,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0,0.015,0.015,0))
 
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "maps", "rho_COD.png")
-png(filename=f, width=16.6, height=16.6, units="cm", res=300)
+png(filename=f, width=textwidth, height=textwidth, units="cm", res=300)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(2,2)))
 print(tm_rho_orig, vp=viewport(layout.pos.row=1, layout.pos.col=1))
