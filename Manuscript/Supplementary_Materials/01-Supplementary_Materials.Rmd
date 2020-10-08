@@ -73,11 +73,7 @@ Before computing the predictions of the deforestation probability, the spatial r
 
 Distance to forest edge in 2020 was recomputed at 30 m resolution from the forest cover map in 2020. Distance to past deforestation in 2020 was computed at 30 m resolution from the 2010--2020 forest cover change map. All other explanatory variables (protected areas, distance to nearest road, town and river, elevation, and slope) were supposed unchanged between years 2010 and 2020. Using rasters of explanatory variables at their original resolution, interpolated spatial random effects at 1 km resolution, and the fitted "icar" model for each study-area, we computed the spatial probability of deforestation at 30 m resolution for the year 2020 for each study-area.
 
-Deforestation probabilities (float values in the interval $[0, 1]$) were rescaled and transformed as integer values on the interval $[\![1, 65535]\!]$. This allowed us to record the large rasters of probabilities as UInt16 type (using zero as no-data value) and save space on disk. We then obtained a map of the relative probability of deforestation for the year 2020 at 30 m resolution.
-
-**Add figure for interpolation of spatial random effects.**
-
-**Add figure for spatial probability of deforestation and indicate web-site with interactive map.**
+Deforestation probabilities (float values in the interval $[0, 1]$) were rescaled and transformed as integer values on the interval $[\![1, 65535]\!]$. This allowed us to record the large rasters of probabilities as UInt16 type (using zero as no-data value) and save space on disk. We then obtained a map of the relative probability of deforestation for the year 2020 at 30 m resolution. An interactive global map of the spatial probability of deforestion is available at <https://forestatrisk.cirad.fr/tropics>.
 
 ## Forecasting forest cover change on the period 2020--2100 {#forecast}
 
