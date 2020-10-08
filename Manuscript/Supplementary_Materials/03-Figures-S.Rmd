@@ -50,7 +50,7 @@ knitr::include_graphics("figures/sample_COD.png")
 
 ## Grid for spatial random effects
 
-(ref:cap-grid) **Grid used to compute the spatial random effects**. _Main image_: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The grid over DRC includes 45,154 $10 \times 10$ km cells (214 cells on the x axis by 211 cells on the y axis). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). _Bottom left inset_: Zoom for an area at the North-East of the country (black square) showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). _Top left inset_: One random effect $\rho_j$ is estimated for each grid cell $j$. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects $\rho_{j^{\prime}}$ for the eight neighbouring cells $j^{\prime}$ (see Eq. \@ref(eq:icar)).
+(ref:cap-grid) **Grid used to compute the spatial random effects**. _Main figure_: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The grid over DRC includes 45,154 $10 \times 10$ km cells (214 cells on the x axis by 211 cells on the y axis). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). _Top inset_: Zoom for an area at the North-East of the country (black square) showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). _Bottom inset_: One random effect $\rho_j$ is estimated for each grid cell $j$. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects $\rho_{j^{\prime}}$ for the eight neighbouring cells $j^{\prime}$ (see Eq. \@ref(eq:icar)).
 
 ```{r grid, out.width="\\textwidth", fig.cap="(ref:cap-grid)"}
 knitr::include_graphics("figures/grid_COD.png")
@@ -66,6 +66,18 @@ knitr::include_graphics("figures/grid_COD.png")
 
 ```{r rho, out.width="\\textwidth", fig.cap="(ref:cap-rho)"}
 knitr::include_graphics("figures/rho_COD.png")
+```
+
+<!--------------------------------------------->
+<!-- Spatial probability of deforestation -->
+<!--------------------------------------------->
+
+## Relative spatial probability of deforestation
+
+(ref:cap-prob) **Predicted relative spatial probability of deforestation**. _Main figure_: Map of the spatial probability of deforestation computed for each forest pixel in 2020 for the Democratic Republic of the Congo. On the map, we clearly see the effect of the distance to nearest town, road, and river, and the effect of the distance to forest edge on the spatial probability of deforestation. Also, we clearly see the importance of the spatial random effects in structuring the spatial variability of the deforestation probability. For example, the area at the North of the zoom (black square) shows very high deforestation probabilities (in black). This area is politically unstable and is home to a large number of militias who survive at the expense of the forest. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
+
+```{r prob, out.width="\\textwidth", fig.cap="(ref:cap-prob)"}
+knitr::include_graphics("figures/prob_COD.png")
 ```
 
 <!--------------------------------------------->

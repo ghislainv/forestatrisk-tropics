@@ -30,7 +30,7 @@
             <prop v="0" k="discrete"/>
             <prop v="gradient" k="rampType"/>
           </colorramp>
-          <item color="#228b22" alpha="255" label="0" value="0"/>
+          <item color="#228b22" alpha="255" label="1" value="1"/>
           <item color="#ffa500" alpha="255" label="39322" value="39322"/>
           <item color="#e31a1c" alpha="255" label="52429" value="52429"/>
           <item color="#000000" alpha="255" label="65535" value="65535"/>

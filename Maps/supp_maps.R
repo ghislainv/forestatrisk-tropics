@@ -100,9 +100,9 @@ xy <- st_bbox(gadm0_cont)
 asp <- (xy$xmax - xy$xmin)/(xy$ymax - xy$ymin)
 
 ## Viewport for inset
-w <- 0.25
+w <- 0.275
 h <- asp * w
-vp_Afr <- viewport(x=0.025, y=0.975, width=w, height=h, just=c("left", "top"))
+vp_Afr <- viewport(x=0.01, y=0.01, width=w, height=h, just=c("left", "bottom"))
 
 #=========================================
 # Zoom on fcc
@@ -159,13 +159,8 @@ tm_COD_fcc_zoom <-
 	tm_scale_bar(breaks=c(0,5,10), text.size=1,
 	             position=c(0.5,0), just=c("center", "bottom"))
 
-## Aspect ratio
-asp <- (z_ext$xmax - z_ext$xmin)/(z_ext$ymax - z_ext$ymin)
-
 ## Viewport for inset
-w <- 0.25
-h <- asp * w
-vp_COD_fcc_zoom <- viewport(x=0.025, y=0.025, width=w, height=h, just=c("left", "bottom"))
+vp_COD_fcc_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275, just=c("left", "top"))
 
 #=========================================
 # Historical deforestation map
@@ -369,8 +364,8 @@ tm_COD_grid_diag <-
             legend.just=c("center","bottom"), legend.width=1)
 
 ## Save plot
-vp_grid_zoom <- viewport(x=0.01, y=0.01, width=0.45, height=0.45, just=c("left", "bottom"))
-vp_grid_diag <- viewport(x=0.01, y=0.99, width=0.45, height=0.45, just=c("left", "top"))
+vp_grid_zoom <- viewport(x=0.01, y=0.99, width=0.45, height=0.45, just=c("left", "top"))
+vp_grid_diag <- viewport(x=0.01, y=0.01, width=0.45, height=0.45, just=c("left", "bottom"))
 f <- here("Maps", dataset, "maps", "grid_COD.png")
 tmap_save(tm_COD_rho_grid, file=f, width=textwidth, height=textwidth/asp_fcc, units="cm", dpi=300,
 					insets_tm=list(tm_COD_rho_grid_zoom, tm_COD_grid_diag), insets_vp=list(vp_grid_zoom, vp_grid_diag))
@@ -468,6 +463,87 @@ dev.off()
 
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "rho_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+#===========================================
+# Spatial probability of deforestation: zoom
+#===========================================
+
+## Zoom on region with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "prob.tif")
+z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000, 
+									 size_x_start=48000, size_y_start=48000)
+
+## Rectangle polygon for zoom
+rect_ext <- extent(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax)
+rect_bbox <- st_bbox(rect_ext, crs=3395)
+rect_geom <- st_as_sfc(rect_bbox)
+rect <- st_sf(id=1, geometry=rect_geom)
+
+## Zoom on region with gdal
+out_f <- here("Maps", dataset, "maps", "prob_COD_zoom.tif")
+z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
+if (!file.exists(out_f)) {
+	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Plot
+r_zoom <- read_stars(out_f)
+tm_prob_zoom <- 
+	tm_shape(r_zoom) +
+	  tm_raster(style="cont", title="", legend.reverse=TRUE, legend.show=FALSE,
+	            palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
+	            breaks=c(1, 39322, 54249, 65535), labels=c("0","0.25","0.50","1")) +
+	tm_scale_bar(breaks=c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom"))
+
+## Viewport for inset
+vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
+                         just=c("left", "top"))
+
+#=====================================
+# Spatial probability of deforestation
+#=====================================
+
+## Resample r at 500m resolution with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "prob.tif")
+out_f <- here("Maps", dataset, "maps", "prob_COD_500m.tif")
+if (!file.exists(out_f)) {
+  system(paste0('gdalwarp -r bilinear -ot UInt16 -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Raster of historical deforestation 2000-2010-2020
+r <- read_stars(out_f)
+
+## Aspect
+bbox_r <- st_bbox(r)
+asp_prob <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+
+## Plot with tmap
+tm_prob <- 
+	tm_shape(r) +
+	  tm_raster(style="cont", title="", legend.reverse=TRUE,
+	            palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
+	            breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
+  tm_shape(ctry_PROJ) +
+	  tm_borders(col="black") +
+	tm_shape(rect) +
+	  tm_borders(col="black", lwd=2) +
+	tm_scale_bar(c(0,250,500), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_legend(position=c("left","bottom"), just=c("left","bottom")) +
+  tm_layout(legend.text.size=1.2)
+
+## Save plot
+tmap_opt(1e8, outer.margins=c(0,0,0,0))
+f <- here("Maps", dataset, "maps", "prob_COD.png")
+tmap_save(tm_prob, file=f, width=textwidth, height=textwidth/asp_prob, units="cm", dpi=300,
+					insets_tm=tm_prob_zoom, insets_vp=vp_prob_zoom)
+
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "prob_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
