@@ -322,7 +322,7 @@ z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000,
 ## Plot
 tm_COD_rho_grid <- 
 	tm_shape(fcc_500) +
-	tmap_options(max.raster=c(plot=1e5, view=1e5)) +
+	tmap_options(max.raster=c(plot=1e8, view=1e8)) +
 	tm_raster(palette=c(orange, red, green),
 						style="cat", legend.show=FALSE) +
 	tm_shape(ctry_PROJ) +
@@ -400,7 +400,7 @@ yellow_rho <- "#ffffbf"
 green_rho <- green # "#228B22FF"
 
 ## tm_options
-tmap_opt(npi=1e8)
+tmap_opt(npix=1e8)
 
 ## Plot rho_orig
 tm_rho_orig <- 
@@ -414,7 +414,9 @@ tm_rho_orig <-
 	tm_borders(col="black") +
 	tm_scale_bar(c(0,250,500), text.size=0.8,
 	             position=c(0.5,0.14), just=c("center", "top")) +
-  tm_layout(outer.margins=c(0.015,0,0,00.015))
+  tm_layout(outer.margins=c(0.015,0,0,0.015),
+            legend.position=c("left", "bottom"),
+            legend.just=c("left","bottom"))
 ## Zoom rho_orig
 tm_rho_orig_zoom <- 
 	tm_shape(rho_orig, bbox=st_bbox(rect)) +
@@ -425,7 +427,9 @@ tm_rho_orig_zoom <-
 	tm_borders(col="black") +
 	tm_scale_bar(c(0,5,10), text.size=0.8,
 	             position=c(0.5,0.14), just=c("center", "top")) +
-  tm_layout(outer.margins=c(0,0,0.015,0.015))
+  tm_layout(outer.margins=c(0,0,0.015,0.015),
+            legend.position=c("left", "bottom"),
+            legend.just=c("left","bottom"))
 
 ## Plot interpolated rho
 tm_rho <- 
@@ -494,7 +498,7 @@ tm_prob_zoom <-
 	tm_shape(r_zoom) +
 	  tm_raster(style="cont", title="", legend.reverse=TRUE, legend.show=FALSE,
 	            palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
-	            breaks=c(1, 39322, 54249, 65535), labels=c("0","0.25","0.50","1")) +
+	            breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
 	tm_scale_bar(breaks=c(0,5,10), text.size=1,
 	             position=c(0.5,0), just=c("center", "bottom"))
 
@@ -509,8 +513,9 @@ vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
 ## Resample r at 500m resolution with gdal
 in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "prob.tif")
 out_f <- here("Maps", dataset, "maps", "prob_COD_500m.tif")
+## Use near resampling for plot (including min/max), not bilinear
 if (!file.exists(out_f)) {
-  system(paste0('gdalwarp -r bilinear -ot UInt16 -tr 500 500 -tap -overwrite \\
+  system(paste0('gdalwarp -r near -ot UInt16 -tr 500 500 -tap -overwrite \\
 							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
 }
 
@@ -544,6 +549,324 @@ tmap_save(tm_prob, file=f, width=textwidth, height=textwidth/asp_prob, units="cm
 
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "prob_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+#==================================
+# Future forest cover in 2050: zoom
+#==================================
+
+## Zoom on region with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "fcc_2050.tif")
+z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000, 
+									 size_x_start=48000, size_y_start=48000)
+
+## Rectangle polygon for zoom
+rect_ext <- extent(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax)
+rect_bbox <- st_bbox(rect_ext, crs=3395)
+rect_geom <- st_as_sfc(rect_bbox)
+rect <- st_sf(id=1, geometry=rect_geom)
+
+## Zoom on region with gdal
+out_f <- here("Maps", dataset, "maps", "fcc2050_COD_zoom.tif")
+z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
+if (!file.exists(out_f)) {
+	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Plot
+r_zoom <- read_stars(out_f)
+tm_prob_zoom <- 
+	tm_shape(r_zoom) +
+	  tm_raster(style="cat", n=2, title="", legend.show=FALSE,
+	            palette=c(red, green)) +
+	tm_scale_bar(breaks=c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom"))
+
+## Viewport for inset
+vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
+                         just=c("left", "top"))
+
+#============================
+# Future forest cover in 2050
+#============================
+
+## Resample r at 500m resolution with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "fcc_2050.tif")
+out_f <- here("Maps", dataset, "maps", "fcc2050_COD_500m.tif")
+if (!file.exists(out_f)) {
+  system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Raster of historical deforestation 2000-2010-2020
+r <- read_stars(out_f)
+
+## Aspect
+bbox_r <- st_bbox(r)
+asp_prob <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+
+## Plot with tmap
+tm_fcc2050 <- 
+	tm_shape(r) +
+	  tm_raster(style="cat", n=2, title="2050", legend.show=FALSE,
+	            palette=c(red, green)) +
+  tm_shape(ctry_PROJ) +
+	  tm_borders(col="black") +
+	tm_shape(rect) +
+	  tm_borders(col="black", lwd=2) +
+	tm_scale_bar(c(0,250,500), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_legend(position=c("left","bottom"), just=c("left","bottom")) +
+  tm_layout(legend.text.size=1.2, title="2050",
+            title.position=c(0.06,0.06), title.size=1.8)
+
+## Save plot
+tmap_opt(1e8, outer.margins=c(0,0,0,0))
+f <- here("Maps", dataset, "maps", "fcc2050_COD.png")
+tmap_save(tm_fcc2050, file=f, width=textwidth, height=textwidth/asp_prob, units="cm", dpi=300,
+					insets_tm=tm_prob_zoom, insets_vp=vp_prob_zoom)
+
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2050_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+#==================================
+# Future forest cover in 2100: zoom
+#==================================
+
+## Zoom on region with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "fcc_2100.tif")
+z_ext <- zoom_grid(rast=raster(in_f), x_zoom_start=3248000, y_zoom_start=23000, 
+									 size_x_start=48000, size_y_start=48000)
+
+## Rectangle polygon for zoom
+rect_ext <- extent(z_ext$xmin, z_ext$xmax, z_ext$ymin, z_ext$ymax)
+rect_bbox <- st_bbox(rect_ext, crs=3395)
+rect_geom <- st_as_sfc(rect_bbox)
+rect <- st_sf(id=1, geometry=rect_geom)
+
+## Zoom on region with gdal
+out_f <- here("Maps", dataset, "maps", "fcc2100_COD_zoom.tif")
+z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
+if (!file.exists(out_f)) {
+	system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Plot
+r_zoom <- read_stars(out_f)
+tm_prob_zoom <- 
+	tm_shape(r_zoom) +
+	  tm_raster(style="cat", n=2, title="", legend.show=FALSE,
+	            palette=c(red, green)) +
+	tm_scale_bar(breaks=c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom"))
+
+## Viewport for inset
+vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
+                         just=c("left", "top"))
+
+#============================
+# Future forest cover in 2100
+#============================
+
+## Resample r at 500m resolution with gdal
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "output", "fcc_2100.tif")
+out_f <- here("Maps", dataset, "maps", "fcc2100_COD_500m.tif")
+if (!file.exists(out_f)) {
+  system(paste0('gdalwarp -r near -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Raster of historical deforestation 2000-2010-2020
+r <- read_stars(out_f)
+
+## Aspect
+bbox_r <- st_bbox(r)
+asp_prob <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+
+## Plot with tmap
+tm_fcc2100 <- 
+	tm_shape(r) +
+	  tm_raster(style="cat", n=2, title="2100", legend.show=FALSE,
+	            palette=c(red, green)) +
+  tm_shape(ctry_PROJ) +
+	  tm_borders(col="black") +
+	tm_shape(rect) +
+	  tm_borders(col="black", lwd=2) +
+	tm_scale_bar(c(0,250,500), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_legend(position=c("left","bottom"), just=c("left","bottom")) +
+  tm_layout(legend.text.size=1.2, title="2100",
+            title.position=c(0.06,0.06), title.size=1.8)
+
+## Save plot
+tmap_opt(1e8, outer.margins=c(0.1,0,0,0))
+f <- here("Maps", dataset, "maps", "fcc2100_COD.png")
+tmap_save(tm_fcc2100, file=f, width=textwidth, height=textwidth/asp_prob, units="cm", dpi=300,
+					insets_tm=tm_prob_zoom, insets_vp=vp_prob_zoom)
+
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2100_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## Montage with ImageMagick
+f1 <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2050_COD.png")
+f2 <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2100_COD.png")
+f_out <- here("Manuscript", "Supplementary_Materials", "figures",
+              "fcc2050_2100_COD.png")
+system(paste0("montage ",f1," ",f2," -tile 2x1 -geometry +25 ",f_out))
+system(paste0("convert ",f_out," -crop +25+0 +repage ",f_out))
+system(paste0("convert ",f_out," -crop -25+0 +repage ",f_out))
+
+#======================
+# Explanatory variables
+#======================
+
+## Shapefiles
+ctry_PROJ_shp <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "ctry_PROJ.shp")
+pa_shp <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "pa_PROJ.shp")
+roads_shp <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "roads_PROJ.shp")
+towns_shp <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "towns_PROJ.shp")
+rivers_shp <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "rivers_PROJ.shp")
+
+## Altitude
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "altitude.tif")
+out_f1 <- here("Maps", dataset, "maps", "elev_COD_500m.tif")
+out_f2 <- here("Maps", dataset, "maps", "elev_COD_500m_crop.tif")
+if (!file.exists(out_f2)) {
+  system(paste0('gdalwarp -r near \\
+                -ot Int16 -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f1))
+  system(paste0('gdalwarp -cutline ', ctry_PROJ_shp,' -crop_to_cutline \\
+                -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', out_f1, ' ', out_f2))
+}
+## Slope
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "slope.tif")
+out_f1 <- here("Maps", dataset, "maps", "slope_COD_500m.tif")
+out_f2 <- here("Maps", dataset, "maps", "slope_COD_500m_crop.tif")
+if (!file.exists(out_f2)) {
+  system(paste0('gdalwarp -r near \\
+                -ot Int16 -tr 500 500 -tap -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f1))
+  system(paste0('gdalwarp -cutline ', ctry_PROJ_shp,' -crop_to_cutline \\
+                -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', out_f1, ' ', out_f2))
+}
+
+# Load as sf object
+ctry_PROJ <- st_read(ctry_PROJ_shp)
+pa <- st_read(pa_shp)
+roads <- st_read(roads_shp)
+towns <- st_read(towns_shp)
+rivers <- st_read(rivers_shp)
+
+# Load as stars object
+elev_tif <- here("Maps", dataset, "maps", "elev_COD_500m_crop.tif")
+elev <- read_stars(elev_tif)
+slope_tif <- here("Maps", dataset, "maps", "slope_COD_500m_crop.tif")
+slope <- read_stars(slope_tif)
+
+## Elevation
+elev_pal <- colorRampPalette(c("darkolivegreen4","yellow","brown"))(6)
+tm_elev <- 
+  tm_shape(elev) +
+    tm_raster(style="quantile", n=6, title="", midpoint=NA,
+              palette=elev_pal) +
+  tm_shape(ctry_PROJ, is.master=TRUE) +
+	  tm_borders(col="black", lwd=0.5) +
+  tm_legend(position=c("left", "top"),
+            just=c("left","bottom"),
+            text.size=0.4) +
+  tm_layout(outer.margins=c(0,0,0,0.015),
+            title="Elevation (m)",
+            title.position=c(0.06,0.06),
+            title.size=0.8)
+
+## Slope
+slope_pal <- colorRampPalette(grey((9:1)/10))(6)
+tm_slope <-
+  tm_shape(slope) +
+    tm_raster(style="quantile", n=6, title="", midpoint=NA,
+              palette=slope_pal) +
+  tm_shape(ctry_PROJ, is.master=TRUE) +
+	  tm_borders(col="black", lwd=0.5) +
+  tm_legend(position=c("left", "top"),
+            just=c("left","bottom"),
+            text.size=0.4) +
+  tm_layout(outer.margins=c(0,0,0,0.015),
+            title="Slope (°)",
+            title.position=c(0.06,0.06),
+            title.size=0.8)
+
+## Roads
+tm_roads <- 
+  tm_shape(roads) +
+    tm_lines(lwd=0.25, col="orange4") +
+  tm_shape(ctry_PROJ, is.master=TRUE) +
+	  tm_borders(col="black", lwd=0.5) +
+  tm_layout(outer.margins=c(0,0,0,0.015),
+            title="Roads",
+            title.position=c(0.06,0.06),
+            title.size=0.8)
+
+## Towns
+tm_towns <- 
+  tm_shape(roads) +
+    tm_lines(lwd=0.25, col="orange4") +
+  tm_shape(towns) +
+    tm_dots(size=0.025, col=grey(0.5)) +
+  tm_shape(ctry_PROJ, is.master=TRUE) +
+	  tm_borders(col="black", lwd=0.5) +
+  tm_layout(outer.margins=c(0,0,0,0.015),
+            title="Towns",
+            title.position=c(0.06,0.06),
+            title.size=0.8)
+
+## Rivers
+tm_rivers <- 
+  tm_shape(rivers) +
+    tm_lines(lwd=0.25, col="blue") +
+  tm_shape(ctry_PROJ, is.master=TRUE) +
+	  tm_borders(col="black", lwd=0.5) +
+  tm_scale_bar(c(0,250,500), text.size=0.5,
+	             position=c(0.5,0.14), just=c("center", "top")) +
+  tm_layout(outer.margins=c(0,0,0,0.015),
+            title="Rivers",
+            title.position=c(0.06,0.06),
+            title.size=0.8)
+
+## Protectead areas
+tm_pa <- 
+  tm_shape(roads) +
+    tm_lines(lwd=0.25, col="orange4") +
+	tm_shape(pa) +
+    tm_fill(col="olivedrab3") +
+  tm_shape(ctry_PROJ, is.master=TRUE) +
+	  tm_borders(col="black", lwd=0.5) +
+  tm_layout(outer.margins=c(0,0,0,0.015),
+            title="Protected areas",
+            title.position=c(0.06,0.06),
+            title.size=0.8)
+
+## Arrange plots with grid package
+tmap_opt(1e8)
+f <- here("Maps", dataset, "maps", "var_COD.png")
+png(filename=f, width=textwidth, height=textwidth*2/3, units="cm", res=300)
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(2,3)))
+print(tm_elev, vp=viewport(layout.pos.row=1, layout.pos.col=1))
+print(tm_slope, vp=viewport(layout.pos.row=1, layout.pos.col=2))
+print(tm_roads, vp=viewport(layout.pos.row=1, layout.pos.col=3))
+print(tm_towns, vp=viewport(layout.pos.row=2, layout.pos.col=1))
+print(tm_rivers, vp=viewport(layout.pos.row=2, layout.pos.col=2))
+print(tm_pa, vp=viewport(layout.pos.row=2, layout.pos.col=3))
+dev.off()
+
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "var_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
