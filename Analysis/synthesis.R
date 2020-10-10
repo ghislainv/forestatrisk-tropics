@@ -152,7 +152,8 @@ write.table(perf_cont_mod, file=file.path("Analysis", dataset, "results/perf_con
 
 ## Create table to store results
 samp_size_tab <- data.frame(matrix(NA, nrow=nctry, ncol=6))
-names(samp_size_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", "nfor", "ndef")
+names(samp_size_tab) <- c("area_cont", "area_ctry", "area_name", "area_code",
+                          "nfor", "ndef")
 
 ## Loop on countries
 for (i in 1:nctry) {
@@ -598,23 +599,29 @@ write.table(par_tab, file=file.path("Analysis", dataset, "results/parameter_esti
 ## ===================
 
 ## Create table to store results
-parea_tab <- data.frame(matrix(NA, nrow=nctry, ncol=6))
-names(parea_tab) <- c("cont", "iso3", "Mean", "Sd", "CI_low", "CI_high")
+parea_tab <- data.frame(matrix(NA, nrow=nctry, ncol=8))
+names(parea_tab) <- c("area_cont", "area_ctry", "area_name", "area_code",
+                      "Mean", "Sd", "CI_low", "CI_high")
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
+    ## Area info
+    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
     ## Parameter estimates
     f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
     names(par) <- c("Var", "Mean", "Sd", "CI_low", "CI_high")
     ## Fill in the table
-    parea_tab[i, 1:2] <- c(continent, iso)
+    parea_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
     j <- which(par$Var=="C(pa)[T.1.0]")
     if (length(j)>0) {
-        parea_tab[i, 3:6] <- par[j, 2:5]
+        parea_tab[i, 5:8] <- par[j, 2:5]
     }
 }
 
