@@ -36,7 +36,7 @@ knitr::include_graphics("figures/fcc123_COD.png")
 <!-- Spatial explanatory variables -->
 <!--------------------------------------------->
 
-## Spatial explanatory variables
+## Spatial explanatory variables used for spatial modelling of deforestation
 
 (ref:cap-var) **Spatial explanatory variables**. Spatial explanatory variables for the Democratic Republic of the Congo in central Africa. Elevation (in m) and slope (in degree) at 90 m resolution were obtained from the SRTM Digital Elevation Database v4.1 (<http://srtm.csi.cgiar.org/>). Distances (in m) to nearest road, town and river at 150 m resolution were computed from the road, town and river network obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads include "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM. Towns include "city", "town" and "village"  categories from OSM. Rivers include "river" and "canal" categories from OSM. Protected areas were obtained from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020). Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves). Two additional spatial explanatory variables (distance to forest edge and distance to past deforestation) were obtained from the historical forest cover change map (Fig. \@ref(fig:fcc-maps)).
 

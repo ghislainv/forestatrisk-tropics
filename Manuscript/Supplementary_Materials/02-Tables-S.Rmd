@@ -226,4 +226,115 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
 
+## Parameter estimates
+
+(ref:cap-par) **Parameter estimates for each study area**. xxx.\vspace{0.5cm} 
+
+```{r par, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/parameter_estimates.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_name)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Study-area", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 digits=3,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+	              position="center", font_size=10, repeat_header_method="replace")
+```
+
+## Effect of protected areas on deforestation
+
+(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study-area. We computed the mean (Mean), the standard-deviation (Sd), and the bayesian 95% credible interval (CI 95%) of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the 119 study-areas, XX showed a significant negative effect (57% of the countries). These study-areas accounted for 88% of the moist tropical forest in 2010, meaning that for 88% of the forest, protected areas decrease the probability of deforestation.\vspace{0.5cm} 
+
+```{r pa, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Format function
+f_format <- function(x) {
+  if (is.na(x)) {
+    r <- NA
+  } else if (x >=0) {
+    r <- format(paste0(" ", format(x, digits=1, nsmall=3)), width=6, justify="right")
+  } else if (x <0) {
+    r <- format(format(x, digits=1, nsmall=3), width=6, justify="right")
+  }
+  return(r)
+}
+## Import data
+df <- read.table("tables/parea_estimates.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(CI=paste0("(",
+                          sapply(df$CI_low, f_format),
+                          ", ",
+                          sapply(df$CI_high, f_format),
+                          ")")) %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
+  dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
+  dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
+  dplyr::relocate(CI, .before=sign)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 3), "c")
+col.names <- c("Country -- Study-area", "Mean", "Sd", "CI 95\\%",
+               "signif")
+knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 digits=3,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+	              position="center", font_size=11, repeat_header_method="replace")
+```
+
+## Effect of the distance to road on deforestation
+
+(ref:cap-road) **Effect of the distance to road on deforestation**. xxx.\vspace{0.5cm} 
+
+```{r road, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/road_estimates.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(CI=paste0("(",
+                          sapply(df$CI_low, f_format),
+                          ", ",
+                          sapply(df$CI_high, f_format),
+                          ")")) %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
+  dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
+  dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
+  dplyr::relocate(CI, .before=sign)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 3), "c")
+col.names <- c("Country -- Study-area", "Mean", "Sd", "CI 95\\%",
+               "signif")
+knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 digits=3,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+	              position="center", font_size=11, repeat_header_method="replace")
+```
+
 \newpage

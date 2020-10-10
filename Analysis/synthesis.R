@@ -603,6 +603,12 @@ for (i in 1:nctry) {
     }
 }
 
+## Rearrange study areas per continent
+par_tab <- par_tab %>%
+    dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    dplyr::arrange(id, area_name) %>%
+    dplyr::select(-id)
+
 ## Save results
 f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
 write.table(par_tab, file=f, sep=",", row.names=FALSE)
