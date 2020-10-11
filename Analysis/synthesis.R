@@ -650,8 +650,16 @@ for (i in 1:nctry) {
 ## Rearrange study areas per continent
 parea_tab <- parea_tab %>%
     dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    dplyr::mutate(for2010) %>%
     dplyr::arrange(id, area_name) %>%
     dplyr::select(-id)
+
+## Add forest cover in 2100
+f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+fcc_tab <- read.table(f, header=TRUE, sep=",")
+parea_tab <- parea_tab %>%
+    dplyr::mutate(for2010=fcc_tab$for2010) %>%
+    dplyr::relocate(for2010, .after=area_code)
 
 ## Save results
 f <- here("Analysis", dataset,"results", "parea_estimates.csv")
@@ -697,6 +705,13 @@ road_tab <- road_tab %>%
     dplyr::arrange(id, area_name) %>%
     dplyr::select(-id)
 
+## Add forest cover in 2100
+f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+fcc_tab <- read.table(f, header=TRUE, sep=",")
+road_tab <- road_tab %>%
+    dplyr::mutate(for2010=fcc_tab$for2010) %>%
+    dplyr::relocate(for2010, .after=area_code)
+
 ## Save results
 f <- here("Analysis", dataset, "results", "road_estimates.csv")
 write.table(road_tab, file=f, sep=",", row.names=FALSE)
@@ -708,11 +723,23 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Significance PA and roads
 ## =========================
 
+## Load data-sets
+if (!exists("parea_tab")) {
+  f <- here("Analysis", dataset,"results", "parea_estimates.csv")
+  parea_tab <- read.table(f, header=TRUE, sep=",")
+}
+if (!exists("road_tab")) {
+  f <- here("Analysis", dataset,"results", "road_estimates.csv")
+  road_tab <- read.table(f, header=TRUE, sep=",")
+}
+
 ## Significance PA
 parea_tab <- parea_tab %>%
     mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
-## Percentage of country for which the effet of protected areas is significant
-perc_sign_PA <- 100*sum(parea_tab$sign==1)/nrow(parea_tab)
+## Number of countries for which the effet of protected areas is significant
+sum_sign_PA <- sum(parea_tab$sign==1)
+## Percentage of countries for which the effet of protected areas is significant
+perc_sign_PA <- 100*sum_sign_PA/nrow(parea_tab)
 ## Weighted percentage with forest size in 2010
 f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
@@ -722,8 +749,10 @@ perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights)
 ## Significance road
 road_tab <- road_tab %>%
     mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0))
-## Percentage of country for which the effet of protected areas is significant
-perc_sign_road <- 100*sum(road_tab$sign==1)/nrow(road_tab)
+## Number of countries for which the effet of roads is significant
+sum_sign_road <- sum(road_tab$sign==1)
+## Percentage of countries for which the effet of roads is significant
+perc_sign_road <- 100*sum_sign_road/nrow(road_tab)
 ## Weighted percentage with forest size in 2010
 f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
@@ -731,14 +760,16 @@ weights <- fcc_tab$for2010
 perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights)
 
 ## Save results
-nctry <- length(fcc_tab$iso3)
+nctry <- length(fcc_tab$area_code)
+nctry_sign <- c(sum_sign_PA, sum_sign_road)
 perc <- c(perc_sign_PA, perc_sign_road)
 perc_w <- c(perc_sign_w_PA, perc_sign_w_road) 
-sign_PA_road <- data.frame(var=c("PA","road"), nctry=nctry, perc=round(perc), perc_w=round(perc_w))
+sign_PA_road <- data.frame(var=c("PA","road"), nctry=nctry, nctry_sign=nctry_sign,
+                           perc=round(perc), perc_w=round(perc_w))
 
 ## Save results
 f <- here("Analysis", dataset, "results", "sign_PA_road.csv")
-write.table(sign_PA_road, file=, sep=",", row.names=FALSE)
+write.table(sign_PA_road, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "sign_PA_road.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
