@@ -228,7 +228,7 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
 
 ## Parameter estimates
 
-(ref:cap-par) **Parameter estimates for each study area**. xxx.\vspace{0.5cm} 
+(ref:cap-par) **Parameter estimates for each study area**. We computed the posterior mean of each parameter for each study-area. Continuous variables were normalized (mean=0 and standard-deviation=1) allowing us to compare variable importance at decreasing deforestation within and between study-areas.\vspace{0.5cm} 
 
 ```{r par, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
