@@ -869,4 +869,45 @@ dev.off()
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "var_COD.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
+#======================
+# Carbon map
+#======================
+
+## Crop carbon map to country extent
+in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "emissions", "AGB.tif")
+out_f <- here("Maps", dataset, "maps", "AGB_COD.tif")
+if (!file.exists(out_f)) {
+  system(paste0('gdalwarp -cutline ', ctry_PROJ_shp,' -crop_to_cutline \\
+                -overwrite \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
+
+## Load raster
+r_AGB <- read_stars(out_f)
+
+## Plot with tmap
+tm_COD_AGB <- 
+	tm_shape(r_AGB) +
+	  tm_raster(palette="RdYlGn", title="AGB (Mg/ha)",
+		  				style="cont", legend.show=TRUE, legend.reverse=TRUE) +
+  tm_shape(ctry_PROJ) +
+	  tm_borders(col="black") +
+	#tm_shape(rect) +
+	#  tm_borders(col="black", lwd=2) +
+	tm_scale_bar(c(0,250,500), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom")) +
+  tm_legend(position=c("left","bottom"), just=c("left","bottom"))
+
+
+# ## Resample fcc map at 1km resolution
+# out_f <- here("Maps", dataset, "maps", "fcc123_COD_1km.tif")
+# if (!file.exists(out_f)) {
+#   in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
+#   system(paste0('gdalwarp -r near -tr 1000 1000 -tap -overwrite \\
+# 							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+# }
+# ## Forest carbon map for year 2000
+
+
+
 # EOF

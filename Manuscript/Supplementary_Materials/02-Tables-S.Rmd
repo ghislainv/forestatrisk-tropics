@@ -41,11 +41,10 @@ knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
 						 escape=FALSE,
 						 col.names=col.names,
 						 align=vect.align, linesep="") %>%
-	column_spec(c(1:3),width="3cm") %>%
-	column_spec(4,width="2cm") %>%
-	column_spec(5,width="3cm") %>%
-	column_spec(5,width="2cm") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+	column_spec(c(1:3),width="2.5cm") %>%
+  column_spec(4,width="1cm") %>%
+  column_spec(c(5:6),width="2cm") %>%
+	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center", font_size=11)
 ```
 
 <!----------------->
@@ -306,6 +305,8 @@ knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
 	              position="center", font_size=10, repeat_header_method="replace")
 ```
 
+\newpage
+
 <!------------------------------------------------>
 <!-- Effect of protected areas on deforestation -->
 <!------------------------------------------------>
@@ -366,6 +367,8 @@ knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
+
+\newpage
 
 <!----------------------------------------------------->
 <!-- Effect of the distance to road on deforestation -->

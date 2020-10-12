@@ -44,7 +44,6 @@ knitr::include_graphics("figures/fcc123_COD.png")
 knitr::include_graphics("figures/var_COD.png")
 ```
 
-
 <!--------------------------------------------->
 <!-- Data sampling -->
 <!--------------------------------------------->
