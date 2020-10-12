@@ -327,10 +327,10 @@ fcc_ind <- fcc_df %>%
 TI <- 2020-2010  ## Time-interval
 fcc_comb <- fcc_ind %>%
     # Add Brazil
-    rbind(fcc_bra) %>%
+    dplyr::bind_rows(fcc_bra) %>%
     # Add continents
-    rbind(fcc_cont) %>%
-    rbind(fcc_all) %>%
+    dplyr::bind_rows(fcc_cont) %>%
+    dplyr::bind_rows(fcc_all) %>%
     # Rename
     dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
     dplyr::rename(andef=andef_sum, yrdis=yrdis_max) %>%
@@ -555,9 +555,10 @@ fc_proj_allcont <- fc_proj_cont %>%
 
 ## Combine regions
 fc_proj_regions <- fcc_ind %>%
-    rbind(fcc_bra) %>%
-    rbind(fc_proj_cont) %>%
-    rbind(fc_proj_allcont)
+    dplyr::bind_rows(fcc_bra) %>%
+    dplyr::bind_rows(fc_proj_cont) %>%
+    dplyr::bind_rows(fc_proj_allcont)
+    
 
 ## Save results
 f <- here("Analysis", dataset, "results", "fcc_proj_region.csv")
@@ -592,7 +593,7 @@ for (i in 1:nctry) {
     area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
     area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
     ## Parameter estimates
-    f_name <- file.path(dir, iso, "/output/summary_hSDM.txt")
+    f_name <- file.path(dir, iso, "output/summary_hSDM.txt")
     par <- read.table(f_name, skip=4)
     names(par) <- c("Var", "Mean", "Sd", "CI_low", "CI_high")
     ## Fill in the table
@@ -614,6 +615,131 @@ f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
 write.table(par_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "parameter_estimates.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## =============================================
+## Parameter estimate weighted mean by continent
+## =============================================
+
+## Load parameter estimates
+f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
+par_tab <- read.table(f, header=TRUE, sep=",")
+
+## Add forest cover in 2100
+f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+fcc_tab <- read.table(f, header=TRUE, sep=",")
+par_tab <- par_tab %>%
+    dplyr::mutate(for2010=fcc_tab$for2010) %>%
+    dplyr::relocate(for2010, .after=area_code)
+
+## Replace NA with 0 as NA mean no effect.
+par_tab <- par_tab %>%
+    replace(., is.na(.), 0)
+
+## Brazil
+par_bra <- par_tab %>%
+    dplyr::filter(area_ctry=="Brazil") %>%
+    dplyr::select(-area_cont, -area_code, -area_name) %>%
+    dplyr::mutate(across(.cols=!c(area_ctry, for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)}))
+## India
+par_ind <- par_tab %>%
+    dplyr::filter(area_ctry=="India") %>%
+    dplyr::select(-area_cont, -area_code, -area_name) %>%
+    dplyr::mutate(across(.cols=!c(area_ctry, for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)}))
+
+## All study areas
+par_all <- par_tab %>%
+    dplyr::select(-area_cont, -area_code, -area_name) %>%
+    dplyr::mutate(across(.cols=!c(area_ctry, for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::mutate(area_ctry="All continents") %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)}))
+
+## By continent
+par_cont <- par_tab %>%
+    dplyr::select(-area_ctry, -area_code, -area_name) %>%
+    dplyr::group_by(area_cont) %>%
+    dplyr::mutate(across(.cols=!c(for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)})) %>%
+    dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    dplyr::arrange(id, area_name) %>%
+    dplyr::select(-id) %>%
+    dplyr::rename(area_ctry=area_cont)
+
+## Combine regions
+par_regions <- par_ind %>%
+    dplyr::bind_rows(par_bra) %>%
+    dplyr::bind_rows(par_cont) %>%
+    dplyr::bind_rows(par_all)
+
+## Save results
+f <- here("Analysis", dataset, "results", "weighted_param_region.csv")
+write.table(par_regions, file=f, sep=",", row.names=FALSE)
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "weighted_param_region.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## =============================
+## Mean and SD for each variable
+## =============================
+
+## Create table to store results
+mean_sd_tab <- data.frame(matrix(NA, nrow=nctry, ncol=18))
+names(mean_sd_tab) <- c("area_cont", "area_ctry", "area_name", "area_code",
+                    "alt_m", "alt_sd", "slope_m", "slope_sd", 
+                    "ddefor_m", "ddefor_sd", "dedge_m", "dedge_sd",
+                    "driver_m", "driver_sd", "droad_m", "droad_sd",
+                    "dtown_m",  "dtown_sd")
+
+## Loop on countries
+for (i in 1:nctry) {
+    iso <- iso3[i]
+    continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+    dir <- file.path(dir_fdb, dataset, continent)
+    ## Area info
+    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
+    ## Sample
+    f_name <- file.path(dir, iso, "output/sample.txt")
+    sample <- read.table(f_name, header=TRUE, sep=",")
+    # Mean and SD
+    Mean <- apply(sample, 2, mean, na.rm=TRUE)
+    SD <- apply(sample, 2, sd, na.rm=TRUE)
+    mat <- rbind(Mean, SD)[,c(1,9,2:6)]
+    ## Fill in the table
+    mean_sd_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
+    mean_sd_tab[i, 5:18] <- c(mat)
+}
+
+## Rearrange study areas per continent
+mean_sd_tab <- mean_sd_tab %>%
+    dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    dplyr::arrange(id, area_name) %>%
+    dplyr::select(-id)
+
+## Save results
+f <- here("Analysis", dataset, "results", "mean_sd_var.csv")
+write.table(mean_sd_tab, file=f, sep=",", row.names=FALSE)
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "mean_sd_var.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================

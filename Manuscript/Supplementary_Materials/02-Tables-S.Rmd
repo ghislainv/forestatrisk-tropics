@@ -4,6 +4,10 @@
 library(dplyr)
 ```
 
+<!--------------------------------------------------->
+<!-- Categories of the forest cover annual product -->
+<!--------------------------------------------------->
+
 ## Categories of the forest cover annual product
 
 (ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm} 
@@ -20,6 +24,10 @@ knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
 	column_spec(2,width="10cm") %>%
 	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
+
+<!--------------->
+<!-- Variables -->
+<!--------------->
 
 ## Variables
 
@@ -39,6 +47,10 @@ knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
 	column_spec(5,width="2cm") %>%
 	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
+
+<!----------------->
+<!-- Sample size -->
+<!----------------->
 
 ## Sample size
 
@@ -61,6 +73,10 @@ knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRU
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
+
+<!------------------------------------------------>
+<!-- Mathematical formulas for accuracy indices -->
+<!------------------------------------------------>
 
 ## Mathematical formulas for accuracy indices
 
@@ -92,6 +108,10 @@ knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
 						 align=vect.align, linesep="") %>%
 	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
+
+<!---------------------->
+<!-- Accuracy indices -->
+<!---------------------->
 
 ## Accuracy indices
 
@@ -125,6 +145,10 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
   collapse_rows(columns=1, latex_hline = "major", valign = "middle") %>%
   kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2,5,8), full_width=FALSE, position="center")
 ```
+
+<!------------------------------------>
+<!-- Historical forest cover change -->
+<!------------------------------------>
 
 ## Historical forest cover change
 
@@ -175,6 +199,10 @@ knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALS
 
 \newpage
 
+<!------------------------------>
+<!-- Forest cover projections -->
+<!------------------------------>
+
 ## Forest cover projections
 
 (ref:cap-fcc-proj) **Forest cover projections for each study-area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm} 
@@ -215,7 +243,7 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
-col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr75dis")
+col.names <- c("Region", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr75dis")
 knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
 						 format.args=list(big.mark=","),
 						 digits=0,
@@ -226,9 +254,13 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
 
-## Parameter estimates
+<!------------------------------------------------->
+<!-- Parameter estimates and variable importance -->
+<!------------------------------------------------->
 
-(ref:cap-par) **Parameter estimates for each study area**. We computed the posterior mean of each parameter for each study-area. Continuous variables were normalized (mean=0 and standard-deviation=1) allowing us to compare variable importance at decreasing deforestation within and between study-areas.\vspace{0.5cm} 
+## Parameter estimates and variable importance
+
+(ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study-areas.\vspace{0.5cm} 
 
 ```{r par, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -253,6 +285,30 @@ knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
 	              position="center", font_size=10, repeat_header_method="replace")
 ```
+
+(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm} 
+
+```{r par-region, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/weighted_param_region.csv", header=TRUE, sep=",")
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Region", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 digits=3,
+						 escape=FALSE,
+						 col.names=col.names,
+						 align=vect.align, linesep="") %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+	              position="center", font_size=10, repeat_header_method="replace")
+```
+
+<!------------------------------------------------>
+<!-- Effect of protected areas on deforestation -->
+<!------------------------------------------------>
 
 ## Effect of protected areas on deforestation
 
@@ -310,6 +366,10 @@ knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
 	              position="center", font_size=11, repeat_header_method="replace")
 ```
+
+<!----------------------------------------------------->
+<!-- Effect of the distance to road on deforestation -->
+<!----------------------------------------------------->
 
 ## Effect of the distance to road on deforestation
 
