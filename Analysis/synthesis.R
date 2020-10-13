@@ -905,21 +905,26 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## =====================================
 
 ## Create table to store results
-Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=14), stringsAsFactors=FALSE)
+Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=16), stringsAsFactors=FALSE)
 C_var <- paste0("C", 2020 + c(0, 10, 15, 20, 30, 35, 40, 50, 60, 65, 70, 80))
-names(Cem_tab) <- c("cont", "iso3", C_var)
+names(Cem_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", C_var)
 
 ## Loop on countries
 for (i in 1:nctry) {
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
+    ## Area info
+    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
     ## Carbon emissions
     f_name <- file.path(dir, iso, "output/C_emissions.csv")
     Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
     ## Fill in the table
-    Cem_tab[i, 1:2] <- c(continent, iso)
-    Cem_tab[i, 3:14] <- Cem_df$C
+    Cem_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
+    Cem_tab[i, 5:16] <- Cem_df$C
 }
 
 ## Save results
@@ -938,13 +943,12 @@ Cem_tab <- read.table(f, header=TRUE, sep=",")
 
 ## Summarize results
 Cem_tab2 <- Cem_tab %>%
-    mutate(cont=ifelse(cont=="Brazil", "America", cont)) %>%
-    group_by(cont) %>%
+    group_by(area_cont) %>%
     summarize(across(all_of(C_var), sum)) %>%
-    bind_rows(data.frame(cont="TOTAL",
+    bind_rows(data.frame(area_cont="TOTAL",
                          summarize_at(Cem_tab, vars(C_var), sum),
                          stringsAsFactors=FALSE)) %>%
-    mutate_at(vars(C2020:C2100), function(x){x*1e-9})  # Results in PgC
+    mutate(across(C2020:C2100, function(x){x*1e-9}))  # Results in PgC
 
 ## Save results
 f <- here("Analysis", dataset, "results", "C_emissions_summary.csv")
@@ -953,10 +957,11 @@ write.table(Cem_tab2, file=f, sep=",", row.names=FALSE)
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_emissions_summary.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-## In 2019-2050, 22.4 billions of tonnes of C emitted = 22.4 PgC (0.72 PgC/year on 2019-2050)
+## In 2020-2050, 18.4 billions of tonnes of C emmitted = 18.1 PgC (0.60 PgC/year on 2020-2050)
 ##
 ## References for comparison:
-## Baccini et al. (2017) only 0.8 PgC/year for 2003–2014. Land use and land-cover change (LULCC) are believed to release between 0.81 and 1.14 PgC/yr.
+## Baccini et al. (2017) only 0.8 PgC/year for 2003–2014. 
+## Land use and land-cover change (LULCC) are believed to release between 0.81 and 1.14 PgC/yr.
 ## Baccini 2012 et al. reported 1 PgC/year on the period 2000-2010.
 ## See Van Der Werf, G. R. et al. CO2 emissions from forest loss. Nature Geosci. 2, 737–738 (2009).
 ## Friedlingstein, P. et al. Update on CO2 emissions. Nature Geosci. 3, 811–812 (2010).
@@ -977,7 +982,7 @@ C_trend <- Cem_tab2 %>%
            T70_80=(C2080-C2070)/10,
            T80_90=(C2090-C2080)/10,
            T90_100=(C2100-C2090)/10) %>%
-    dplyr::select(cont, T10_20:T90_100)
+    dplyr::select(area_cont, T10_20:T90_100)
 
 ## Carbon emissions should continue to increase: from 0.66 PgC/yr on 2019-2035 to 0.814 PgC/yr on 2050-2085.
 ## Deforestation of forest areas with higher carbon stocks in the future.
@@ -992,7 +997,52 @@ C_trend <- Cem_tab2 %>%
 f <- here("Analysis", dataset, "results", "C_trend.csv")
 write.table(C_trend, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_emissions.csv")
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_trend.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## ==============================
+## Figure: carbon emission trends
+## ==============================
+
+## mytheme
+mytheme <- theme(
+  axis.text=element_text(size=20),
+  axis.title=element_text(size=20),
+  legend.title=element_text(size=20),
+  legend.text=element_text(size=20),
+  legend.position=c(0.75, 0.5),
+  legend.justification=c(0, 0))
+
+## Transform dataset in long format
+C_long <- C_trend %>%
+  tidyr::pivot_longer(cols=T10_20:T90_100, names_to="T_int",
+                      values_to="C_em") %>%
+  dplyr::mutate(year=rep(seq(2015, 2095, by=10), 4))
+
+## Historical data
+C_hist <- C_long %>% dplyr::filter(year==2015)
+
+## Projected data
+C_proj <- C_long
+
+## Plot
+p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont), data=C_hist) +
+  geom_point(size=2) +
+  geom_line(data=C_proj, size=1.2) +
+  xlab("Year") + ylab("Annual carbon emissions (Pg/yr) associated to \ndeforestation of moist tropical forest") +
+  scale_color_discrete(name="Continents",
+                       breaks=c("America", "Africa", "Asia", "TOTAL"),
+                       labels=c("America", "Africa", "Asia", "TOTAL")) +
+  scale_y_continuous(limits=c(0,0.75), breaks=seq(0,0.75,0.25)) +
+  scale_x_continuous(limits=c(2010, 2100), breaks=seq(2010,2100,by=10)) +
+  theme_bw() + mytheme
+
+## Save results
+f <- here("Analysis", dataset, "results", "C_trend.png")
+ggsave(f, p)
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
+              "C_trend.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
