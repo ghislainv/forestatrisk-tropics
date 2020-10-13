@@ -116,4 +116,16 @@ knitr::include_graphics("figures/fcc2050_2100_COD.png")
 knitr::include_graphics("figures/perc_loss_cont.png")
 ```
 
+<!--------------------------------------------->
+<!-- Aboveground biomass map -->
+<!--------------------------------------------->
+
+## Aboveground biomass map
+
+(ref:cap-agb) **Aboveground biomass map**. _Main figure_: Aboveground biomass (AGB in Mg/ha) map for the Democratic Republic of Congo (DRC) at 1 km resolution produced by @Avitabile2016. This map is a combination of two pantropical aboveground biomass maps by @Saatchi2011 and @Baccini2012. While the RMSE of the fused map by @Avitabile2016 is still substancial (87--98 Mg/ha), the fused map achieved a lower RMSE (a decrease of 5–74%) and bias (a decrease of 90–153%) than the two input maps for all continents. The fusion map is representative of the aboveground biomass for the years 2000--2010. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
+
+```{r agb, out.width="\\textwidth", fig.cap="(ref:cap-agb)"}
+knitr::include_graphics("figures/AGB_COD.png")
+```
+
 \newpage

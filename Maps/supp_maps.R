@@ -885,29 +885,47 @@ if (!file.exists(out_f)) {
 ## Load raster
 r_AGB <- read_stars(out_f)
 
+## Aspect
+bbox_r <- st_bbox(r_AGB)
+asp_AGB <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+
+## Prob raster for bbox
+in_f_prob <- here("Maps", dataset, "maps", "prob_COD_500m.tif")
+r_prob <- read_stars(in_f_prob)
+
+## Palette
+pal <- c("#e3d5c6", "#a59e5f", "#64701d", "#4d5c20", "#23390b", "#000900")
+
 ## Plot with tmap
 tm_COD_AGB <- 
-	tm_shape(r_AGB) +
-	  tm_raster(palette="RdYlGn", title="AGB (Mg/ha)",
+	tm_shape(r_AGB, bbox=st_bbox(r_prob)) +
+	  tm_raster(palette=pal, title="AGB (Mg/ha)",
 		  				style="cont", legend.show=TRUE, legend.reverse=TRUE) +
   tm_shape(ctry_PROJ) +
 	  tm_borders(col="black") +
-	#tm_shape(rect) +
-	#  tm_borders(col="black", lwd=2) +
+	tm_shape(rect) +
+	  tm_borders(col="black", lwd=2) +
 	tm_scale_bar(c(0,250,500), text.size=1,
 	             position=c(0.5,0), just=c("center", "bottom")) +
-  tm_legend(position=c("left","bottom"), just=c("left","bottom"))
+  tm_legend(position=c("left","bottom"), just=c("left","bottom")) +
+  tm_layout(legend.text.size=1.2, legend.title.size=1.5)
 
+## Zoom
+tm_COD_AGB_zoom <- 
+	tm_shape(r_AGB, bbox=st_bbox(rect)) +
+	  tm_raster(palette=pal, style="cont", legend.show=FALSE) +
+	tm_scale_bar(c(0,5,10), text.size=1,
+	             position=c(0.5,0), just=c("center", "bottom"))
+## Viewport for inset
+vp_COD_AGB_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275, just=c("left", "top"))
 
-# ## Resample fcc map at 1km resolution
-# out_f <- here("Maps", dataset, "maps", "fcc123_COD_1km.tif")
-# if (!file.exists(out_f)) {
-#   in_f <- file.path(dir_fdb, dataset, "Africa", "COD", "data", "forest", "fcc123.tif")
-#   system(paste0('gdalwarp -r near -tr 1000 1000 -tap -overwrite \\
-# 							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
-# }
-# ## Forest carbon map for year 2000
-
-
+## Save plot
+tmap_opt(1e8, outer.margins=c(0,0,0,0))
+f <- here("Maps", dataset, "maps", "AGB_COD.png")
+tmap_save(tm_COD_AGB, file=f, width=textwidth, height=textwidth/asp_AGB, units="cm", dpi=300,
+					insets_tm=tm_COD_AGB_zoom, insets_vp=vp_COD_AGB_zoom)
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "AGB_COD.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF

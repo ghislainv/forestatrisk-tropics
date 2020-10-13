@@ -933,11 +933,14 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Summary carbon emissions
 ## ========================
 
+## Load data
+Cem_tab <- read.table(f, header=TRUE, sep=",")
+
 ## Summarize results
 Cem_tab2 <- Cem_tab %>%
     mutate(cont=ifelse(cont=="Brazil", "America", cont)) %>%
     group_by(cont) %>%
-    summarize_at(all_of(C_var), sum) %>%
+    summarize(across(all_of(C_var), sum)) %>%
     bind_rows(data.frame(cont="TOTAL",
                          summarize_at(Cem_tab, vars(C_var), sum),
                          stringsAsFactors=FALSE)) %>%
