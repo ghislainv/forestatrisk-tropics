@@ -110,7 +110,7 @@ knitr::include_graphics("figures/fcc2050_2100_COD.png")
 
 ## Percentage of forest cover loss
 
-(ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for years 2000 (0%), 2010, and 2020, for the three continents: America (in green), Africa (in red), and Asia (in blue). Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries (see section \@ref(forecast) in Methods). When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have nor more forest (in 2242, 2160, and 2122, respectively, Table \@ref(tab:fcc-proj)), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2099, 2145, and 2201 for Asia, Africa, and America, respectively (see Table \@ref(tab:fcc-proj-reg)). 
+(ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for years 2000 (0%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries (see section \@ref(forecast) in Methods). When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have nor more forest (in 2242, 2160, and 2122, respectively, Table \@ref(tab:fcc-proj)), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2099, 2145, and 2201 for Asia, Africa, and America, respectively (see Table \@ref(tab:fcc-proj-reg)). 
 
 ```{r perc-loss, out.width="\\textwidth", fig.cap="(ref:cap-perc-loss)"}
 knitr::include_graphics("figures/perc_loss_cont.png")
@@ -126,6 +126,26 @@ knitr::include_graphics("figures/perc_loss_cont.png")
 
 ```{r agb, out.width="\\textwidth", fig.cap="(ref:cap-agb)"}
 knitr::include_graphics("figures/AGB_COD.png")
+```
+
+<!-------------------------------------------------------->
+<!-- Carbon emissions associated to projected deforestation
+<!-------------------------------------------------------->
+
+```{r}
+f <- here("Analysis", dataset, "results", "C_trend.csv")
+C_trend <- read.table(f, header=TRUE, sep=",")
+C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 2)
+C_all <- C_trend[C_trend$area_cont=="All continents",-c(1)]
+C_max <- round(max(C_all), 2)
+```
+
+## Carbon emissions associated to future deforestation
+
+(ref:cap-c-em) **Carbon emissions associated to projected deforestation**. This figure displays the future change in annual carbon emissions (Pg/yr) associated to projected deforestation of moist tropical forests. Mean annual carbon emissions were computed for ten-year intervals from 2010--2020 to 2090--2100. Points represent the observed mean annual carbon emissions (based on historical deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for all continents together. Lines represent the projected mean annual carbon emissions (based on projected forest cover change maps) from 2020--2030 to 2090--2100 per continent, and for all continents together. Annual carbon emissions at the pantropical scale are predicted to increase from `r C_10_20` in 2010--2020 up to `r C_max` Pg/yr in 2080--2090.  
+
+```{r -c-em, out.width="\\textwidth", fig.cap="(ref:cap-c-em)"}
+knitr::include_graphics("figures/C_trend.png")
 ```
 
 \newpage

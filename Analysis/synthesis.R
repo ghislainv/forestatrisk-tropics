@@ -13,6 +13,7 @@ require(dplyr)
 require(tidyr)
 require(here)
 require(ggplot2)
+require(wesanderson)
 
 ## Set working directory
 setwd(here())
@@ -427,6 +428,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ====================================
 
 ## Load data
+f <- here("Analysis", dataset, "results", "perc_loss_cont.csv")
 fc_perc_cont <- read.table(f, header=TRUE, sep=",")
 df_hist <- fc_perc_cont %>%
     dplyr::filter(year %in% c(2000, 2010, 2020))
@@ -435,28 +437,29 @@ df_proj <- fc_perc_cont %>%
 
 ## mytheme
 mytheme <- theme(
-    axis.text=element_text(size=20),
-    axis.title=element_text(size=20),
-    legend.title=element_text(size=20),
-    legend.text=element_text(size=20),
+    axis.title=element_text(size=12),
+    axis.text=element_text(size=10),
+    legend.title=element_text(size=12),
+    legend.text=element_text(size=10),
     legend.position=c(0.95, 0.05),
     legend.justification=c(1, 0))
 
 ## Plot
 p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
-    geom_point(size=2) +
-    geom_line(data=df_proj, size=1.2) +
+    geom_point(size=1) +
+    geom_line(data=df_proj, size=0.8) +
     xlab("Year") + ylab("Percentage of forest cover loss\n(in comparison with year 2000)") +
-    scale_color_discrete(name="Continents",
-                         breaks=c("America", "Africa", "Asia"),
-                         labels=c("America", "Africa", "Asia")) +
+    scale_color_manual(values=wes_palette("Moonrise2")[c(3, 2, 1)],
+                       name="Continents",
+                       breaks=c("America", "Africa", "Asia"),
+                       labels=c("America", "Africa", "Asia")) +
     ylim(0,100) +
     geom_hline(yintercept=75) +
     theme_bw() + mytheme
 
 ## Save results
 f <- here("Analysis", dataset, "results", "perc_loss_cont.png")
-ggsave(f, p)
+ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
               "perc_loss_cont.png")
@@ -939,14 +942,15 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ========================
 
 ## Load data
+f <- here("Analysis", dataset, "results", "C_emissions.csv")
 Cem_tab <- read.table(f, header=TRUE, sep=",")
 
 ## Summarize results
 Cem_tab2 <- Cem_tab %>%
     group_by(area_cont) %>%
-    summarize(across(all_of(C_var), sum)) %>%
-    bind_rows(data.frame(area_cont="TOTAL",
-                         summarize_at(Cem_tab, vars(C_var), sum),
+    summarize(across(starts_with("C"), sum)) %>%
+    bind_rows(data.frame(area_cont="All continents",
+                         summarize(Cem_tab, across(starts_with("C"), sum)),
                          stringsAsFactors=FALSE)) %>%
     mutate(across(C2020:C2100, function(x){x*1e-9}))  # Results in PgC
 
@@ -1006,11 +1010,11 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## mytheme
 mytheme <- theme(
-  axis.text=element_text(size=20),
-  axis.title=element_text(size=20),
-  legend.title=element_text(size=20),
-  legend.text=element_text(size=20),
-  legend.position=c(0.75, 0.5),
+  axis.title=element_text(size=12),
+  axis.text=element_text(size=10),
+  legend.title=element_text(size=12),
+  legend.text=element_text(size=10),
+  legend.position=c(0.75, 0.45),
   legend.justification=c(0, 0))
 
 ## Transform dataset in long format
@@ -1027,19 +1031,20 @@ C_proj <- C_long
 
 ## Plot
 p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont), data=C_hist) +
-  geom_point(size=2) +
-  geom_line(data=C_proj, size=1.2) +
-  xlab("Year") + ylab("Annual carbon emissions (Pg/yr) associated to \ndeforestation of moist tropical forest") +
-  scale_color_discrete(name="Continents",
-                       breaks=c("America", "Africa", "Asia", "TOTAL"),
-                       labels=c("America", "Africa", "Asia", "TOTAL")) +
+  geom_point(size=1) +
+  geom_line(data=C_proj, size=0.8) +
+  xlab("Year") + ylab("Annual carbon emissions (Pg/yr) associated to \ndeforestation of moist tropical forests") +
+  scale_color_manual(values=wes_palette("Moonrise2")[c(3, 2, 1, 4)],
+                     name="Continents",
+                     breaks=c("America", "Africa", "Asia", "All continents"),
+                     labels=c("America", "Africa", "Asia", "All continents")) +
   scale_y_continuous(limits=c(0,0.75), breaks=seq(0,0.75,0.25)) +
   scale_x_continuous(limits=c(2010, 2100), breaks=seq(2010,2100,by=10)) +
   theme_bw() + mytheme
 
 ## Save results
 f <- here("Analysis", dataset, "results", "C_trend.png")
-ggsave(f, p)
+ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
               "C_trend.png")
