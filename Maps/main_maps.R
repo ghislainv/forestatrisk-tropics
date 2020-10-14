@@ -79,9 +79,25 @@ for (i in 1:ncont) {
 data("World")
 
 ## Bounding boxes
-bbox_Afr <- st_bbox(c(xmin=-1952868, ymin=-2667917, xmax=7068958, ymax=2667917), crs=st_crs(3395))
-bbox_Ame <- st_bbox(c(xmin=-13176731, ymin=-2667917, xmax=-3211009, ymax=2667917), crs=st_crs(3395))
-bbox_Asi <- st_bbox(c(xmin=8087438, ymin=-2667917, xmax=20037508, ymax=2667917), crs=st_crs(3395))
+## Tropics
+ymin_trop <- -2667917; ymax_trop <- 2667917
+## Africa
+xmin_Afr <- -1952868; xmax_Afr <- 5700000
+bbox_Afr <- st_bbox(c(xmin=xmin_Afr, xmax=xmax_Afr,
+                      ymin=ymin_trop, ymax=ymax_trop),
+                    crs=st_crs(3395))
+x_size_Afr <- xmax_Afr-xmin_Afr
+## America
+xmin_Ame <- -10500000; xmax_Ame <- -3600000
+bbox_Ame <- st_bbox(c(xmin=xmin_Ame, xmax=xmin_Ame + x_size_Afr,
+                      ymin=ymin_trop, ymax=ymax_trop),
+                    crs=st_crs(3395))
+## Asia
+xmin_Asi <- 7400000; xmax_Asi <- 19100000
+bbox_Asi <- st_bbox(c(xmin=xmin_Asi, xmax=xmax_Asi,
+                      ymin=ymin_trop, ymax=ymax_trop),
+                    crs=st_crs(3395))
+x_size <- 19100000-7400000
 bbox_cont <- list(bbox_Afr, bbox_Ame, bbox_Asi)
 
 ## List to save maps
@@ -144,6 +160,10 @@ for (i in 1:ncont) {
 	l_fcc2050[[i]] <- m_fcc2050
 }
 
+l_fcc2050[[1]]
+l_fcc2050[[2]]
+l_fcc2050[[3]]
+
 ## Arrange plots with grid package
 f <- here("Maps", dataset, "fcc2050.png")
 png(filename=f, width=textwidth, height=textwidth, units="cm", res=300)
@@ -151,7 +171,7 @@ grid.newpage()
 pushViewport(viewport(layout=grid.layout(4,4)))
 print(l_fcc2050[[2]], vp=viewport(layout.pos.row=1:2, layout.pos.col=1:2))
 print(l_fcc2050[[1]], vp=viewport(layout.pos.row=1:2, layout.pos.col=3:4))
-print(l_fcc2050[[3]], vp=viewport(layout.pos.row=3:4, layout.pos.col=2:3))
+print(l_fcc2050[[3]], vp=viewport(layout.pos.row=3:4, layout.pos.col=1:4))
 dev.off()
 
 # EOF
