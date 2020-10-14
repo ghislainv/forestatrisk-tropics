@@ -20,7 +20,7 @@ require(stars)
 require(grid)
 require(here)
 
-## Declare Some variables
+## Declare some variables
 ##dataset <- "gfc2020_70" 
 dataset <- "jrc2020"
 ctry_iso <- "COD"
@@ -31,7 +31,7 @@ ctry_df <- read.csv2(here("Analysis", "ctry_run.csv"), header=TRUE, sep=";", enc
 ## Identify continent
 cont <- as.character(ctry_df$cont_run[ctry_df$iso3==ctry_iso])
 
-## Create directory for maps
+## Create directory for country maps
 dir.create(here("Maps", dataset, ctry_iso), recursive=TRUE)
 
 ## Source data directory
@@ -40,9 +40,11 @@ dir_fdb <- here("Data")
 
 ## Countries and continent
 data("World")
-cont_world <- cont
 
-## iso3 for Africa
+## iso3 for continent
+if (cont=="Africa") {cont_world <- c("Africa")}
+if (cont=="America") {cont_world <- c("North America", "South America")}
+if (cont=="Asia") {cont_world <- c("Asia", "Oceania")}
 iso3_cont <- World %>%
 	st_drop_geometry() %>%
 	filter(continent %in% cont_world) %>%
@@ -620,7 +622,7 @@ asp_prob <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
 ## Plot with tmap
 tm_fcc2050 <- 
 	tm_shape(r) +
-	  tm_raster(style="cat", n=2, title="2050", legend.show=FALSE,
+	  tm_raster(style="cat", n=2, legend.show=FALSE,
 	            palette=c(red, green)) +
   tm_shape(ctry_PROJ) +
 	  tm_borders(col="black") +
@@ -699,7 +701,7 @@ asp_prob <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
 ## Plot with tmap
 tm_fcc2100 <- 
 	tm_shape(r) +
-	  tm_raster(style="cat", n=2, title="2100", legend.show=FALSE,
+	  tm_raster(style="cat", n=2, legend.show=FALSE,
 	            palette=c(red, green)) +
   tm_shape(ctry_PROJ) +
 	  tm_borders(col="black") +

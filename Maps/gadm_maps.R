@@ -15,11 +15,14 @@
 require(dplyr)
 require(sf)
 require(tmap)
+require(here)
 
-## Some variables
+## Declare some variables
 ##dataset <- "gfc2020_70" 
 dataset <- "jrc2020"
-dir.create(file.path("Maps", dataset, "maps"), recursive=TRUE)
+dir.create(here("Maps", dataset), recursive=TRUE)
+
+## Source data directory
 dir_fdb <- "/home/forestatrisk-tropics"
 
 ## Equator
@@ -44,19 +47,20 @@ ncont <- length(continent)
 
 ## Loop on continent
 for (i in 1:ncont) {
+  dir.create(file.path("Maps", dataset, cont), recursive=TRUE)
 	cont <- continent[i]
 	cmd <- paste0("find ",
 								file.path(dir_fdb, dataset),
 								" -regextype posix-egrep -regex '.*",
 								cont,
 								".*/data/ctry_PROJ.shp$' -exec ogr2ogr -update -nlt MULTIPOLYGON -append ",
-								file.path("Maps", dataset, "maps", paste0("borders_", cont, ".gpkg")),
+								here("Maps", dataset, cont, paste0("borders_", cont, ".gpkg")),
 								" {} \\;")
 	system(cmd)
 }
 
 ## Corrections for Brazil on iso
-Brazil_in <- st_read(file.path("Maps", dataset, "maps", "borders_Brazil.gpkg"))
+Brazil_in <- st_read(here("Maps", dataset, "Brazil", "borders_Brazil.gpkg"))
 Brazil_df <- Brazil_in %>%
 	st_drop_geometry() %>%
 	mutate(GID_0=substr(State_ID, 5, 6), NAME_0=as.character(State_name)) %>%
@@ -66,15 +70,15 @@ Brazil_df <- Brazil_in %>%
 Brazil <- st_sf(Brazil_df, geom=Brazil_in$geom)
 
 ## Combine with America and export
-America_in <- st_read(file.path("Maps", dataset, "maps", "borders_America.gpkg"))
+America_in <- st_read(here("Maps", dataset, "America", "borders_America.gpkg"))
 America <- rbind(America_in, Brazil)
-st_write(America, file.path("Maps", dataset, "maps", "borders_America.gpkg"), delete_dsn=TRUE)
+st_write(America, here("Maps", dataset, "America", "borders_America.gpkg"), delete_dsn=TRUE)
 
-## Remove Brazil
-file.remove(file.path("Maps", dataset, "maps", "borders_Brazil.gpkg"))
+## Remove Brazil directory
+unlink(here("Maps", dataset, "Brazil"), recursive=TRUE)
 
 ## Corrections for Asia on iso
-Asia_in <- st_read(file.path("Maps", dataset, "maps", "borders_Asia.gpkg"))
+Asia_in <- st_read(here("Maps", dataset, "Asia", "borders_Asia.gpkg"))
 Asia_df <- Asia_in %>%
 	st_drop_geometry() %>%
 	mutate(NAME_0=replace(as.character(NAME_0), c(4, 11, 13, 12, 16),
@@ -83,7 +87,7 @@ Asia_df <- Asia_in %>%
 	mutate(GID_0=replace(as.character(GID_0), c(4, 11, 13, 12, 16),
 												c("WG", "AN", "NE", "QLD", "IDN")))
 Asia <- st_sf(Asia_df, geom=Asia_in$geom)
-st_write(Asia, file.path("Maps", dataset, "maps", "borders_Asia.gpkg"), delete_dsn=TRUE)
+st_write(Asia, here("Maps", dataset, "Asia", "borders_Asia.gpkg"), delete_dsn=TRUE)
 
 ## Reset continents
 continent <- c("Africa", "America", "Asia")
@@ -96,11 +100,10 @@ ncont <- length(continent)
 ## But precise enough for figures.
 for (i in 1:ncont) {
 	cont <- continent[i]
-	f <- file.path("Maps", dataset, "maps", paste0("borders_", cont, "_simp.gpkg"))
-	if (!file.exists(f)) {
+	in_f <- here("Maps", dataset, cont, paste0("borders_", cont, ".gpkg"))
+	out_f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp_latlong.gpkg"))
+	if (!file.exists(out_f)) {
 		## Simplify and reproject
-		in_f <- file.path("Maps", dataset, "maps", paste0("borders_", cont, ".gpkg"))
-		out_f <- file.path("Maps", dataset, "maps", paste0("borders_", cont, "_simp.gpkg"))
 		cmd <- paste0("ogr2ogr -overwrite -nlt MULTIPOLYGON -t_srs 'EPSG:4326' ", out_f, " ", in_f, " -simplify 1000")
 		system(cmd)
 	}
@@ -115,7 +118,8 @@ continent <- c("Africa", "America", "Asia")
 ncont <- length(continent)
 
 ## Load GADM level0 data
-gadm0 <- st_read(file.path("Maps", "GADM_data", "gadm36_level0.gpkg"))
+v <- here("Maps", "GADM_data", "gadm36_level0.gpkg")
+gadm0 <- st_read(v)
 
 ## Countries and continent
 data("World")
@@ -138,7 +142,7 @@ for (i in 1:ncont) {
 		pull() %>%
 		as.character()
 	
-	## Add some countries
+	## Add or remove some countries
 	if (cont=="Africa") {iso3_cont <- c(as.character(iso3_cont), "REU", "MUS")}
 	if (cont=="America") {
 		w <- which(iso3_cont %in% c("GRL", "CAN"))
@@ -150,7 +154,7 @@ for (i in 1:ncont) {
 		filter(GID_0 %in% iso3_cont)
 	
 	## Import study area borders
-	f <- file.path("Maps", dataset, "maps", paste0("borders_", cont, "_simp.gpkg"))
+	f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp_latlong.gpkg"))
 	borders <- st_read(f) 
 	if (dataset=="jrc2020" & cont=="Africa") {borders <- borders %>% filter(GID_0 != "STP")}
 	
