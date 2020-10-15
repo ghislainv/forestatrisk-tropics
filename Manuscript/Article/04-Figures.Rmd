@@ -1,9 +1,27 @@
 # Figures
 
-(ref:cap-accuracy) **Models' accuracy at multiple resolutions**. We compared the projected deforestation maps of the two models (glm and icar) to the observed deforestation map on the period 2010-2017 [@Vieilledent2018data; @Vieilledent2018]. We computed the Figure Of Merit (FOM) and the Overall Accuracy (OA) of the projections at multiple resolutions (from 30 m to 15 km).
+<!--------------------------------------------->
+<!-- Spatial probability of deforestation -->
+<!--------------------------------------------->
 
-```{r accuracy, out.width="\\textwidth", fig.cap="(ref:cap-accuracy)"}
-knitr::include_graphics("figures/models_accuracy.png")
+## Relative spatial probability of deforestation
+
+(ref:cap-prob) **Predicted relative spatial probability of deforestation**. Map of the spatial probability of deforestation computed for each forest pixel in 2020. On the map, we clearly see the effect of the distance to nearest town, road, and river, and the effect of the distance to forest edge on the spatial probability of deforestation.
+
+```{r prob, out.width="\\textwidth", fig.cap="(ref:cap-prob)"}
+knitr::include_graphics("figures/prob.png")
+```
+
+<!--------------------------------------------->
+<!-- Projected forest cover change -->
+<!--------------------------------------------->
+
+## Projected forest cover change
+
+(ref:cap-fcc2100) **Projected forest cover change**. Maps of the projected forest cover change (2020--2100). \textcolor{red}{red}: projected deforestation, \textcolor{darkgreen}{green}: remaining forest cover. Besides the loss of forest cover, we show a progressive fragmentation of the forest in the future, with an increasing number of forest patchs of smaller size.
+
+```{r fcc2100, out.width="\\textwidth", fig.cap="(ref:cap-fcc2100)"}
+knitr::include_graphics("figures/fcc2100.png")
 ```
 
 \newpage

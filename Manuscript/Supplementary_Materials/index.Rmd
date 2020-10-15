@@ -37,7 +37,7 @@ link-citations: yes
 csl: bib/journal-of-applied-ecology.csl
 ---
 
-```{r options, echo=FALSE, results="hide"}
+```{r options, include=FALSE, results="hide"}
 library(bookdown)
 library(knitr)
 library(kableExtra)
