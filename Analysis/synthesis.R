@@ -294,47 +294,60 @@ fcc_df <- read.table(f, header=TRUE, sep=",")
 
 ## For each continent
 fcc_cont <- fcc_df %>%
-    dplyr::group_by(area_cont) %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::mutate(id_cont=c(2, 1, 3)) %>%
-    dplyr::arrange(id_cont) %>%
-    dplyr::select(-id_cont)
+  dplyr::group_by(area_cont) %>%
+  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+  dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+  dplyr::mutate(id_cont=c(2, 1, 3)) %>%
+  dplyr::arrange(id_cont) %>%
+  dplyr::select(-id_cont) %>%
+  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
 
 ## For all continents
 fcc_all <- fcc_df %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::mutate(area_cont="All continents") %>%
-    dplyr::relocate(area_cont, .before=for2000_sum)
+  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+  dplyr::select(for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+  dplyr::mutate(area_cont="All continents") %>%
+  dplyr::relocate(area_cont, .before=for2000_sum) %>%
+  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
 
 ## For Brazil
 fcc_bra <- fcc_df %>%
-    dplyr::filter(area_ctry=="Brazil") %>%
-    dplyr::group_by(area_ctry) %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::rename(area_cont=area_ctry)
+  dplyr::filter(area_ctry=="Brazil") %>%
+  dplyr::group_by(area_ctry) %>%
+  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+  dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+  dplyr::rename(area_cont=area_ctry) %>%
+  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
 
 ## For India
 fcc_ind <- fcc_df %>%
-    dplyr::filter(area_ctry=="India") %>%
-    dplyr::group_by(area_ctry) %>%
-    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-    dplyr::rename(area_cont=area_ctry)
+  dplyr::filter(area_ctry=="India") %>%
+  dplyr::group_by(area_ctry) %>%
+  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+  dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+  dplyr::rename(area_cont=area_ctry) %>%
+  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
+
+## DRC and Indonesia
+fcc_DRC_IDN <- fcc_df %>% 
+  dplyr::filter(area_ctry %in% c("DRC", "Indonesia")) %>%
+  dplyr::select(area_ctry, for2000:andef, for2030:for2100, yrdis) %>%
+  dplyr::rename(area_cont=area_ctry)
 
 ## Combine
 TI <- 2020-2010  ## Time-interval
 fcc_comb <- fcc_ind %>%
+    # Add DRC and Indonesia
+    dplyr::bind_rows(fcc_DRC_IDN) %>%
     # Add Brazil
     dplyr::bind_rows(fcc_bra) %>%
     # Add continents
     dplyr::bind_rows(fcc_cont) %>%
     dplyr::bind_rows(fcc_all) %>%
-    # Rename
-    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
-    dplyr::rename(andef=andef_sum, yrdis=yrdis_max) %>%
     # Compute pdef
     dplyr::mutate(pdef=round(100*(1-(1-(for2010-for2020)/for2010)^(1/TI)), 1)) %>%
     # Compute loss21
@@ -348,6 +361,8 @@ f <- here("Analysis", dataset, "results", "fcc_hist_region.csv")
 write.table(fcc_comb, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "fcc_hist_region.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+f_doc <- here("Manuscript", "Article", "tables", "fcc_hist_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===============================================
@@ -486,7 +501,7 @@ loss21_cont <- fc_perc_cont %>%
 
 ## Results in one table for continents
 fc_proj_cont <- fc_proj_cont_long %>%
-    dplyr::filter(year %in% c(2040, 2060, 2080, 2100)) %>%
+    dplyr::filter(year %in% c(2040, 2050, 2060, 2080, 2100)) %>%
     tidyr::pivot_wider(names_from=year,
                        values_from=fc, names_prefix="for") %>%
     dplyr::mutate(loss21=loss21_cont$perc) %>%
@@ -504,7 +519,7 @@ fcc_bra <- fcc_df %>%
     dplyr::rename(cont=area_ctry) %>%
     dplyr::mutate(loss21=100*(for2000-for2100)/for2000) %>%
     dplyr::mutate(yr75dis=floor(2000+(for2000*0.75)/andef)) %>%
-    dplyr::select(cont, for2040, for2060, for2080, for2100,
+    dplyr::select(cont, for2040, for2050, for2060, for2080, for2100,
                  loss21, yr75dis)
 
 ## Results for India
@@ -532,9 +547,18 @@ yr75dis_ind <- 2000+(which(perc_ind>=75)[1])-1
 ## Add yr75dis_ind to table for India
 fcc_ind <- fcc_ind %>%
     dplyr::mutate(yr75dis=yr75dis_ind) %>%
-    dplyr::select(cont, for2040, for2060, for2080, for2100,
+    dplyr::select(cont, for2040, for2050, for2060, for2080, for2100,
                  loss21, yr75dis)
 
+## DRC and Indonesia
+fcc_DRC_IDN <- fcc_df %>% 
+  dplyr::filter(area_ctry %in% c("DRC", "Indonesia")) %>%
+  dplyr::rename(cont=area_ctry) %>%
+  dplyr::mutate(loss21=100*(for2000-for2100)/for2000) %>%
+  dplyr::mutate(yr75dis=floor(2000+(for2000*0.75)/andef)) %>%
+  dplyr::select(cont, for2040, for2050, for2060, for2080, for2100,
+                loss21, yr75dis)
+  
 ## All continents
 fc_allcont <- fc_cont %>% 
     dplyr::group_by(year) %>%
@@ -558,16 +582,18 @@ fc_proj_allcont <- fc_proj_cont %>%
 
 ## Combine regions
 fc_proj_regions <- fcc_ind %>%
+    dplyr::bind_rows(fcc_DRC_IDN) %>%
     dplyr::bind_rows(fcc_bra) %>%
     dplyr::bind_rows(fc_proj_cont) %>%
     dplyr::bind_rows(fc_proj_allcont)
     
-
 ## Save results
 f <- here("Analysis", dataset, "results", "fcc_proj_region.csv")
 write.table(fc_proj_regions, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "fcc_proj_region.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+f_doc <- here("Manuscript", "Article", "tables", "fcc_proj_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
@@ -1046,7 +1072,7 @@ p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont), data=C_hist) +
 f <- here("Analysis", dataset, "results", "C_trend.png")
 ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
 ## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
+f_doc <- here("Manuscript", "Article", "figures",
               "C_trend.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 

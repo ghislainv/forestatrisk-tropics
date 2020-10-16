@@ -128,25 +128,4 @@ knitr::include_graphics("figures/perc_loss_cont.png")
 knitr::include_graphics("figures/AGB.png")
 ```
 
-<!-------------------------------------------------------->
-<!-- Carbon emissions associated to projected deforestation
-<!-------------------------------------------------------->
-
-```{r}
-dataset <- "jrc2020"
-f <- here("Analysis", dataset, "results", "C_trend.csv")
-C_trend <- read.table(f, header=TRUE, sep=",")
-C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 2)
-C_all <- C_trend[C_trend$area_cont=="All continents",-c(1)]
-C_max <- round(max(C_all), 2)
-```
-
-## Carbon emissions associated to future deforestation
-
-(ref:cap-c-em) **Carbon emissions associated to projected deforestation**. This figure displays the future change in annual carbon emissions (Pg/yr) associated to projected deforestation of moist tropical forests. Mean annual carbon emissions were computed for ten-year intervals from 2010--2020 to 2090--2100. Points represent the observed mean annual carbon emissions (based on historical deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for all continents together. Lines represent the projected mean annual carbon emissions (based on projected forest cover change maps) from 2020--2030 to 2090--2100 per continent, and for all continents together. Annual carbon emissions at the pantropical scale are predicted to increase from `r C_10_20` in 2010--2020 up to `r C_max` Pg/yr in 2080--2090.  
-
-```{r c-em, out.width="\\textwidth", fig.cap="(ref:cap-c-em)"}
-knitr::include_graphics("figures/C_trend.png")
-```
-
 \newpage

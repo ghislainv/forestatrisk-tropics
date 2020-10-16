@@ -181,7 +181,8 @@ knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
 ## Import data
 df <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
 ## Arrange data
-df <- df %>% 
+df <- df %>%
+  dplyr::filter(!(area_cont %in% c("DRC", "Indonesia"))) %>%
   dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef) %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
@@ -237,6 +238,7 @@ knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
 df <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
+  dplyr::filter(!(cont %in% c("DRC", "Indonesia"))) %>%
   dplyr::mutate(yr75dis=as.character(yr75dis)) %>%
   dplyr::select(cont, for2040, for2060, for2080, for2100, loss21, yr75dis) %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
