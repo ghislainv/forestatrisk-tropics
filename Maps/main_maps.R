@@ -103,7 +103,7 @@ l_fcc2100 <- list()
 l_prob <- list()
   
 ## Loop on continent
-tmap_opt(npix=1e5)
+tmap_opt(npix=1e7)
 for (i in 1:ncont) {
 	
 	## Continent
@@ -145,8 +145,8 @@ for (i in 1:ncont) {
 	m_fcc2100 <- 
 		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
 		  tm_lines(lty=1,lwd=0.5) +
-		#tm_shape(trop_sf) +
-		#  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
 		tm_shape(gadm0_cont) +
 		  tm_fill(grey(0.9)) +
 	  tm_shape(r_fcc2100) +
@@ -162,8 +162,8 @@ for (i in 1:ncont) {
 	m_prob <- 
 		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
 		  tm_lines(lty=1,lwd=0.5) +
-		#tm_shape(trop_sf) +
-		#  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
 		tm_shape(gadm0_cont) +
 		  tm_fill(grey(0.9)) +
 	  tm_shape(r_prob) +
@@ -184,14 +184,14 @@ for (i in 1:ncont) {
 ## fcc2100
 fcc2100_Asia <- l_fcc2100[[3]] + 
   tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
-	             position=c(0.5, 0), just=c("center", "bottom")) +
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
   tm_layout(title="2100",
             title.position=c(0.02,0.08), title.size=1.2)
 ## prob
 prob_Asia <- l_prob[[3]] + 
   tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
-	             position=c(0.5, 0), just=c("center", "bottom")) +
-  tm_legend(position=c("left","bottom"), just=c("left","bottom")) +
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_legend(position=c(0.02, 0.02), just=c("left","bottom")) +
   tm_layout(legend.text.size=0.8)
 
 ## Plot (map) size in m
