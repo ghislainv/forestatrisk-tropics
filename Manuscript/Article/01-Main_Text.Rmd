@@ -18,6 +18,7 @@ In this study, we present the first attempt to model and forecast tropical defor
 
 # Remaining forests in 2100
 
+Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.
 
 - Countries having lost their forest
 - Residual fragmented forest

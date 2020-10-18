@@ -4,58 +4,41 @@
 <!-- Historical forest cover change -->
 <!------------------------------------>
 
-## Historical forest cover change
+## Historical and projected forest cover change
 
-(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.\vspace{0.5cm} 
+(ref:cap-fcc-reg) **Historical and projected forest cover change**. We provide historical and projected forest cover areas for the three continents and the three countries having the highest forest cover in 2010 in each continent (Brazil in America, DRC in Africa, and Indonesia in Asia). Historical forest cover areas (in thousand hectares, Kha) are provided for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively), together with the mean annual deforested area $d$ (Kha/yr) for the period 2010--2020. We computed the corresponding mean annual deforestation rate $p$ (%/yr) for the period 2010--2020. Projected forest cover areas are given for the years 2050 and 2100 ("fc2050" and "fc2100"). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$, respectively), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). We computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75").\vspace{0.5cm} 
 
-```{r fcc-hist-reg, results="asis", echo=FALSE}
+```{r fcc-reg, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
+df1 <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
+df2 <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
 ## Arrange data
-df <- df %>%
-  dplyr::filter(area_cont!="India") %>%
+df <- df1 %>%
   dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef) %>%
-  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+  dplyr::bind_cols(df2) %>%
+  dplyr::filter(area_cont!="India") %>%
+  dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef,
+                for2050, for2100, loss21, yr75dis) %>%
+  dplyr::mutate(andef=round(andef/1000), yr75dis=as.character(yr75dis),
+                loss21=round(loss21)) %>%
+  dplyr::mutate(id=c(2,3,1,4:7)) %>% arrange(id) %>% select(-id) %>%
+  dplyr::mutate(area_cont=ifelse(area_cont=="All continents", "All cont.", area_cont)) %>%
+  dplyr::mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
-vect.align <- c(rep("l", 1), rep("r", 5))
-col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
-knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALSE,
+vect.align <- c(rep("l", 1), rep("r", 9))
+unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(Kha/yr)", "(\\%/yr)", "(Kha)", "(Kha)", "(\\%)", "")
+col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$", "$p$",
+               "fc2050", "fc2100", "loss21", "yr75")
+knitr::kable(df, caption="(ref:cap-fcc-reg)", booktabs=TRUE, longtable=FALSE,
 						 format.args=list(big.mark=","),
 						 escape=FALSE,
-						 col.names=col.names,
+						 col.names=unit.vect,
 						 align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=F, align=vect.align) %>%
+  pack_rows("Countries", 1, 3) %>%
+  pack_rows("Continents", 4, 7) %>%
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
-```
-
-<!------------------------------>
-<!-- Forest cover projections -->
-<!------------------------------>
-
-## Forest cover projections
-
-(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm} 
-
-```{r fcc-proj-reg, results="asis", echo=FALSE}
-## Import data
-df <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
-## Arrange data
-df <- df %>%
-  dplyr::filter(cont!="India") %>%
-  dplyr::mutate(yr75dis=as.character(yr75dis)) %>%
-  dplyr::select(cont, for2050, for2100, loss21, yr75dis) %>%
-  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
-## Make table
-vect.align <- c(rep("l", 1), rep("r", 4))
-col.names <- c("Region", "fc2050", "fc2100", "loss21 (\\%)", "yr75dis")
-knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
-						 format.args=list(big.mark=","),
-						 digits=0,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+	              position="center", font_size=9.5, repeat_header_method="replace")
 ```
 
 \newpage
