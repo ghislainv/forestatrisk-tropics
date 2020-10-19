@@ -42,31 +42,35 @@ if (dataset=="gfc2020_70") {
 }
 nctry <- length(iso3)
 
-## ## ==========================
-## ## Dataset with all countries
-## ## ==========================
+## ==========================
+## Dataset with all countries
+## ==========================
 
-## ## Create table to store model performance results
-## sample_allctry_tab <- data.frame()
+## Create table to store data
+sample_allctry_tab <- data.frame()
 
-## ## Loop on countries
-## for (i in 1:nctry) {
-##     iso <- iso3[i]
-##     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-##     dir <- file.path(dir_fdb, dataset, continent)
-##     ## Sample size
-##     f_name <- file.path(dir, iso, "/output/sample.txt")
-##     sample_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-##     sample_df$iso3 <- iso
-##     sample_df$continent <- continent
-##     ## Fill in the table
-##     sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
-## }
+## Loop on countries
+for (i in 1:nctry) {
+    iso <- iso3[i]
+    continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+    dir <- file.path(dir_fdb, dataset, continent)
+    ## Sample size
+    f_name <- file.path(dir, iso, "/output/sample.txt")
+    sample_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+    sample_df$iso3 <- iso
+    sample_df$continent <- continent
+    ## Fill in the table
+    sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
+}
 
-## ## !! NA in datasets (65535), see eg VIR and ATG 
+## No river data in VIR: replace 65535 with NA
+sample_allctry_tab <- sample_allctry_tab %>%
+  dplyr::mutate(dist_river=ifelse(iso3=="VIR" & dist_river==65535, NaN, dist_river)) %>%
+  # Remove obs on island with too high dist_defor for BRA-RN
+  dplyr::filter(!(iso3=="BRA-RN" & dist_defor>10000))
 
-## ## Save results
-## write.table(sample_allctry_tab, file=here("Analysis", dataset, "results/sample_allctry.csv"), sep=",", row.names=FALSE)
+## Save results
+write.table(sample_allctry_tab, file=here("Analysis", dataset, "results", "sample_allctry.csv"), sep=",", row.names=FALSE)
 
 ## =================
 ## Model performance
@@ -749,6 +753,9 @@ for (i in 1:nctry) {
     ## Sample
     f_name <- file.path(dir, iso, "output/sample.txt")
     sample <- read.table(f_name, header=TRUE, sep=",")
+    ## Corrections
+    if (iso=="BRA-RN") {sample <- sample %>% dplyr::filter(dist_defor <= 10000)}
+    if (iso=="VIR") {sample <- sample %>% dplyr::mutate(dist_river=NA)}
     # Mean and SD
     Mean <- apply(sample, 2, mean, na.rm=TRUE)
     SD <- apply(sample, 2, sd, na.rm=TRUE)
@@ -770,6 +777,35 @@ write.table(mean_sd_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "mean_sd_var.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## ==========================
+## Back-transformed parameter
+## ==========================
+
+## Mean and sd
+f <- here("Analysis", dataset, "results", "mean_sd_var.csv")
+df_mu_sd <- read.table(f, header=TRUE, sep=",")
+head(df_mu_sd)
+
+## Parameter estimates
+f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
+df_par <- read.table(f, header=TRUE, sep=",")
+head(df_par)
+  
+## Back-transformed parameters
+df_bt_par <- df_par
+intercept <- df_par$int
+for (i in 1:7) {
+  mu <- df_mu_sd[, 4+(i*2)-1]
+  sd <- df_mu_sd[, 4+(i*2)]
+  # Slope parameters
+  df_bt_par[, i+6] <- df_par[, 6+i] / sd
+  # Intercept
+  par <- ifelse(is.na(df_par[, 6+i]), 0, df_par[, 6+i])
+  ratio_mu_sd <- ifelse(is.na(mu/sd), 0, mu/sd)
+  intercept <- intercept - par*ratio_mu_sd
+}
+df_bt_par$int <- intercept
 
 ## ===================
 ## PA effect
