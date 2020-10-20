@@ -71,7 +71,8 @@ sample_allctry_tab <- sample_allctry_tab %>%
   dplyr::filter(!(iso3=="BRA-RN" & dist_defor>10000))
 
 ## Save results
-write.table(sample_allctry_tab, file=here("Analysis", dataset, "results", "sample_allctry.csv"), sep=",", row.names=FALSE)
+f <- here("Analysis", dataset, "results", "sample_allctry.csv")
+write.table(sample_allctry_tab, file=f, sep=",", row.names=FALSE)
 
 ## =================
 ## Model performance
@@ -894,6 +895,64 @@ write.table(par_regions, file=f, sep=",", row.names=FALSE)
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables",
               "backtransformed_weighted_param_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## ===================
+## Correlation plot
+## ===================
+
+## Load data
+f <- here("Analysis", dataset, "results", "sample_allctry.csv")
+data <- read.table(f, header=TRUE, sep=",")
+data2 <- data %>%
+  dplyr::filter(iso3 %in% c("COD", "IDN"))
+
+## Percentiles
+perc <- seq(0, 100, by=10)
+nperc <- length(perc)
+
+## inv_logit function
+inv_logit <- function (x, min=0, max=1) {
+    p <- exp(x)/(1 + exp(x))
+    p <- ifelse(is.na(p) & !is.na(x), 1, p)
+    p * (max - min) + min
+}
+
+## Compute theta and se by bins
+y <- 1-data2$fcc23  # Transform: defor=1, forest=0
+data2$dist_road_km <- data2$dist_road/1000
+varname <- "dist_road_km"
+theta <- rep(0, nperc-1)
+se <- rep(0, nperc-1)
+x <- rep(0, nperc-1)
+quantiles <- quantile(data2[varname], probs=perc/100, na.rm=TRUE)
+## Loop on percentiles
+for (j in 1:(nperc-1)) {
+  inf <- quantiles[j]
+  sup <- quantiles[j + 1]
+  x[j] <- inf + (sup - inf) / 2
+  y_bin <- y[(data2[varname] > inf) & (data2[varname] <= sup)]
+  s <- sum(y_bin)  # success
+  n <- length(y_bin)  # trials
+  theta[j] <- ifelse(n != 0, s/n, NaN)
+  ph <- (s + 1 / 2) / (n + 1)
+  se[j] <- sqrt(ph * (1 - ph) / (n + 1))
+}
+
+## Simple GLM
+mod <- glm(y~dist_road_km,family="binomial", data=data2)
+coef <- mod$coefficients
+x_seq <- seq(0, 100, length.out=100)
+theta_seq <- inv_logit(coef[1] + coef[2]*x_seq)
+
+## Model iCAR
+coef <- c(0.732, -0.017)
+theta_icar <- inv_logit(coef[1] + coef[2]*x_seq)
+
+## Plot
+plot(x, theta, type="l", xlab="ddefor (Km)", ylim=c(0,1))
+points(x, theta, pch=19)
+lines(x_seq, theta_seq, col="red")
+lines(x_seq, theta_icar, col="blue")
 
 ## ===================
 ## PA effect
