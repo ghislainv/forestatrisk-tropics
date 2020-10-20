@@ -939,7 +939,7 @@ for (j in 1:(nperc-1)) {
 }
 
 ## Simple GLM
-mod <- glm(y~dist_road_km,family="binomial", data=data2)
+mod <- glm(y~dist_road_km+dist_edge+dist_defor,family="binomial", data=data2)
 coef <- mod$coefficients
 x_seq <- seq(0, 100, length.out=100)
 theta_seq <- inv_logit(coef[1] + coef[2]*x_seq)
