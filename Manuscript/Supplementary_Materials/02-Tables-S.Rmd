@@ -309,6 +309,64 @@ knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
 
 \newpage
 
+<!--------------------------------->
+<!-- Back-transformed parameters -->
+<!--------------------------------->
+
+## Back-transformed parameters
+
+(ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variables for each study-area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm} 
+
+```{r bt-par, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/backtransformed_parameters.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_name)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Study-area", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
+knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 digits=3,
+						 escape=FALSE,
+						 col.names=unit.vect,
+						 align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+	              position="center", font_size=10, repeat_header_method="replace")
+```
+
+(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. We back-transformed the parameters using the mean and standard-deviation of each continuous variables for each study-area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm} 
+
+```{r bt-par-region, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/backtransformed_weighted_param_region.csv", header=TRUE, sep=",")
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Region", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
+knitr::kable(df, caption="(ref:cap-bt-par-reg)", booktabs=TRUE, longtable=TRUE,
+						 format.args=list(big.mark=","),
+						 digits=3,
+						 escape=FALSE,
+						 col.names=unit.vect,
+						 align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+	              position="center", font_size=10, repeat_header_method="replace")
+```
+
+\newpage
+
 <!------------------------------------------------>
 <!-- Effect of protected areas on deforestation -->
 <!------------------------------------------------>

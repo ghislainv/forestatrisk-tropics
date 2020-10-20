@@ -34,7 +34,7 @@ knitr::kable(df, caption="(ref:cap-fcc-reg)", booktabs=TRUE, longtable=FALSE,
 						 escape=FALSE,
 						 col.names=unit.vect,
 						 align=vect.align, linesep="") %>%
-  add_header_above(header=col.names, line=FALSE, escape=F, align=vect.align) %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("Countries", 1, 3) %>%
   pack_rows("Continents", 4, 7) %>%
 	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,

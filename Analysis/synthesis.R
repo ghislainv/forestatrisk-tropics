@@ -63,10 +63,11 @@ for (i in 1:nctry) {
     sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
 }
 
-## No river data in VIR: replace 65535 with NA
+## Corrections
 sample_allctry_tab <- sample_allctry_tab %>%
+  ## No river data in VIR: replace 65535 with NA
   dplyr::mutate(dist_river=ifelse(iso3=="VIR" & dist_river==65535, NaN, dist_river)) %>%
-  # Remove obs on island with too high dist_defor for BRA-RN
+  ## Remove obs on island with too high dist_defor for BRA-RN
   dplyr::filter(!(iso3=="BRA-RN" & dist_defor>10000))
 
 ## Save results
@@ -601,7 +602,7 @@ f_doc <- here("Manuscript", "Article", "tables", "fcc_proj_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
-## Model parameters
+## Parameter estimates
 ## ===================
 
 ## Create table to store results
@@ -711,7 +712,7 @@ par_cont <- par_tab %>%
     dplyr::summarize(across(.cols=everything(),
                             .fns=function(x){sum(x, na.rm=TRUE)})) %>%
     dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
-    dplyr::arrange(id, area_name) %>%
+    dplyr::arrange(id) %>%
     dplyr::select(-id) %>%
     dplyr::rename(area_ctry=area_cont)
 
@@ -798,14 +799,101 @@ intercept <- df_par$int
 for (i in 1:7) {
   mu <- df_mu_sd[, 4+(i*2)-1]
   sd <- df_mu_sd[, 4+(i*2)]
-  # Slope parameters
-  df_bt_par[, i+6] <- df_par[, 6+i] / sd
+  # Slope parameters (x1000, and x100 for slope and dist_edge)
+  coeff <- ifelse(i==2, 100, 1000)
+  df_bt_par[, 6+i] <- coeff*df_par[, 6+i] / sd
   # Intercept
   par <- ifelse(is.na(df_par[, 6+i]), 0, df_par[, 6+i])
   ratio_mu_sd <- ifelse(is.na(mu/sd), 0, mu/sd)
   intercept <- intercept - par*ratio_mu_sd
 }
 df_bt_par$int <- intercept
+
+## Save results
+f <- here("Analysis", dataset, "results", "backtransformed_parameters.csv")
+write.table(df_bt_par, file=f, sep=",", row.names=FALSE)
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "backtransformed_parameters.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## ==============================================================
+## Back-transformed parameter estimate weighted mean by continent
+## ==============================================================
+
+## Load parameter estimates
+f <- here("Analysis", dataset, "results", "backtransformed_parameters.csv")
+par_tab <- read.table(f, header=TRUE, sep=",")
+
+## Add forest cover in 2100
+f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+fcc_tab <- read.table(f, header=TRUE, sep=",")
+par_tab <- par_tab %>%
+    dplyr::mutate(for2010=fcc_tab$for2010) %>%
+    dplyr::relocate(for2010, .after=area_code)
+
+## Replace NA with 0 as NA mean no effect.
+par_tab <- par_tab %>%
+    replace(., is.na(.), 0)
+
+## Brazil
+par_bra <- par_tab %>%
+    dplyr::filter(area_ctry=="Brazil") %>%
+    dplyr::select(-area_cont, -area_code, -area_name) %>%
+    dplyr::mutate(across(.cols=!c(area_ctry, for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)}))
+## India
+par_ind <- par_tab %>%
+    dplyr::filter(area_ctry=="India") %>%
+    dplyr::select(-area_cont, -area_code, -area_name) %>%
+    dplyr::mutate(across(.cols=!c(area_ctry, for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)}))
+
+## All study areas
+par_all <- par_tab %>%
+    dplyr::select(-area_cont, -area_code, -area_name) %>%
+    dplyr::mutate(across(.cols=!c(area_ctry, for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::mutate(area_ctry="All continents") %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)}))
+
+## By continent
+par_cont <- par_tab %>%
+    dplyr::select(-area_ctry, -area_code, -area_name) %>%
+    dplyr::group_by(area_cont) %>%
+    dplyr::mutate(across(.cols=!c(for2010),
+                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+    dplyr::select(-for2010) %>%
+    dplyr::summarize(across(.cols=everything(),
+                            .fns=function(x){sum(x, na.rm=TRUE)})) %>%
+    dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    dplyr::arrange(id) %>%
+    dplyr::select(-id) %>%
+    dplyr::rename(area_ctry=area_cont)
+
+## Combine regions
+par_regions <- par_ind %>%
+    dplyr::bind_rows(par_bra) %>%
+    dplyr::bind_rows(par_cont) %>%
+    dplyr::bind_rows(par_all)
+
+## Save results
+f <- here("Analysis", dataset, "results", "backtransformed_weighted_param_region.csv")
+write.table(par_regions, file=f, sep=",", row.names=FALSE)
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables",
+              "backtransformed_weighted_param_region.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
 ## PA effect
