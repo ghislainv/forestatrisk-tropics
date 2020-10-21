@@ -920,6 +920,7 @@ inv_logit <- function (x, min=0, max=1) {
 ## Compute theta and se by bins
 y <- 1-data2$fcc23  # Transform: defor=1, forest=0
 data2$dist_road_km <- data2$dist_road/1000
+data2$dist_edge_km <- data2$dist_edge/1000
 varname <- "dist_road_km"
 theta <- rep(0, nperc-1)
 se <- rep(0, nperc-1)
@@ -939,20 +940,41 @@ for (j in 1:(nperc-1)) {
 }
 
 ## Simple GLM
-mod <- glm(y~dist_road_km+dist_edge+dist_defor,family="binomial", data=data2)
+mod <- glm(y~dist_road_km+dist_edge+dist_defor, family="binomial", data=data2)
 coef <- mod$coefficients
+theta_pred <- predict(mod)
+theta_pred_mean <- rep(0, nperc-1)
+## Loop on percentiles
+for (j in 1:(nperc-1)) {
+  inf <- quantiles[j]
+  sup <- quantiles[j + 1]
+  t_bin <- theta_pred[(data2[varname] > inf) & (data2[varname] <= sup)]
+  theta_pred_mean[j] <- mean(inv_logit(t_bin))
+}
+# Predictions
 x_seq <- seq(0, 100, length.out=100)
 theta_seq <- inv_logit(coef[1] + coef[2]*x_seq)
 
 ## Model iCAR
-coef <- c(0.732, -0.017)
-theta_icar <- inv_logit(coef[1] + coef[2]*x_seq)
+theta_icar <- inv_logit(coef[1] + (-0.017)*x_seq)
 
 ## Plot
-plot(x, theta, type="l", xlab="ddefor (Km)", ylim=c(0,1))
-points(x, theta, pch=19)
-lines(x_seq, theta_seq, col="red")
-lines(x_seq, theta_icar, col="blue")
+plot(x, theta, xlab="ddefor (Km)", xlim=c(0,20), ylim=c(0,1), pch=19)
+lines(x, theta_pred_mean, col="red")
+
+# ## ==================================
+# ## Correlation plot between variables
+# ## ==================================
+# 
+# require("ggcorrplot")
+# corr <- round(cor(data2 %>% dplyr::select(altitude:dist_town, slope), use="pairwise.complete.obs"), 1)
+# ggcorrplot(corr, hc.order = TRUE, type = "lower",
+#    outline.col = "white", lab=TRUE,
+#    ggtheme = ggplot2::theme_gray,
+#    colors = c("#6D9EC1", "white", "#E46726"))
+# 
+# require(GGally)
+# ggpairs(data %>% dplyr::filter(iso3=="MDG") %>% dplyr::select(altitude:dist_town, slope))
 
 ## ===================
 ## PA effect
