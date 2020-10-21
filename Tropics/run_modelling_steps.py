@@ -177,6 +177,9 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
         # Starting values
         beta_start=mod_binomial_iCAR.betas)
 
+    # Predictions
+    pred_icar = mod_binomial_iCAR.theta_pred
+
     # Summary
     print(mod_binomial_iCAR)
     # Write summary in file
@@ -219,6 +222,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     X_null = x[:, :]
     mod_null = LogisticRegression(solver="lbfgs")
     mod_null = mod_null.fit(X_null, Y)
+    pred_null = mod_null.predict_proba(X_null)
 
     # Simple glm with no spatial random effects
     formula_glm = formula
@@ -227,6 +231,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     X_glm = x[:, :-1]  # We remove the last column (cells)
     mod_glm = LogisticRegression(solver="lbfgs")
     mod_glm = mod_glm.fit(X_glm, Y)
+    pred_glm = mod_glm.predict_proba(X_glm)
 
     # Random forest model
     formula_rf = formula
@@ -236,11 +241,12 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     mod_rf = RandomForestClassifier(n_estimators=500,
                                     n_jobs=3)
     mod_rf = mod_rf.fit(X_rf, Y)
+    pred_rf = mod_rf.predict_proba(X_rf)
 
     # Deviances
-    deviance_null = 2*log_loss(Y, mod_null.predict_proba(X_null), normalize=False)
-    deviance_glm = 2*log_loss(Y, mod_glm.predict_proba(X_glm), normalize=False)
-    deviance_rf = 2*log_loss(Y, mod_rf.predict_proba(X_rf), normalize=False)
+    deviance_null = 2*log_loss(Y, pred_null, normalize=False)
+    deviance_glm = 2*log_loss(Y, pred_glm, normalize=False)
+    deviance_rf = 2*log_loss(Y, pred_rf, normalize=False)
     deviance_icar = mod_binomial_iCAR.deviance
     deviance_full = 0
     dev = [deviance_null, deviance_glm, deviance_rf, deviance_icar, deviance_full]
@@ -252,6 +258,13 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     mod_dev["perc"] = perc
     mod_dev = mod_dev.round(0)
     mod_dev.to_csv("output/model_deviance.csv", header=True, index=False)
+
+    # Save models' predictions
+    pred_models = pd.DataFrame({"null": pred_null,
+                                "glm": pred_glm,
+                                "rf": pred_rf,
+                                "icar": pred_icar})
+    pred_models.to_csv("output/pred_models.csv", header=True, index=False)
 
     # ========================================================
     # Interpolating spatial random effects
