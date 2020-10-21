@@ -193,6 +193,15 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     #                               dpi=300)
     # plt.close("all")
 
+    # Save model's main specifications with pickle
+    mod_icar_pickle = {"formula": mod_binomial_iCAR.suitability_formula,
+                       "rho": mod_binomial_iCAR.rho,
+                       "betas": mod_binomial_iCAR.betas,
+                       "Vrho": mod_binomial_iCAR.Vrho,
+                       "deviance": mod_binomial_iCAR.deviance}
+    with open("output/mod_icar.pickle", "wb") as pickle_file:
+        pickle.dump(mod_icar_pickle, pickle_file)
+
     # # ========================================================
     # # Model performance comparison: cross-validation
     # # ========================================================
