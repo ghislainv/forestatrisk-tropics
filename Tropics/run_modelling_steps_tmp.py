@@ -269,9 +269,9 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # mod_dev.to_csv("output/model_deviance.csv", header=True, index=False)
 
     # Save models' predictions
-    pred_models = pd.DataFrame({"null": pred_null,
-                                "glm": pred_glm,
-                                "rf": pred_rf,
+    pred_models = pd.DataFrame({"null": pred_null[:, 1],
+                                "glm": pred_glm[:, 1],
+                                "rf": pred_rf[:, 1],
                                 "icar": pred_icar})
     pred_models.to_csv("output/pred_models.csv", header=True, index=False)
 
