@@ -16,8 +16,8 @@
 
 import subprocess
 
-source_path = "/share/nas2-amap/gvieilledent/gfc2020_70"
-dest_path = "gdrive_gv:Work/forestatrisk-tropics/gfc2020_70"
+source_path = "/share/nas2-amap/gvieilledent/jrc2020"
+dest_path = "gdrive_gv:Work/forestatrisk-tropics/jrc2020"
 data_raw = "**/data_raw/**"
 data = "**/data/**"
 cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw, "--exclude", data, "--progress"]
