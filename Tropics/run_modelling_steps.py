@@ -65,14 +65,6 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # Set number of trials to one for far.model_binomial_iCAR()
     dataset["trial"] = 1
 
-    # Sample size
-    ndefor = sum(dataset.fcc23 == 0)
-    nfor = sum(dataset.fcc23 == 1)
-    with open("output/sample_size.csv", "w") as f:
-        f.write("var, n\n")
-        f.write("ndefor, " + str(ndefor) + "\n")
-        f.write("nfor, " + str(nfor) + "\n")
-
     # Descriptive statistics
     # Model formulas
     formula_1 = "fcc23 ~ dist_road + dist_town + dist_river + \
@@ -131,6 +123,14 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     priorVrho = 10.0 if iso3 == "ATG" else -1  # -1="1/Gamma"
     # Remove obs on island with too high dist_defor for BRA-RN
     if iso3 == "BRA-RN": dataset = dataset.loc[dataset["dist_defor"] <= 10000]
+
+    # Sample size
+    ndefor = sum(dataset.fcc23 == 0)
+    nfor = sum(dataset.fcc23 == 1)
+    with open("output/sample_size.csv", "w") as f:
+        f.write("var, n\n")
+        f.write("ndefor, " + str(ndefor) + "\n")
+        f.write("nfor, " + str(nfor) + "\n")
 
     # Run model while there is non-significant variables
     var_remove = True
@@ -192,6 +192,15 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
                                   figsize=(9, 6),
                                   dpi=300)
     plt.close("all")
+
+    # Save model's main specifications with pickle
+    mod_icar_pickle = {"formula": mod_binomial_iCAR.suitability_formula,
+                       "rho": mod_binomial_iCAR.rho,
+                       "betas": mod_binomial_iCAR.betas,
+                       "Vrho": mod_binomial_iCAR.Vrho,
+                       "deviance": mod_binomial_iCAR.deviance}
+    with open("output/mod_icar.pickle", "wb") as pickle_file:
+        pickle.dump(mod_icar_pickle, pickle_file)
 
     # ========================================================
     # Model performance comparison: cross-validation
@@ -260,11 +269,12 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     mod_dev.to_csv("output/model_deviance.csv", header=True, index=False)
 
     # Save models' predictions
-    pred_models = pd.DataFrame({"null": pred_null,
-                                "glm": pred_glm,
-                                "rf": pred_rf,
-                                "icar": pred_icar})
-    pred_models.to_csv("output/pred_models.csv", header=True, index=False)
+    obs_pred = dataset
+    obs_pred["null"] = pred_null[:, 1]
+    obs_pred["glm"] = pred_glm[:, 1]
+    obs_pred["rf"] = pred_rf[:, 1]
+    obs_pred["icar"] = pred_icar
+    obs_pred.to_csv("output/obs_pred.csv", header=True, index=False)
 
     # ========================================================
     # Interpolating spatial random effects
