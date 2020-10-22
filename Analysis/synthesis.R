@@ -42,37 +42,35 @@ if (dataset=="gfc2020_70") {
 }
 nctry <- length(iso3)
 
-## ==========================
-## Dataset with all countries
-## ==========================
+## ========================================================
+## Data with observations and predictions for all countries
+## ========================================================
 
 ## Create table to store data
-sample_allctry_tab <- data.frame()
+data_allctry_tab <- data.frame()
 
 ## Loop on countries
 for (i in 1:nctry) {
-    iso <- iso3[i]
-    continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path(dir_fdb, dataset, continent)
-    ## Sample size
-    f_name <- file.path(dir, iso, "/output/sample.txt")
-    sample_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-    sample_df$iso3 <- iso
-    sample_df$continent <- continent
-    ## Fill in the table
-    sample_allctry_tab <- rbind(sample_allctry_tab,sample_df)
+  iso <- iso3[i]
+  continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+  dir <- file.path(dir_fdb, dataset, continent)
+  ## Sample size
+  f_name <- file.path(dir, iso, "/output/obs_pred.csv")
+  obs_pred_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+  obs_pred_df$iso3 <- iso
+  obs_pred_df$continent <- continent
+  ## Fill in the table
+  data_allctry_tab <- rbind(data_allctry_tab, obs_pred_df)
 }
 
-## Corrections
-sample_allctry_tab <- sample_allctry_tab %>%
+## Corrections for "VIR"
+data_allctry_tab <- data_allctry_tab %>%
   ## No river data in VIR: replace 65535 with NA
-  dplyr::mutate(dist_river=ifelse(iso3=="VIR" & dist_river==65535, NaN, dist_river)) %>%
-  ## Remove obs on island with too high dist_defor for BRA-RN
-  dplyr::filter(!(iso3=="BRA-RN" & dist_defor>10000))
+  dplyr::mutate(dist_river=ifelse(iso3=="VIR" & dist_river==65535, NaN, dist_river))
 
 ## Save results
-f <- here("Analysis", dataset, "results", "sample_allctry.csv")
-write.table(sample_allctry_tab, file=f, sep=",", row.names=FALSE)
+f <- here("Analysis", dataset, "results", "data_allctry.csv")
+write.table(data_allctry_tab, file=f, sep=",", row.names=FALSE)
 
 ## =================
 ## Model performance
@@ -901,7 +899,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ===================
 
 ## Load data
-f <- here("Analysis", dataset, "results", "sample_allctry.csv")
+f <- here("Analysis", dataset, "results", "data_allctry.csv")
 data <- read.table(f, header=TRUE, sep=",")
 data2 <- data %>%
   dplyr::filter(iso3 %in% c("COD", "IDN"))
@@ -939,28 +937,38 @@ for (j in 1:(nperc-1)) {
   se[j] <- sqrt(ph * (1 - ph) / (n + 1))
 }
 
-## Simple GLM
+## Simple glm
 mod <- glm(y~dist_road_km+dist_edge+dist_defor, family="binomial", data=data2)
 coef <- mod$coefficients
-theta_pred <- predict(mod)
-theta_pred_mean <- rep(0, nperc-1)
+theta_glm <- predict(mod, type="link")
+theta_glm_mean <- rep(0, nperc-1)
+## Model icar
+theta_icar <- data2$icar
+theta_icar_mean <- rep(0, nperc-1)
+# Model rf
+theta_rf <- data2$rf
+theta_rf_mean <- rep(0, nperc-1)
 ## Loop on percentiles
 for (j in 1:(nperc-1)) {
   inf <- quantiles[j]
   sup <- quantiles[j + 1]
-  t_bin <- theta_pred[(data2[varname] > inf) & (data2[varname] <= sup)]
-  theta_pred_mean[j] <- mean(inv_logit(t_bin))
+  # Observations in bin
+  w <- (data2[varname] > inf) & (data2[varname] <= sup)
+  # simple glm
+  t_bin <- theta_glm[w]
+  theta_glm_mean[j] <- mean(inv_logit(t_bin))
+  # icar
+  t_bin <- theta_icar[w]
+  theta_icar_mean[j] <- mean(t_bin)
+  # rf
+  t_bin <- theta_rf[w]
+  theta_rf_mean[j] <- mean(t_bin)
 }
-# Predictions
-x_seq <- seq(0, 100, length.out=100)
-theta_seq <- inv_logit(coef[1] + coef[2]*x_seq)
-
-## Model iCAR
-theta_icar <- inv_logit(coef[1] + (-0.017)*x_seq)
-
 ## Plot
 plot(x, theta, xlab="ddefor (Km)", xlim=c(0,20), ylim=c(0,1), pch=19)
-lines(x, theta_pred_mean, col="red")
+lines(x, theta_glm_mean, col="blue")
+lines(x, theta_icar_mean, col="red")
+lines(x, theta_rf_mean, col="green")
 
 # ## ==================================
 # ## Correlation plot between variables

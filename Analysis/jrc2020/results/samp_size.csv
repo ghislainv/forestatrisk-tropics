@@ -22,7 +22,7 @@
 "America","Brazil – Pernambouco","PE",9964,9999,897,900
 "America","Brazil – Piaui","PI",10000,10000,900,900
 "America","Brazil – Rio de Janeiro","RJ",9994,9991,899,899
-"America","Brazil – Rio Grande do Norte","RN",9949,9992,895,899
+"America","Brazil – Rio Grande do Norte","RN",9944,9992,895,899
 "America","Brazil – Rio Grande do Sul","RS",10000,9999,900,900
 "America","Brazil – Rondonia","RO",12964,12964,1167,1167
 "America","Brazil – Roraima","RR",15548,15548,1399,1399
@@ -118,4 +118,4 @@
 "Asia","Timor-Leste","TLS",9994,9966,899,897
 "Asia","Vanuatu","VUT",9977,9925,898,893
 "Asia","Vietnam","VNM",9998,10000,900,900
-"All continents","TOTAL","",1601810,1584888,144163,142647
+"All continents","TOTAL","",1601805,1584888,144163,142647
