@@ -965,10 +965,10 @@ for (j in 1:(nperc-1)) {
   theta_rf_mean[j] <- mean(t_bin)
 }
 ## Plot
-plot(x, theta, xlab="ddefor (Km)", xlim=c(0,20), ylim=c(0,1), pch=19)
-lines(x, theta_glm_mean, col="blue")
+plot(x, theta, xlab="ddefor (Km)", xlim=c(0,100), ylim=c(0,1), pch=19)
+#lines(x, theta_glm_mean, col="blue")
 lines(x, theta_icar_mean, col="red")
-lines(x, theta_rf_mean, col="green")
+#lines(x, theta_rf_mean, col="green")
 
 # ## ==================================
 # ## Correlation plot between variables

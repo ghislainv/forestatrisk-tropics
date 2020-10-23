@@ -101,6 +101,8 @@ bbox_cont <- list(bbox_Afr, bbox_Ame, bbox_Asi)
 ## List to save maps
 l_fcc2100 <- list()
 l_prob <- list()
+l_roads <- list()
+l_pa <- list()
   
 ## Loop on continent
 tmap_opt(npix=1e7)
@@ -125,7 +127,7 @@ for (i in 1:ncont) {
 	if (cont=="Africa") {iso3_cont <- c(as.character(iso3_cont), "REU", "MUS")}
 	if (cont=="America") {
 		w <- which(iso3_cont %in% c("GRL", "CAN"))
-		iso3_cont <- as.character(iso3_cont)[-w]
+		iso3_cont <- c(as.character(iso3_cont)[-w], "GUF")
 	}
 	
 	## Extract countries
@@ -140,7 +142,26 @@ for (i in 1:ncont) {
 	## Import rasters
 	r_fcc2100 <- read_stars(here("Maps", dataset, cont, "fcc_2100_500m.tif"))
 	r_prob <- read_stars(here("Maps", dataset, cont, "prob_500m.tif"))
+	r_fcc123 <- read_stars(here("Maps", dataset, cont, "fcc123_500m.tif"))
 	
+	## Import roads
+	roads <- st_read(here("Maps", dataset, cont, "roads_simp.gpkg"))
+	
+	## Intersect protected areas with ctry borders and import pa
+	f <- here("Maps", dataset, cont, "pa_simp_crop.gpkg")
+	if (!file.exists(f)) {
+	  pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
+	  pa_join <- st_join(pa, borders, join=st_intersects,
+	                suffix=c(".x", ".y"), left=FALSE)
+	  write_sf(pa_join, f)
+	  rm(pa_join)
+	}
+	pa <- st_read(f)
+	if (cont=="Asia") {
+	  pa <- pa %>% 
+	    dplyr::filter(!(pa_name=="Natural Park of the Coral Sea"))
+	}
+
 	## Maps fcc2050
 	m_fcc2100 <- 
 		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
@@ -175,9 +196,41 @@ for (i in 1:ncont) {
 	  tm_layout(inner.margins=c(0,0,0,0),
 	            outer.margins=c(0,0,0,0))
 	
+	## Maps roads
+	m_roads <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(roads) +
+	    tm_lines(lwd=0.25, col="orange4") +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+	
+	## Maps pa
+	m_pa <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(pa) +
+	    tm_fill(col="olivedrab3") +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+	
 	## Save in list
 	l_fcc2100[[i]] <- m_fcc2100
 	l_prob[[i]] <- m_prob
+	l_roads[[i]] <- m_roads
+	l_pa[[i]] <- m_pa
 }
 
 ## Add year and scale bar to Asia
@@ -187,11 +240,21 @@ fcc2100_Asia <- l_fcc2100[[3]] +
 	             position=c(0.15, 0.01), just=c("left", "bottom")) +
   tm_layout(title="2100",
             title.position=c(0.02,0.08), title.size=1.2)
-## prob
+## prob (add legend layout)
 prob_Asia <- l_prob[[3]] + 
   tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
 	             position=c(0.15, 0.01), just=c("left", "bottom")) +
   tm_legend(position=c(0.02, 0.02), just=c("left","bottom")) +
+  tm_layout(legend.text.size=0.8)
+## roads
+roads_Asia <- l_roads[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_layout(legend.text.size=0.8)
+## pa
+pa_Asia <- l_pa[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
   tm_layout(legend.text.size=0.8)
 
 ## Plot (map) size in m
@@ -219,6 +282,7 @@ vp_Afr <- viewport(x=1, y=1, width=width_Afr_npc, height=height_trop_npc, just=c
 vp_Asi <- viewport(x=0.5, y=0, width=width_Asi_npc, height=height_trop_npc, just=c(0.5,0))
 
 ## Arrange plots with grid package
+
 ## fcc2100
 f <- here("Maps", dataset, "fcc2100.png")
 png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
@@ -230,6 +294,7 @@ dev.off()
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Article", "figures", "fcc2100.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
+
 ## prob
 f <- here("Maps", dataset, "prob.png")
 png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
@@ -240,6 +305,30 @@ print(prob_Asia, vp=vp_Asi)
 dev.off()
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Article", "figures", "prob.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## roads
+f <- here("Maps", dataset, "roads.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_roads[[2]], vp=vp_Ame)
+print(l_roads[[1]], vp=vp_Afr)
+print(roads_Asia, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Article", "figures", "roads.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## pa
+f <- here("Maps", dataset, "pa.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_pa[[2]], vp=vp_Ame)
+print(l_pa[[1]], vp=vp_Afr)
+print(pa_Asia, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Article", "figures", "pa.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
