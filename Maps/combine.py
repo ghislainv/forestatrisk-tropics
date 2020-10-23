@@ -48,6 +48,28 @@ def run_combine(index_cont):
     os.chdir(rdir + "/Maps/" + cont)
 
     # =======================
+    # Combine roads
+    # =======================
+    # Combine
+    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*/data/roads_PROJ.shp$' \
+    -exec ogr2ogr -update -append -nlt MULTILINESTRING roads.gpkg {} \;"
+    subprocess.call(cmd, shell=True)
+    # Simplify
+    cmd = "ogr2ogr -overwrite -nlt MULTILINESTRING roads_simp.gpkg roads.gpkg -simplify 1000"
+    subprocess.call(cmd, shell=True)
+
+    # =======================
+    # Combine protected areas
+    # =======================
+    # Combine
+    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*/data/pa_PROJ.shp$' \
+    -exec ogr2ogr -update -append -nlt MULTILINESTRING pa.gpkg {} \;"
+    subprocess.call(cmd, shell=True)
+    # Simplify
+    cmd = "ogr2ogr -overwrite -nlt MULTILINESTRING pa_simp.gpkg pa.gpkg -simplify 1000"
+    subprocess.call(cmd, shell=True)
+
+    # =======================
     # Combine country borders
     # =======================
     # Combine
