@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from tif2cog import tif2cog
 
 # Set PROJ_LIB
-# PROJ_LIB = "/home/ghislain/.pyenv/versions/miniconda3-4.7.12/envs/conda-far/share/proj"
+# PROJ_LIB = "/home/ghislain/.pyenv/versions/miniconda3-latest/envs/conda-far/share/proj"
 # os.environ["PROJ_LIB"] = PROJ_LIB
 
 # List of continents
@@ -63,10 +63,10 @@ def run_combine(index_cont):
     # =======================
     # Combine
     cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*/data/pa_PROJ.shp$' \
-    -exec ogr2ogr -update -append -nlt MULTILINESTRING pa.gpkg {} \;"
+    -exec ogr2ogr -update -append -nlt MULTIPOLYGON pa.gpkg {} \;"
     subprocess.call(cmd, shell=True)
     # Simplify
-    cmd = "ogr2ogr -overwrite -nlt MULTILINESTRING pa_simp.gpkg pa.gpkg -simplify 1000"
+    cmd = "ogr2ogr -overwrite -nlt MULTIPOLYGON pa_simp.gpkg pa.gpkg -simplify 1000"
     subprocess.call(cmd, shell=True)
 
     # =======================
