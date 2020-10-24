@@ -14,6 +14,24 @@ In this study, we present the first attempt to model and forecast tropical defor
 
 # Effectiveness of protected areas
 
+```{r pa-sign, results="asis", echo=FALSE}
+## Import data
+f <- here("Manuscript", "Supplementary_Materials", "tables", "sign_PA_road.csv")
+df <- read.table(f, header=TRUE, sep=",")
+nsa <- df$nctry[df$var=="PA"]
+nsignif <- df$nctry_sign[df$var=="PA"]
+perc <- df$perc[df$var=="PA"]
+perc_w <- df$perc_w[df$var=="PA"]
+```
+
+We used an extensive data-set of protected areas in the tropics (Fig. S\@ref(fig:data-pa)) obtained from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020) to test the effect of protected areas on deforestation. We considered protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves). 
+
+Forested protected areas are usually placed in areas of high or unique biodiversity, in a non-random way. Protected areas are usually found in remote places with lower human disturbances and reduced accessibility, i.e. far from roads or cities, and usually at higher elevation, because low-lying arable land has already been preempted for agriculture [@Geist2001; @Carr2004]. As a consequence, it is usually difficult to disentangle the effect of protected areas from other correlated variables, for example distance to nearest road, city, or elevation [@Andam2008]. Our multivariate logistic regression model allows disentangling the effect of each of the explanatory variables. Moreover, the spatial random effects included in our model correct for the potential bias that could be associated to the fact of not accounting for other unmeasured confounding variables, such as population density [@Andam2008]. 
+
+We found that protected areas significantly reduced the risk of deforestation for `r nsignif` study-areas out of `r nsa` (`r perc`% of the study-areas). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 (Table S\@ref(tab:pa)). On average, protected areas reduce the risk of deforestation by 37% (Table S\@ref(tab:bt-par-region)). This is a clear result about the efficiency of protected areas at reducing the deforestation risk in the tropics. While other studies have assessed the effect of protected areas at reducing deforestation for particular countries [@Andam2008; @Bruner2001; @Green2013] or at efficiently protecting particular group of species [@Cazalis2020], our study is the first to assess the effect of protected areas on deforestation at the pantropical scale, using an extensive data-set on protected areas and potential confounding variables, an appropriate statistical model [@Andam2008], and accurate pantropical forest-cover change maps [@Vancutsem2020].
+
+Nonetheless, our study, as the other studies having tested the effect of protected areas on deforestation, demonstrates that protected areas are effective at _deplacing_ deforestation outside protected areas, not necessarily that protected areas play a role at _reducing_ the deforestation intensity per se. Indeed, in tropical countries, factors driving the intensity of deforestation at a country level are more socio-economical or political, such as the economic development level which determines people livelihood and the link between people and deforestation [@Geist2001; @Carr2004; @Brown1994], the population size [@Barnes1990], or the environmental policy [@Soares-Filho2014]. In tropical countries with weak governance (where the environmental law enforcement is low) and with low development level (where the pressure on forest is high), it is very unlikely that protected areas will remain forested. Under a business-as-usual scenario of deforestation, we assume that the deforestation intensity will remain constant through time. When all the forest outside the protected areas will be deforested, deforestation should occur inside protected areas (Fig. \@ref(fig:fcc2100)). In this scenario, protected areas are efficient at protecting forest areas of high and unique biodiversity in the mid term: in the mid term, forest will be concentrated in protected areas, where the deforestation probability is lower. Under a business as usual scenario, forest should completely disappear from protected areas as deforestation progresses (Fig. \@ref(fig:fcc2100)). This phenomenon is already clearly observable in countries or states where deforestation is advanced, such as in the Rondonia state (Brazil) in America [@Ribeiro2005], Ivory Coast [@Sangne2015] or Madagascar [@Vieilledent2020] in Africa, or Cambodia [@Davis2015] in Asia. In these countries, several forested protected areas have been entirely (the Haut-Sassandra protected forest in Ivory-Coast, or the PK-32 Ranobe national park in Madagascar) or severely (e.g the Beng Per wildlife sanctuary in Cambodia) deforested. 
+
 # Road's impact on deforestation
 
 # Remaining forests in 2100

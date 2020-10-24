@@ -18,6 +18,13 @@ require(wesanderson)
 ## Set working directory
 setwd(here())
 
+## inv_logit function
+inv_logit <- function (x, min=0, max=1) {
+    p <- exp(x)/(1 + exp(x))
+    p <- ifelse(is.na(p) & !is.na(x), 1, p)
+    p * (max - min) + min
+}
+
 ## Dataset
 ##dataset <- "gfc2020_70" 
 dataset <- "jrc2020"
@@ -894,9 +901,9 @@ f_doc <- here("Manuscript", "Supplementary_Materials", "tables",
               "backtransformed_weighted_param_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-## ===================
-## Correlation plot
-## ===================
+## ==================================================
+## Deforestation probability -- variable relationship
+## ==================================================
 
 ## Load data
 f <- here("Analysis", dataset, "results", "data_allctry.csv")
@@ -907,13 +914,6 @@ data2 <- data %>%
 ## Percentiles
 perc <- seq(0, 100, by=10)
 nperc <- length(perc)
-
-## inv_logit function
-inv_logit <- function (x, min=0, max=1) {
-    p <- exp(x)/(1 + exp(x))
-    p <- ifelse(is.na(p) & !is.na(x), 1, p)
-    p * (max - min) + min
-}
 
 ## Compute theta and se by bins
 y <- 1-data2$fcc23  # Transform: defor=1, forest=0

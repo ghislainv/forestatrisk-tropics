@@ -44,6 +44,18 @@ knitr::include_graphics("figures/fcc123.png")
 knitr::include_graphics("figures/var.png")
 ```
 
+(ref:cap-data-pa) **Pantropical data-set on protected areas**. Protected areas were downloaded from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020) using the `pywdpa` Python package during the period January-March 2020. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves).
+
+```{r data-pa, out.width="\\textwidth", fig.cap="(ref:cap-data-pa)"}
+knitr::include_graphics("figures/pa.png")
+```
+
+(ref:cap-data-roads) **Pantropical road network**. The road network was obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads included "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM.
+
+```{r data-roads, out.width="\\textwidth", fig.cap="(ref:cap-data-roads)"}
+knitr::include_graphics("figures/roads.png")
+```
+
 <!--------------------------------------------->
 <!-- Data sampling -->
 <!--------------------------------------------->

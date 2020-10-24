@@ -316,7 +316,7 @@ print(l_roads[[1]], vp=vp_Afr)
 print(roads_Asia, vp=vp_Asi)
 dev.off()
 ## Copy for manuscript
-f_doc <- here("Manuscript", "Article", "figures", "roads.png")
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "roads.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## pa
@@ -328,7 +328,7 @@ print(l_pa[[1]], vp=vp_Afr)
 print(pa_Asia, vp=vp_Asi)
 dev.off()
 ## Copy for manuscript
-f_doc <- here("Manuscript", "Article", "figures", "pa.png")
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "pa.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
