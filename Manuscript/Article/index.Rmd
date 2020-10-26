@@ -42,6 +42,7 @@ library(bookdown)
 library(knitr)
 library(kableExtra)
 library(here)
+library(dplyr)
 opts_chunk$set(echo=FALSE, cache=FALSE,
                # results="hide", 
                warning=FALSE,
