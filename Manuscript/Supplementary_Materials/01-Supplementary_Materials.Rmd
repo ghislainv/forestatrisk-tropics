@@ -18,8 +18,6 @@ Elevation (in m) and slope (in degree) at 90 m resolution were obtained from th
 
 In total, we obtained 8 spatial explanatory variables to model the spatial probability of deforestation (Table \@ref(tab:variables)).
 
-**Add figures for explanatory variables: global road network, global protected areas.**
-
 ## Data sampling for spatial modelling of the deforestation
 
 With the spatial model of deforestation, our aim was to estimate the effects of a set of variables in determining the location of the deforestation (or "allocation" census @Pontius2011) and compute the relative probability of deforestation for each forest pixels. With the spatial model, our objective was not to estimate the intensity of the deforestation (or "quantity" census @Pontius2011), that could be expressed in %/year or in ha/year for example. A balanced sampling between deforested and non-deforested pixels is preferable in this case [@Dezecache2017; @Vieilledent2013]. Because deforestation events are rare ($\approx$ 1 %/yr), a non-stratified random sampling would lead to very few observations of deforestation events, rendering difficult a good estimation of the effects of the explanatory variables. Stratified balanced sampling provided non-biased estimates of the model's parameters, except for the model's intercept (estimated average deforestation). Having a biased model intercept (which has the same value for all forest pixels) is not a problem as we are interested in estimating a _relative_ probability of deforestation for all forest pixels.
@@ -46,8 +44,6 @@ Variable selection was performed using a backward elimination procedure. All the
 ## Parameter inference
 
 Parameter inference was done in a hierarchical Bayesian framework. Non-informative priors were used for all parameters: $\alpha \sim \mathcal{N}ormal(\text{mean}=0,\text{var}=10^6)$, $\beta \sim \mathcal{N}ormal(\text{mean}=0,\text{var}=10^6)$, and $V_{\rho} \sim 1/\mathcal{G}amma(\text{shape}=0.05,\text{rate}=0.0005)$. During the variable selection procedure, we run a Markov Chain Monte Carlo (MCMC) of 2000 iterations, discarding the first 1000 iterations (burn-in phase). For the final model, we repeated the parameter inference using a longer MCMC of 10,000 iterations. We discarded the first 5000 iterations (burn-in phase), and we thinned the chain each 5 iterations (to reduce autocorrelation between samples). We obtained 1000 estimates for each parameter. MCMC convergence was visually checked looking at MCMC traces and parameter posterior distributions. Function `model_binomial_iCAR()` from the `forestatrisk` Python package was used for parameter inference. This function calls an adaptive Metropolis-within-Gibbs algorithm [@Rosenthal2011] written in C for maximum computation speed. 
-
-**Add figure for MCMC traces (see bayesplot).**
 
 ## Model comparison
 

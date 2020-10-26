@@ -12,7 +12,7 @@ In this study, we present the first attempt to model and forecast tropical defor
 
 - Some methodological information
 
-# Effectiveness of protected areas
+# Effectiveness of protected areas at deplacing deforestation
 
 ```{r pa-sign, results="asis", echo=FALSE}
 ## Import data
@@ -46,13 +46,11 @@ perc_w <- df$perc_w[df$var=="road"]
 
 We also used an extensive data-set of roads in the tropics (Fig. S5) obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>) to estimate the effect of the distance to road on the risk of deforestation. Roads included "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM. Distance to nearest road was computed at 150 m resolution.
 
-We found that a higher distance to road significantly reduced the risk of deforestation for `r nsignif` study-areas out of `r nsa` (`r perc`% of the study-areas). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 (Table S16). On average, a distance of 10 km from a road reduces the risk of deforestation by 14% (Table S15). This said, when there is a road, there is a forest edge. This means that when studying the effect of roads on deforestation, it is impossible not considering also the effect of the distance to forest edge, on the deforestation risk. Indeed, opening a road in the forest implies the creation of two forest edges and computing a distance from a forest pixel to the nearest road implies the existence of a distance to forest edge. 
+We found that a higher distance to road significantly reduced the risk of deforestation for `r nsignif` study-areas out of `r nsa` (`r perc`% of the study-areas). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 (Table S16). On average, a distance of 10 km from a road reduces the risk of deforestation by 14% (Table S15). This said, where there is a road in a forest landscape, there is a forest edge. Indeed, opening a road in the forest implies the creation of two forest edges and computing a distance from a forest pixel to the nearest road implies the existence of a distance to forest edge. This means that when studying the effect of roads on deforestation, it is impossible not considering also the effect of the distance to forest edge on the deforestation risk.
 
 In our data-set, we found that the distance to forest edge was the most important variable in determining the risk of deforestation (Table S13), in line with the results of other studies showing the impact of forest fragmentation on the risk of deforestation in the tropics [@Hansen2020]. We estimated that, on average, a distance of 1 km from the forest edge reduces the risk of deforestation by 93%, and a distance of 10 km reduces the risk of deforestation by almost 100% (Table S15).
 
-Consequently, building new roads on non-forest lands but near already existing forest edges would significantly increase the deforestation risk in the nearby forest. But this impact of roads on deforestation would be demultiplied if the development of road infrastucture implies the creation of new forest edges, in addition to the direct deforestation associated to the road building inside the forest.
-
-Link with Laurance results
+Consequently, building new roads in non-forest areas but close to already existing forest edges would significantly increase the deforestation risk in the nearby forest. But this impact of roads on deforestation would be demultiplied if the development of road infrastucture is done at the heart of a forest areas. This would imply the creation of new forest edges, in addition to the direct deforestation associated to the road building in the forest [@Kleinschroth2017], and would dramatically increase the deforestation probability in this area. While road networks are expanding rapidly worldwide, notably in remote areas in tropical countries [@Laurance2014], our results underline the importance of conserving large roadless and connected (unfragmented) forest areas.
 
 # Remaining forests in 2100
 
@@ -61,6 +59,16 @@ Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of
 - Countries having lost their forest
 - Residual fragmented forest
 - Intact forest blocks
+
+# Carbon emission forecast under a business-as-usual scenario of deforestation
+
+We estimated carbon emissions associated to projected deforestation in the period 2020--2100 under a "business-as-usual" scenario of deforestation. We used a time step of 10 years to project the change in carbon emissions with time. To do so, we used the pantropical 1 km resolution aboveground dry biomass (AGB, in Mg/ha) map by @Avitabile2016 (Fig. S12). Biomass can be converted in carbon emissions using the Intergovernmental Panel on Climate Change (IPCC) default carbon fraction of 0.47 [@McGroddy2004]. Although a large uncertainty surrounds the biomass estimates, Avitabile's map is the most accurate biomass map available at the pantropical scale and correctly represent the aboveground biomass spatial variability. We assumed no change of the forest carbon stocks in the future while computing carbon emissions associated to projected deforestation. Under a "business-as-usual" scenario of deforestation (no change in the annual deforested area, in ha/yr, in the future), the change in mean annual carbon emissions in the future is only attributable to the spatial variation of the forest carbon stocks and to the location of the future deforestation.
+
+We found that carbon emissions associated to deforestation of moist tropical forests at the global scale should increase from 0.54 Pg/yr in 2010--2020 up to 0.73 Pg/yr in 2080--2090 (+0.19 Pg/yr corresponding to a 35% increase, Fig \@ref(fig:c-em)). This increase in the carbon emissions associated to deforestation was predicted for the three continents (Fig \@ref(fig:c-em)). A decrease of the carbon emissions was predicted for Asia from the period 2070--2080 and at the global scale from the period 2090--2100 (Fig \@ref(fig:c-em)).
+
+The increase in carbon emissions is explained by the fact that forest areas whicha are progressively deforested have higher carbon stocks. Several previous studies have shown that elevation was an important variable determining forest carbon stocks [@Vieilledent2016; @Keith2009; @Stegen2011; @Saatchi2011; @Baccini2012]. Forest carbon stocks are expected to be optimal at mid-elevation [@Vieilledent2016; @Asner2012], because of higher precipitation at mid-elevation (orographic precipitation) and because the climatic stress associated to strong wind and low temperature is lower at mid-elevation than at high elevation. In the present study, we show that low-land areas are preferentially deforested (Tabbles S12 and S13) in comparison with high-elevation areas. This is explained by the fact that low-land areas are more accessible and that more productive arable lands are concentrated at low elevation [@Geist2001; @Carr2004].
+
+These results demonstrate the importance of having spatial predictions of the deforestation to forecast the carbon emissions associated to deforestation. Carbon emissions is the result of both the spatial variation of the forest carbon stocks and the location of the future deforestation. The projected increase in carbon emission estimates with time would have been hard to anticipate with mean annual forest cover change estimates by country and forest type (such as those provided by the Forest Resource Assessment report for example, @Keenan2015) and mean forest carbon stocks by continent and forest type (such as the emission factors provided by @IPCC2019).
 
 # Impact on ecosystem services
 
