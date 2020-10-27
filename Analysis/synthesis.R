@@ -1227,11 +1227,6 @@ C_trend <- Cem_tab2 %>%
            T90_100=(C2100-C2090)/10) %>%
     dplyr::select(area_cont, T10_20:T90_100)
 
-## Carbon emissions should continue to increase: from 0.66 PgC/yr on 2019-2035 to 0.814 PgC/yr on 2050-2085.
-## Deforestation of forest areas with higher carbon stocks in the future.
-## Higher carbon stocks because of environmental/elevation gradient (see Asner article) and because of remote, less degraded forests.
-## Will decrease in Asia because many countries with no more forests after 2085.
-
 ## Deforestation => increase in C source with time (deforestation of forest with higher carbon stocks).
 ## Climate change => decrease in C sink with time (higher mortality), see Hubau2020.
 ## The result is that forests will likely become a major C source in the future. 
