@@ -27,7 +27,7 @@ df <- df1 %>%
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 9))
 unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(Kha/yr)", "(\\%/yr)", "(Kha)", "(Kha)", "(\\%)", "")
-col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$", "$p$",
+col.names <- c("Regions", "fc2000", "fc2010", "fc2020", "$d$", "$p$",
                "fc2050", "fc2100", "loss21", "yr75")
 knitr::kable(df, caption="(ref:cap-fcc-reg)", booktabs=TRUE, longtable=FALSE,
 						 format.args=list(big.mark=","),
