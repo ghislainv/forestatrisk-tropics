@@ -252,7 +252,7 @@ green_transp <- rgb(34, 139, 34, 130, maxColorValue=255)
 ## Sampled points for COD
 in_f_sp <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "sample.txt")
 sp_df <- read.table(in_f_sp, header=TRUE, sep=",")
-sp <- st_as_sf(sp_df, coords = c("X", "Y"), crs=3395)
+wsp <- st_as_sf(sp_df, coords = c("X", "Y"), crs=3395)
 
 ## Plot
 in_f <- here("Maps", dataset, ctry_iso, "fcc123_zoom_extra.tif")
