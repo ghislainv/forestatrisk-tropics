@@ -14,6 +14,7 @@ require(tidyr)
 require(here)
 require(ggplot2)
 require(wesanderson)
+require(readr)
 
 ## Set working directory
 setwd(here())
@@ -38,7 +39,7 @@ dir_fdb <- "/home/forestatrisk-tropics"
 ## =================
 
 ## Load country info (encoding pb for ctry names)
-ctry_df <- read.csv2(here("Analysis","ctry_run.csv"), header=TRUE, sep=";", encoding="UTF-8")
+ctry_df <- read.csv2(here("Analysis", "data", "ctry_run.csv"), header=TRUE, sep=";", encoding="UTF-8")
 
 ## List of countries
 iso3 <- ctry_df$iso3
@@ -1284,40 +1285,23 @@ f_doc <- here("Manuscript", "Article", "figures",
               "C_trend.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-## ===================
-## Main results
-## ===================
+## =======================================
+## Table: species in biodiversity hotspots
+## =======================================
 
-## Forest cover and forest loss
-r1 <- "Global moist tropical forest (ha)"
-r2 <- "Moist tropical forest per continent (ha)"
-r3 <- "Global annual forest lost (ha)"
-r4 <- "Annual forest lost per continent (ha)"
-r5 <- "Total forest loss at each date in the future with percentage"
-r6 <- "Total forest loss per continent at each date in the future with percentage"
+f <- here("Analysis", "data", "species_biodiversity_hotspots.csv")
+df <- read_delim(f, delim=",")
+df2 <- df %>%
+  dplyr::filter(Hotspot %in% c("Mesoamerica", "Guinean Forests of West Africa",
+                              "Horn of Africa", "Madagascar and Indian Ocean Islands", "Indo-Burma",
+                              "Western Ghats and Sri Lanka")) %>%
+  dplyr::summarize(Plants=sum(Plants_E), Vertebrates=sum(Birds_E, Reptiles_E, Amphibians_E, Freshwater_fishes_E, Mammals_E))
 
-## Sample
-r.sa.1 <- "Number of sample points per country"
-r.sa.2 <- "Total number of sample points (nfor, ndefor)"
+## Save results
+f <- here("Analysis", dataset, "results", "species_loss.csv")
+write_delim(df2, f, delim=",")
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "species_loss.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-## Model performance
-r6.1 <- "Percentage of deviance explained (with SD) at the global scale"
-r6.2 <- "Percentage of deviance explained (with SD) by continent"
-r6.3 <- "Performance index with (with SD) at the global scale"
-r6.4 <- "Performance index with (with SD) by continent"
-
-## Variables
-r7 <- "Percentage of forest inside protected areas at each date"
-r8 <- "Number of countries (and %) with significant PA effect"
-r9 <- "Number of countries (and %) with significant road effect"
-r10 <- "Decrease in the deforestation risk with distance to road. Figure and estimates at 100, 200, 500 and 1km."
-r10 <- "EDGE EFFECT: Decrease in the deforestation risk with distance to edge. Figure and estimates at 100, 200, 500 and 1km."
-r10.1 <- "Variable importance"
-
-## CO2 emissions
-r11 <- "Global CO2 emissions at each date in the future"
-r12 <- "CO2 emissions per continent at each date in the future"
-
-## Fragmentation?
-
-## End
+## End of file
