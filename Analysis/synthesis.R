@@ -377,6 +377,50 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 f_doc <- here("Manuscript", "Article", "tables", "fcc_hist_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
+## ===================================================
+## Balanced data-set given for2010 for each study-area
+## ===================================================
+
+## Sample size
+f <- here("Analysis", dataset, "results", "samp_size.csv")
+samp_size <- read_delim(f, delim=",") %>%
+  dplyr::filter(area_cont!="All continents")
+
+## Forest cover
+f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+fcc_tab <- read_delim(f, delim=",")
+
+## nsamp_est function
+nsamp_est_f <- function(nsamp, weight) {
+  weight_max <- max(weight)
+  nsamp_max <- unique(nsamp[weight==weight_max])
+  nsamp_est <- nsamp_max*(weight/weight_max)
+  return(as.integer(round(nsamp_est)))
+}
+
+## Balanced data-set
+samp_df <- samp_size %>%
+  mutate(nsamp=nfor+ndef) %>%
+  select(-nfor, -ndef, -nforHa, -ndefHa) %>%
+  mutate(for2010=fcc_tab$for2010) %>%
+  mutate(weight=for2010/sum(for2010)) %>%
+  mutate(nsamp_est=nsamp_est_f(nsamp, weight)) %>%
+  mutate(nsamp_prop=pmin(nsamp, nsamp_est))
+
+## Sample from full data-set
+## see here: https://jennybc.github.io/purrr-tutorial/ls12_different-sized-samples.html
+library(purrr)
+library(tidyr)
+set.seed(4321)
+f <- here("Analysis", dataset, "results", "data_allctry.csv")
+data_allctry <- read_delim(f, delim=",")
+data_allctry_prop <- data_allctry %>%
+  group_by(iso3) %>%
+  nest() %>%
+  ungroup() %>%
+  mutate(nsamp_prop=samp_df$nsamp_prop)
+
+
 ## ===============================================
 ## Projecting percentage of forest loss per region
 ## ===============================================
@@ -908,68 +952,87 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## Load data
 f <- here("Analysis", dataset, "results", "data_allctry.csv")
-data <- read.table(f, header=TRUE, sep=",")
+data <- read_delim(f, delim=",")
 data2 <- data %>%
-  dplyr::filter(iso3 %in% c("COD", "IDN"))
+  dplyr::filter((iso3 %in% c("COD", "IDN", "BRA-AM")))
 
 ## Percentiles
 perc <- seq(0, 100, by=10)
 nperc <- length(perc)
 
+## Result table with local means
+theta_lmean <- list()
+
 ## Compute theta and se by bins
 y <- 1-data2$fcc23  # Transform: defor=1, forest=0
 data2$dist_road_km <- data2$dist_road/1000
 data2$dist_edge_km <- data2$dist_edge/1000
-varname <- "dist_road_km"
-theta <- rep(0, nperc-1)
-se <- rep(0, nperc-1)
-x <- rep(0, nperc-1)
-quantiles <- quantile(data2[varname], probs=perc/100, na.rm=TRUE)
-## Loop on percentiles
-for (j in 1:(nperc-1)) {
-  inf <- quantiles[j]
-  sup <- quantiles[j + 1]
-  x[j] <- inf + (sup - inf) / 2
-  y_bin <- y[(data2[varname] > inf) & (data2[varname] <= sup)]
-  s <- sum(y_bin)  # success
-  n <- length(y_bin)  # trials
-  theta[j] <- ifelse(n != 0, s/n, NaN)
-  ph <- (s + 1 / 2) / (n + 1)
-  se[j] <- sqrt(ph * (1 - ph) / (n + 1))
+varname <- c("dist_road_km", "dist_edge_km")
+for (i in 1:length(varname)) {
+  v <- varname[i]
+  theta <- rep(0, nperc-1)
+  se <- rep(0, nperc-1)
+  x <- rep(0, nperc-1)
+  quantiles <- quantile(data2[v], probs=perc/100, na.rm=TRUE)
+  ## Loop on percentiles
+  for (j in 1:(nperc-1)) {
+    inf <- quantiles[j]
+    sup <- quantiles[j + 1]
+    x[j] <- inf + (sup - inf) / 2
+    y_bin <- y[(data2[v] > inf) & (data2[v] <= sup)]
+    s <- sum(y_bin)  # success
+    n <- length(y_bin)  # trials
+    theta[j] <- ifelse(n != 0, s/n, NaN)
+    ph <- (s + 1 / 2) / (n + 1)
+    se[j] <- sqrt(ph * (1 - ph) / (n + 1))
+  }
+
+  ## Model icar
+  theta_icar <- data2$icar
+  theta_icar_mean <- rep(0, nperc-1)
+  ## Loop on percentiles
+  for (j in 1:(nperc-1)) {
+    inf <- quantiles[j]
+    sup <- quantiles[j + 1]
+    # Observations in bin
+    w <- (data2[v] > inf) & (data2[v] <= sup)
+    # icar
+    t_bin <- theta_icar[w]
+    theta_icar_mean[j] <- mean(t_bin)
+  }
+  
+  ## Fill the list
+  theta_lmean[[i]] <- data.frame(x=x, theta_obs=theta, theta_icar=theta_icar_mean)
 }
 
-## Simple glm
-mod <- glm(y~dist_road_km+dist_edge+dist_defor, family="binomial", data=data2)
-coef <- mod$coefficients
-theta_glm <- predict(mod, type="link")
-theta_glm_mean <- rep(0, nperc-1)
-## Model icar
-theta_icar <- data2$icar
-theta_icar_mean <- rep(0, nperc-1)
-# Model rf
-theta_rf <- data2$rf
-theta_rf_mean <- rep(0, nperc-1)
-## Loop on percentiles
-for (j in 1:(nperc-1)) {
-  inf <- quantiles[j]
-  sup <- quantiles[j + 1]
-  # Observations in bin
-  w <- (data2[varname] > inf) & (data2[varname] <= sup)
-  # simple glm
-  t_bin <- theta_glm[w]
-  theta_glm_mean[j] <- mean(inv_logit(t_bin))
-  # icar
-  t_bin <- theta_icar[w]
-  theta_icar_mean[j] <- mean(t_bin)
-  # rf
-  t_bin <- theta_rf[w]
-  theta_rf_mean[j] <- mean(t_bin)
-}
+## Combine data-set
+theta_road <- theta_lmean[[1]]
+theta_edge <- theta_lmean[[2]]
+theta_var <- bind_rows(data.frame(var="road", theta_road),
+                       data.frame(var="forest edge", theta_edge))
+## mytheme
+mytheme <- theme(
+  axis.title=element_text(size=12),
+  axis.text=element_text(size=10),
+  legend.title=element_text(size=12),
+  legend.text=element_text(size=10),
+  legend.position=c(0.9, 0.9),
+  legend.justification=c(1, 1))
+
 ## Plot
-plot(x, theta, xlab="ddefor (Km)", xlim=c(0,100), ylim=c(0,1), pch=19)
-#lines(x, theta_glm_mean, col="blue")
-lines(x, theta_icar_mean, col="red")
-#lines(x, theta_rf_mean, col="green")
+p <- ggplot(aes(x=x, y=theta_obs, group=var, col=var), data=theta_var) +
+  geom_point(size=1.2) +
+  geom_line(aes(x=x, y=theta_icar, group=var, col=var), size=0.8) +
+  xlab("Distance (km)") +
+  ylab("Spatial probability of deforestation") +
+  scale_color_manual(values=wes_palette("Moonrise2")[c(2, 1)],
+                     name="Distance to:",
+                     breaks=c("road", "forest edge"),
+                     labels=c("road", "forest edge")) +
+  scale_y_continuous(limits=c(0,1), breaks=seq(0,1,0.25)) +
+  scale_x_continuous(limits=c(0,20), breaks=seq(0,20,by=5)) +
+  theme_bw() + mytheme
+
 
 # ## ==================================
 # ## Correlation plot between variables
