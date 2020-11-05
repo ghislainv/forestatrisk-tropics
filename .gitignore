@@ -30,6 +30,7 @@ Manuscript/Article/doc/article.pdf
 # Data
 AGB/*
 data_allctry.csv
+data_allctry_prop.csv
 Maps/Africa
 Maps/America
 Maps/Asia

@@ -62,11 +62,21 @@ for (i in 1:nctry) {
   iso <- iso3[i]
   continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
   dir <- file.path(dir_fdb, dataset, continent)
+  ## Area info
+  area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+  area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+  area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+  area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
   ## Sample size
   f_name <- file.path(dir, iso, "/output/obs_pred.csv")
   obs_pred_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
   obs_pred_df$iso3 <- iso
   obs_pred_df$continent <- continent
+  obs_pred_df$area_cont <- area_cont
+  obs_pred_df$area_ctry <- area_ctry
+  obs_pred_df$area_name <- area_name
+  obs_pred_df$area_code <- area_code
+  
   ## Fill in the table
   data_allctry_tab <- rbind(data_allctry_tab, obs_pred_df)
 }
@@ -405,21 +415,29 @@ samp_df <- samp_size %>%
   mutate(for2010=fcc_tab$for2010) %>%
   mutate(weight=for2010/sum(for2010)) %>%
   mutate(nsamp_est=nsamp_est_f(nsamp, weight)) %>%
-  mutate(nsamp_prop=pmin(nsamp, nsamp_est))
+  mutate(nsamp_prop=pmin(nsamp, nsamp_est)) %>%
+  arrange(area_code)
 
 ## Sample from full data-set
 ## see here: https://jennybc.github.io/purrr-tutorial/ls12_different-sized-samples.html
-library(purrr)
-library(tidyr)
+library(purrr)  # for map() function
+library(tidyr)  # for nest() function
 set.seed(4321)
 f <- here("Analysis", dataset, "results", "data_allctry.csv")
 data_allctry <- read_delim(f, delim=",")
 data_allctry_prop <- data_allctry %>%
-  group_by(iso3) %>%
+  group_by(area_code) %>%
   nest() %>%
   ungroup() %>%
-  mutate(nsamp_prop=samp_df$nsamp_prop)
+  arrange(area_code) %>%  # Check order
+  mutate(nsamp_prop=samp_df$nsamp_prop) %>%
+  mutate(samp=map2(data, nsamp_prop, sample_n)) %>%
+  select(-data) %>%
+  unnest(samp)
 
+## Save balanced data-set
+f <- here("Analysis", dataset, "results", "data_allctry_prop.csv")
+write_delim(data_allctry_prop, f, delim=",")
 
 ## ===============================================
 ## Projecting percentage of forest loss per region
