@@ -969,10 +969,8 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ==================================================
 
 ## Load data
-f <- here("Analysis", dataset, "results", "data_allctry.csv")
+f <- here("Analysis", dataset, "results", "data_allctry_prop.csv")
 data <- read_delim(f, delim=",")
-data2 <- data %>%
-  dplyr::filter((iso3 %in% c("COD", "IDN", "BRA-AM")))
 
 ## Percentiles
 perc <- seq(0, 100, by=10)
@@ -982,43 +980,37 @@ nperc <- length(perc)
 theta_lmean <- list()
 
 ## Compute theta and se by bins
-y <- 1-data2$fcc23  # Transform: defor=1, forest=0
-data2$dist_road_km <- data2$dist_road/1000
-data2$dist_edge_km <- data2$dist_edge/1000
+y <- 1-data$fcc23  # Transform: defor=1, forest=0
+data$dist_road_km <- data$dist_road/1000
+data$dist_edge_km <- data$dist_edge/1000
 varname <- c("dist_road_km", "dist_edge_km")
 for (i in 1:length(varname)) {
   v <- varname[i]
   theta <- rep(0, nperc-1)
   se <- rep(0, nperc-1)
   x <- rep(0, nperc-1)
-  quantiles <- quantile(data2[v], probs=perc/100, na.rm=TRUE)
-  ## Loop on percentiles
-  for (j in 1:(nperc-1)) {
-    inf <- quantiles[j]
-    sup <- quantiles[j + 1]
-    x[j] <- inf + (sup - inf) / 2
-    y_bin <- y[(data2[v] > inf) & (data2[v] <= sup)]
-    s <- sum(y_bin)  # success
-    n <- length(y_bin)  # trials
-    theta[j] <- ifelse(n != 0, s/n, NaN)
-    ph <- (s + 1 / 2) / (n + 1)
-    se[j] <- sqrt(ph * (1 - ph) / (n + 1))
-  }
-
+  quantiles <- quantile(data[v], probs=perc/100, na.rm=TRUE)
   ## Model icar
-  theta_icar <- data2$icar
+  theta_icar <- data$icar
   theta_icar_mean <- rep(0, nperc-1)
   ## Loop on percentiles
   for (j in 1:(nperc-1)) {
     inf <- quantiles[j]
     sup <- quantiles[j + 1]
+    x[j] <- inf + (sup - inf) / 2
     # Observations in bin
-    w <- (data2[v] > inf) & (data2[v] <= sup)
+    w <- (data[v] > inf) & (data[v] <= sup)
+    y_bin <- y[w]
+    # Local mean and se
+    s <- sum(y_bin)  # success
+    n <- length(y_bin)  # trials
+    theta[j] <- ifelse(n != 0, s/n, NaN)
+    ph <- (s + 1 / 2) / (n + 1)
+    se[j] <- sqrt(ph * (1 - ph) / (n + 1))
     # icar
     t_bin <- theta_icar[w]
     theta_icar_mean[j] <- mean(t_bin)
   }
-  
   ## Fill the list
   theta_lmean[[i]] <- data.frame(x=x, theta_obs=theta, theta_icar=theta_icar_mean)
 }
@@ -1047,10 +1039,10 @@ p <- ggplot(aes(x=x, y=theta_obs, group=var, col=var), data=theta_var) +
                      name="Distance to:",
                      breaks=c("road", "forest edge"),
                      labels=c("road", "forest edge")) +
-  scale_y_continuous(limits=c(0,1), breaks=seq(0,1,0.25)) +
-  scale_x_continuous(limits=c(0,20), breaks=seq(0,20,by=5)) +
+  coord_cartesian(xlim=c(0,20), ylim=c(0, 1)) +
+  scale_y_continuous(breaks=seq(0, 1, 0.25)) +
+  scale_x_continuous(breaks=c(0, 1, 5, 10, 15, 20)) +
   theme_bw() + mytheme
-
 
 # ## ==================================
 # ## Correlation plot between variables
