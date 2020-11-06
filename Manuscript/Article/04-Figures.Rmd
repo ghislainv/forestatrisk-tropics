@@ -1,5 +1,18 @@
 # Figures
 
+<!-------------------------------------------------------------------------------------->
+<!-- Effects of explanatory variables on the spatial probability of deforestation -->
+<!-------------------------------------------------------------------------------------->
+
+## Effects of explanatory variables on the spatial probability of deforestation
+
+(ref:cap-proba-var) **Effects of explanatory variables on the spatial probability of deforestation**. For this figure, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed from 3,186,698 to 813,796. _Left_: Points represent the observed mean probability of deforestation in each class of forest's protection status, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the iCAR model of deforestation for all observations in each class. _Right_: Points represent the local mean probability of deforestation for each bins of 10 percentiles for the distances (first point for distance to forest edge includes 3 bins, some bins corresponding to a distance > 22 km for distance to road are not shown). Lines represent the mean of the predicted probabilities of deforestation obtained from the iCAR model of deforestation for all observations in each bin.   
+
+```{r proba-var, out.width="\\textwidth", fig.cap="(ref:cap-proba-var)"}
+knitr::include_graphics("figures/proba-var.png")
+```
+
+
 <!----------------------------------------------------------------->
 <!-- Pantropical map of the spatial probability of deforestation -->
 <!----------------------------------------------------------------->

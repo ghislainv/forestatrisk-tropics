@@ -968,6 +968,8 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Deforestation probability -- variable relationship
 ## ==================================================
 
+##-- Distance to road and forst egdge --##
+
 ## Load data
 f <- here("Analysis", dataset, "results", "data_allctry_prop.csv")
 data <- read_delim(f, delim=",")
@@ -999,7 +1001,8 @@ for (i in 1:length(varname)) {
     sup <- quantiles[j + 1]
     x[j] <- inf + (sup - inf) / 2
     # Observations in bin
-    w <- (data[v] > inf) & (data[v] <= sup)
+    w <- (data[v] >= inf) & (data[v] < sup)
+    if (j==(nperc-1)) {w <- (data[v] >= inf) & (data[v] <= sup)}
     y_bin <- y[w]
     # Local mean and se
     s <- sum(y_bin)  # success
@@ -1018,31 +1021,70 @@ for (i in 1:length(varname)) {
 ## Combine data-set
 theta_road <- theta_lmean[[1]]
 theta_edge <- theta_lmean[[2]]
-theta_var <- bind_rows(data.frame(var="road", theta_road),
+theta_dist <- bind_rows(data.frame(var="road", theta_road),
                        data.frame(var="forest edge", theta_edge))
 ## mytheme
 mytheme <- theme(
   axis.title=element_text(size=12),
-  axis.text=element_text(size=10),
+  axis.text=element_text(size=9),
   legend.title=element_text(size=12),
   legend.text=element_text(size=10),
   legend.position=c(0.9, 0.9),
   legend.justification=c(1, 1))
 
 ## Plot
-p <- ggplot(aes(x=x, y=theta_obs, group=var, col=var), data=theta_var) +
+p_dist <- ggplot(aes(x=x, y=theta_obs, group=var, col=var), data=theta_dist) +
   geom_point(size=1.2) +
-  geom_line(aes(x=x, y=theta_icar, group=var, col=var), size=0.8) +
+  geom_line(aes(x=x, y=theta_icar, group=var, col=var), size=0.7) +
   xlab("Distance (km)") +
   ylab("Spatial probability of deforestation") +
   scale_color_manual(values=wes_palette("Moonrise2")[c(2, 1)],
                      name="Distance to:",
                      breaks=c("road", "forest edge"),
                      labels=c("road", "forest edge")) +
-  coord_cartesian(xlim=c(0,20), ylim=c(0, 1)) +
+  coord_cartesian(xlim=c(0,22), ylim=c(0, 1)) +
   scale_y_continuous(breaks=seq(0, 1, 0.25)) +
-  scale_x_continuous(breaks=c(0, 1, 5, 10, 15, 20)) +
+  scale_x_continuous(breaks=c(0, 1, 5, 10, 15, 20, 22)) +
+  theme_bw() + mytheme + theme(axis.title.y=element_blank())
+
+##-- Protected areas --##
+
+## Table of results
+theta_pa <- data.frame(pa=c("Unprotected","Protected"), obs=NA, icar=NA)
+
+## No PA
+w0 <- which(data["pa"]==0)
+nw0 <- length(w0)
+theta_pa$obs[1] <- sum(y[w0]==1)/nw0
+theta_pa$icar[1] <- mean(data$icar[w0])
+
+## PA
+w1 <- which(data["pa"]==1)
+nw1 <- length(w1)
+theta_pa$obs[2] <- sum(y[w1]==1)/nw1
+theta_pa$icar[2] <- mean(data$icar[w1])
+
+## PLot
+p_pa <- ggplot(aes(x=pa, y=icar), data=theta_pa) +
+  geom_col(colour="#bcc6c3", fill="#bcc6c3", size=1, width=0.25) +
+  geom_point(aes(x=pa, y=obs), data=theta_pa, colour=wes_palette("Moonrise2")[1]) +
+  xlab("Protection status") +
+  ylab("Spatial probability of deforestation") +
+  coord_cartesian(ylim=c(0, 1)) +
+  scale_x_discrete(limits=c("Unprotected", "Protected")) +
+  scale_y_continuous(breaks=seq(0, 1, 0.25)) +
   theme_bw() + mytheme
+  
+##-- Arrange and save plots --##
+library(gridExtra)
+textwidth <- 16.6
+f <- here("Analysis", dataset, "results", "proba-var.png")
+png(filename=f, width=textwidth, height=textwidth*0.6, units="cm", res=300)
+grid.arrange(p_pa, p_dist, ncol=2, nrow=1, widths=c(1.5, 3), heights=c(1))
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Article", "figures", "proba-var.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # ## ==================================
 # ## Correlation plot between variables
