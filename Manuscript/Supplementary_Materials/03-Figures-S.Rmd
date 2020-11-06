@@ -44,6 +44,12 @@ knitr::include_graphics("figures/fcc123.png")
 knitr::include_graphics("figures/var.png")
 ```
 
+(ref:cap-corr-var) **Correlation between explanatory variables**. To compute the correlations, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed from 3,186,698 to 813,796. We computed the Pearson's correlation matrix for the seven continuous explanatory variables used to model the deforestation: elevation ("elev"), slope ("slope"), distance to nearest road, town, and river ("droad", "dtown", and "driver", respectively), distance to forest edge ("dedge"), and distance to past deforestation ("ddefor"). For the protected areas ("pa"), which is a categorical variable for which a Pearson's correlation coefficient cannot be computed, we reported the slope coefficient of simple logistic regressions where the probability of presence of a protected area was a function of one intercept and one of the continuous variable (which was normalized).
+
+```{r corr-var, out.width="\\textwidth", fig.cap="(ref:cap-corr-var)"}
+knitr::include_graphics("figures/corr-var.png")
+```
+
 (ref:cap-data-pa) **Pantropical data-set on protected areas**. Protected areas were downloaded from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020) using the `pywdpa` Python package during the period January-March 2020. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves).
 
 ```{r data-pa, out.width="\\textwidth", fig.cap="(ref:cap-data-pa)"}

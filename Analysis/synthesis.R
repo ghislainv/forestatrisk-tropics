@@ -968,7 +968,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Deforestation probability -- variable relationship
 ## ==================================================
 
-##-- Distance to road and forst egdge --##
+##-- Distance to road and forest edge --##
 
 ## Load data
 f <- here("Analysis", dataset, "results", "data_allctry_prop.csv")
@@ -1086,19 +1086,41 @@ dev.off()
 f_doc <- here("Manuscript", "Article", "figures", "proba-var.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-# ## ==================================
-# ## Correlation plot between variables
-# ## ==================================
-# 
-# require("ggcorrplot")
-# corr <- round(cor(data2 %>% dplyr::select(altitude:dist_town, slope), use="pairwise.complete.obs"), 1)
-# ggcorrplot(corr, hc.order = TRUE, type = "lower",
-#    outline.col = "white", lab=TRUE,
-#    ggtheme = ggplot2::theme_gray,
-#    colors = c("#6D9EC1", "white", "#E46726"))
-# 
-# require(GGally)
-# ggpairs(data %>% dplyr::filter(iso3=="MDG") %>% dplyr::select(altitude:dist_town, slope))
+## ==================================
+## Correlation plot between variables
+## ==================================
+
+## Logistic regression for correlation between continuous variables and protected areas.
+var_names <- c("altitude", "slope", "dist_defor", "dist_edge",
+               "dist_river", "dist_road", "dist_town")
+corr_pa <- vector()
+for (i in 1:7) {
+  formula <- paste0("pa~scale(",var_names[i],")")
+  mod_corr_pa <- glm(formula, data=data)
+  corr_pa[i] <- round(coefficients(mod_corr_pa)[2], 2)
+}
+
+require("ggcorrplot")
+## Correlation matrix
+corr <- round(cor(data %>% dplyr::select(pa, altitude, slope, dist_defor:dist_town), use="pairwise.complete.obs"), 2)
+corr[1, ] <- c(1, corr_pa)
+corr[, 1] <- c(1, corr_pa)
+## Variable names
+colnames(corr) <- c("pa", "elev", "slope", "ddefor", "dedge", "driver", "droad", "dtown")
+row.names(corr) <- colnames(corr)
+## Palette
+pal <- wes_palette("Moonrise2")
+## Plot
+f <- here("Analysis", dataset, "results", "corr-var.png")
+png(filename=f, width=textwidth, height=0.6*textwidth, units="cm", res=300)
+ggcorrplot(corr, hc.order = TRUE, type = "lower",
+   outline.col = "white", lab=TRUE, legend.title="Correlation",
+   ggtheme = ggplot2::theme_bw, digits=2,
+   colors = c(pal[1], "white", pal[2]))
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "corr-var.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================
 ## PA effect
