@@ -1307,6 +1307,12 @@ for (i in 1:nctry) {
     Cem_tab[i, 5:16] <- Cem_df$C
 }
 
+## Rearrange study areas per continent
+Cem_tab <- Cem_tab %>%
+    dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    dplyr::arrange(id, area_name) %>%
+    dplyr::select(-id)
+
 ## Save results
 f <- here("Analysis", dataset, "results", "C_emissions.csv")
 write.table(Cem_tab, file=f, sep=",", row.names=FALSE)
