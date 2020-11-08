@@ -53,5 +53,5 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
                tidy=FALSE)
 #load("forestatrisk-tropics.rda")
 ```
-
+\linenumbers
 \newpage

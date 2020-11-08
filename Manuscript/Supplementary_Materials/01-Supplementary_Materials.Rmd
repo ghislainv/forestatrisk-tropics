@@ -109,4 +109,5 @@ All the data and code used for this study have been made permanently and publicl
 
 Note that the code used for this study is also available on GitHub at <https://github.com/ghislainv/forestatrisk-tropics>.
 
+\nolinenumbers
 \newpage

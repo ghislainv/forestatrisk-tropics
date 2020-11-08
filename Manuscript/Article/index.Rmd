@@ -35,6 +35,7 @@ bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
 biblio-style: bib/jae.bst
 link-citations: yes
 csl: bib/journal-of-applied-ecology.csl
+#always_allow_html: true
 ---
 
 ```{r options, include=FALSE, results="hide"}
