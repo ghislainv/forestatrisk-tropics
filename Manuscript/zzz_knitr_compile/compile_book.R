@@ -22,7 +22,7 @@ setwd(here::here("Manuscript/Article"))
 # Bookdown
 # pdf
 options(knitr.table.format="latex")
-pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE,
+pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE, keep_md=FALSE,
 																			latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
 																			includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
@@ -62,7 +62,7 @@ setwd(here::here("Manuscript/Supplementary_Materials"))
 # Bookdown
 # pdf
 options(knitr.table.format="latex")
-pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE,
+pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE, keep_md=TRUE,
                                       latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
                                       includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")

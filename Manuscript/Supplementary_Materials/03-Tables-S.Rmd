@@ -10,19 +10,19 @@ library(dplyr)
 
 ## Categories of the forest cover annual product
 
-(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm} 
+(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm}
 
 ```{r cat-annual-product, results="asis", echo=FALSE}
 df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")
 vect.align <- c("l", "r")
 col.names <- c("Class", "Definition")
 knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	column_spec(1,width="2cm") %>%
-	column_spec(2,width="10cm") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    column_spec(1,width="2cm") %>%
+    column_spec(2,width="10cm") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
 
 <!--------------->
@@ -31,20 +31,20 @@ knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
 
 ## Variables
 
-(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm} 
+(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm}
 
 ```{r variables, results="asis", echo=FALSE}
 df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
 vect.align <- c(rep("l",3), rep("r",3))
 col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)","Date")
 knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	column_spec(c(1:3),width="2.5cm") %>%
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    column_spec(c(1:3),width="2.5cm") %>%
   column_spec(4,width="1cm") %>%
   column_spec(c(5:6),width="2cm") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center", font_size=11)
+    kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center", font_size=11)
 ```
 
 <!----------------->
@@ -53,7 +53,7 @@ knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
 
 ## Sample size
 
-(ref:cap-samp-size) **Number of observations used for the spatial model of deforestation for each study area**. The table includes the number of non-deforested (nfor) and deforested (ndef) pixels per study area. These numbers include the forest pixels with full information regarding the explanatory variables. The corresponding number of hectares is also provided (nfHa and ndHa, respectively).\vspace{0.5cm} 
+(ref:cap-samp-size) **Number of observations used for the spatial model of deforestation for each study area**. The table includes the number of non-deforested (nfor) and deforested (ndef) pixels per study area. These numbers include the forest pixels with full information regarding the explanatory variables. The corresponding number of hectares is also provided (nfHa and ndHa, respectively).\vspace{0.5cm}
 
 ```{r samp-size, results="asis", echo=FALSE}
 df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
@@ -61,16 +61,16 @@ df.cat <- df.cat[,-c(1)]
 vect.align <- c(rep("l", 2), rep("r", 4))
 col.names <- c("Country -- Study-area","Code","nfor","ndef","nfHa","ndHa")
 knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
   pack_rows("All continents", 120, 120) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
 <!------------------------------------------------>
@@ -79,7 +79,7 @@ knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRU
 
 ## Mathematical formulas for accuracy indices
 
-(ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm} 
+(ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm}
 
 ```{r confusion-matrix, results="asis", echo=FALSE}
 df <- read.table("tables/confusion-matrix.txt", header=TRUE, sep=",")
@@ -87,25 +87,25 @@ vect.align <- rep("l",2)
 col.names <- c("","","Observations","","Total")
 options(knitr.kable.NA="")
 knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"),
-				  full_width=FALSE, position="center")
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"),
+                  full_width=FALSE, position="center")
 ```
 
 
-(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix.\vspace{0.5cm} 
+(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix.\vspace{0.5cm}
 
 ```{r accuracy-indices, results="asis", echo=FALSE}
 df <- read.table("tables/accuracy-indices.txt", header=TRUE, sep=",")
 vect.align <- rep("l",2)
 col.names <- c("Index","Formula")
 knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
 ```
 
 <!---------------------->
@@ -114,32 +114,32 @@ knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
 
 ## Accuracy indices
 
-(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged accross study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
+(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged across study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
 
 ```{r accuracy, results="asis", echo=FALSE}
 df <- read.table("tables/perf_mod.csv", header=TRUE, sep=",")
 vect.align <- c(rep("l", 1), rep("r", 5))
 col.names <- c("Model","D","AUC","OA","FOM","TSS")
 knitr::kable(df, caption="(ref:cap-accuracy)", booktabs=TRUE,
-						 escape=FALSE,
-						 digits=1,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2), full_width=FALSE, position="center")
+                         escape=FALSE,
+                         digits=1,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2), full_width=FALSE, position="center")
 ```
 
 
-(ref:cap-accuracy-cont) **Accuracy indices' weighted averages for the three statistical models by continent**. Accuracy indices were averaged accross study areas for each continent using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merite, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm} 
+(ref:cap-accuracy-cont) **Accuracy indices' weighted averages for the three statistical models by continent**. Accuracy indices were averaged across study areas for each continent using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
 
 ```{r accuracy-cont, results="asis", echo=FALSE}
 df <- read.table("tables/perf_cont_mod.csv", header=TRUE, sep=",")
 vect.align <- c(rep("l", 1), rep("r", 5))
 col.names <- c("Continent","Model","D","AUC","OA","FOM","TSS")
 knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
-						 escape=FALSE,
-						 digits=1,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         escape=FALSE,
+                         digits=1,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   column_spec(1, bold=TRUE) %>%
   collapse_rows(columns=1, latex_hline = "major", valign = "middle") %>%
   kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2,5,8), full_width=FALSE, position="center")
@@ -151,7 +151,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 
 ## Historical forest cover change
 
-(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm} 
+(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
 
 ```{r fcc-hist, results="asis", echo=FALSE}
 ## Import data
@@ -164,18 +164,18 @@ df <- df %>%
 vect.align <- c(rep("l", 1), rep("r", 5))
 col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
 knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.\vspace{0.5cm} 
+(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.\vspace{0.5cm}
 
 ```{r fcc-hist-reg, results="asis", echo=FALSE}
 ## Import data
@@ -189,12 +189,12 @@ df <- df %>%
 vect.align <- c(rep("l", 1), rep("r", 5))
 col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
 knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALSE,
-						 format.args=list(big.mark=","),
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
@@ -205,7 +205,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALS
 
 ## Forest cover projections
 
-(ref:cap-fcc-proj) **Forest cover projections for each study-area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm} 
+(ref:cap-fcc-proj) **Forest cover projections for each study-area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
 
 ```{r fcc-proj, results="asis", echo=FALSE}
 ## Import data
@@ -220,18 +220,18 @@ df <- df %>%
 vect.align <- c(rep("l", 1), rep("r", 6))
 col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yrdis")
 knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm} 
+(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm}
 
 ```{r fcc-proj-reg, results="asis", echo=FALSE}
 ## Import data
@@ -246,13 +246,13 @@ df <- df %>%
 vect.align <- c(rep("l", 1), rep("r", 6))
 col.names <- c("Region", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr75dis")
 knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
-						 format.args=list(big.mark=","),
-						 digits=0,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+                         format.args=list(big.mark=","),
+                         digits=0,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
 <!------------------------------------------------->
@@ -261,7 +261,7 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
 
 ## Parameter estimates and variable importance
 
-(ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study-areas.\vspace{0.5cm} 
+(ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study-areas.\vspace{0.5cm}
 
 ```{r par, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -275,19 +275,19 @@ vect.align <- c(rep("l", 1), rep("r", 10))
 col.names <- c("Study-area", "int", "pa", "elev", "slope",
                "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
 knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 digits=3,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=10, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
 ```
 
-(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm} 
+(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm}
 
 ```{r par-region, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -298,13 +298,13 @@ vect.align <- c(rep("l", 1), rep("r", 10))
 col.names <- c("Region", "int", "pa", "elev", "slope",
                "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
 knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 digits=3,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=10, repeat_header_method="replace")
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
 ```
 
 \newpage
@@ -315,7 +315,7 @@ knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
 
 ## Back-transformed parameters
 
-(ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variables for each study-area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm} 
+(ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm}
 
 ```{r bt-par, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -330,20 +330,20 @@ col.names <- c("Study-area", "int", "pa", "elev", "slope",
                "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
 unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
 knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 digits=3,
-						 escape=FALSE,
-						 col.names=unit.vect,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=unit.vect,
+                         align=vect.align, linesep="") %>%
   add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=10, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
 ```
 
-(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variables for each study-area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm} 
+(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
 
 ```{r bt-par-region, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -355,14 +355,14 @@ col.names <- c("Region", "int", "pa", "elev", "slope",
                "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
 unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
 knitr::kable(df, caption="(ref:cap-bt-par-reg)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 digits=3,
-						 escape=FALSE,
-						 col.names=unit.vect,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=unit.vect,
+                         align=vect.align, linesep="") %>%
   add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=10, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
 ```
 
 \newpage
@@ -382,7 +382,7 @@ perc <- df$perc[df$var=="PA"]
 perc_w <- df$perc_w[df$var=="PA"]
 ```
 
-(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm} 
+(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
 
 ```{r pa, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -391,7 +391,7 @@ f_format <- function(x) {
   if (is.na(x)) {
     r <- NA
   } else if (x >=0) {
-    r <- format(paste0(" ", format(x, digits=1, nsmall=3)), width=6, justify="right")
+    r <- format(paste0(" ", format(x, digits=1, nsmall=3)), width=6, justify="right")
   } else if (x <0) {
     r <- format(format(x, digits=1, nsmall=3), width=6, justify="right")
   }
@@ -416,16 +416,16 @@ vect.align <- c(rep("l", 1), rep("r", 4), "c")
 col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95\\%",
                "signif")
 knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 digits=3,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
@@ -445,7 +445,7 @@ perc <- df$perc[df$var=="road"]
 perc_w <- df$perc_w[df$var=="road"]
 ```
 
-(ref:cap-road) **Effect of the distance to road on deforestation**. We show here the estimated effect of the distance to the nearest road on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm} 
+(ref:cap-road) **Effect of the distance to road on deforestation**. We show here the estimated effect of the distance to the nearest road on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
 
 ```{r road, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -468,27 +468,27 @@ vect.align <- c(rep("l", 1), rep("r", 4), "c")
 col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95\\%",
                "signif")
 knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 digits=3,
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
 
 <!------------------------------------------------->
-<!-- Carbon emissions asociated to deforestation -->
+<!-- Carbon emissions associated with deforestation -->
 <!------------------------------------------------->
 
 ## Cumulative carbon emissions associated to deforestation
 
-(ref:cap-c-em) **Cumulative carbon emissions associated to future deforestation**. We computed the cumulative carbon emissions associated to future deforestation from 2020 for each study-area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fidji for example). \vspace{0.5cm} 
+(ref:cap-c-em) **Cumulative carbon emissions associated to future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). \vspace{0.5cm}
 
 ```{r c-em, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -499,20 +499,20 @@ df <- df %>%
   dplyr::select(area_name, C2040, C2060, C2080, C2100) %>%
   dplyr::na_if(0) %>%
   mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
-  
+ 
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
 col.names <- c("Country -- Study-area", "C2040", "C2060", "C2080", "C2100")
 knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
-						 format.args=list(big.mark=","),
-						 escape=FALSE,
-						 col.names=col.names,
-						 align=vect.align, linesep="") %>%
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-	              position="center", font_size=11, repeat_header_method="replace")
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
