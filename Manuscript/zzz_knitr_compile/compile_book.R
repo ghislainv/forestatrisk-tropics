@@ -26,22 +26,27 @@ pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRU
 																			latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
 																			includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
+full_with_type=FALSE
+font_size_type=9.5
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- 'Spatial forecasting of forest cover change in the humid tropics over the 21$^{\text{st}}$ century'
+title_html <- 'Spatial forecasting of forest cover change in the humid tropics over the 21st century'
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)
 
-# docx
-# Don't indicate output_format to take into account YAML options
+# html
 options(knitr.table.format="html")
+full_width_type=TRUE
+font_size_type=NULL
 # Dynamic YAML options
-docx_format <- bookdown::word_document2(fig_caption=TRUE, toc=FALSE)
-bookdown::render_book("index.Rmd", output_format=docx_format)
+html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=FALSE)
+bookdown::render_book("index.Rmd", output_format=html_format)
 
-# # html
+# Then the html can be imported in Google Doc
+
+# # book
 # # Don't indicate output_format to take into account YAML options
 # options(knitr.table.format="html")
 # # Dynamic YAML options
@@ -69,7 +74,7 @@ params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- 'SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21$^{\text{st}}$ century'
+title_html <- 'SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21st century'
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)

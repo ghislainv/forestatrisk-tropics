@@ -1,0 +1,853 @@
+---
+title: "`r params$title`"
+author: "`r params$author`"
+date: "`r params$date`"
+fontsize: 12pt
+output:
+  bookdown::gitbook:
+    number_sections: yes
+    split_by: chapter  
+    config:
+      toc:
+        collapse: section
+        scroll_highlight: yes
+        before: null
+        after: null
+      toolbar:
+        position: fixed
+      edit: null
+      download: ["pdf"]
+      search: yes
+      fontsettings:
+        theme: white
+        family: sans
+        size: 2
+      sharing:
+        facebook: yes
+        twitter: yes
+        google: no
+        linkedin: no
+        weibo: no
+        instapper: no
+        vk: no
+        all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
+bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
+biblio-style: bib/jae.bst
+link-citations: yes
+csl: bib/journal-of-applied-ecology.csl
+---
+
+```{r options, include=FALSE, results="hide"}
+library(bookdown)
+library(knitr)
+library(kableExtra)
+library(here)
+opts_chunk$set(echo=FALSE, cache=FALSE,
+               # results="hide", 
+               warning=FALSE,
+               message=FALSE, highlight=TRUE,
+               # fig.show="hide",
+			         size="small",
+               fig.align="center",
+               fig.pos="H",
+               tidy=FALSE)
+#load("forestatrisk-tropics.rda")
+```
+\linenumbers
+\newpage
+
+<!--chapter:end:index.Rmd-->
+
+# Materials and Methods
+
+## Study-areas
+
+We defined 119 study-areas representing 92 countries (Table \@ref(tab:samp-size)) and covering the integrality of the tropical moist forest in the world, at the exception of some islands (eg. Sao Tome and Principe or Wallis-and-Futuna). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). Most of the countries corresponded to one unique study-area, with three exceptions: Brazil, India, and Australia. Brazil, because of its large size, was divided into 26 study-areas corresponding to the 26 administrative states (the state of Goias including the Federal District). For India, which is also a large country, the tropical moist forest is located in three distinct regions far from each other. We thus considered three independent study-areas for India: the Western Ghats, North-East India (including the West Bengal), and the union territory of the Andaman and Nicobar Islands. For Australia, we only considered the Queensland state as a study-area. Data sampling and spatial deforestation modelling were performed independently for each study-area. Study-area borders were obtained from version 3.6 of the Global Administrative Areas database (<https://gadm.org>). We used level-0 data for study-areas corresponding to countries and level-1 data for study-areas corresponding to states or regions. We grouped the study-areas in three continents (Fig. \@ref(fig:study-areas)): America (64 study-areas for 39 countries), Africa (32 study-areas for 32 countries), and Asia (23 study-areas for 21 countries).
+
+## Historical forest cover change maps
+
+For each study-area, we derived historical forest cover change maps on two periods of time: 1$^{\text{st}}$ January 2000 -- 1$^{\text{st}}$ January 2010, and 1$^{\text{st}}$ January 2010 -- 1$^{\text{st}}$ January 2020 from the forest cover change annual product by @Vancutsem2020. The annual product by @Vancutsem2020 classifies Landsat image pixels at 30 m resolution in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying tropical moist forest pixels at each date (Table \@ref(tab:cat-annual-product)). This classification is based on an expert model analyzing time-series data at the pixel level extracted from the full Landsat satellite image archive on the period 1982--2019. The expert model was built on Google Earth Engine [@Gorelick2017]. For our forest definition, we only considered natural old-growth tropical moist forests, disregarding plantations and regrowths. We included degraded forests (not yet deforested) in our forest definition. As a consequence, we considered pixels in the following categories: 1, 2, 3, 4, 5, 13, or 14 in the annual product, to be natural old-growth tropical moist forest pixels (simply abbreviated "forest" in this manuscript). Because several decades are usually necessary to reach the state of old-growth forest, we assumed every pixel classified as "forest" at a given date between 1999 and 2019 to be also classified as "forest" in the previous years of that period of time. We thus obtained three forest cover maps for the dates 1$^{\text{st}}$ January 2000, 1$^{\text{st}}$ January 2010, and 1st January 2020. We combined these three maps to obtain high-resolution forest cover change maps in the periods 2000--2010--2020 at 30 m resolution in the humid tropics (Fig. \@ref(fig:fcc-maps)). We used Google Earth Engine to process the annual product by @Vancutsem2020 and derive the historical forest cover change map for each country. An interactive forest cover change map for the humid tropics is available at <https://forestatrisk.cirad.fr/tropics>.
+
+We did not consider potential forest regrowth in our forest definition for three main reasons. First, throughout the humid tropics, forest regeneration involves much smaller areas than deforestation [@Vancutsem2020, see also 2000-2012 tree cover gain in @Hansen2013]. Second, there is little evidence of natural forest regeneration in the long term in the tropics [@Grouzis2001]. This can be explained by several ecological processes following deforestation such as soil erosion [@Grinand2017] and reduced seed bank due to fire-induced deforestation and soil loss [@Grouzis2001]. Moreover, in areas where forest regeneration is ecologically possible, young forest regrowths are more easily re-burnt for agriculture and pasture [@Vieilledent2020]. Third, young secondary forests generally provide more limited ecosystem services compared to old-growth natural forests in terms of biodiversity [@Gibson2011] and carbon storage [@Blanc2009].
+
+## Spatial explanatory variables
+
+To explain the observed deforestation on the period 2010--2020, we considered a set of spatial explanatory variables describing: topography (altitude and slope), accessibility (distances to nearest road, town, and river), forest landscape (distance to forest edge), deforestation history (distance to past deforestation), and land conservation status (presence of a protected area). This set of variables were selected based on an _a priori_ knowledge of the deforestation process [@Gorenflo2011; @Vieilledent2013; @Geist2002; @Brown1994]. For example, the risk of deforestation is supposed to decrease with the distance to road and forest edge (lower accessibility), to increase at lower elevation and slope (higher probability to find arable lands), and to decrease in protected areas (higher level of protection). Characteristics of each explanatory variable are summarized in Table \@ref(tab:variables).
+
+Elevation (in m) and slope (in degree) at 90 m resolution were obtained from the SRTM Digital Elevation Database v4.1 (<http://srtm.csi.cgiar.org/>). Distances (in m) to nearest road, town and river at 150 m resolution were computed from the road, town and river network which were obtained from the OpenStreetMap (OSM) project (<https://www.openstreetmap.org/>). OSM country data were downloaded from two web-sites: Geofabric (<http://download.geofabrik.de/>) and OpenStreetMap.fr (<https://download.openstreetmap.fr/extracts/>) depending on the availability of the data for each country. To obtain the road network in each country, we considered the "motorway", "trunk", "primary", "secondary" and "tertiary" categories for the "highway" key in OSM. To obtain the network of populated places in each country (that we simply call "towns" in the present study), we considered the "city", "town" and "village" categories for the "place" key in OSM. To obtain the river network, we considered the "river" and "canal" categories for the "waterway" key in OSM. For a more detailed description of each category, see the OSM wiki page (<https://wiki.openstreetmap.org/wiki/Tags>). OSM data have been downloaded during the period January--March 2020 for all countries. Distance to forest edge was computed at 30 m resolution from the forest cover map in 2010. Distance to past deforestation in 2010 was computed at 30 m resolution from the 2000--2010 forest cover change map. To minimize border effect for the computation of distance to forest edge and distance to past deforestation, a buffer of 10 km around each study-area extent was considered. Data on protected areas were obtained from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020) using the `pywdpa` Python package (<https://pypi.org/project/pywdpa/>). WDPA data have been downloaded during the period January--March 2020 for all countries. All protected areas defined by at least one polygon were considered in the analysis, but protected areas defined by a point were not taken into account. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves), even if the type and IUCN category were not reported. Polygons representing protected areas were rasterized at 30 m resolution.
+
+In total, we obtained 8 spatial explanatory variables to model the spatial probability of deforestation (Table \@ref(tab:variables)).
+
+## Data sampling for spatial modelling of the deforestation
+
+With the spatial model of deforestation, our aim was to estimate the effects of a set of variables in determining the location of the deforestation (or "allocation" census @Pontius2011) and compute the relative probability of deforestation for each forest pixel. With the spatial model, our objective was not to estimate the intensity of the deforestation (or "quantity" census @Pontius2011), that could be expressed in %/year or in ha/year for example. A balanced sampling between deforested and non-deforested pixels is preferable in this case [@Dezecache2017; @Vieilledent2013]. Because deforestation events are rare ($\approx$ 1 %/yr), a non-stratified random sampling would lead to very few observations of deforestation events, rendering difficult a good estimation of the effects of the explanatory variables. Stratified balanced sampling provided unbiased estimates of the model's parameters, except for the model's intercept (estimated average deforestation). Having a biased model intercept (which has the same value for all forest pixels) is not a problem as we are interested in estimating a _relative_ probability of deforestation for all forest pixels.
+
+As a consequence, we performed a stratified balanced sampling between (i) forest pixels in 2010 which have been deforested on the period 2010--2020 ("deforested" pixels), and (ii) forest pixels in 2010 which have not been deforested on that period of time and which represent the remaining forest in 2020 ("non-deforested" pixels). Forest pixels in each category were sampled randomly (Fig. \@ref(fig:sampling)). To maximize the representativity of the data, the total number of forest pixels sampled in each study-area for the year 2010 was chosen proportionally to the area of forest in 2010 in that study-area (2000 points for 1 Mha of forest), with the condition that this number had to be between 20,000 (to be representative of the deforestation process) and 100,000 (to limit computation time). When, for a specific study-area, the total number of pixels in one of the two categories (deforested vs. non-deforested pixels) was $\leq$ 10,000, all the pixels of that category were included in the sample. This could happen for study-areas with low moist forest cover such as small islands (eg. Antigua and Barbuda). For each sampled pixel, we retrieved information regarding the 8 computed explanatory variables at their original spatial resolution. When the information was not complete for a given pixel (eg. elevation and slope data missing for a forest pixel located close to the sea border), the observation was removed from the data-set. Missing information affected a minority of pixels. The global data-set included a total of 3,186,698 observations (1,601,810 of non-deforested pixels and 1,584,888 of deforested pixels, corresponding to an area of 144,163 ha and 142,647 ha, respectively).
+
+## Spatial deforestation model
+
+Using observations of forest cover change in the period 2010--2020, we modelled the spatial probability of deforestation as a function of the $n$ explanatory variables using a logistic regression. We considered the random variable $y_i$ which takes value 1 if the forest pixel $i$ was deforested in the period 2010--2020 and 0 if it was not. We assumed that $y_i$ follows a Bernoulli distribution of parameter $\theta_i$ (Eq. \@ref(eq:icar)). In our model, $\theta_i$ represents the spatial relative probability of deforestation for pixel $i$. We assumed that $\theta_i$ is linked, through a logit function, to a linear combination of the explanatory variables $X_i \beta$, where $X_i$ is the vector of explanatory variables for pixel $i$, and $\beta$ is the vector of effects $[\beta_1, \ldots, \beta_n]$ associated to the $n$ variables. All the continuous explanatory variables were normalized before fitting the model. The model includes an intercept $\alpha$. To account for the residual spatial variation in the deforestation process, we included an additional random effect $\rho_{j(i)}$ for each spatial cell $j$ of a 10 $\times$ 10 km grid covering each study-area (Fig. \@ref(fig:grid)). This grid resolution was chosen in order to have a reasonable balance between a good representation of the spatial variability of the deforestation process and a limited number of parameters to estimate. A sampled forest pixel $i$ was associated to one cell $j$ and one random effect $\rho_{j(i)}$. We assumed that random effects were spatially autocorrelated through an intrinsic conditional autoregressive (iCAR) model [@Besag1991; @Banerjee2014]. This model is denoted "icar" in subsequent sections and results. In an iCAR model, the random effect $\rho_j$ associated to cell $j$ depends on the values of the random effects $\rho_{j^{\prime}}$ associated to neighbouring cells $j^{\prime}$. In our case, the neighbouring cells are connected to the target cell $j$ through a common border or corner (cells defined by the "king move" in chess, see Fig. \@ref(fig:grid)). The variance of the spatial random effects $\rho_j$ was denoted $V_{\rho}$. The number of neighbouring cells for cell $j$, which might vary, was denoted $n_j$. Spatial random effects $\rho_j$ account for unmeasured or unmeasurable variables [@Clark2005] that explain a part of the residual spatial variation in the deforestation process that is not explained by the fixed spatial explanatory variables ($X_i$).
+
+\begin{equation}
+\begin{split}
+  y_i \sim \mathcal{B}ernoulli(\theta_i)\\
+  \text{logit}(\theta_i) = \alpha + X_i \beta + \rho_{j(i)}\\
+  \rho_{j(i)} \sim \mathcal{N}ormal(\sum_{j^{\prime}} \rho_{j^{\prime}} / n_j,V_{\rho} / n_j)
+\end{split}
+(\#eq:icar)
+\end{equation}
+
+## Variable selection
+
+Variable selection was performed using a backward elimination procedure. All the spatial explanatory variables in our data-set should decrease the deforestation risk (having a negative effect on the probability of deforestation). For example, the probability of deforestation should decrease with the distance to the forest edge and should also decrease inside a protected area. Our variable selection procedure was thus not based on statistical significance but on background knowledge regarding the deforestation process and on the interpretability of the variable effects [@Heinze2018]. For each study-area, we started to fit a model with the full set of explanatory variables (8 variables). At each step of the procedure, we removed the variables having a positive effect on the probability of deforestation. This was done in order to avoid unrealistic predictions of the spatial probability of deforestation at the scale of the study-area. For example, it is not realistic to observe, at a country scale, a decrease of the deforestation with the distance to forest edge (higher deforestation risk in the core of the forest compared with forest edge). This might happen in a particular context for a very specific region but is very unlikely at a country scale. In most of the cases, when we found a positive effect for a given explanatory variable, it was non-significant (95% credible interval including zero). On the contrary, when we found a negative but non-significant effect for a given explanatory variable, we kept this variable in the model. This effect, albeit non-significant, was interpretable given our background knowledge of the deforestation process and was relatively lower than the effects associated with the other variables.
+
+## Parameter inference
+
+Parameter inference was done in a hierarchical Bayesian framework. Non-informative priors were used for all parameters: $\alpha \sim \mathcal{N}ormal(\text{mean}=0,\text{var}=10^6)$, $\beta \sim \mathcal{N}ormal(\text{mean}=0,\text{var}=10^6)$, and $V_{\rho} \sim 1/\mathcal{G}amma(\text{shape}=0.05,\text{rate}=0.0005)$. During the variable selection procedure, we run a Markov Chain Monte Carlo (MCMC) of 2000 iterations, discarding the first 1000 iterations (burn-in phase). For the final model, we repeated the parameter inference using a longer MCMC of 10,000 iterations. We discarded the first 5000 iterations (burn-in phase), and we thinned the chain each 5 iterations (to reduce autocorrelation between samples). We obtained 1000 estimates for each parameter. MCMC convergence was visually checked looking at MCMC traces and parameter posterior distributions. Function `model_binomial_iCAR()` from the `forestatrisk` Python package was used for parameter inference. This function calls an adaptive Metropolis-within-Gibbs algorithm [@Rosenthal2011] written in C for maximum computation speed.
+
+## Model comparison
+
+### Alternative models
+
+We compared the performance of the "icar" model at predicting deforestation with three other models: a null model (denoted "null"), a simple generalized linear model ("glm"), and a random forest model ("rf"). The "null" model assumes that all the slope parameters have value zero (no effect of explanatory variables), and that all the spatial random effects have also value zero (no residual regional variability in the deforestation process). For the "null" model, the probability of deforestation is only determined by a mean intercept common to every forest pixel ($\text{logit}(\theta_i) = \alpha$). The simple "glm" is a logistic regression which does not include spatial random effects (no residual regional variability in the deforestation process). For the "glm" model, the probability of deforestation is only determined by the mean intercept $\alpha$ and the parameters $\beta$ associated to each explanatory variables ($\text{logit}(\theta_i) = \alpha + X_i \beta$). Using simple "glm" model is a commonly proposed approach for spatial modelling of deforestation [@Verburg2002; @Mas2007; @Rosa2014; @Ludeke1990; @Soares-Filho2002; @Mertens1997; @Soares-Filho2001; @Eastman2017]. The random forest model [@Breiman2001] is a machine learning approach using an ensemble of random classification trees (where both observations and features are chosen at random to build the classification trees) to predict the deforestation probability for a forest pixel. Random forest has been intensively used for species distribution modelling [@Thuiller2009] and is now also commonly used for spatial modelling of deforestation [@Grinand2020; @Zanella2017; @Santos2019]. The "glm" and "rf" models were fitted using functions `LinearRegression` and `RandomForestClassifier` respectively, both available in the `scikit-learn` Python package [@Pedregosa2011]. We used the same set of selected explanatory variables for the "glm" and "rf" models as those used for the final "icar" model. For the "rf" model, we set the number of random classification trees to 500.
+
+### Percentage of deviance explained
+
+We computed the deviance $\mathcal{D}$ of the four models ("icar", "null", "glm", and "rf") with the formula $\mathcal{D}=-2 \log \mathcal{L}$, $\mathcal{L}$ being the likelihood of the model, i.e. the probability of observing the data given the model and estimated parameters. The deviance is a measure of error and a model with a lower deviance fits better the data. We also considered the deviance of the "full" model (also called the saturated model) which has as many parameters as there are observations. When $y_i=0$, the deforestation probability predicted by the full model is 0. When $y_i=1$ the deforestation probability predicted by the full model is 1. The deviance of the full model is then equal to 0. Considering that the "null" model explained 0% of the deviance and the "full" model explains 100% of the deviance, we then computed the percentage of deviance explained by each of the three other models: "icar", "glm", and "rf".
+
+### Cross-validation procedure
+
+To compare the performance of the "icar", "glm", and "rf" models at predicting correctly the relative probability of deforestation on independent observations, we also performed a five-fold cross-validation procedure. We used 70% of the observations for the model training and 30% of the observations for the model validation. We used the fitted models to predict the deforestation probability of all the forest pixels of the validation data-set. To transform the deforestation probabilities into binary values, we identified the probability threshold respecting the percentage of deforested pixels in the validation data-set (eg. the mode of the predicted probabilities for a percentage of 50% of deforested pixels). Consequently, the predicted number of deforested pixels was equal to the observed number of deforested pixels in the validation data-set. This implies that there was no "quantity disagreement" (sensus @Pontius2008) for any of the three models in the cross-validation procedure. Through this cross-validation, we only compared the ability of the models to correctly identify the pixels to be deforested, given a particular mean deforestation rate. This corresponds to estimating the "allocation disagreement" (sensus @Pontius2008) for each of the three models. Using model predictions and observations in the validation data-set, we computed several accuracy indices: the Area Under the ROC Curve (AUC), the Figure of Merit (FOM), the Overall Accuracy (OA), the Expected Accuracy (EA), the Kappa of Cohen (K), the Specificity (Spe), the Sensitivity(Sen), and the True Skill Statistics (TSS). A detailed description of these indices can be found in @Pontius2008 (for the FOM) and @Liu2011 (for all the other indices). Formulas used to compute these indices are presented in Table \@ref(tab:confusion-matrix) and Table \@ref(tab:accuracy-indices).
+
+### Model selection
+
+For all the study-areas, we found that the percentage of deviance explained for the "rf" model was much higher than for the "icar" and "glm" models (Table \@ref(tab:accuracy)), suggesting that the "rf" model was fitting much better the data than the two other models. Nevertheless, when looking at the results of the cross-validation procedure, the "rf" model had a lower accuracy in comparison with the "icar" model (Table \@ref(tab:accuracy)). These two results show clearly that the "rf" model was overfitting the data and was less performant at predicting the probability of deforestation at new sites than the "icar" model. This can be explained by the fact that the strong nonlinear relationship between explanatory variables and the spatial probability of deforestation, which is estimated by the "rf" model based on the training data-set, does not represent the true relationship at the landscape scale. This limitation associated with machine-learning techniques such as random forest has already been raised in previous scientific articles dealing with large scale mapping of ecological variables [@Ploton2020]. On the contrary, the "icar" model had the highest accuracy indices of the three models suggesting a better predictive performance than the "glm" and "rf" models. Also, the "icar" model increased the explained deviance from 38.8 to 52.2% in average compared with the "glm" model. This shows that environmental explanatory variables alone explain a relative small part of the spatial deforestation process and that including spatial random effects to account for unexplained residual spatial variability strongly improves model fit (+13.4% of deviance explained in average) and model predictive performance (+6.9% for the TSS for example). Same results were obtained when comparing accuracy indices for the three statistical models per continent (Table \@ref(tab:accuracy-cont)). We thus selected the "icar" model for predicting the spatial probability of deforestation for all the study-areas.
+
+## Computing the spatial probability of deforestation for the year 2020
+
+Before computing the predictions of the deforestation probability, the spatial random effects at 10 km were interpolated at 1 km using a bicubic interpolation method. This was done in order to obtain spatial random effects at a resolution closer to the original forest raster resolution of 30 m, and to smooth the deforestation probability predictions spatially.
+
+Distance to forest edge in 2020 was recomputed at 30 m resolution from the forest cover map in 2020. Distance to past deforestation in 2020 was computed at 30 m resolution from the 2010--2020 forest cover change map. All other explanatory variables (protected areas, distance to nearest road, town and river, elevation, and slope) were supposed unchanged between years 2010 and 2020. Using rasters of explanatory variables at their original resolution, interpolated spatial random effects at 1 km resolution, and the fitted "icar" model for each study-area, we computed the spatial probability of deforestation at 30 m resolution for the year 2020 for each study-area.
+
+Deforestation probabilities (float values in the interval $[0, 1]$) were rescaled and transformed as integer values on the interval $[\![1, 65535]\!]$. This allowed us to record the large rasters of probabilities as UInt16 type (using zero as no-data value) and save space on disk. We then obtained a map of the relative probability of deforestation for the year 2020 at 30 m resolution. An interactive global map of the spatial probability of deforestation is available at <https://forestatrisk.cirad.fr/tropics>.
+
+## Forecasting forest cover change on the period 2020--2100 {#forecast}
+
+For each study-area, we computed the observed mean annual deforested area $d$ (in ha/yr) on the recent period 2010--2020 from the forest cover maps at these two dates (Tables \@ref(tab:fcc-hist) and \@ref(tab:fcc-hist-reg)). To forecast the forest cover change at a particular date $y$ in the future, we computed the estimated total deforestation $D_y$ (in ha) between years 2020 and $y$ assuming a "business-as-usual" scenario. The "business-as-usual" scenario makes the assumption of an absence of change in the deforestation intensity in the future (no increase in the deforestation intensity that could be attributable to a future increase in the demand of agricultural commodities for example, nor decrease in the deforestation intensity that could be attributable to new conservation policies or increase in agricultural yields for example). The "business-as-usual" scenario also makes the assumption that the spatial deforestation process will remain the same in the future (assuming a constant effect of the spatial explanatory variables in the future) and that areas with a higher relative probability of deforestation will remain the same in the future. To compute the total deforestation $D_y$ (in ha) between years 2020 and $y$, we projected the mean annual deforestation $d$ on the time interval $y-2020$: $D_y=d \times (y-2020)$.
+
+For Brazil, which was divided into 26 study-areas, the mean annual deforested area $d$ was supposed constant at the country level, not at the study-area level. This is because we assumed that deforestation inside Brazil should spread between study-areas and should not stop at the study-area administrative borders. As a consequence, when all the forest of a specific study-area in Brazil was deforested, the corresponding residual deforested area for that study-area was redistributed to the other study-areas of Brazil still having forest. This ensured that the annual deforested area was constant for Brazil, but imply an increase of the annual deforested area with time for some study areas. We assumed that this contagious deforestation between study-areas was only valuable for connected study areas inside a specific country (here, Brazil). On the contrary, we assumed that it was much less likely to observe contagious deforestation between two neighbouring countries. First, because of the presence of less permeable international borders, and second, because the socio-economic factors driving the intensity of deforestation between two neighbouring countries can be significantly different (see contrasting historical deforestation intensity for Haiti--Dominican Republic, Congo--DRC, French Guiana--Suriname, or Indonesia--Papua New Guinea for example). We assumed no contagious deforestation for the three study-areas in India which are not connected (Fig. \@ref(fig:study-areas)).
+
+The map of the relative spatial probability of deforestation in 2020 has a resolution of 30 m equivalent to an area of $r_{\text{ha}}=0.09$ ha. Using this map, we computed a probability threshold $p_y$ in the interval $[\![1, 65535]\!]$ identifying the $n_y$ forest pixels in 2020 with the highest probability of deforestation so that $n_y \times r_{\text{ha}} = D_y + \epsilon$. Because deforestation probabilities have finite values in the interval $[\![1, 65535]\!]$, some forest pixels might have the same deforestation probability and it might not be possible to identify $p_y$ such that $\epsilon=0$. We thus selected the threshold $p_y$ minimizing $\epsilon$. Because $D_y$ represents the total deforested area for several years and that few pixels had the same probability of deforestation, we always obtained negligible $\epsilon$ compared to $D_y$ ($\epsilon << D_y$). We considered those $n_y$ forest pixels in 2020 as deforested between years 2020 and $y$, and we derived the corresponding forest cover change map for the period 2020--$y$.
+
+We projected the future forest cover for several years in the period 2030--2100 using a base time-interval of 10 years (Tables \@ref(tab:fcc-proj) and \@ref(tab:fcc-proj-reg)). We also projected the future forest cover for years 2055 and 2085 as these two years are often used as pivot years in studies on future climate change. They correspond to 30-year climate averages on the periods 2040--2070 and 2070--2100, and to mid-term and long-term climate projections, respectively, for the 21st century [@IPCC2014]. We then computed the percentage of forest cover loss in 2100 in comparison with the forest cover in 2000 for each study-area and continent (Tables \@ref(tab:fcc-proj) and \@ref(tab:fcc-proj-reg)). We also computed the year at which all the forest will have disappeared for each study area (Tables \@ref(tab:fcc-proj)). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared (Table \@ref(tab:fcc-proj-reg) and Fig. \@ref(fig:perc-loss)).
+
+## Carbon emissions associated to deforestation
+
+We estimated the carbon emissions associated with historical deforestation (2010--2020) and projected deforestation (2030--2100). To do so, we used the pantropical 1 km resolution aboveground dry biomass (AGB, in Mg/ha) map (Fig. \@ref(fig:agb)) by @Avitabile2016. This map is a combination of two pantropical aboveground biomass maps by @Saatchi2011 and @Baccini2012. The fusion map is representative of the aboveground biomass for the years 2000--2010. While the RMSE (root mean square error) of the fused map by @Avitabile2016 is still substantial (87--98 Mg/ha), the fused map achieved a lower RMSE (a decrease of 5--74%) and bias (a decrease of 90--153%) than the two input maps for all continents. We used the Intergovernmental Panel on Climate Change (IPCC) default carbon fraction of 0.47 [@McGroddy2004] to convert aboveground dry biomass to carbon stocks. We assumed no change of the forest carbon stocks in the future while computing carbon emissions associated with projected deforestation. We estimated average annual carbon emissions for ten-year periods from 2010 to 2100 (Tab. XXX). Under a "business-as-usual" scenario of deforestation (no change in the annual deforested area, in ha/yr, in the future), the change in mean annual carbon emissions in the future is only attributable to the spatial variation of the forest carbon stocks and to the location of the future deforestation.
+
+## Software used: the `forestatrisk` Python module
+
+We developed a specific module called `forestatrisk` to model and forecast tropical deforestation spatially using the Python programming language [@Python2020]. The module is available either on GitHub at <https://github.com/ghislainv/forestatrisk> or PyPI (The Python Package Index) at <https://pypi.org/project/forestatrisk>. It can be easily installed using `pip` (the package installer for Python) in any Python virtual environment created with either `virtualenv` or `conda`. The `forestatrisk` module includes functions (i) to build a data-set from deforestation observations (function `.sample`), (ii) to estimate the parameters of several spatial deforestation models (functions `.model*`, including function `.model_binomial_iCAR` for the "icar" model), (iii) to assess the model performance (function `.cross_validation`), (iv) to derive predictive maps of the probability of deforestation (functions `.predict_raster*`), and (v) to forecast future forest cover under a given intensity of deforestation (function `.deforest`). Using functions from the `forestatrisk` Python package makes computation fast and efficient (with low memory usage) by treating large raster data by blocks. Numerical computations on blocks of data are performed with the NumPy (<https://numpy.org>) Python module whose core is mostly made of optimized and compiled C code which runs fast [@Harris2020].
+
+We also developed another smaller Python module called `pywdpa` that allows downloading the shapefile of the protected areas for each country using the API of the World Database on Protected Areas (<https://api.protectedplanet.net>). The module is also available on GitHub at <https://github.com/ghislainv/pywdpa> or PyPI at <https://pypi.org/project/pywdpa>, and can also be easily installed using `pip`.
+
+Computations for each country were run in parallel on the computing cluster of the Montpellier Bioinformatics Biodiversity (MBB) platform (https://mbb.univ-montp2.fr) provided by LabEx CeMEB (http://www.labex-cemeb.org/). Google Earth Engine [@Gorelick2017] was used to process the annual product by @Vancutsem2020 and derive the historical forest cover change map for each country.
+
+While the raw results of our study (which implied intensive computations on large raster data) were obtained using the Python programming language, the summarized results (tables and figures) presented in this article (main text and supplementary materials) were obtained using the R software [@R2020].
+
+## Repeating the analysis with the tree cover loss product by @Hansen2013
+
+We performed the exact same analysis replacing historical forest cover change maps derived from the annual product of @Vancutsem2020 by forest cover change maps derived from the tree cover products of @Hansen2013. We assumed that the extent of the natural old-growth tropical moist forest cover in 2000 could be approximated by using a tree cover >70% at this date [@Vieilledent2018; @Aleman2017a]. Then, we used the tree cover loss provided by @Hansen2013 on the periods 2001--2009 and 2010--2019 to derive pantropical forest cover change maps on the periods 2000--2010--2020 at 30 m resolution. All the results we obtained were robust to the change of the historical forest cover change map. Results obtained with the forest cover change maps derived from the tree cover products of @Hansen2013 are available on the CIRAD Dataverse repository (see below).
+
+## Reproducibility of the results
+
+All the data and code used for this study have been made permanently and publicly available on the CIRAD Dataverse repository so that the results are entirely reproducible.
+
+- Input data: XXX
+- Code: XXX
+- Output data: XXX
+
+Note that the code used for this study is also available on GitHub at <https://github.com/ghislainv/forestatrisk-tropics>.
+
+\nolinenumbers
+\newpage
+
+<!--chapter:end:01-Supplementary_Materials.Rmd-->
+
+# Figures
+
+<!--------------------------------------------->
+<!-- Study-areas -->
+<!--------------------------------------------->
+
+## Study-areas in the three continents
+
+(ref:cap-study-areas) **Study-areas in the three continents: America, Africa, and Asia**. America included 64 study-areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study-areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study-area. In the three figures, each study-area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
+
+```{r study-areas-am, out.width="\\textwidth", fig.cap=NULL}
+knitr::include_graphics("figures/study_areas_America.png")
+```
+
+```{r study-areas-af, out.width="\\textwidth", fig.cap=NULL}
+knitr::include_graphics("figures/study_areas_Africa.png")
+```
+
+```{r study-areas, out.width="\\textwidth", fig.cap="(ref:cap-study-areas)"}
+knitr::include_graphics("figures/study_areas_Asia.png")
+```
+
+<!--------------------------------------------->
+<!-- Historical forest cover change map -->
+<!--------------------------------------------->
+
+## Historical forest cover change map
+
+(ref:cap-fcc-maps) **Historical forest cover change map**. Forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2020. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/tropics>.
+
+```{r fcc-maps, out.width="\\textwidth", fig.cap="(ref:cap-fcc-maps)"}
+knitr::include_graphics("figures/fcc123.png")
+```
+
+<!--------------------------------------------->
+<!-- Spatial explanatory variables -->
+<!--------------------------------------------->
+
+## Spatial explanatory variables used for spatial modelling of deforestation
+
+(ref:cap-var) **Spatial explanatory variables**. Spatial explanatory variables for the Democratic Republic of the Congo in central Africa. Elevation (in m) and slope (in degree) at 90 m resolution were obtained from the SRTM Digital Elevation Database v4.1 (<http://srtm.csi.cgiar.org/>). Distances (in m) to nearest road, town and river at 150 m resolution were computed from the road, town and river network obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads include "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM. Towns include "city", "town" and "village"  categories from OSM. Rivers include "river" and "canal" categories from OSM. Protected areas were obtained from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020). Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves). Two additional spatial explanatory variables (distance to forest edge and distance to past deforestation) were obtained from the historical forest cover change map (Fig. \@ref(fig:fcc-maps)).
+
+```{r var, out.width="\\textwidth", fig.cap="(ref:cap-var)"}
+knitr::include_graphics("figures/var.png")
+```
+
+(ref:cap-corr-var) **Correlation between explanatory variables**. To compute the correlations, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed from 3,186,698 to 813,796. We computed the Pearson's correlation matrix for the seven continuous explanatory variables used to model the deforestation: elevation ("elev"), slope ("slope"), distance to nearest road, town, and river ("droad", "dtown", and "driver", respectively), distance to forest edge ("dedge"), and distance to past deforestation ("ddefor"). For the protected areas ("pa"), which is a categorical variable for which a Pearson's correlation coefficient cannot be computed, we reported the slope coefficient of simple logistic regressions where the probability of presence of a protected area was a function of one intercept and one of the continuous variable (which was normalized).
+
+```{r corr-var, out.width="\\textwidth", fig.cap="(ref:cap-corr-var)"}
+knitr::include_graphics("figures/corr-var.png")
+```
+
+(ref:cap-data-pa) **Pantropical data-set on protected areas**. Protected areas were downloaded from the World Database on Protected Areas (<https://www.protectedplanet.net>, @WDPA2020) using the `pywdpa` Python package during the period January-March 2020. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves).
+
+```{r data-pa, out.width="\\textwidth", fig.cap="(ref:cap-data-pa)"}
+knitr::include_graphics("figures/pa.png")
+```
+
+(ref:cap-data-roads) **Pantropical road network**. The road network was obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads included "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM.
+
+```{r data-roads, out.width="\\textwidth", fig.cap="(ref:cap-data-roads)"}
+knitr::include_graphics("figures/roads.png")
+```
+
+<!--------------------------------------------->
+<!-- Data sampling -->
+<!--------------------------------------------->
+
+## Data sampling
+
+(ref:cap-sampling) **Data sampling for spatial modelling of the deforestation**. Map on the left corresponds to the top left inset in Fig. \@ref(fig:fcc-maps) representing a zoom of the forest cover change map on the period 2000--2010--2020 for an area at the North-East of the Democratic Republic of the Congo. Map on the right presents an inner zoom showing the delimitation of the 30 m forest pixels with three sample points. We used a stratified balanced sampling between (i) forest pixels in 2010 which have been deforested on the period 2010--2020 ("deforested" pixels in \textcolor{red}{red}), and (ii) forest pixels in 2010 which have not been deforested on that period of time and which represent the remaining forest in 2020 ("non-deforested" pixels in \textcolor{darkgreen}{green}). Forest pixels in each category were sampled randomly.
+
+```{r sampling, out.width="\\textwidth", fig.cap="(ref:cap-sampling)"}
+knitr::include_graphics("figures/sample.png")
+```
+
+<!--------------------------------------------->
+<!-- Grid for spatial random effects -->
+<!--------------------------------------------->
+
+## Grid for spatial random effects
+
+(ref:cap-grid) **Grid used to compute the spatial random effects**. _Main figure_: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The grid over DRC includes 45,154 $10 \times 10$ km cells (214 cells on the x axis by 211 cells on the y axis). The background map shows the historical forest cover change on the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). _Top inset_: Zoom for an area at the North-East of the country (black square) showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). _Bottom inset_: One random effect $\rho_j$ is estimated for each grid cell $j$. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects $\rho_{j^{\prime}}$ for the eight neighbouring cells $j^{\prime}$ (see Eq. \@ref(eq:icar)).
+
+```{r grid, out.width="\\textwidth", fig.cap="(ref:cap-grid)"}
+knitr::include_graphics("figures/grid.png")
+```
+
+<!--------------------------------------------->
+<!-- Spatial random effects -->
+<!--------------------------------------------->
+
+## Estimated spatial random effects
+
+(ref:cap-rho) **Estimated spatial random effects**. _Left_: Estimated spatial random effects at 10 km resolution for the Democratic Republic of the Congo (DRC). _Right_: Interpolated spatial random effects at 1 km resolution. A bicubic interpolation method was used. _Bottom_: Zoom for an area at the North-East of the country (black square) which is close to the city of Beni and the Virunga national park. Due to the structure of the intrinsic CAR model (see Eq. \@ref(eq:icar)), spatial random effects are also estimated for cells without sampled points. This includes cells for which there was no forest cover in the period 2000--2010--2020, and also cells outside the country's borders.
+
+```{r rho, out.width="\\textwidth", fig.cap="(ref:cap-rho)"}
+knitr::include_graphics("figures/rho.png")
+```
+
+<!--------------------------------------------->
+<!-- Spatial probability of deforestation -->
+<!--------------------------------------------->
+
+## Relative spatial probability of deforestation
+
+(ref:cap-prob) **Predicted relative spatial probability of deforestation**. _Main figure_: Map of the spatial probability of deforestation computed for each forest pixel in 2020 for the Democratic Republic of the Congo. On the map, we clearly see the effect of the distance to nearest town, road, and river, and the effect of the distance to forest edge on the spatial probability of deforestation. Also, we clearly see the importance of the spatial random effects in structuring the spatial variability of the deforestation probability. For example, the area at the North of the zoom (black square) shows very high deforestation probabilities (in black). This area is politically unstable and is home to a large number of militias who survive at the expense of the forest. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
+
+```{r prob, out.width="\\textwidth", fig.cap="(ref:cap-prob)"}
+knitr::include_graphics("figures/prob.png")
+```
+
+<!--------------------------------------------->
+<!-- Projected forest cover change -->
+<!--------------------------------------------->
+
+## Projected forest cover change
+
+(ref:cap-proj) **Projected forest cover change**. _Main figures_: Maps of the projected forest cover change (left: 2020--2050, right: 2020--2100) for the Democratic Republic of the Congo (DRC). \textcolor{red}{red}: projected deforestation, \textcolor{darkgreen}{green}: remaining forest cover. Besides the loss of forest cover, we show a progressive fragmentation of the forest in the future, with an increasing number of forest patches of smaller size in DRC. _Insets_: Zoom of the map for an area at the North-East of the country (black square) which is close to the city of Beni and the Virunga national park. Interactive global maps of the projected forest cover change for years 2050 and 2100 are available at <https://forestatrisk.cirad.fr/tropics>.
+
+```{r proj, out.width="\\textwidth", fig.cap="(ref:cap-proj)"}
+knitr::include_graphics("figures/fcc2050_2100.png")
+```
+
+<!--------------------------------------------->
+<!-- Percentage of forest cover loss -->
+<!--------------------------------------------->
+
+## Percentage of forest cover loss
+
+(ref:cap-perc-loss) **Projected percentage of forest cover loss per continent**. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for years 2000 (0%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from year 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries (see section \@ref(forecast) in Methods). When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have nor more forest (in 2242, 2160, and 2122, respectively, Table \@ref(tab:fcc-proj)), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2099, 2145, and 2201 for Asia, Africa, and America, respectively (see Table \@ref(tab:fcc-proj-reg)).
+
+```{r perc-loss, out.width="\\textwidth", fig.cap="(ref:cap-perc-loss)"}
+knitr::include_graphics("figures/perc_loss_cont.png")
+```
+
+<!--------------------------------------------->
+<!-- Aboveground biomass map -->
+<!--------------------------------------------->
+
+## Aboveground biomass map
+
+(ref:cap-agb) **Aboveground biomass map**. _Main figure_: Aboveground biomass (AGB in Mg/ha) map for the Democratic Republic of Congo (DRC) at 1 km resolution produced by @Avitabile2016. This map is a combination of two pantropical aboveground biomass maps by @Saatchi2011 and @Baccini2012. While the RMSE of the fused map by @Avitabile2016 is still substantial (87--98 Mg/ha), the fused map achieved a lower RMSE (a decrease of 5--74%) and bias (a decrease of 90--153%) than the two input maps for all continents. The fusion map is representative of the aboveground biomass for the years 2000--2010. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
+
+```{r agb, out.width="\\textwidth", fig.cap="(ref:cap-agb)"}
+knitr::include_graphics("figures/AGB.png")
+```
+
+\newpage
+
+<!--chapter:end:02-Figures-S.Rmd-->
+
+# Tables
+
+```{r lib-tab, echo=FALSE, results="hide"}
+library(dplyr)
+```
+
+<!--------------------------------------------------->
+<!-- Categories of the forest cover annual product -->
+<!--------------------------------------------------->
+
+## Categories of the forest cover annual product
+
+(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm}
+
+```{r cat-annual-product, results="asis", echo=FALSE}
+df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")
+vect.align <- c("l", "r")
+col.names <- c("Class", "Definition")
+knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    column_spec(1,width="2cm") %>%
+    column_spec(2,width="10cm") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+<!--------------->
+<!-- Variables -->
+<!--------------->
+
+## Variables
+
+(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm}
+
+```{r variables, results="asis", echo=FALSE}
+df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
+vect.align <- c(rep("l",3), rep("r",3))
+col.names <- c("Product","Source","Variable derived","Unit","Resolution (m)","Date")
+knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    column_spec(c(1:3),width="2.5cm") %>%
+  column_spec(4,width="1cm") %>%
+  column_spec(c(5:6),width="2cm") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center", font_size=11)
+```
+
+<!----------------->
+<!-- Sample size -->
+<!----------------->
+
+## Sample size
+
+(ref:cap-samp-size) **Number of observations used for the spatial model of deforestation for each study area**. The table includes the number of non-deforested (nfor) and deforested (ndef) pixels per study area. These numbers include the forest pixels with full information regarding the explanatory variables. The corresponding number of hectares is also provided (nfHa and ndHa, respectively).\vspace{0.5cm}
+
+```{r samp-size, results="asis", echo=FALSE}
+df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
+df.cat <- df.cat[,-c(1)]
+vect.align <- c(rep("l", 2), rep("r", 4))
+col.names <- c("Country -- Study-area","Code","nfor","ndef","nfHa","ndHa")
+knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+  pack_rows("All continents", 120, 120) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+<!------------------------------------------------>
+<!-- Mathematical formulas for accuracy indices -->
+<!------------------------------------------------>
+
+## Mathematical formulas for accuracy indices
+
+(ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm}
+
+```{r confusion-matrix, results="asis", echo=FALSE}
+df <- read.table("tables/confusion-matrix.txt", header=TRUE, sep=",")
+vect.align <- rep("l",2)
+col.names <- c("","","Observations","","Total")
+options(knitr.kable.NA="")
+knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"),
+                  full_width=FALSE, position="center")
+```
+
+
+(ref:cap-accuracy-indices) **Formulas used to compute accuracy indices**. Several accuracy indices can be computed from the confusion matrix to estimate and compare models' predictive skill. We followed the definitions of @Pontius2008 for the FOM and @Liu2011 for the other indices. Note that the AUC relies on the predicted probabilities for observations 0 (non-deforested) and 1 (deforested), not on the confusion matrix.\vspace{0.5cm}
+
+```{r accuracy-indices, results="asis", echo=FALSE}
+df <- read.table("tables/accuracy-indices.txt", header=TRUE, sep=",")
+vect.align <- rep("l",2)
+col.names <- c("Index","Formula")
+knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), full_width=FALSE, position="center")
+```
+
+<!---------------------->
+<!-- Accuracy indices -->
+<!---------------------->
+
+## Accuracy indices
+
+(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged across study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
+
+```{r accuracy, results="asis", echo=FALSE}
+df <- read.table("tables/perf_mod.csv", header=TRUE, sep=",")
+vect.align <- c(rep("l", 1), rep("r", 5))
+col.names <- c("Model","D","AUC","OA","FOM","TSS")
+knitr::kable(df, caption="(ref:cap-accuracy)", booktabs=TRUE,
+                         escape=FALSE,
+                         digits=1,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2), full_width=FALSE, position="center")
+```
+
+
+(ref:cap-accuracy-cont) **Accuracy indices' weighted averages for the three statistical models by continent**. Accuracy indices were averaged across study areas for each continent using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
+
+```{r accuracy-cont, results="asis", echo=FALSE}
+df <- read.table("tables/perf_cont_mod.csv", header=TRUE, sep=",")
+vect.align <- c(rep("l", 1), rep("r", 5))
+col.names <- c("Continent","Model","D","AUC","OA","FOM","TSS")
+knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
+                         escape=FALSE,
+                         digits=1,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  column_spec(1, bold=TRUE) %>%
+  collapse_rows(columns=1, latex_hline = "major", valign = "middle") %>%
+  kable_styling(latex_options=c("HOLD_position","striped"), stripe_index=c(2,5,8), full_width=FALSE, position="center")
+```
+
+<!------------------------------------>
+<!-- Historical forest cover change -->
+<!------------------------------------>
+
+## Historical forest cover change
+
+(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
+
+```{r fcc-hist, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/forest_cover_change.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(area_name, for2000, for2010, for2020, andef, pdef) %>%
+  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 5))
+col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
+knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.\vspace{0.5cm}
+
+```{r fcc-hist-reg, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::filter(!(area_cont %in% c("DRC", "Indonesia"))) %>%
+  dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef) %>%
+  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 5))
+col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
+knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALSE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+\newpage
+
+<!------------------------------>
+<!-- Forest cover projections -->
+<!------------------------------>
+
+## Forest cover projections
+
+(ref:cap-fcc-proj) **Forest cover projections for each study-area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
+
+```{r fcc-proj, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/forest_cover_change.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
+  dplyr::mutate(yrdis=as.character(yrdis)) %>%
+  dplyr::select(area_name, for2040, for2060, for2080, for2100, loss21, yrdis) %>%
+  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 6))
+col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yrdis")
+knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm}
+
+```{r fcc-proj-reg, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::filter(!(cont %in% c("DRC", "Indonesia"))) %>%
+  dplyr::mutate(yr75dis=as.character(yr75dis)) %>%
+  dplyr::select(cont, for2040, for2060, for2080, for2100, loss21, yr75dis) %>%
+  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 6))
+col.names <- c("Region", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr75dis")
+knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
+                         format.args=list(big.mark=","),
+                         digits=0,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+<!------------------------------------------------->
+<!-- Parameter estimates and variable importance -->
+<!------------------------------------------------->
+
+## Parameter estimates and variable importance
+
+(ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study-areas.\vspace{0.5cm}
+
+```{r par, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/parameter_estimates.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_name)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Study-area", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
+```
+
+(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm}
+
+```{r par-region, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/weighted_param_region.csv", header=TRUE, sep=",")
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Region", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
+```
+
+\newpage
+
+<!--------------------------------->
+<!-- Back-transformed parameters -->
+<!--------------------------------->
+
+## Back-transformed parameters
+
+(ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm}
+
+```{r bt-par, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/backtransformed_parameters.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_name)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Study-area", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
+knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=unit.vect,
+                         align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
+```
+
+(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
+
+```{r bt-par-region, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/backtransformed_weighted_param_region.csv", header=TRUE, sep=",")
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 10))
+col.names <- c("Region", "int", "pa", "elev", "slope",
+               "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
+unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
+knitr::kable(df, caption="(ref:cap-bt-par-reg)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=unit.vect,
+                         align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=10, repeat_header_method="replace")
+```
+
+\newpage
+
+<!------------------------------------------------>
+<!-- Effect of protected areas on deforestation -->
+<!------------------------------------------------>
+
+## Effect of protected areas on deforestation
+
+```{r pa-sign, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/sign_PA_road.csv", header=TRUE, sep=",")
+nsa <- df$nctry[df$var=="PA"]
+nsignif <- df$nctry_sign[df$var=="PA"]
+perc <- df$perc[df$var=="PA"]
+perc_w <- df$perc_w[df$var=="PA"]
+```
+
+(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
+
+```{r pa, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Format function
+f_format <- function(x) {
+  if (is.na(x)) {
+    r <- NA
+  } else if (x >=0) {
+    r <- format(paste0(" ", format(x, digits=1, nsmall=3)), width=6, justify="right")
+  } else if (x <0) {
+    r <- format(format(x, digits=1, nsmall=3), width=6, justify="right")
+  }
+  return(r)
+}
+## Import data
+df <- read.table("tables/parea_estimates.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(CI=paste0("(",
+                          sapply(df$CI_low, f_format),
+                          ", ",
+                          sapply(df$CI_high, f_format),
+                          ")")) %>%
+  dplyr::mutate(for2010=round(for2010/1000)) %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
+  dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
+  dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
+  dplyr::relocate(CI, .before=sign)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 4), "c")
+col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95\\%",
+               "signif")
+knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+\newpage
+
+<!----------------------------------------------------->
+<!-- Effect of the distance to road on deforestation -->
+<!----------------------------------------------------->
+
+## Effect of the distance to road on deforestation
+
+```{r road-sign, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/sign_PA_road.csv", header=TRUE, sep=",")
+nsa <- df$nctry[df$var=="road"]
+nsignif <- df$nctry_sign[df$var=="road"]
+perc <- df$perc[df$var=="road"]
+perc_w <- df$perc_w[df$var=="road"]
+```
+
+(ref:cap-road) **Effect of the distance to road on deforestation**. We show here the estimated effect of the distance to the nearest road on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
+
+```{r road, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/road_estimates.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(CI=paste0("(",
+                          sapply(df$CI_low, f_format),
+                          ", ",
+                          sapply(df$CI_high, f_format),
+                          ")")) %>%
+  dplyr::mutate(for2010=round(for2010/1000)) %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
+  dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
+  dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
+  dplyr::relocate(CI, .before=sign)
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 4), "c")
+col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95\\%",
+               "signif")
+knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         digits=3,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+\newpage
+
+<!------------------------------------------------->
+<!-- Carbon emissions associated with deforestation -->
+<!------------------------------------------------->
+
+## Cumulative carbon emissions associated to deforestation
+
+(ref:cap-c-em) **Cumulative carbon emissions associated to future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). \vspace{0.5cm}
+
+```{r c-em, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/C_emissions.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(area_name, C2040, C2060, C2080, C2100) %>%
+  dplyr::na_if(0) %>%
+  mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
+ 
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 6))
+col.names <- c("Country -- Study-area", "C2040", "C2060", "C2080", "C2100")
+knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+                  position="center", font_size=11, repeat_header_method="replace")
+```
+
+\newpage
+
+<!--chapter:end:03-Tables-S.Rmd-->
+
+# References {-}
+
+<!--chapter:end:04-References.Rmd-->
+
