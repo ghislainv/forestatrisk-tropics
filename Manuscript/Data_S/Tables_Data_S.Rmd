@@ -1,0 +1,93 @@
+
+```{r lib-tab, echo=FALSE, results="hide"}
+library(dplyr)
+```
+
+<!------------------------------>
+<!-- Forest cover projections -->
+<!------------------------------>
+
+## Data S1: Past and projected forest cover projections
+
+Download the raw data:
+
+* Text CSV: [forest_cover_change.csv](https://forestatrisk.cirad.fr/tropics/Data_S/forest_cover_change.csv)
+* ODF Spreadsheet: [forest_cover_change.ods](https://forestatrisk.cirad.fr/tropics/Data_S/forest_cover_change.ods)
+* Excel 2007--365: [forest_cover_change.xlsx](https://forestatrisk.cirad.fr/tropics/Data_S/forest_cover_change.xlsx)
+
+(ref:cap-fcc-proj) **Past and projected forest cover by study-area**. Past and projected forest cover by study-area are given in thousand hectares (Kha). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
+
+```{r fcc-proj, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/forest_cover_change.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
+  dplyr::mutate(yrdis=as.character(yrdis)) %>%
+  dplyr::select(area_name, for2000:for2100, loss21, yrdis, -for2005, -for2015, -for2035) %>%
+  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 17))
+col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$", "$p$", "fc2030", "fc2040",
+               "fc2050", "fc2055", "fc2060", "fc2070", "fc2080", "fc2085", "fc2090", "fc2100", "loss21", "yrdis")
+knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=full_width_type,
+	              bootstrap_options = c("striped", "hover", "condensed"),
+	              position="center", font_size=font_size_type, repeat_header_method="replace") %>%
+  scroll_box(width="800px", height="700px")
+```
+
+
+<!---------------------------------------------------->
+<!-- Carbon emissions associated with deforestation -->
+<!---------------------------------------------------->
+
+## Data S2: Cumulative carbon emissions associated to future deforestation
+
+Download the raw data:
+
+* Text CSV: [carbon_emissions.csv](https://forestatrisk.cirad.fr/tropics/Data_S/carbon_emissions.csv)
+* ODF Spreadsheet: [carbon_emissions.ods](https://forestatrisk.cirad.fr/tropics/Data_S/carbon_emissions.ods)
+* Excel 2007--365: [carbon_emissions.xlsx](https://forestatrisk.cirad.fr/tropics/Data_S/carbon_emissions.xlsx)
+
+(ref:cap-c-em) **Cumulative carbon emissions associated to future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). Column "C2020" indicates the carbon emissions associated to past deforestation on the period 2000--2010 for comparison.\vspace{0.5cm}
+
+```{r c-em, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("tables/carbon_emissions.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(area_name, C2020:C2100, -C2035, -C2055, -C2085) %>%
+  dplyr::na_if(0) %>%
+  mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
+ 
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 9))
+col.names <- c("Country -- Study-area", paste0("C", seq(2020,2100, by=10)))
+knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
+                         format.args=list(big.mark=","),
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  pack_rows("America", 1, 64) %>%
+  pack_rows("Africa", 65, 96) %>%
+  pack_rows("Asia", 97, 119) %>%
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=full_width_type,
+	              bootstrap_options = c("striped", "hover", "condensed"),
+	              position="center", font_size=font_size_type, repeat_header_method="replace") %>%
+  scroll_box(width="800px", height="700px")
+```
+
+<!---------------->
+<!-- Rferences  -->
+<!---------------->
+
+## References

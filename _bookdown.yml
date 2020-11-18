@@ -1,0 +1,3 @@
+delete_merged_file: true
+book_filename: "sm.Rmd"
+output_dir: "doc"

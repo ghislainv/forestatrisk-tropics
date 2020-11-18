@@ -1,0 +1,6 @@
+delete_merged_file: true
+book_filename: "Data_S.Rmd"
+output_dir: "doc"
+language:
+  label:
+    tab: "Data S"

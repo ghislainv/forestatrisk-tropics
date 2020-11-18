@@ -305,6 +305,9 @@ write.table(fcc_tab3, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "forest_cover_change.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
+## Copy for data
+f_doc <- here("Manuscript", "Data", "tables", "forest_cover_change.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ====================================================
 ## Forest cover change summarized per region
@@ -1318,6 +1321,9 @@ f <- here("Analysis", dataset, "results", "C_emissions.csv")
 write.table(Cem_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_emissions.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+## Copy for data
+f_doc <- here("Manuscript", "Data", "tables", "carbon_emissions.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ========================

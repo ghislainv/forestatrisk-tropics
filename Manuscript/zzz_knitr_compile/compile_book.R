@@ -31,7 +31,7 @@ font_size_type=9.5
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- 'Spatial forecasting of forest cover change in the humid tropics over the 21st century'
+title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21st century"
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)
@@ -67,14 +67,14 @@ setwd(here::here("Manuscript/Supplementary_Materials"))
 # Bookdown
 # pdf
 options(knitr.table.format="latex")
-pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE, keep_md=TRUE,
+pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE, keep_md=FALSE,
                                       latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
                                       includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
-title_html <- 'SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21st century'
+title_html <- "SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21st century"
 author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date_html <- format(Sys.time(), "%d %B, %Y")
 params <- list(title=title_html,author=author_html, date=date_html)
@@ -91,5 +91,32 @@ bookdown::render_book("index.Rmd", output_format=docx_format)
 # options(knitr.table.format="html")
 # # Dynamic YAML options
 # bookdown::render_book("index.Rmd")
+
+# ==============================================================================
+# Data S
+# ==============================================================================
+
+# Libraries
+require(bookdown)
+require(knitr)
+require(here)
+
+# Working directory
+setwd(here::here("Manuscript/Data_S"))
+
+# params
+title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21st century"
+subtitle_html <- "Supplementary Data"
+author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
+date_html <- ""
+params <- list(title=title_html, subtitle=subtitle_html, author=author_html, date=date_html)
+
+# html
+options(knitr.table.format="html")
+full_width_type=FALSE
+font_size_type=NULL
+# Dynamic YAML options
+html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=TRUE, toc_float=TRUE)
+bookdown::render_book("index.Rmd", output_format=html_format)
 
 # EOF
