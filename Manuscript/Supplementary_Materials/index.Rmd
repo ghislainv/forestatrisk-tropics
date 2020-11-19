@@ -53,5 +53,20 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
                tidy=FALSE)
 #load("forestatrisk-tropics.rda")
 ```
+
+**This PDF file includes:**
+
+Materials and Methods    
+Figs. S1 to S13    
+Tables S1 to S18      
+Captions for Data S1 to S2
+
+\vspace{1cm}
+
+**Other Supplementary Materials for this manuscript include the following:**
+
+Data S1: Past and projected forest cover by study-area with a time step of ten years.    
+Data S2: Cumulative carbon emissions associated to future deforestation with a time step of ten years.
+
 \linenumbers
 \newpage

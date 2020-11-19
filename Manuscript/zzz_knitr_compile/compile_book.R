@@ -27,7 +27,7 @@ pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRU
 																			includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
 full_with_type=FALSE
-font_size_type=9.5
+font_size_type=10
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # params
@@ -73,18 +73,11 @@ pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRU
 params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
-# params
-title_html <- "SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21st century"
-author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
-date_html <- format(Sys.time(), "%d %B, %Y")
-params <- list(title=title_html,author=author_html, date=date_html)
-
-# docx
-# Don't indicate output_format to take into account YAML options
-options(knitr.table.format="html")
-# Dynamic YAML options
-docx_format <- bookdown::word_document2(fig_caption=TRUE, toc=FALSE)
-bookdown::render_book("index.Rmd", output_format=docx_format)
+# # params
+# title_html <- "SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21st century"
+# author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
+# date_html <- format(Sys.time(), "%d %B, %Y")
+# params <- list(title=title_html,author=author_html, date=date_html)
 
 # # html
 # # Don't indicate output_format to take into account YAML options
@@ -102,7 +95,7 @@ require(knitr)
 require(here)
 
 # Working directory
-setwd(here::here("Manuscript/Data_S"))
+setwd(here::here("Manuscript/Supplementary_Data"))
 
 # params
 title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21st century"
@@ -118,5 +111,9 @@ font_size_type=NULL
 # Dynamic YAML options
 html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=TRUE, toc_float=TRUE)
 bookdown::render_book("index.Rmd", output_format=html_format)
+
+# Move files to server
+# system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/supplementary-data.html fdb:/home/www/forestatrisk/tropics/supplementary-data/index.html")
+# system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
 
 # EOF

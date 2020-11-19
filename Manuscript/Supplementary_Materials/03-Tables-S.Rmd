@@ -516,3 +516,14 @@ knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
 ```
 
 \newpage
+
+# Captions for Supplementary Data
+
+Supplementary Data are available at:    
+<https://forestatrisk.cirad.fr/tropics/supplementary-data/>.
+
+Data S1: **Past and projected forest cover by study-area with a time step of ten years**. Past and projected forest cover by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.
+
+Data S2: **Cumulative carbon emissions associated to future deforestation with a time step of ten years**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). Column "C2020" indicates the carbon emissions associated to past deforestation on the period 2010--2020 for comparison.
+
+\newpage

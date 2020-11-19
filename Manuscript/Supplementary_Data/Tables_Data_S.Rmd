@@ -11,11 +11,11 @@ library(dplyr)
 
 Download the raw data:
 
-* Text CSV: [forest_cover_change.csv](https://forestatrisk.cirad.fr/tropics/Data_S/forest_cover_change.csv)
-* ODF Spreadsheet: [forest_cover_change.ods](https://forestatrisk.cirad.fr/tropics/Data_S/forest_cover_change.ods)
-* Excel 2007--365: [forest_cover_change.xlsx](https://forestatrisk.cirad.fr/tropics/Data_S/forest_cover_change.xlsx)
+* Text CSV: [forest_cover_change.csv](forest_cover_change.csv)
+* ODF Spreadsheet: [forest_cover_change.ods](forest_cover_change.ods)
+* Excel 2007--365: [forest_cover_change.xlsx](forest_cover_change.xlsx)
 
-Data S1: **Past and projected forest cover by study-area**. Past and projected forest cover by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
+Data S1: **Past and projected forest cover by study-area with a time step of ten years**. Past and projected forest cover by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
 
 ```{r fcc-proj, results="asis", echo=FALSE}
 ## Import data
@@ -24,14 +24,20 @@ df <- read.table("tables/forest_cover_change.csv", header=TRUE, sep=",")
 df <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
   dplyr::mutate(yrdis=as.character(yrdis)) %>%
-  dplyr::select(area_name, for2000:for2100, loss21, yrdis, -for2005, -for2015, -for2035) %>%
+  dplyr::select(area_cont:area_code, for2000:for2100, loss21, yrdis, -for2005, -for2015, -for2035) %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
+# Export table for website
+write.table(df, "tables_website/forest_cover_change.csv", sep=",", row.names=FALSE)
+## Remove some area info
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code)
+
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 17))
 col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$", "$p$", "fc2030", "fc2040",
                "fc2050", "fc2055", "fc2060", "fc2070", "fc2080", "fc2085", "fc2090", "fc2100", "loss21", "yrdis")
-unit.vect <- c("", rep("(Kha)", 3), "(ha/yr)", "(\\%/yr)", rep("(Kha)", 10), "(\\%)", "~")
-col.names <- paste(col.names, unit.vect, sep=" \\\n ")
+unit.vect <- c("", rep("(Kha)", 3), "  (ha/yr)", "(\\%/yr)", rep("(Kha)", 10), "(\\%)", " ")
+col.names <- paste(col.names, unit.vect, sep=" \\n ")
 knitr::kable(df, caption=NULL, booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
@@ -56,11 +62,11 @@ knitr::kable(df, caption=NULL, booktabs=TRUE, longtable=TRUE,
 
 Download the raw data:
 
-* Text CSV: [carbon_emissions.csv](https://forestatrisk.cirad.fr/tropics/Data_S/carbon_emissions.csv)
-* ODF Spreadsheet: [carbon_emissions.ods](https://forestatrisk.cirad.fr/tropics/Data_S/carbon_emissions.ods)
-* Excel 2007--365: [carbon_emissions.xlsx](https://forestatrisk.cirad.fr/tropics/Data_S/carbon_emissions.xlsx)
+* Text CSV: [carbon_emissions.csv](carbon_emissions.csv)
+* ODF Spreadsheet: [carbon_emissions.ods](carbon_emissions.ods)
+* Excel 2007--365: [carbon_emissions.xlsx](carbon_emissions.xlsx)
 
-Data S2: **Cumulative carbon emissions associated to future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). Column "C2020" indicates the carbon emissions associated to past deforestation on the period 2010--2020 for comparison.\vspace{0.5cm}
+Data S2: **Cumulative carbon emissions associated to future deforestation with a time step of ten years**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). Column "C2020" indicates the carbon emissions associated to past deforestation on the period 2010--2020 for comparison.\vspace{0.5cm}
 
 ```{r c-em, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -68,10 +74,15 @@ options(knitr.kable.NA="--")
 df <- read.table("tables/carbon_emissions.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
-  dplyr::select(area_name, C2020:C2100, -C2035, -C2055, -C2085) %>%
+  dplyr::select(area_cont:area_code, C2020:C2100, -C2035, -C2055, -C2085) %>%
   dplyr::na_if(0) %>%
   mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
- 
+# Export table for website
+write.table(df, "tables_website/carbon_emissions.csv", sep=",", row.names=FALSE)
+## Remove some area info
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code)
+
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 9))
 col.names <- c("Country -- Study-area", paste0("C", seq(2020,2100, by=10)))
