@@ -10,6 +10,10 @@ knocking
 # Data for Manuscript
 Data
 
+# Intensity
+Intensity/grassdata
+Intensity/output
+
 # Manuscript
 Manuscript/Supplementary_Materials/doc/sm.pdf
 Manuscript/Article/doc/article.pdf

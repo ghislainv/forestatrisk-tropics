@@ -9,18 +9,19 @@
 # ==============================================================================
 
 import os
-from shutil import copy2  # To copy files
+import re
+from shutil import copy2
+
 import numpy as np
-from patsy import dmatrices
-import forestatrisk as far
 import matplotlib.pyplot as plt
+import pandas as pd
+from patsy import dmatrices
 import pickle
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import log_loss
-import pandas as pd
-import re  # Regular expressions
 
+import forestatrisk as far
 
 # run_modelling_steps
 def run_modelling_steps(iso3, fcc_source="jrc"):
@@ -41,7 +42,6 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
 
     """
 
-
     # Make output directory
     far.make_dir("output")
 
@@ -50,7 +50,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
 
     dataset = far.sample(nsamp=10000, adapt=True,
-                         Seed=1234, csize=10,
+                         seed=1234, csize=10,
                          var_dir="data",
                          input_forest_raster="fcc23.tif",
                          output_file="output/sample.txt",
@@ -102,7 +102,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
         plt.close("all")
 
     # ========================================================
-    # hSDM model
+    # hbm model
     # ========================================================
 
     # Spatial cells for spatial-autocorrelation
