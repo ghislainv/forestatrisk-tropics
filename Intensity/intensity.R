@@ -52,9 +52,9 @@ for (i in 1:length(continents)) {
 # Connect R to grass location
 # Make sure that /usr/lib/grass72/lib is in your PATH in RStudio
 Sys.setenv(LD_LIBRARY_PATH=paste("/usr/lib/grass78/lib", Sys.getenv("LD_LIBRARY_PATH"), sep=":"))
-initGRASS(gisBase="/usr/lib/grass78",home=tempdir(), 
+initGRASS(gisBase="/usr/lib/grass78", home=tempdir(), 
           gisDbase="grassdata",
-          location="intensity",mapset="PERMANENT",
+          location="intensity", mapset="PERMANENT",
           override=TRUE)
 
 #======================================
@@ -114,7 +114,7 @@ for (i in 1:ncont) {
   fc_df <- bind_rows(fc_df, fc)
 }
 
-# Compute total forest area per study area nd year
+# Compute total forest area per study area and year
 fc_df2 <- fc_df %>%
   group_by(area_code) %>%
   summarise(across(starts_with("fc"), sum), .groups="keep") %>%
@@ -173,6 +173,7 @@ d_long <- d_df %>%
 # t-distribution with n-1 = 9 degrees of freedom
 d_uncertainty <- d_long %>%
 	filter(year %in% c(2010:2019)) %>%
+  filter(area_code=="COM") %>%    # adding this
 	group_by(area_name) %>%
 	summarize(area_cont=unique(area_cont),
 	          area_ctry=unique(area_ctry),
@@ -194,8 +195,29 @@ write_delim(d_uncertainty, here("Intensity", "output", "d_uncertainty.csv"), del
 # d in Kha/yr for plots
 # ==============================
 
+# Dataframe for histogram
+df_hist <- d_long %>%
+  mutate(defor=defor/1000)  # !! defor in Kha/yr !!
+
+# Dataframe for densities
+df_dens <- d_long %>%
+  mutate(defor=defor/1000) %>% # !! defor in Kha/yr !!
+  mutate(ldefor=log(defor+1/1000)) %>% # !! defor+1/1000
+  group_by(area_code) %>%
+  summarise(meanlog=mean(ldefor, na.rm=TRUE),sdlog=sd(ldefor, na.rm=TRUE),
+            xmin=min(defor+1/1000),xmax=max(defor+1/1000), .groups="keep") %>%
+  do(data.frame(defor=seq(.$xmin,.$xmax,length.out=100)-1/1000, # !! -1/1000 here for backtransformation
+                logDens=dlnorm(seq(.$xmin,.$xmax,length.out=100),.$meanlog,.$sdlog)))
+
+# Dataframe for confidence interval
+df_ci <- d_uncertainty %>%
+  mutate(across(starts_with("d_"), function(.x){round(.x/1000, 3)}))
+
+# Some variables
 continents <- c("America", "Africa", "Asia")
 ncont <- length(continents)
+text_width <- 16.6
+fig_width <- text_width
 
 # Loop on continents
 for (i in 1:ncont) {
@@ -206,36 +228,54 @@ for (i in 1:ncont) {
   noctry <- ifelse(cont=="America", "Brazil", "Sao Tome and P.")
   
   # Dataframe for histogram
-  df_hist <- d_long %>%
-    dplyr::filter(area_cont==cont & area_ctry!=noctry) %>%
-    mutate(defor=defor/1000)  # !! defor in Kha/yr !!
+  df_hist_cont <- df_hist %>%
+    dplyr::filter(area_cont==cont & area_ctry!=noctry)
+  # Dataframe for confidence interval
+  df_ci_cont <- df_ci %>%
+    dplyr::filter(area_cont==cont & area_ctry!=noctry)
+
+  # nctry and npages
+  study_areas <- unique(df_hist_cont$area_code)
+  nctry <- length(study_areas)
+  npan_by_row <- 4  # Number of panels per row
+  npan_by_col <- npan_by_row
+  npan_by_page <- npan_by_row*npan_by_col
+  fig_height <- (fig_width/npan_by_row)*npan_by_col
+  npages <- ceiling(nctry/(npan_by_page))
+
+  # List of countries per pages
+  area_list <- list()
+  for (p in 1:npages) {
+    inf <- (p-1)*npan_by_page+1
+    sup <- min(nctry, p*npan_by_page)
+    area_list[[p]] <- study_areas[inf:sup]
+  }
   
   # Dataframe for densities
-  df_dens <- d_long %>%
-    dplyr::filter(area_cont==cont & area_ctry!=noctry) %>%
-    mutate(defor=defor/1000) %>% # !! defor in Kha/yr !!
-    mutate(ldefor=log(defor+1/1000)) %>%
-    group_by(area_code) %>%
-    summarise(meanlog=mean(ldefor, na.rm=TRUE),sdlog=sd(ldefor, na.rm=TRUE),
-              xmin=min(defor),xmax=max(defor), .groups="keep") %>%
-    do(data.frame(defor=seq(.$xmin,.$xmax,length.out=100),
-                  logDens=dlnorm(seq(.$xmin,.$xmax,length.out=100),.$meanlog,.$sdlog)))
+  df_dens_cont <- df_dens %>%
+    dplyr::filter(area_code %in% study_areas)
   
-  # Dataframe for confidence interval
-  df_ci <- d_uncertainty %>%
-    dplyr::filter(area_cont==cont & area_ctry!=noctry) %>%
-    mutate(across(starts_with("d_"), function(.x){round(.x/1000, 3)}))
-  
-  # Plot histograms of disturbance
-  p_hist <- ggplot(df_hist, aes(x=defor, group=area_code)) + 
-    geom_histogram(aes(y=..density..), bins=10, color=grey(0.5), fill="white") +
-    facet_wrap(~area_code, ncol=5, scales="free") +
-    geom_line(data=df_dens, aes(y=logDens)) +
-    geom_vline(data=df_ci, aes(xintercept=d_mean)) +
-    geom_vline(data=df_ci, aes(xintercept=d_min), linetype="dashed") +
-    geom_vline(data=df_ci, aes(xintercept=d_max), linetype="dashed") +
-    xlab("Deforestation (Kha/yr)")
-  ggsave(here("Intensity", "output", glue("hist_defor_{cont}.pdf")), p_hist, width=12, height=12)
+  # Loop on pages
+  for (p in 1:npages) {
+
+    # Select countries for page
+    df_hist_page <- df_hist_cont %>% dplyr::filter(area_code %in% area_list[[p]])
+    df_dens_page <- df_dens_cont %>% dplyr::filter(area_code %in% area_list[[p]])
+    df_ci_page <- df_ci_cont %>% dplyr::filter(area_code %in% area_list[[p]])
+    
+    # Plot histograms of disturbance
+    p_hist <- ggplot(df_hist_page, aes(x=defor, group=area_code)) + 
+      geom_histogram(aes(y=..density..), bins=10, color=grey(0.5), fill="white") +
+      facet_wrap(~area_code, ncol=npan_by_row, nrow=npan_by_col, scales="free") +
+      # geom_line(data=df_dens_page, aes(x=defor-1/1000, y=logDens)) +  # !! here x=defor-1/1000 !!
+      geom_vline(data=df_ci_page, aes(xintercept=d_mean)) +
+      geom_vline(data=df_ci_page, aes(xintercept=d_min), linetype="dashed") +
+      geom_vline(data=df_ci_page, aes(xintercept=d_max), linetype="dashed") +
+      xlab("Deforestation (Kha/yr)")
+    
+    # Save
+    ggsave(here("Intensity", "output", glue("hist_defor_{cont}_{p}.png")), p_hist, width=fig_width, height=fig_height, units="cm")
+  }
   
 }
 
@@ -265,7 +305,7 @@ df_ci <- d_uncertainty %>%
 # Plot histograms of disturbance
 p_hist <- ggplot(df_hist, aes(x=defor, group=area_code)) + 
   geom_histogram(aes(y=..density..), bins=10, color=grey(0.5), fill="white") +
-  facet_wrap(~area_code, ncol=5, scales="free") +
+  facet_wrap(~area_code, ncol=5, nrow=, scales="free") +
   geom_line(data=df_dens, aes(y=logDens)) +
   geom_vline(data=df_ci, aes(xintercept=d_mean)) +
   geom_vline(data=df_ci, aes(xintercept=d_min), linetype="dashed") +
