@@ -8,7 +8,7 @@
 #$ -N copy_data
 
 # load singularity
-module load singularity/3.5.3
+module load singularity
 
 # run python script inside container
 singularity exec --bind /share/nas2-amap/gvieilledent ~/Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Tropics/copy_data.py $SGE_TASK_ID

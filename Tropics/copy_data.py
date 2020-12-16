@@ -42,40 +42,58 @@ data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
+
 # Function for multiprocessing
 def run_country(iso3):
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/gfc2020_70/" + cont
+    owd = "/share/nas2-amap/gvieilledent/jrc2020/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
-    far.make_dir("data")
+    far.make_dir("data_raw")
 
-    # # Copy borders
-    # far.make_dir("data_raw")
-    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2019",
-    #                          cont, iso3, "data_raw/")
-    # out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
-    #                          cont, iso3, "data_raw/")
-    # in_f = in_dir + "gadm36_" + iso3 + "_0.*"
-    # cmd = " ".join(["cp", in_f, out_dir])
-    # subprocess.call(cmd, shell=True)
+    # Input/output directories
+    in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2019",
+                          cont, iso3, "data_raw/")
+    out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
+                           cont, iso3, "data_raw/")
 
-    # Copy country data
-    in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
-                          cont, iso3, "data")
-    out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2020_70",
-                           cont, iso3, "data")
-    cmd = " ".join(["rclone sync", in_dir, out_dir])
+    # Copy GADM borders
+    in_f = in_dir + "gadm36_" + iso3 + "_0.*"
+    cmd = " ".join(["cp", in_f, out_dir])
     subprocess.call(cmd, shell=True)
+
+    # Copy SRTM
+    in_f = in_dir + "SRTM_V41_*.zip"
+    cmd = " ".join(["cp", in_f, out_dir])
+    subprocess.call(cmd, shell=True)
+
+    # Copy WDPA
+    in_f = in_dir + "pa_" + iso3 + ".*"
+    cmd = " ".join(["cp", in_f, out_dir])
+    subprocess.call(cmd, shell=True)
+
+    # Copy OSM
+    in_f = in_dir + "country.osm.pbf"
+    cmd = " ".join(["cp", in_f, out_dir])
+    subprocess.call(cmd, shell=True)
+
+    # # Copy country data
+    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
+    #                       cont, iso3, "data")
+    # out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2020_70",
+    #                        cont, iso3, "data")
+    # cmd = " ".join(["rclone sync", in_dir, out_dir])
+    # subprocess.call(cmd, shell=True)
 
     # Return country iso code
     return(iso3)
 
+
 # Run country
-#for i in range(nctry):
+# for i in range(nctry):
 run_country(iso3[index_ctry])
 
 # End
