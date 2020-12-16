@@ -64,7 +64,7 @@ def run_country(iso3):
 
     # Compute gee forest data
     far.data.country_forest_run(
-        iso3, proj="EPSG:3395",
+        iso3, proj="EPSG:4326",
         output_dir="data_raw",
         keep_dir=True,
         fcc_source="jrc", perc=50,
