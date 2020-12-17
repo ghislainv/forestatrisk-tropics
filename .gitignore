@@ -12,7 +12,8 @@ Data
 
 # Intensity
 grassdata
-Intensity/output
+Intensity/output/*
+!Intensity/output/d_uncertainty.csv
 
 # Manuscript
 Manuscript/Supplementary_Materials/doc/sm.pdf

@@ -9,10 +9,9 @@
 # ==============================================================================
 
 # Import
-import sys
 import os
-import subprocess
 import pkg_resources
+
 import pandas as pd
 import numpy as np
 import forestatrisk as far
@@ -24,7 +23,8 @@ owd = "/share/nas2-amap/gvieilledent/jrc2020/Brazil"
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
                                                 "data/ctry_run.csv")
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
-iso3 = data_ctry_run.loc[data_ctry_run["cont_run"]=="Brazil", "iso3"].tolist()
+iso3 = data_ctry_run.loc[data_ctry_run["cont_run"] == "Brazil",
+                         "iso3"].tolist()
 nctry = len(iso3)  # 26
 
 # Loop on states to estimate the forest cover
@@ -61,10 +61,11 @@ for i in range(nctry):
     # Read forest cover file
     fc = pd.read_csv("output/forest_cover.txt", header=None)
     # Fill in the table
-    fcc_BRA.loc[i, 1:] = fc.loc[:, 0].values.tolist() # fc
+    fcc_BRA.loc[i, 1:] = fc.loc[:, 0].values.tolist()  # fc
 
 # Dates for future predictions
-dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100"]
+dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060",
+             "2070", "2080", "2085", "2090", "2100"]
 ndates_fut = len(dates_fut)
 
 # Deforestation diffusion parameters
@@ -74,7 +75,7 @@ andef = np.array((fcc_BRA["for2010"] - fcc_BRA["for2020"]) / T)
 t0 = 2020
 
 # Loop on dates
-for i in range(ndates_fut):  
+for i in range(ndates_fut):
     t = int(dates_fut[i])
     defor_diff = far.deforest_diffusion(forest_t0=forest_t0,
                                         t0=t0,

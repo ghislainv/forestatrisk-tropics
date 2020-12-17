@@ -101,7 +101,7 @@ for (i in 1:length(continents)) {
 # Add area info
 ctry_run <- read_delim(here("Analysis", "data", "ctry_run.csv"), delim=";")
 area_info <- ctry_run %>%
-  select("area_cont", "area_ctry", "area_name", "area_code")
+  select("iso3", "area_cont", "area_ctry", "area_name", "area_code")
 
 # Area per cell grid
 continents <- c("Afr", "Ame", "Asi")
@@ -121,7 +121,7 @@ fc_df2 <- fc_df %>%
   summarise(across(starts_with("fc"), sum), .groups="keep") %>%
   mutate(across(starts_with("fc"), function(.x){round(.x/10000)})) %>%
   left_join(area_info, by="area_code") %>%
-  select(area_cont:area_name, area_code, fc2000:fc2020) %>%
+  select(iso3, area_cont:area_name, area_code, fc2000:fc2020) %>%
   mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
   arrange(id, area_ctry) %>%
   select(-id)
@@ -132,8 +132,8 @@ write_delim(fc_df2, here("Intensity", "output", "fc_gee_2000_2020.csv"), delim="
 # Compute annual deforestation
 d_df <- fc_df2 %>%
   select(-fc2020)
-d_df[, 5:24] <- fc_df2[,5:24]-fc_df2[,6:25]
-names(d_df)[5:24] <- paste0("d", 2000:2019)
+d_df[, 6:25] <- fc_df2[, 6:25]-fc_df2[, 7:26]
+names(d_df)[6:25] <- paste0("d", 2000:2019)
 
 # Save data
 write_delim(d_df, here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=",")
@@ -157,7 +157,8 @@ d_long <- d_df %>%
 d_uncertainty <- d_long %>%
 	filter(year %in% c(2010:2019)) %>%
 	group_by(area_name) %>%
-	summarize(area_cont=unique(area_cont),
+	summarize(iso3=unique(iso3),
+	          area_cont=unique(area_cont),
 	          area_ctry=unique(area_ctry),
 	          area_code=unique(area_code),
 	          d_min=round(quantile(defor, 0.05)),

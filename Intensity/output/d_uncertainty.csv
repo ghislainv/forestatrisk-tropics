@@ -1,0 +1,121 @@
+iso3,area_cont,area_ctry,area_name,area_code,d_min,d_mean,d_max
+ATG,America,Antigua and B.,Antigua and B.,ATG,5,52,132
+BHS,America,Bahamas,Bahamas,BHS,332,1877,4665
+BRB,America,Barbados,Barbados,BRB,9,71,220
+BLZ,America,Belize,Belize,BLZ,6689,13143,25589
+BOL,America,Bolivia,Bolivia,BOL,90498,198593,410780
+BRA-AC,America,Brazil,Brazil – Acre,AC,23835,46840,60654
+BRA-AL,America,Brazil,Brazil – Alagoas,AL,210,1138,2346
+BRA-AP,America,Brazil,Brazil – Amapa,AP,6210,13232,20624
+BRA-AM,America,Brazil,Brazil – Amazonas,AM,85502,159440,298933
+BRA-BA,America,Brazil,Brazil – Bahia,BA,9738,21530,41896
+BRA-CE,America,Brazil,Brazil – Ceara,CE,108,1068,2374
+BRA-ES,America,Brazil,Brazil – Espirito Santo,ES,1111,4281,11791
+BRA-GO,America,Brazil,Brazil – Goias,GO,2251,14403,25424
+BRA-MA,America,Brazil,Brazil – Maranhao,MA,13183,87033,163742
+BRA-MT,America,Brazil,Brazil – Mato Grosso,MT,164743,303186,468650
+BRA-MS,America,Brazil,Brazil – Mato Grosso do Sul,MS,4038,8958,14196
+BRA-MG,America,Brazil,Brazil – Minas Gerais,MG,9781,37687,74020
+BRA-PA,America,Brazil,Brazil – Para,PA,214745,447547,668235
+BRA-PB,America,Brazil,Brazil – Paraiba,PB,84,337,866
+BRA-PR,America,Brazil,Brazil – Parana,PR,13151,24696,44020
+BRA-PE,America,Brazil,Brazil – Pernambouco,PE,224,1166,2779
+BRA-PI,America,Brazil,Brazil – Piaui,PI,472,2607,6099
+BRA-RJ,America,Brazil,Brazil – Rio de Janeiro,RJ,1181,5676,14789
+BRA-RN,America,Brazil,Brazil – Rio Grande do Norte,RN,87,335,671
+BRA-RS,America,Brazil,Brazil – Rio Grande do Sul,RS,7121,16420,29235
+BRA-RO,America,Brazil,Brazil – Rondonia,RO,69791,133451,191529
+BRA-RR,America,Brazil,Brazil – Roraima,RR,14862,72757,200965
+BRA-SC,America,Brazil,Brazil – Santa Catarina,SC,6172,17039,27951
+BRA-SP,America,Brazil,Brazil – Sao Paulo,SP,4932,15112,31246
+BRA-SE,America,Brazil,Brazil – Sergipe,SE,138,746,1908
+BRA-TO,America,Brazil,Brazil – Tocantins,TO,7601,43547,82099
+COL,America,Colombia,Colombia,COL,162942,281132,386725
+CRI,America,Costa Rica,Costa Rica,CRI,7751,17225,28192
+CUB,America,Cuba,Cuba,CUB,5527,13006,24815
+DMA,America,Dominica,Dominica,DMA,37,255,541
+DOM,America,Dominican Rep.,Dominican Rep.,DOM,4336,15109,28592
+ECU,America,Ecuador,Ecuador,ECU,27258,57209,106029
+SLV,America,El Salvador,El Salvador,SLV,408,1415,2387
+GUF,America,French Guiana,French Guiana,GUF,1360,2688,3890
+GRD,America,Grenada,Grenada,GRD,30,304,963
+GLP,America,Guadeloupe,Guadeloupe,GLP,145,459,892
+GTM,America,Guatemala,Guatemala,GTM,24298,44616,65495
+GUY,America,Guyana,Guyana,GUY,8118,14212,24730
+HTI,America,Haiti,Haiti,HTI,1778,4564,7082
+HND,America,Honduras,Honduras,HND,21231,44679,70924
+JAM,America,Jamaica,Jamaica,JAM,904,3150,6396
+MTQ,America,Martinique,Martinique,MTQ,102,460,874
+MEX,America,Mexico,Mexico,MEX,60743,124274,237189
+MSR,America,Montserrat,Montserrat,MSR,1,11,29
+NIC,America,Nicaragua,Nicaragua,NIC,36242,93650,201818
+PAN,America,Panama,Panama,PAN,12951,21598,31798
+PRY,America,Paraguay,Paraguay,PRY,12049,38711,91329
+PER,America,Peru,Peru,PER,72997,130622,169650
+PRI,America,Puerto Rico,Puerto Rico,PRI,688,4684,10879
+KNA,America,Saint Kitts and N.,Saint Kitts and N.,KNA,7,38,78
+LCA,America,Saint Lucia,Saint Lucia,LCA,78,292,649
+MAF,America,Saint Martin,Saint Martin,MAF,1,31,95
+VCT,America,Saint Vincent,Saint Vincent,VCT,34,107,265
+SXM,America,Sint Maarten,Sint Maarten,SXM,0,11,38
+SUR,America,Suriname,Suriname,SUR,5696,11389,17512
+TTO,America,Trinidad and Tobago,Trinidad and Tobago,TTO,444,2724,7968
+VEN,America,Venezuela,Venezuela,VEN,72394,152639,276066
+VGB,America,Virgin Isl. UK,Virgin Isl. UK,VGB,12,101,293
+VIR,America,Virgin Isl. US,Virgin Isl. US,VIR,21,172,501
+AGO,Africa,Angola,Angola,AGO,37214,85100,145034
+BEN,Africa,Benin,Benin,BEN,201,1490,2821
+BDI,Africa,Burundi,Burundi,BDI,168,1011,2995
+CMR,Africa,Cameroon,Cameroon,CMR,32128,69627,103925
+CAF,Africa,CAR,CAR,CAF,27504,52551,85279
+COM,Africa,Comoros,Comoros,COM,0,476,2252
+COG,Africa,Congo,Congo,COG,36251,59519,89852
+COD,Africa,DRC,DRC,COD,463310,835197,1166762
+GNQ,Africa,Eq. Guinea,Eq. Guinea,GNQ,1908,3280,4792
+ETH,Africa,Ethiopia,Ethiopia,ETH,19846,72707,134648
+GAB,Africa,Gabon,Gabon,GAB,5357,13589,22347
+GMB,Africa,Gambia,Gambia,GMB,74,422,1036
+GHA,Africa,Ghana,Ghana,GHA,35581,114147,231416
+GIN,Africa,Guinea,Guinea,GIN,15401,39878,57432
+GNB,Africa,Guinea Bissau,Guinea Bissau,GNB,2201,4474,5809
+CIV,Africa,Ivory Coast,Ivory Coast,CIV,120724,249536,443276
+KEN,Africa,Kenya,Kenya,KEN,4752,15262,35331
+LBR,Africa,Liberia,Liberia,LBR,31629,90222,154323
+MDG,Africa,Madagascar,Madagascar,MDG,52120,112533,192480
+MWI,Africa,Malawi,Malawi,MWI,943,3257,6366
+MUS,Africa,Mauritius,Mauritius,MUS,39,393,1267
+MYT,Africa,Mayotte,Mayotte,MYT,50,502,1540
+NGA,Africa,Nigeria,Nigeria,NGA,34110,98469,189558
+REU,Africa,Reunion,Reunion,REU,188,769,1639
+RWA,Africa,Rwanda,Rwanda,RWA,526,3929,10319
+STP,Africa,Sao Tome and P.,Sao Tome and P.,STP,0,0,0
+SEN,Africa,Senegal,Senegal,SEN,225,786,2011
+SLE,Africa,Sierra Leone,Sierra Leone,SLE,33495,98476,162482
+SSD,Africa,South Sudan,South Sudan,SSD,1487,4300,7152
+TZA,Africa,Tanzania,Tanzania,TZA,2463,11852,22188
+TGO,Africa,Togo,Togo,TGO,1171,3905,8364
+UGA,Africa,Uganda,Uganda,UGA,7777,36054,63275
+ZMB,Africa,Zambia,Zambia,ZMB,780,3613,7168
+AUS-QLD,Asia,Australia,Australia – Queensland,QLD,2964,11965,24555
+BGD,Asia,Bangladesh,Bangladesh,BGD,1801,4948,9481
+BTN,Asia,Bhutan,Bhutan,BTN,1999,9121,14964
+BRN,Asia,Brunei,Brunei,BRN,373,781,1220
+KHM,Asia,Cambodia,Cambodia,KHM,39651,109067,185251
+FJI,Asia,Fiji,Fiji,FJI,792,4005,7606
+IND-AND,Asia,India,India – Andaman and N.,AN,177,1838,5315
+IND-EAST,Asia,India,India – North-East,NE,12285,51567,79606
+IND-WEST,Asia,India,India – West. Ghats,WG,16437,52230,85791
+IDN,Asia,Indonesia,Indonesia,IDN,647383,1137855,1830368
+LAO,Asia,Laos,Laos,LAO,118539,160785,226430
+MYS,Asia,Malaysia,Malaysia,MYS,105462,241714,342835
+MMR,Asia,Myanmar,Myanmar,MMR,61822,199094,310928
+NCL,Asia,New Caledonia,New Caledonia,NCL,601,3015,5161
+PNG,Asia,Papua New Guinea,Papua New Guinea,PNG,34284,67660,138820
+PHL,Asia,Philippines,Philippines,PHL,36761,111400,237216
+SGP,Asia,Singapore,Singapore,SGP,68,172,348
+SLB,Asia,Solomon Isl.,Solomon Isl.,SLB,581,2094,4156
+LKA,Asia,Sri Lanka,Sri Lanka,LKA,8058,17701,34674
+THA,Asia,Thailand,Thailand,THA,21883,59849,101791
+TLS,Asia,Timor-Leste,Timor-Leste,TLS,206,1466,3255
+VUT,Asia,Vanuatu,Vanuatu,VUT,7,849,1890
+VNM,Asia,Vietnam,Vietnam,VNM,76668,128618,196107
