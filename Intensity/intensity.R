@@ -92,6 +92,7 @@ for (i in 1:length(continents)) {
 
 ## This vector data-set as been imported as a table in Google Earth Engine
 ## with id "users/ghislainv/deforintensity/ctry_grid".
+## Then gee_fcc.py has been executed.
 
 # ==============================
 # Import table obtained with GEE
@@ -138,29 +139,12 @@ names(d_df)[5:24] <- paste0("d", 2000:2019)
 write_delim(d_df, here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=",")
 
 # ==============================
-# Compute mean and 95% quantiles
+# Compute mean and 90% quantiles
 # Keep d in ha/yr here
 # ==============================
 
-# We assume defor+1 follows a logNormal distribution
-# !! log(x) not define in 0 => defor+1 
-
-# Functions
-# Mean and variance of log-normal variable
-# see: http://ww2.amstat.org/publications/jse/v13n1/olsson.html
-log_theta <- function (x) {
-	X <- log(x)
-	mu_X <- mean(X, na.rm=TRUE)
-	S2_X <- var(X, na.rm=TRUE)
-	return(mu_X+S2_X/2)
-}
-
-var_log_theta <- function (x) {
-	X <- log(x)
-	n <- length(x)
-	S2_X <- var(X, na.rm=TRUE)
-	return(S2_X/n + S2_X^2/(2*(n-1)))
-}
+# Load data
+d_df <- read_delim(here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=",")
 
 # Transform data in long format
 d_long <- d_df %>%
@@ -170,17 +154,15 @@ d_long <- d_df %>%
                       values_to="defor")
 
 # Compute mean and 90% confidence intervals of deforestation rates per country
-# t-distribution with n-1 = 9 degrees of freedom
 d_uncertainty <- d_long %>%
 	filter(year %in% c(2010:2019)) %>%
-  filter(area_code=="COM") %>%    # adding this
 	group_by(area_name) %>%
 	summarize(area_cont=unique(area_cont),
 	          area_ctry=unique(area_ctry),
 	          area_code=unique(area_code),
-	          d_mean=exp(log_theta(defor+1))-1,
-						d_min=exp(log_theta(defor+1)+qt(0.05,9)*sqrt(var_log_theta(defor+1)))-1,
-						d_max=exp(log_theta(defor+1)+qt(0.95,9)*sqrt(var_log_theta(defor+1)))-1,
+	          d_min=round(quantile(defor, 0.05)),
+	          d_mean=round(mean(defor)),
+						d_max=round(quantile(defor, 0.95)),
 						.groups="keep") %>%
   relocate(area_name, .before=area_code) %>%
   mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
@@ -197,24 +179,22 @@ write_delim(d_uncertainty, here("Intensity", "output", "d_uncertainty.csv"), del
 
 # Dataframe for histogram
 df_hist <- d_long %>%
-  mutate(defor=defor/1000)  # !! defor in Kha/yr !!
-
-# Dataframe for densities
-df_dens <- d_long %>%
   mutate(defor=defor/1000) %>% # !! defor in Kha/yr !!
-  mutate(ldefor=log(defor+1/1000)) %>% # !! defor+1/1000
-  group_by(area_code) %>%
-  summarise(meanlog=mean(ldefor, na.rm=TRUE),sdlog=sd(ldefor, na.rm=TRUE),
-            xmin=min(defor+1/1000),xmax=max(defor+1/1000), .groups="keep") %>%
-  do(data.frame(defor=seq(.$xmin,.$xmax,length.out=100)-1/1000, # !! -1/1000 here for backtransformation
-                logDens=dlnorm(seq(.$xmin,.$xmax,length.out=100),.$meanlog,.$sdlog)))
-
+  mutate(area_plot=ifelse(area_ctry=="India", paste0("IND-", area_code), area_code)) %>%
+  mutate(area_plot=ifelse(area_ctry=="Brazil", paste0("BRA-", area_code), area_plot)) %>%
+  mutate(cont_plot=ifelse(area_ctry=="Brazil", "Brazil", area_cont)) %>%
+  dplyr::filter(area_code!="STP")
+  
 # Dataframe for confidence interval
 df_ci <- d_uncertainty %>%
-  mutate(across(starts_with("d_"), function(.x){round(.x/1000, 3)}))
+  mutate(across(starts_with("d_"), function(.x){round(.x/1000, 3)})) %>%
+  mutate(area_plot=ifelse(area_ctry=="India", paste0("IND-", area_code), area_code)) %>%
+  mutate(area_plot=ifelse(area_ctry=="Brazil", paste0("BRA-", area_code), area_plot)) %>%
+  mutate(cont_plot=ifelse(area_ctry=="Brazil", "Brazil", area_cont)) %>%
+  dplyr::filter(area_code!="STP")
 
 # Some variables
-continents <- c("America", "Africa", "Asia")
+continents <- c("America", "Africa", "Asia", "Brazil")
 ncont <- length(continents)
 text_width <- 16.6
 fig_width <- text_width
@@ -224,23 +204,18 @@ for (i in 1:ncont) {
   
   # Continent
   cont <- continents[i]
-  # No country
-  noctry <- ifelse(cont=="America", "Brazil", "Sao Tome and P.")
-  
+
   # Dataframe for histogram
-  df_hist_cont <- df_hist %>%
-    dplyr::filter(area_cont==cont & area_ctry!=noctry)
+  df_hist_cont <- df_hist %>% dplyr::filter(cont_plot==cont)
   # Dataframe for confidence interval
-  df_ci_cont <- df_ci %>%
-    dplyr::filter(area_cont==cont & area_ctry!=noctry)
+  df_ci_cont <- df_ci %>% dplyr::filter(cont_plot==cont)
 
   # nctry and npages
-  study_areas <- unique(df_hist_cont$area_code)
+  study_areas <- unique(df_hist_cont$area_plot)
   nctry <- length(study_areas)
   npan_by_row <- 4  # Number of panels per row
-  npan_by_col <- npan_by_row
+  npan_by_col <- npan_by_row + 1
   npan_by_page <- npan_by_row*npan_by_col
-  fig_height <- (fig_width/npan_by_row)*npan_by_col
   npages <- ceiling(nctry/(npan_by_page))
 
   # List of countries per pages
@@ -251,66 +226,34 @@ for (i in 1:ncont) {
     area_list[[p]] <- study_areas[inf:sup]
   }
   
-  # Dataframe for densities
-  df_dens_cont <- df_dens %>%
-    dplyr::filter(area_code %in% study_areas)
-  
   # Loop on pages
   for (p in 1:npages) {
 
     # Select countries for page
-    df_hist_page <- df_hist_cont %>% dplyr::filter(area_code %in% area_list[[p]])
-    df_dens_page <- df_dens_cont %>% dplyr::filter(area_code %in% area_list[[p]])
-    df_ci_page <- df_ci_cont %>% dplyr::filter(area_code %in% area_list[[p]])
+    df_hist_page <- df_hist_cont %>% dplyr::filter(area_plot %in% area_list[[p]])
+    df_ci_page <- df_ci_cont %>% dplyr::filter(area_plot %in% area_list[[p]])
+    
+    # npan_in_page
+    npan_in_page <- length(unique(df_hist_page$area_plot))
+    nrow <- ceiling(npan_in_page/npan_by_row)
+    
+    # fig_height
+    fig_height <- (fig_width/npan_by_row)*nrow
     
     # Plot histograms of disturbance
-    p_hist <- ggplot(df_hist_page, aes(x=defor, group=area_code)) + 
+    p_hist <- ggplot(df_hist_page, aes(x=defor, group=area_plot)) + 
       geom_histogram(aes(y=..density..), bins=10, color=grey(0.5), fill="white") +
-      facet_wrap(~area_code, ncol=npan_by_row, nrow=npan_by_col, scales="free") +
-      # geom_line(data=df_dens_page, aes(x=defor-1/1000, y=logDens)) +  # !! here x=defor-1/1000 !!
+      facet_wrap(~area_plot, ncol=npan_by_row, nrow=nrow, scales="free") +
       geom_vline(data=df_ci_page, aes(xintercept=d_mean)) +
       geom_vline(data=df_ci_page, aes(xintercept=d_min), linetype="dashed") +
       geom_vline(data=df_ci_page, aes(xintercept=d_max), linetype="dashed") +
       xlab("Deforestation (Kha/yr)")
     
     # Save
-    ggsave(here("Intensity", "output", glue("hist_defor_{cont}_{p}.png")), p_hist, width=fig_width, height=fig_height, units="cm")
+    ggsave(here("Intensity", "output", glue("hist_defor_{cont}_{p}.png")),
+           p_hist,
+           width=fig_width, height=fig_height, units="cm")
   }
-  
 }
-
-# For Brazil
-cont <- "Brazil"
-# Dataframe for histogram
-df_hist <- d_long %>%
-  dplyr::filter(area_ctry=="Brazil") %>%
-  mutate(defor=defor/1000)  # !! defor in Kha/yr !!
-
-# Dataframe for densities
-df_dens <- d_long %>%
-  dplyr::filter(area_ctry=="Brazil") %>%
-  mutate(defor=defor/1000) %>% # !! defor in Kha/yr !!
-  mutate(ldefor=log(defor+1/1000)) %>%
-  group_by(area_code) %>%
-  summarise(meanlog=mean(ldefor, na.rm=TRUE),sdlog=sd(ldefor, na.rm=TRUE),
-            xmin=min(defor),xmax=max(defor), .groups="keep") %>%
-  do(data.frame(defor=seq(.$xmin,.$xmax,length.out=100),
-                logDens=dlnorm(seq(.$xmin,.$xmax,length.out=100),.$meanlog,.$sdlog)))
-
-# Dataframe for confidence interval
-df_ci <- d_uncertainty %>%
-  dplyr::filter(area_ctry=="Brazil") %>%
-  mutate(across(starts_with("d_"), function(.x){round(.x/1000, 3)}))
-
-# Plot histograms of disturbance
-p_hist <- ggplot(df_hist, aes(x=defor, group=area_code)) + 
-  geom_histogram(aes(y=..density..), bins=10, color=grey(0.5), fill="white") +
-  facet_wrap(~area_code, ncol=5, nrow=, scales="free") +
-  geom_line(data=df_dens, aes(y=logDens)) +
-  geom_vline(data=df_ci, aes(xintercept=d_mean)) +
-  geom_vline(data=df_ci, aes(xintercept=d_min), linetype="dashed") +
-  geom_vline(data=df_ci, aes(xintercept=d_max), linetype="dashed") +
-  xlab("Deforestation (Kha/yr)")
-ggsave(here("Intensity", "output", glue("hist_defor_{cont}.pdf")), p_hist, width=12, height=12)
 
 # EOF
