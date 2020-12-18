@@ -25,6 +25,8 @@ file_ctry_run = pkg_resources.resource_filename("forestatrisk",
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = data_ctry_run.loc[data_ctry_run["cont_run"] == "Brazil",
                          "iso3"].tolist()
+# Sort iso3 (checking)
+iso3.sort()
 nctry = len(iso3)  # 26
 
 # Loop on states to estimate the forest cover
@@ -70,30 +72,54 @@ ndates_fut = len(dates_fut)
 
 # Deforestation diffusion parameters
 forest_t0 = np.array(fcc_BRA["for2020"])
-T = 10.0
-andef = np.array((fcc_BRA["for2010"] - fcc_BRA["for2020"]) / T)
 t0 = 2020
 
-# Loop on dates
-for i in range(ndates_fut):
-    t = int(dates_fut[i])
-    defor_diff = far.deforest_diffusion(forest_t0=forest_t0,
-                                        t0=t0,
-                                        annual_defor=andef,
-                                        t=t)
-    fcc_BRA["for" + dates_fut[i]] = defor_diff["forest_t"]
-    fcc_BRA["defor" + dates_fut[i]] = defor_diff["defor_t0_t"]
+# Deforestation estimates with uncertainty
+f = os.path.expanduser("~/Code/forestatrisk-tropics/"
+                       "Intensity/output/d_uncertainty.csv")
+d_est = pd.read_csv(f)
 
-# No more forest
-defor_diff_t_nofor = far.deforest_diffusion_t_nofor(
-    forest_t0=forest_t0,
-    t0=t0,
-    annual_defor=andef)
-fcc_BRA["ny_zerof"] = defor_diff_t_nofor["ny"]
-fcc_BRA["yr_zerof"] = defor_diff_t_nofor["year"]
+# Take values for Brazil and **sort by iso3**
+d_est_BRA = d_est[d_est["area_ctry"] == "Brazil"].sort_values("iso3")
+# Check order
+# d_est_BRA["iso3"].tolist() == iso3
 
-# Save results
-os.chdir(owd)
-fcc_BRA.to_csv("fcc_BRA_jrc.csv", header=True, index=False)
+# Scenarios
+scenarios = ["mean", "min", "max"]
+nscen = len(scenarios)
+
+# Loop on scenarios
+for k in range(nscen):
+
+    scen = scenarios[k]
+
+    # Copy fcc_BRA
+    fcc_BRA_scen = fcc_BRA
+
+    # Annual deforestation
+    andef = d_est_BRA["d_" + scen].values
+
+    # Loop on dates
+    for i in range(ndates_fut):
+        t = int(dates_fut[i])
+        defor_diff = far.deforest_diffusion(forest_t0=forest_t0,
+                                            t0=t0,
+                                            annual_defor=andef,
+                                            t=t)
+        fcc_BRA_scen["for" + dates_fut[i]] = defor_diff["forest_t"]
+        fcc_BRA_scen["defor" + dates_fut[i]] = defor_diff["defor_t0_t"]
+
+    # No more forest
+    defor_diff_t_nofor = far.deforest_diffusion_t_nofor(
+        forest_t0=forest_t0,
+        t0=t0,
+        annual_defor=andef)
+    fcc_BRA_scen["ny_zerof"] = defor_diff_t_nofor["ny"]
+    fcc_BRA_scen["yr_zerof"] = defor_diff_t_nofor["year"]
+
+    # Save results
+    os.chdir(owd)
+    ofile = "fcc_BRA_jrc_{}.csv".format(scen)
+    fcc_BRA_scen.to_csv(ofile, header=True, index=False)
 
 # EOF

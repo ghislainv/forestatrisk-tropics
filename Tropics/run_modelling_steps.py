@@ -408,13 +408,23 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
         # Preparing
         # --------------------------------------------------------
 
-        # Make directory
         scen = scenarios[k]
+
+        # Make directory
         far.make_dir("output/" + scen)
 
-        # Mean annual deforestation rate (ha.yr-1)
+        # Annual deforested area (ha.yr-1)
         annual_defor = d_est.loc[d_est["iso3"] == iso3,
                                  "d_" + scen].values[0]
+
+        # For Brazil
+        if m is not None:
+            if (fcc_source == "jrc"):
+                ifile = "../fcc_BRA_jrc_{}.csv".format(scen)
+                fcc_BRA = pd.read_csv(ifile)
+            else:
+                ifile = "../fcc_BRA_gfc_{}.csv".format(scen)
+                fcc_BRA = pd.read_csv(ifile)
 
         # Dates and time intervals
         dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060",
