@@ -29,27 +29,27 @@ iso3 = data_ctry_run.loc[data_ctry_run["cont_run"] == "Brazil",
 iso3.sort()
 nctry = len(iso3)  # 26
 
-# Loop on states to estimate the forest cover
-for i in range(nctry):
-    # Message
-    print(iso3[i])
-    # Directory
-    os.chdir(os.path.join(owd, iso3[i]))
-    far.make_dir("output")
-    # Forest cover
-    fc = list()
-    dates = ["t1", "2005", "t2", "2015", "t3"]
-    ndates = len(dates)
-    for i in range(ndates):
-        rast = "data/forest/forest_" + dates[i] + ".tif"
-        val = far.countpix(input_raster=rast,
-                           value=1)
-        fc.append(val["area"])  # area in ha
-    # Save results to disk
-    f = open("output/forest_cover.txt", "w")
-    for i in fc:
-        f.write(str(i) + "\n")
-    f.close()
+# # Loop on states to estimate the forest cover
+# for i in range(nctry):
+#     # Message
+#     print(iso3[i])
+#     # Directory
+#     os.chdir(os.path.join(owd, iso3[i]))
+#     far.make_dir("output")
+#     # Forest cover
+#     fc = list()
+#     dates = ["t1", "2005", "t2", "2015", "t3"]
+#     ndates = len(dates)
+#     for i in range(ndates):
+#         rast = "data/forest/forest_" + dates[i] + ".tif"
+#         val = far.countpix(input_raster=rast,
+#                            value=1)
+#         fc.append(val["area"])  # area in ha
+#     # Save results to disk
+#     f = open("output/forest_cover.txt", "w")
+#     for i in fc:
+#         f.write(str(i) + "\n")
+#     f.close()
 
 # Create data-frame to store results
 fcc_BRA = pd.DataFrame({"iso3": iso3},
@@ -63,7 +63,7 @@ for i in range(nctry):
     # Read forest cover file
     fc = pd.read_csv("output/forest_cover.txt", header=None)
     # Fill in the table
-    fcc_BRA.loc[i, 1:] = fc.loc[:, 0].values.tolist()  # fc
+    fcc_BRA.iloc[i, 1:] = fc.iloc[:, 0].values.tolist()  # fc
 
 # Dates for future predictions
 dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060",
@@ -102,10 +102,11 @@ for k in range(nscen):
     # Loop on dates
     for i in range(ndates_fut):
         t = int(dates_fut[i])
-        defor_diff = far.deforest_diffusion(forest_t0=forest_t0,
-                                            t0=t0,
-                                            annual_defor=andef,
-                                            t=t)
+        defor_diff = far.deforest_diffusion(
+            forest_t0=forest_t0,
+            t0=t0,
+            annual_defor=andef.astype(np.float),
+            t=t)
         fcc_BRA_scen["for" + dates_fut[i]] = defor_diff["forest_t"]
         fcc_BRA_scen["defor" + dates_fut[i]] = defor_diff["defor_t0_t"]
 
