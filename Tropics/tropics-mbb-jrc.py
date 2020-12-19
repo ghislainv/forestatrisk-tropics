@@ -17,7 +17,7 @@
 import sys
 import os
 import shutil  # for rmtree
-import re  # regular expressions
+# import re  # regular expressions
 import pkg_resources
 import pandas as pd
 import forestatrisk as far
@@ -61,56 +61,43 @@ def run_country(iso3):
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
-    f = "data/forest/forest_t1.tif"
-    if os.path.exists(f) is not True:
+    # # Download data
+    # far.data.country_download(
+    #     iso3,
+    #     gdrive_remote_rclone="gdrive_gv",
+    #     gdrive_folder="GEE-forestatrisk-tropics-jrc-2020",
+    #     output_dir="data_raw")
 
-        # # Download data
-        # far.data.country_download(
-        #     iso3,
-        #     gdrive_remote_rclone="gdrive_gv",
-        #     gdrive_folder="GEE-forestatrisk-tropics-jrc-2020",
-        #     output_dir="data_raw")
+    # # Albers Equal Area projections
+    # if cont == "Africa":
+    #     proj = ("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 "
+    #             "+x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs")
+    # elif cont == "Asia":
+    #     proj = ("+proj=aea +lat_1=7 +lat_2=-32 +lat_0=-15 +lon_0=125 "
+    #             "+x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs")
+    # else:
+    #     proj = ("+proj=aea +lat_1=-5 +lat_2=-42 +lat_0=-32 +lon_0=-60 "
+    #             "+x_0=0 +y_0=0 +ellps=aust_SA +units=m no_defs")
 
-        # Download forest data
-        far.data.country_forest_download(
-            iso3,
-            gdrive_remote_rclone="gdrive_gv",
-            gdrive_folder="GEE-forestatrisk-tropics-jrc-2020",
-            output_dir="data_raw")
+    # # Compute variables
+    # far.data.country_compute(
+    #     iso3,
+    #     temp_dir="data_raw",
+    #     output_dir="data",
+    #     proj=proj,
+    #     data_country=True,
+    #     data_forest=True,
+    #     keep_temp_dir=True)
 
-        # Albers Equal Area projections
-        if cont == "Africa":
-            proj = ("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 "
-                    "+x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs")
-        elif cont == "Asia":
-            proj = ("+proj=aea +lat_1=7 +lat_2=-32 +lat_0=-15 +lon_0=125 "
-                    "+x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs")
-        else:
-            proj = ("+proj=aea +lat_1=-5 +lat_2=-42 +lat_0=-32 +lon_0=-60 "
-                    "+x_0=0 +y_0=0 +ellps=aust_SA +units=m no_defs")
-
-        # Compute variables
-        far.data.country_compute(
-            iso3,
-            temp_dir="data_raw",
-            output_dir="data",
-            proj=proj,
-            data_country=False,
-            data_forest=True,
-            keep_temp_dir=True)
-
-    # # If not Brazil
-    # p = re.compile("BRA-.*")
-    # m = p.match(iso3)
-    # if m is None:
-    #     # Model and Forecast
-    #     run_modelling_steps(iso3, fcc_source="jrc")
+    # Model and Forecast
+    run_modelling_steps(iso3, fcc_source="jrc")
 
     # Remove GDAL temp directory
     shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
 
     # Return country iso code
     return(iso3)
+
 
 # Run country
 run_country(iso3[index_ctry])

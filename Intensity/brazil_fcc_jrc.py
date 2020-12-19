@@ -29,27 +29,28 @@ iso3 = data_ctry_run.loc[data_ctry_run["cont_run"] == "Brazil",
 iso3.sort()
 nctry = len(iso3)  # 26
 
-# # Loop on states to estimate the forest cover
-# for i in range(nctry):
-#     # Message
-#     print(iso3[i])
-#     # Directory
-#     os.chdir(os.path.join(owd, iso3[i]))
-#     far.make_dir("output")
-#     # Forest cover
-#     fc = list()
-#     dates = ["t1", "2005", "t2", "2015", "t3"]
-#     ndates = len(dates)
-#     for i in range(ndates):
-#         rast = "data/forest/forest_" + dates[i] + ".tif"
-#         val = far.countpix(input_raster=rast,
-#                            value=1)
-#         fc.append(val["area"])  # area in ha
-#     # Save results to disk
-#     f = open("output/forest_cover.txt", "w")
-#     for i in fc:
-#         f.write(str(i) + "\n")
-#     f.close()
+# Loop on states to estimate the forest cover
+for i in range(nctry):
+    # Message
+    print(iso3[i])
+    # Directory
+    os.chdir(os.path.join(owd, iso3[i]))
+    far.make_dir("output")
+    if os.path.exists("output/forest_cover.txt") is not True:
+        # Forest cover
+        fc = list()
+        dates = ["t1", "2005", "t2", "2015", "t3"]
+        ndates = len(dates)
+        for i in range(ndates):
+            rast = "data/forest/forest_" + dates[i] + ".tif"
+            val = far.countpix(input_raster=rast,
+                               value=1)
+            fc.append(val["area"])  # area in ha
+        # Save results to disk
+        f = open("output/forest_cover.txt", "w")
+        for i in fc:
+            f.write(str(i) + "\n")
+        f.close()
 
 # Create data-frame to store results
 fcc_BRA = pd.DataFrame({"iso3": iso3},

@@ -143,6 +143,9 @@ write_delim(d_df, here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=
 # Keep d in ha/yr here
 # ==============================
 
+# Standard-error function
+se <- function(x, ...) sqrt(var(x, ...)/length(x))
+
 # Load data
 d_df <- read_delim(here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=",")
 
@@ -153,17 +156,22 @@ d_long <- d_df %>%
                       names_prefix="d",
                       values_to="defor")
 
+# Remove outliers for Comoros (beginning of the period, not enough obs)
+d_long <- d_long %>%
+  mutate(defor=ifelse(area_code=="COM" & defor==0, NA, defor))
+
 # Compute mean and 90% confidence intervals of deforestation rates per country
 d_uncertainty <- d_long %>%
-	filter(year %in% c(2010:2019)) %>%
+	filter(year %in% c(2009:2018)) %>%
 	group_by(area_name) %>%
 	summarize(iso3=unique(iso3),
 	          area_cont=unique(area_cont),
 	          area_ctry=unique(area_ctry),
 	          area_code=unique(area_code),
-	          d_min=round(quantile(defor, 0.05)),
-	          d_mean=round(mean(defor)),
-						d_max=round(quantile(defor, 0.95)),
+	          d_se=round(se(defor, na.rm=TRUE)),
+	          d_mean=round(mean(defor, na.rm=TRUE)),
+						d_min=round(mean(defor, na.rm=TRUE)-1.96*se(defor, na.rm=TRUE)),
+						d_max=round(mean(defor, na.rm=TRUE)+1.96*se(defor, na.rm=TRUE)),
 						.groups="keep") %>%
   relocate(area_name, .before=area_code) %>%
   mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
