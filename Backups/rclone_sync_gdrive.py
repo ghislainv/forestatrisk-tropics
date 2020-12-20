@@ -20,6 +20,11 @@ source_path = "/share/nas2-amap/gvieilledent/jrc2020"
 dest_path = "gdrive_gv:Work/forestatrisk-tropics/jrc2020"
 data_raw = "**/data_raw/**"
 data = "**/data/**"
-cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw, "--exclude", data, "--progress"]
+# cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw,
+#        "--exclude", data, "--progress"]
+cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw,
+       "--progress"]
 cmd = " ".join(cmd)
 subprocess.call(cmd, shell=True)
+
+# End

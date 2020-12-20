@@ -2,12 +2,12 @@
 #$ -S /bin/bash
 #$ -cwd
 #$ -j y
-#$ -l h_rt=012:00:00
+#$ -l h_rt=999:00:00
 #$ -pe multithread8 3
 #$ -N rcloneSync
 
 # load singularity
-module load singularity/3.5.3
+module load singularity
 
 # run python script inside container
 singularity exec --bind /share/nas2-amap/gvieilledent ~/Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Backups/rclone_sync_gdrive.py
