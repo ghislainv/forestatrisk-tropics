@@ -15,6 +15,7 @@ require(here)
 require(ggplot2)
 require(wesanderson)
 require(readr)
+require(glue)
 
 ## Set working directory
 setwd(here())
@@ -29,7 +30,7 @@ inv_logit <- function (x, min=0, max=1) {
 ## Dataset
 ##dataset <- "gfc2020_70" 
 dataset <- "jrc2020"
-dir.create(here("Analysis", dataset, "results"), recursive=TRUE)
+dir.create(here("Analysis", dataset), recursive=TRUE)
 
 ## Result directory
 dir_fdb <- "/home/forestatrisk-tropics"
@@ -87,8 +88,205 @@ data_allctry_tab <- data_allctry_tab %>%
   dplyr::mutate(dist_river=ifelse(iso3=="VIR" & dist_river==65535, NaN, dist_river))
 
 ## Save results
-f <- here("Analysis", dataset, "results", "data_allctry.csv")
+f <- here("Analysis", dataset, "data_allctry.csv")
 write.table(data_allctry_tab, file=f, sep=",", row.names=FALSE)
+
+## ===================
+## Forest cover change
+## ===================
+
+## Annual deforestation with uncertainty
+f <- here("Intensity", "output", "d_uncertainty.csv")
+d_ci <- read.table(f, sep=",", header=TRUE)
+d_ci <- d_ci %>%
+  select(area_code, d_se, d_mean, d_min, d_max)
+
+## Create table to store results
+fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=9))
+names(fcc_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", "for2000", "for2005", "for2010", "for2015", "for2020")
+
+## Loop on countries
+for (i in 1:nctry) {
+  ## File path
+  iso <- iso3[i]
+  continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+  dir <- file.path(dir_fdb, dataset, continent)
+  ## Area info
+  area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+  area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+  area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+  area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
+  ## Forest cover change
+  f_name <- file.path(dir, iso, "/output/forest_cover.txt")
+  fcc_df <- read.table(f_name, header=FALSE, sep=",", stringsAsFactors=FALSE)
+  area_df <- round(fcc_df[, 1])
+  ## Fill in the table
+  fcc_tab[i,1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
+  fcc_tab[i,5:9] <- area_df
+}
+
+## Join forest and deforestation tables
+fcc_tab2 <- fcc_tab %>%
+  dplyr::left_join(d_ci, by="area_code")
+
+## Uncertainty
+sim <- c("mean", "min", "max")
+nsim <- length(sim)
+
+## Loop on ci
+for (i in 1:nsim) {
+  
+  ## Simulation id
+  s <- sim[i]
+  d_s <- fcc_tab2[[glue("d_{s}")]]
+  
+  ## Annual defor
+  TI <- 2020-2010  ## Time-interval
+  fcc_tab3 <- fcc_tab2 %>%
+    mutate(andef=d_s) %>%
+    mutate(pdef=round(100*(1-(1-(andef*TI)/for2010)^(1/TI)), 1)) %>%
+    mutate(for2030=pmax(0, for2020-10*andef), for2035=pmax(0, for2020-15*andef),
+           for2040=pmax(0, for2020-20*andef),
+           for2050=pmax(0, for2020-30*andef), for2055=pmax(0, for2020-35*andef),
+           for2060=pmax(0, for2020-40*andef),
+           for2070=pmax(0, for2020-50*andef),
+           for2080=pmax(0, for2020-60*andef), for2085=pmax(0, for2020-65*andef),
+           for2090=pmax(0, for2020-70*andef),
+           for2100=pmax(0, for2020-80*andef)) %>%
+    # Year during which forest will have disappeared
+    mutate(yrdis=floor(2020 + for2020/andef))
+  
+  ## Corrections for Brazil with deforestation diffusion
+  if (dataset=="gfc2020_70") {
+    fname_BRA <- glue("Brazil/fcc_BRA_gfc_{s}.csv")
+  } else if (dataset=="jrc2020") {
+    fname_BRA <- glue("Brazil/fcc_BRA_jrc_{s}.csv")
+  }
+  fcc_BRA <- read.table(file.path(dir_fdb, dataset, fname_BRA), sep=",",
+                        header=TRUE, stringsAsFactors=FALSE)
+  ## Check order and replace with correct values for Brazil
+  codes_fcc <- paste0("BRA-",fcc_tab3$area_code[fcc_tab3$area_ctry=="Brazil"])
+  codes_BRA <- fcc_BRA$iso3
+  if (all(codes_fcc==codes_BRA)) {
+    fcc_tab3[fcc_tab3$area_ctry=="Brazil", c(16:ncol(fcc_tab3))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
+  }
+  
+  ## Sort continents, and select col
+  fcc_tab4 <- fcc_tab3 %>%
+    # Id
+    mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    arrange(id, area_name) %>%
+    # Select columns
+    dplyr::select(area_cont, area_ctry, area_name, area_code, for2000:yrdis)
+  
+  ## Save results
+  f_name <- glue("forest_cover_change_{s}.csv")
+  f <- here("Analysis", dataset, f_name)
+  write.table(fcc_tab4, file=f, sep=",", row.names=FALSE)
+  ## Copy for manuscript
+  f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
+  file.copy(from=f, to=f_doc, overwrite=TRUE)
+  ## Copy for data
+  f_doc <- here("Manuscript", "Supplementary_Data", "tables", f_name)
+  file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+}
+
+## ====================================================
+## Forest cover change summarized per region
+## ====================================================
+
+## Uncertainty
+sim <- c("mean", "min", "max")
+nsim <- length(sim)
+
+## Loop on ci
+for (i in 1:nsim) {
+  
+  ## Simulation id
+  s <- sim[i]
+
+  ## Load previous fcc table
+  f <- here("Analysis", dataset, glue("forest_cover_change_{s}.csv"))
+  fcc_df <- read.table(f, header=TRUE, sep=",")
+  fcc_df <- fcc_df %>%
+    select(-d_se, -d_mean, -d_min, -d_max)
+  
+  ## For each continent
+  fcc_cont <- fcc_df %>%
+    dplyr::group_by(area_cont) %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::mutate(id_cont=c(2, 1, 3)) %>%
+    dplyr::arrange(id_cont) %>%
+    dplyr::select(-id_cont) %>%
+    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+    dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
+  
+  ## For all continents
+  fcc_all <- fcc_df %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::mutate(area_cont="All continents") %>%
+    dplyr::relocate(area_cont, .before=for2000_sum) %>%
+    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+    dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
+  
+  ## For Brazil
+  fcc_bra <- fcc_df %>%
+    dplyr::filter(area_ctry=="Brazil") %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::rename(area_cont=area_ctry) %>%
+    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+    dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
+  
+  ## For India
+  fcc_ind <- fcc_df %>%
+    dplyr::filter(area_ctry=="India") %>%
+    dplyr::group_by(area_ctry) %>%
+    dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
+    dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
+    dplyr::rename(area_cont=area_ctry) %>%
+    dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
+    dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
+  
+  ## DRC and Indonesia
+  fcc_DRC_IDN <- fcc_df %>% 
+    dplyr::filter(area_ctry %in% c("DRC", "Indonesia")) %>%
+    dplyr::select(area_ctry, for2000:andef, for2030:for2100, yrdis) %>%
+    dplyr::rename(area_cont=area_ctry)
+  
+  ## Combine
+  TI <- 2020-2010  ## Time-interval
+  fcc_comb <- fcc_ind %>%
+    # Add DRC and Indonesia
+    dplyr::bind_rows(fcc_DRC_IDN) %>%
+    # Add Brazil
+    dplyr::bind_rows(fcc_bra) %>%
+    # Add continents
+    dplyr::bind_rows(fcc_cont) %>%
+    dplyr::bind_rows(fcc_all) %>%
+    # Compute pdef
+    dplyr::mutate(pdef=round(100*(1-(1-(andef*TI)/for2010)^(1/TI)), 1)) %>%
+    # Compute loss21
+    dplyr::mutate(loss21=100*(for2000-for2100)/for2000) %>%
+    # Arrange columns
+    dplyr::relocate(pdef, .after=andef) %>%
+    dplyr::relocate(loss21, .before=yrdis)
+  
+  ## Save result
+  f_name <- glue("fcc_hist_region_{s}.csv")
+  f <- here("Analysis", dataset, f_name)
+  write.table(fcc_comb, file=f, sep=",", row.names=FALSE)
+  ## Copy for manuscript
+  f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
+  file.copy(from=f, to=f_doc, overwrite=TRUE)
+  f_doc <- here("Manuscript", "Article", "tables", f_name)
+  file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+}
 
 ## =================
 ## Model performance
@@ -143,7 +341,7 @@ for (i in 1:nctry) {
 
 ## Performance per continent
 ## 1. Weighted percentage with forest size in 2010
-fcc_tab <- read.table(here("Analysis", dataset, "results", "forest_cover_change.csv"),
+fcc_tab <- read.table(here("Analysis", dataset, "forest_cover_change_mean.csv"),
                       header=TRUE, sep=",")
 weights <- rep(fcc_tab$for2010, each=3)
 ## 2. Summarize per mod
@@ -166,9 +364,9 @@ perf_cont_mod <- ind_tab %>%
     dplyr::select(-cont_id)
 
 ## Save results
-f1 <- here("Analysis", dataset, "results", "performance_index.csv")
-f2 <- here("Analysis", dataset, "results", "perf_mod.csv")
-f3 <- here("Analysis", dataset, "results", "perf_cont_mod.csv")
+f1 <- here("Analysis", dataset, "performance_index.csv")
+f2 <- here("Analysis", dataset, "perf_mod.csv")
+f3 <- here("Analysis", dataset, "perf_cont_mod.csv")
 write.table(ind_tab, file=f1, sep=",", row.names=FALSE)
 write.table(perf_mod, file=f2, sep=",", row.names=FALSE)
 write.table(perf_cont_mod, file=f3, sep=",", row.names=FALSE)
@@ -226,168 +424,10 @@ samp_size_tab2 <- samp_size_tab %>%
             nfor=sum(.$nfor), ndef=sum(.$ndef), nforHa=sum(.$nforHa), ndefHa=sum(.$ndefHa))
 
 ## Save results
-f <- here("Analysis", dataset, "results", "samp_size.csv")
+f <- here("Analysis", dataset, "samp_size.csv")
 write.table(samp_size_tab2, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "samp_size.csv")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
-
-## ===================
-## Forest cover change
-## ===================
-
-## Create table to store results
-fcc_tab <- data.frame(matrix(NA, nrow=nctry, ncol=9))
-names(fcc_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", "for2000", "for2005", "for2010", "for2015", "for2020")
-
-## Loop on countries
-for (i in 1:nctry) {
-    ## File path
-    iso <- iso3[i]
-    continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-    dir <- file.path(dir_fdb, dataset, continent)
-    ## Area info
-    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
-    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
-    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
-    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
-    ## Forest cover change
-    f_name <- file.path(dir, iso, "/output/forest_cover.txt")
-    fcc_df <- read.table(f_name, header=FALSE, sep=",", stringsAsFactors=FALSE)
-    area_df <- round(fcc_df[, 1])
-    ## Fill in the table
-    fcc_tab[i,1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
-    fcc_tab[i,5:9] <- area_df
-}
-
-## Annual defor
-TI <- 2020-2010  ## Time-interval
-fcc_tab2 <- fcc_tab %>%
-    mutate(andef=round((for2010-for2020)/TI)) %>%
-    mutate(pdef=round(100*(1-(1-(for2010-for2020)/for2010)^(1/TI)), 1)) %>%
-    mutate(for2030=pmax(0, for2020-10*andef), for2035=pmax(0, for2020-15*andef),
-           for2040=pmax(0, for2020-20*andef),
-           for2050=pmax(0, for2020-30*andef), for2055=pmax(0, for2020-35*andef),
-           for2060=pmax(0, for2020-40*andef),
-           for2070=pmax(0, for2020-50*andef),
-           for2080=pmax(0, for2020-60*andef), for2085=pmax(0, for2020-65*andef),
-           for2090=pmax(0, for2020-70*andef),
-           for2100=pmax(0, for2020-80*andef)) %>%
-    # Year during which forest will have disappeared
-    mutate(yrdis=floor(2020 + for2020/andef))
-
-## Corrections for Brazil with deforestation diffusion
-if (dataset=="gfc2020_70") {
-    fname_BRA <- "Brazil/fcc_BRA_gfc.csv"
-} else if (dataset=="jrc2020") {
-    fname_BRA <- "Brazil/fcc_BRA_jrc.csv"
-}
-fcc_BRA <- read.table(file.path(dir_fdb, dataset, fname_BRA), sep=",",
-                      header=TRUE, stringsAsFactors=FALSE)
-## Check order and replace with correct values for Brazil
-codes_fcc <- paste0("BRA-",fcc_tab2$area_code[fcc_tab2$area_ctry=="Brazil"])
-codes_BRA <- fcc_BRA$iso3
-if (all(codes_fcc==codes_BRA)) {
-    fcc_tab2[fcc_tab2$area_ctry=="Brazil", c(12:ncol(fcc_tab2))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
-}
-
-## Sort continents, and select col
-fcc_tab3 <- fcc_tab2 %>%
-    # Id
-    mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
-    arrange(id, area_name) %>%
-    # Select columns
-    dplyr::select(area_cont, area_ctry, area_name, area_code, for2000:yrdis)
-
-## Save results
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
-write.table(fcc_tab3, file=f, sep=",", row.names=FALSE)
-## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "forest_cover_change.csv")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
-## Copy for data
-f_doc <- here("Manuscript", "Data", "tables", "forest_cover_change.csv")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
-
-## ====================================================
-## Forest cover change summarized per region
-## ====================================================
-
-## Load previous fcc table
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
-fcc_df <- read.table(f, header=TRUE, sep=",")
-
-## For each continent
-fcc_cont <- fcc_df %>%
-  dplyr::group_by(area_cont) %>%
-  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-  dplyr::select(area_cont, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-  dplyr::mutate(id_cont=c(2, 1, 3)) %>%
-  dplyr::arrange(id_cont) %>%
-  dplyr::select(-id_cont) %>%
-  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
-  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
-
-## For all continents
-fcc_all <- fcc_df %>%
-  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-  dplyr::select(for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-  dplyr::mutate(area_cont="All continents") %>%
-  dplyr::relocate(area_cont, .before=for2000_sum) %>%
-  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
-  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
-
-## For Brazil
-fcc_bra <- fcc_df %>%
-  dplyr::filter(area_ctry=="Brazil") %>%
-  dplyr::group_by(area_ctry) %>%
-  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-  dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-  dplyr::rename(area_cont=area_ctry) %>%
-  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
-  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
-
-## For India
-fcc_ind <- fcc_df %>%
-  dplyr::filter(area_ctry=="India") %>%
-  dplyr::group_by(area_ctry) %>%
-  dplyr::summarise_if(is.numeric, list(sum=sum, max=max)) %>%
-  dplyr::select(area_ctry, for2000_sum:andef_sum, for2030_sum:for2100_sum, yrdis_max) %>%
-  dplyr::rename(area_cont=area_ctry) %>%
-  dplyr::rename_at(.vars=vars(starts_with("for")), .funs=substr, start=1, stop=7) %>%
-  dplyr::rename(andef=andef_sum, yrdis=yrdis_max)
-
-## DRC and Indonesia
-fcc_DRC_IDN <- fcc_df %>% 
-  dplyr::filter(area_ctry %in% c("DRC", "Indonesia")) %>%
-  dplyr::select(area_ctry, for2000:andef, for2030:for2100, yrdis) %>%
-  dplyr::rename(area_cont=area_ctry)
-
-## Combine
-TI <- 2020-2010  ## Time-interval
-fcc_comb <- fcc_ind %>%
-    # Add DRC and Indonesia
-    dplyr::bind_rows(fcc_DRC_IDN) %>%
-    # Add Brazil
-    dplyr::bind_rows(fcc_bra) %>%
-    # Add continents
-    dplyr::bind_rows(fcc_cont) %>%
-    dplyr::bind_rows(fcc_all) %>%
-    # Compute pdef
-    dplyr::mutate(pdef=round(100*(1-(1-(for2010-for2020)/for2010)^(1/TI)), 1)) %>%
-    # Compute loss21
-    dplyr::mutate(loss21=100*(for2000-for2100)/for2000) %>%
-    # Arrange columns
-    dplyr::relocate(pdef, .after=andef) %>%
-    dplyr::relocate(loss21, .before=yrdis)
-
-## Save results
-f <- here("Analysis", dataset, "results", "fcc_hist_region.csv")
-write.table(fcc_comb, file=f, sep=",", row.names=FALSE)
-## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "fcc_hist_region.csv")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
-f_doc <- here("Manuscript", "Article", "tables", "fcc_hist_region.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ===================================================
@@ -395,12 +435,12 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ===================================================
 
 ## Sample size
-f <- here("Analysis", dataset, "results", "samp_size.csv")
+f <- here("Analysis", dataset, "samp_size.csv")
 samp_size <- read_delim(f, delim=",") %>%
   dplyr::filter(area_cont!="All continents")
 
 ## Forest cover
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change_mean.csv")
 fcc_tab <- read_delim(f, delim=",")
 
 ## nsamp_est function
@@ -426,7 +466,7 @@ samp_df <- samp_size %>%
 library(purrr)  # for map() function
 library(tidyr)  # for nest() function
 set.seed(4321)
-f <- here("Analysis", dataset, "results", "data_allctry.csv")
+f <- here("Analysis", dataset, "data_allctry.csv")
 data_allctry <- read_delim(f, delim=",")
 data_allctry_prop <- data_allctry %>%
   group_by(area_code) %>%
@@ -439,7 +479,7 @@ data_allctry_prop <- data_allctry %>%
   unnest(samp)
 
 ## Save balanced data-set
-f <- here("Analysis", dataset, "results", "data_allctry_prop.csv")
+f <- here("Analysis", dataset, "data_allctry_prop.csv")
 write_delim(data_allctry_prop, f, delim=",")
 
 ## ===============================================
@@ -447,7 +487,7 @@ write_delim(data_allctry_prop, f, delim=",")
 ## ===============================================
 
 ## Load previous fcc table
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_df <- read.table(f, header=TRUE, sep=",")
 
 ## All study-areas
@@ -509,7 +549,7 @@ fc_perc_cont <- fc_cont %>%
     dplyr::mutate(perc=100*(fc[year==2000]-fc)/fc[year==2000]) %>%
     dplyr::ungroup()
 ## Save results
-f <- here("Analysis", dataset, "results", "perc_loss_cont.csv")
+f <- here("Analysis", dataset, "perc_loss_cont.csv")
 write.table(fc_perc_cont, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "perc_loss_cont.csv")
@@ -520,7 +560,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ====================================
 
 ## Load data
-f <- here("Analysis", dataset, "results", "perc_loss_cont.csv")
+f <- here("Analysis", dataset, "perc_loss_cont.csv")
 fc_perc_cont <- read.table(f, header=TRUE, sep=",")
 df_hist <- fc_perc_cont %>%
     dplyr::filter(year %in% c(2000, 2010, 2020))
@@ -550,7 +590,7 @@ p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
     theme_bw() + mytheme
 
 ## Save results
-f <- here("Analysis", dataset, "results", "perc_loss_cont.png")
+f <- here("Analysis", dataset, "perc_loss_cont.png")
 ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
@@ -665,7 +705,7 @@ fc_proj_regions <- fcc_ind %>%
     dplyr::bind_rows(fc_proj_allcont)
     
 ## Save results
-f <- here("Analysis", dataset, "results", "fcc_proj_region.csv")
+f <- here("Analysis", dataset, "fcc_proj_region.csv")
 write.table(fc_proj_regions, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "fcc_proj_region.csv")
@@ -717,7 +757,7 @@ par_tab <- par_tab %>%
     dplyr::select(-id)
 
 ## Save results
-f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
+f <- here("Analysis", dataset, "parameter_estimates.csv")
 write.table(par_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "parameter_estimates.csv")
@@ -728,11 +768,11 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## =============================================
 
 ## Load parameter estimates
-f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
+f <- here("Analysis", dataset, "parameter_estimates.csv")
 par_tab <- read.table(f, header=TRUE, sep=",")
 
 ## Add forest cover in 2100
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 par_tab <- par_tab %>%
     dplyr::mutate(for2010=fcc_tab$for2010) %>%
@@ -795,7 +835,7 @@ par_regions <- par_ind %>%
     dplyr::bind_rows(par_all)
 
 ## Save results
-f <- here("Analysis", dataset, "results", "weighted_param_region.csv")
+f <- here("Analysis", dataset, "weighted_param_region.csv")
 write.table(par_regions, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "weighted_param_region.csv")
@@ -845,7 +885,7 @@ mean_sd_tab <- mean_sd_tab %>%
     dplyr::select(-id)
 
 ## Save results
-f <- here("Analysis", dataset, "results", "mean_sd_var.csv")
+f <- here("Analysis", dataset, "mean_sd_var.csv")
 write.table(mean_sd_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "mean_sd_var.csv")
@@ -856,12 +896,12 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ==========================
 
 ## Mean and sd
-f <- here("Analysis", dataset, "results", "mean_sd_var.csv")
+f <- here("Analysis", dataset, "mean_sd_var.csv")
 df_mu_sd <- read.table(f, header=TRUE, sep=",")
 head(df_mu_sd)
 
 ## Parameter estimates
-f <- here("Analysis", dataset, "results", "parameter_estimates.csv")
+f <- here("Analysis", dataset, "parameter_estimates.csv")
 df_par <- read.table(f, header=TRUE, sep=",")
 head(df_par)
   
@@ -882,7 +922,7 @@ for (i in 1:7) {
 df_bt_par$int <- intercept
 
 ## Save results
-f <- here("Analysis", dataset, "results", "backtransformed_parameters.csv")
+f <- here("Analysis", dataset, "backtransformed_parameters.csv")
 write.table(df_bt_par, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "backtransformed_parameters.csv")
@@ -893,11 +933,11 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ==============================================================
 
 ## Load parameter estimates
-f <- here("Analysis", dataset, "results", "backtransformed_parameters.csv")
+f <- here("Analysis", dataset, "backtransformed_parameters.csv")
 par_tab <- read.table(f, header=TRUE, sep=",")
 
 ## Add forest cover in 2100
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 par_tab <- par_tab %>%
     dplyr::mutate(for2010=fcc_tab$for2010) %>%
@@ -960,7 +1000,7 @@ par_regions <- par_ind %>%
     dplyr::bind_rows(par_all)
 
 ## Save results
-f <- here("Analysis", dataset, "results", "backtransformed_weighted_param_region.csv")
+f <- here("Analysis", dataset, "backtransformed_weighted_param_region.csv")
 write.table(par_regions, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables",
@@ -974,7 +1014,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ##-- Distance to road and forest edge --##
 
 ## Load data
-f <- here("Analysis", dataset, "results", "data_allctry_prop.csv")
+f <- here("Analysis", dataset, "data_allctry_prop.csv")
 data <- read_delim(f, delim=",")
 
 ## Percentiles
@@ -1081,7 +1121,7 @@ p_pa <- ggplot(aes(x=pa, y=icar), data=theta_pa) +
 ##-- Arrange and save plots --##
 library(gridExtra)
 textwidth <- 16.6
-f <- here("Analysis", dataset, "results", "proba-var.png")
+f <- here("Analysis", dataset, "proba-var.png")
 png(filename=f, width=textwidth, height=textwidth*0.6, units="cm", res=300)
 grid.arrange(p_pa, p_dist, ncol=2, nrow=1, widths=c(1.5, 3), heights=c(1))
 dev.off()
@@ -1114,7 +1154,7 @@ row.names(corr) <- colnames(corr)
 ## Palette
 pal <- wes_palette("Moonrise2")
 ## Plot
-f <- here("Analysis", dataset, "results", "corr-var.png")
+f <- here("Analysis", dataset, "corr-var.png")
 png(filename=f, width=textwidth, height=0.6*textwidth, units="cm", res=300)
 ggcorrplot(corr, hc.order = TRUE, type = "lower",
    outline.col = "white", lab=TRUE, legend.title="Correlation",
@@ -1164,7 +1204,7 @@ parea_tab <- parea_tab %>%
     dplyr::select(-id)
 
 ## Add forest cover in 2100
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 parea_tab <- parea_tab %>%
     dplyr::mutate(for2010=fcc_tab$for2010) %>%
@@ -1215,14 +1255,14 @@ road_tab <- road_tab %>%
     dplyr::select(-id)
 
 ## Add forest cover in 2100
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 road_tab <- road_tab %>%
     dplyr::mutate(for2010=fcc_tab$for2010) %>%
     dplyr::relocate(for2010, .after=area_code)
 
 ## Save results
-f <- here("Analysis", dataset, "results", "road_estimates.csv")
+f <- here("Analysis", dataset, "road_estimates.csv")
 write.table(road_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "road_estimates.csv")
@@ -1250,7 +1290,7 @@ sum_sign_PA <- sum(parea_tab$sign==1)
 ## Percentage of countries for which the effet of protected areas is significant
 perc_sign_PA <- 100*sum_sign_PA/nrow(parea_tab)
 ## Weighted percentage with forest size in 2010
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 weights <- fcc_tab$for2010
 perc_sign_w_PA <- 100*sum((parea_tab$sign==1)*weights)/sum(weights)
@@ -1263,7 +1303,7 @@ sum_sign_road <- sum(road_tab$sign==1)
 ## Percentage of countries for which the effet of roads is significant
 perc_sign_road <- 100*sum_sign_road/nrow(road_tab)
 ## Weighted percentage with forest size in 2010
-f <- here("Analysis", dataset, "results", "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 weights <- fcc_tab$for2010
 perc_sign_w_road <- 100*sum((road_tab$sign==1)*weights)/sum(weights)
@@ -1277,7 +1317,7 @@ sign_PA_road <- data.frame(var=c("PA","road"), nctry=nctry, nctry_sign=nctry_sig
                            perc=round(perc), perc_w=round(perc_w))
 
 ## Save results
-f <- here("Analysis", dataset, "results", "sign_PA_road.csv")
+f <- here("Analysis", dataset, "sign_PA_road.csv")
 write.table(sign_PA_road, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "sign_PA_road.csv")
@@ -1317,7 +1357,7 @@ Cem_tab <- Cem_tab %>%
     dplyr::select(-id)
 
 ## Save results
-f <- here("Analysis", dataset, "results", "C_emissions.csv")
+f <- here("Analysis", dataset, "C_emissions.csv")
 write.table(Cem_tab, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_emissions.csv")
@@ -1331,7 +1371,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ========================
 
 ## Load data
-f <- here("Analysis", dataset, "results", "C_emissions.csv")
+f <- here("Analysis", dataset, "C_emissions.csv")
 Cem_tab <- read.table(f, header=TRUE, sep=",")
 
 ## Summarize results
@@ -1344,7 +1384,7 @@ Cem_tab2 <- Cem_tab %>%
     mutate(across(C2020:C2100, function(x){x*1e-9}))  # Results in PgC
 
 ## Save results
-f <- here("Analysis", dataset, "results", "C_emissions_summary.csv")
+f <- here("Analysis", dataset, "C_emissions_summary.csv")
 write.table(Cem_tab2, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_emissions_summary.csv")
@@ -1382,7 +1422,7 @@ C_trend <- Cem_tab2 %>%
 ## The result is that forests will likely become a major C source in the future. 
 
 ## Save results
-f <- here("Analysis", dataset, "results", "C_trend.csv")
+f <- here("Analysis", dataset, "C_trend.csv")
 write.table(C_trend, file=f, sep=",", row.names=FALSE)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "C_trend.csv")
@@ -1427,7 +1467,7 @@ p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont), data=C_hist) +
   theme_bw() + mytheme
 
 ## Save results
-f <- here("Analysis", dataset, "results", "C_trend.png")
+f <- here("Analysis", dataset, "C_trend.png")
 ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Article", "figures",
@@ -1447,7 +1487,7 @@ df2 <- df %>%
   dplyr::summarize(Plants=sum(Plants_E), Vertebrates=sum(Birds_E, Reptiles_E, Amphibians_E, Freshwater_fishes_E, Mammals_E))
 
 ## Save results
-f <- here("Analysis", dataset, "results", "species_loss.csv")
+f <- here("Analysis", dataset, "species_loss.csv")
 write_delim(df2, f, delim=",")
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "species_loss.csv")
