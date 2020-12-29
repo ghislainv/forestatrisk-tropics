@@ -123,7 +123,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # Starting values
     beta_start = 0.0 if iso3 == "MEX" else -99  # For MCMC convergence
     # Priors
-    priorVrho = 10.0 if iso3 == "ATG" else -1  # -1="1/Gamma"
+    priorVrho = 10.0 if iso3 in ["ATG", "SXM"] else -1  # -1="1/Gamma"
     # Remove obs on island with too high dist_defor for BRA-RN
     if iso3 == "BRA-RN":
         dataset = dataset.loc[dataset["dist_defor"] <= 10000]

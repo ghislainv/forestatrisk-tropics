@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -j y
 #$ -l h_rt=999:00:00
-#$ -t 1-120 -tc 20
+#$ -t 66 -tc 20
 #$ -pe multithread8 3
 #$ -N farTrop
 

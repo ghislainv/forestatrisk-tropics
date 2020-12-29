@@ -772,7 +772,7 @@ f <- here("Analysis", dataset, "parameter_estimates.csv")
 par_tab <- read.table(f, header=TRUE, sep=",")
 
 ## Add forest cover in 2100
-f <- here("Analysis", dataset, "forest_cover_change.csv")
+f <- here("Analysis", dataset, "forest_cover_change_mean.csv")
 fcc_tab <- read.table(f, header=TRUE, sep=",")
 par_tab <- par_tab %>%
     dplyr::mutate(for2010=fcc_tab$for2010) %>%

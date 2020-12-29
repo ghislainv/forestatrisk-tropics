@@ -30,6 +30,7 @@ Manuscript/Article/doc/article.pdf
 !Manuscript/Supplementary_Materials/figures/*.png
 !Manuscript/Article/figures/*.png
 !Analysis/*/results/*.png
+!Analysis/*/*.png
 *.svg
 
 # Data
