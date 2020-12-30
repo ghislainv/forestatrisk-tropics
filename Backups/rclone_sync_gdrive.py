@@ -22,8 +22,9 @@ data_raw = "**/data_raw/**"
 data = "**/data/**"
 # cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw,
 #        "--exclude", data, "--progress"]
-cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw,
-       "--progress"]
+# cmd = ["rclone", "sync", source_path, dest_path, "--exclude", data_raw,
+#        "--progress"]
+cmd = ["rclone", "sync", source_path, dest_path, "--progress"]
 cmd = " ".join(cmd)
 subprocess.call(cmd, shell=True)
 

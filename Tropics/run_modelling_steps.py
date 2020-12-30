@@ -50,8 +50,12 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # Sample points
     # ========================================================
 
+    # Grid cell size
+    csize = 1 if iso3 == "SXM" else 10
+
+    # Sample
     dataset = far.sample(nsamp=10000, adapt=True,
-                         seed=1234, csize=10,
+                         seed=1234, csize=csize,
                          var_dir="data",
                          input_forest_raster="fcc23.tif",
                          output_file="output/sample.txt",
@@ -107,7 +111,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # ========================================================
 
     # Spatial cells for spatial-autocorrelation
-    nneigh, adj = far.cellneigh(raster="data/fcc23.tif", csize=10, rank=1)
+    nneigh, adj = far.cellneigh(raster="data/fcc23.tif", csize=csize, rank=1)
 
     # List of variables
     variables = ["C(pa)", "scale(altitude)", "scale(slope)",
@@ -294,7 +298,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # Interpolate
     far.interpolate_rho(rho=rho, input_raster="data/fcc23.tif",
                         output_file="output/rho.tif",
-                        csize_orig=10, csize_new=1)
+                        csize_orig=csize, csize_new=1)
 
     # ========================================================
     # Predicting spatial probability of deforestation
