@@ -1479,6 +1479,12 @@ for (j in 1:nsim) {
 ## Friedlingstein, P. et al. Update on CO2 emissions. Nature Geosci. 3, 811–812 (2010).
 ## Le Quéré, C. et al. Trends in the sources and sinks of carbon dioxide. Nature Geosci. 2, 831–836 (2009).
 
+## ====================================
+## Plot for cumulative carbon emissions
+## ====================================
+
+# !! TODO !!
+
 ## ======================
 ## Carbon emission trends
 ## ======================
