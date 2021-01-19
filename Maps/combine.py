@@ -12,8 +12,8 @@
 # Imports
 import sys
 import os
-os.chdir("/home/ghislain/Code/forestatrisk-tropics/Maps/")
-#os.chdir("/home/gvieilledent/Code/forestatrisk-tropics/Maps/")
+# os.chdir("/home/ghislain/Code/forestatrisk-tropics/Maps/")
+os.chdir("/home/gvieilledent/Code/forestatrisk-tropics/Maps/")
 import subprocess
 import forestatrisk as far
 import matplotlib.pyplot as plt
@@ -29,10 +29,11 @@ ncont = len(continent)
 
 # Directories
 dataset = "jrc2020"
-rdir = "/home/forestatrisk-tropics/" + dataset
-#rdir = "/share/nas2-amap/gvieilledent/" + dataset
+# rdir = "/home/forestatrisk-tropics/" + dataset
+rdir = "/share/nas2-amap/gvieilledent/" + dataset
 
 index_cont = int(sys.argv[1])-1
+
 
 # run_combine
 def run_combine(index_cont):
@@ -108,7 +109,8 @@ def run_combine(index_cont):
     # COG
     tif2cog(input_file_list="list_tif.txt", output_file="prob.tif", num_threads=8)
     # Resample at 500m
-    subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -tap -r near -tr 500 500 -co 'COMPRESS=DEFLATE' \
+    subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -t_srs EPSG:3395 \
+    -tap -r near -tr 500 500 -co 'COMPRESS=DEFLATE' \
     -co 'PREDICTOR=2' -co 'BIGTIFF=YES' prob.tif prob_500m.tif", shell=True)
     # Plot
     prob = far.plot.prob("prob_500m.tif", output_file="prob.png",
@@ -123,8 +125,8 @@ def run_combine(index_cont):
     # ====================
 
     # Dates
-    dates_fut = [2030, 2035, 2040, 2050, 2055, 2060, 2070, 2080, 2085, 2090, 2100]
-    #dates_fut = [2050, 2085, 2100]
+    dates_fut = [2030, 2035, 2040, 2050, 2055, 2060,
+                 2070, 2080, 2085, 2090, 2100]
     ndates_fut = len(dates_fut)
 
     # Loop on dates
@@ -132,14 +134,15 @@ def run_combine(index_cont):
         # Date
         d = str(dates_fut[j])
         #
-        if not os.path.isfile("fcc_" + d + ".tif") :
+        if not os.path.isfile("fcc_" + d + ".tif"):
             # List of tif files
             cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*fcc_" + d + ".tif$' > list_tif.txt"
             subprocess.call(cmd, shell=True)
             # COG
             tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + ".tif", num_threads=8)
             # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
+            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -t_srs EPSG:3395 \
+            -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
             -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + ".tif fcc_" + d + "_500m.tif", shell=True)
             # Plot
             fcc = far.plot.fcc("fcc_" + d + "_500m.tif", output_file="fcc_" + d + ".png",

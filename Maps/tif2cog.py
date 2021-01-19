@@ -18,10 +18,12 @@ import subprocess
 
 
 # tif2cog
-def tif2cog(input_file_list, output_file, levels=6, num_threads=10, cachemax=4096):
+def tif2cog(input_file_list, output_file, levels=6, num_threads=10,
+            cachemax=4096):
     """Cloud Optimized GeoTIFF from a list of GeoTIFFs"
 
-    Use gdal functions to create Cloud Optimized GeoTIFF from a list of GeoTIFFs.
+    Use gdal functions to create Cloud Optimized GeoTIFF from a list
+    of GeoTIFFs.
 
     * <https://geoexamples.com/other/2019/02/08/cog-tutorial.html>
     * <https://gist.github.com/palmerj/2e4a46fbcf0c97212e6e77fced22e885>
@@ -31,7 +33,8 @@ def tif2cog(input_file_list, output_file, levels=6, num_threads=10, cachemax=409
 
     :param output_file: output file name (cloud optimized geotiff).
 
-    :param levels: number of overviews to build. Default to 6: 2, 4, 8, 16, 32, 64.
+    :param levels: number of overviews to build. Default to 6: 2, 4,
+        8, 16, 32, 64.
 
     :param num_threads: value for GDAL_NUM_THREADS option.
 
@@ -56,16 +59,16 @@ def tif2cog(input_file_list, output_file, levels=6, num_threads=10, cachemax=409
 
     # Step 2: Create big Geotiff from vrt
     print("Creating big Geotiff from vrt")
-    gdal_cmd  = ["gdal_translate",
-                 "-of GTiff",
-                 "-co BIGTIFF=YES",
-                 "-co TILED=YES",
-                 "-co COMPRESS=DEFLATE",
-                 "-co PREDICTOR=2",
-                 "-co NUM_THREADS=" + str(num_threads),
-                 "--config GDAL_CACHEMAX " + str(cachemax),
-                 os.path.join(tmp_dir, "virtualfile.vrt"),
-                 os.path.join(tmp_dir, "bigtif.tif")]
+    gdal_cmd = ["gdal_translate",
+                "-of GTiff",
+                "-co BIGTIFF=YES",
+                "-co TILED=YES",
+                "-co COMPRESS=DEFLATE",
+                "-co PREDICTOR=2",
+                "-co NUM_THREADS=" + str(num_threads),
+                "--config GDAL_CACHEMAX " + str(cachemax),
+                os.path.join(tmp_dir, "virtualfile.vrt"),
+                os.path.join(tmp_dir, "bigtif.tif")]
     subprocess.call(" ".join(gdal_cmd), shell=True)
 
     # Step 2: Build overviews
@@ -106,7 +109,7 @@ def tif2cog(input_file_list, output_file, levels=6, num_threads=10, cachemax=409
     # Remove temporary folder
     shutil.rmtree(tmp_dir)  # delete directory
     print("Deleted temp directory " + tmp_dir)
-    
+
     # Step 4: Validate COG
     print("Validating COG")
     check = validate_cloud_optimized_geotiff.validate(output_file)
