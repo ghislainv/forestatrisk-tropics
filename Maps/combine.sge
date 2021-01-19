@@ -8,7 +8,7 @@
 #$ -N combine
 
 # load singularity
-module load singularity/3.5.3
+module load singularity
 
 # run python script inside container
 singularity exec --bind /share/nas2-amap/gvieilledent ~/Code/forestatrisk-tropics/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Maps/combine.py $SGE_TASK_ID
