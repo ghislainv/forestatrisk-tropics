@@ -54,8 +54,8 @@ def run_combine(index_cont):
     cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*/data/roads_PROJ.shp$' \
     -exec ogr2ogr -update -append -nlt MULTILINESTRING roads.gpkg {} \;"
     subprocess.call(cmd, shell=True)
-    # Simplify
-    cmd = "ogr2ogr -overwrite -nlt MULTILINESTRING roads_simp.gpkg roads.gpkg -simplify 1000"
+    # Simplify and reproject
+    cmd = "ogr2ogr -overwrite -t_srs EPSG:3395 -nlt MULTILINESTRING roads_simp.gpkg roads.gpkg -simplify 1000"
     subprocess.call(cmd, shell=True)
 
     # =======================
@@ -66,7 +66,7 @@ def run_combine(index_cont):
     -exec ogr2ogr -update -append -nlt MULTIPOLYGON pa.gpkg {} \;"
     subprocess.call(cmd, shell=True)
     # Simplify
-    cmd = "ogr2ogr -overwrite -nlt MULTIPOLYGON pa_simp.gpkg pa.gpkg -simplify 1000"
+    cmd = "ogr2ogr -overwrite -t_srs EPSG:3395 -nlt MULTIPOLYGON pa_simp.gpkg pa.gpkg -simplify 1000"
     subprocess.call(cmd, shell=True)
 
     # =======================
@@ -77,7 +77,7 @@ def run_combine(index_cont):
     -exec ogr2ogr -update -append -nlt MULTIPOLYGON borders.gpkg {} \;"
     subprocess.call(cmd, shell=True)
     # Simplify
-    cmd = "ogr2ogr -overwrite -nlt MULTIPOLYGON borders_simp.gpkg borders.gpkg -simplify 1000"
+    cmd = "ogr2ogr -overwrite -t_srs EPSG:3395 -nlt MULTIPOLYGON borders_simp.gpkg borders.gpkg -simplify 1000"
     subprocess.call(cmd, shell=True)
 
     # ===================
@@ -93,10 +93,10 @@ def run_combine(index_cont):
     -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc123.tif fcc123_500m.tif", shell=True)
     # Plot
     fcc123 = far.plot.fcc123("fcc123_500m.tif", output_file="fcc123.png",
-                           maxpixels=1e13,
-                           borders="borders_simp.gpkg",
-                           zoom=None, dpi=300,
-                           lw=0.5, c="grey")
+                             maxpixels=1e13,
+                             borders="borders_simp.gpkg",
+                             zoom=None, dpi=300,
+                             lw=0.5, c="grey")
     plt.close(fcc123)
 
     # ===================
