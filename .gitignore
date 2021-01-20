@@ -37,9 +37,9 @@ Manuscript/Article/doc/article.pdf
 AGB/*
 data_allctry.csv
 data_allctry_prop.csv
-Maps/Africa
-Maps/America
-Maps/Asia
+Maps/*/Africa
+Maps/*/America
+Maps/*/Asia
 geemap/*.html
 
 # Singularity
