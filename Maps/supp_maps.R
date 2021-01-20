@@ -87,13 +87,50 @@ for (i in 1:length(rast_in)) {
   out_f1 <- here("Maps", dataset, ctry_iso, rast1_out[i])
   out_f2 <- here("Maps", dataset, ctry_iso, rast2_out[i])
   if (!file.exists(out_f2)) {
-    system(paste0('gdalwarp -r near \\
-                  -ot Int16 -t_srs EPSG:3395 -tr 500 500 -tap -overwrite \\
-							    -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f1))
-    system(paste0('gdalwarp -cutline ', ctry_merc,' -crop_to_cutline \\
-                  -overwrite \\
-							    -co "COMPRESS=LZW" -co "PREDICTOR=2" ', out_f1, ' ', out_f2))
+    cmd <- glue('gdalwarp -overwrite -r near \\
+                -ot Int16 -t_srs EPSG:3395 -tr 500 500 -tap \\
+							  -co "COMPRESS=LZW" -co "PREDICTOR=2" {in_f} {out_f1}')
+    system(cmd)
+    cmd <- glue('gdalwarp -overwrite -cutline {ctry_merc} -crop_to_cutline \\
+                -co "COMPRESS=LZW" -co "PREDICTOR=2" {out_f1} {out_f2}')
+    system(cmd)
   }
+}
+
+# ---------------------------------------
+# Carbon
+# ---------------------------------------
+
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "AGB.tif")
+out_f <- here("Maps", dataset, ctry_iso, "AGB.tif")
+if (!file.exists(out_f)) {
+  cmd <- glue('gdalwarp -overwrite -t_srs EPSG:3395 -tr 1000 1000 -tap \\
+             -r near -cutline {ctry_merc} -crop_to_cutline \\
+              -co "COMPRESS=LZW" -co "PREDICTOR=2" {in_f} {out_f}')
+  system(cmd)
+}
+
+# ---------------------------------------
+# Random effects
+# ---------------------------------------
+
+# List of files
+rast_in <- c("output/rho_orig.tif", "output/rho.tif")
+rast_out <- c("rho_orig.tif", "rho.tif")
+
+# Resolution in m
+res <- c(10000, 1000)
+
+# Loop on files
+for (i in 1:length(rast_in)) {
+  in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, rast_in[i])
+  out_f <- here("Maps", dataset, ctry_iso, rast_out[i])
+  #if (!file.exists(out_f)) {
+    r <- res[i]
+    cmd <- glue('gdalwarp -overwrite -t_srs EPSG:3395 -tr {r} {r} -tap \\
+                -r near -co "COMPRESS=LZW" {in_f} {out_f}')
+    system(cmd)
+  #}
 }
 
 # ---------------------------------------
@@ -101,9 +138,7 @@ for (i in 1:length(rast_in)) {
 # ---------------------------------------
 
 # List of files
-rast <- c("data/emissions/AGB.tif", "data/forest/fcc123.tif",
-          "data/altitude.tif", "data/slope.tif",
-          "output/prob.tif", "output/rho_orig.tif", "output/rho.tif",
+rast <- c("data/forest/fcc123.tif", "output/prob.tif",
           "output/fcc_2050.tif", "output/fcc_2100.tif")
 
 
@@ -935,17 +970,9 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 # Carbon map
 # ======================
 
-## Crop carbon map to country extent
-in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "AGB.tif")
-out_f <- here("Maps", dataset, ctry_iso, "AGB.tif")
-if (!file.exists(out_f)) {
-  system(paste0('gdalwarp -cutline ', ctry_PROJ_shp,' -crop_to_cutline \\
-                -overwrite \\
-							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
-}
-
 ## Load raster
-r_AGB <- read_stars(out_f)
+in_f <- here("Maps", dataset, ctry_iso, "AGB.tif")
+r_AGB <- read_stars(in_f)
 
 ## Aspect
 bbox_r <- st_bbox(r_AGB)
