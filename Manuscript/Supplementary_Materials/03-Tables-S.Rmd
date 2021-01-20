@@ -99,6 +99,9 @@ knitr::kable(df, caption="(ref:cap-confusion-matrix)", booktabs=TRUE,
 
 ```{r accuracy-indices, results="asis", echo=FALSE}
 df <- read.table("tables/accuracy-indices.txt", header=TRUE, sep=",")
+# Remove some indices
+df <- df %>%
+  dplyr::filter(!(Index %in% c("Expected Accuracy", "Cohen's Kappa")))
 vect.align <- rep("l",2)
 col.names <- c("Index","Formula")
 knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
@@ -155,7 +158,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 
 ```{r fcc-hist, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/forest_cover_change.csv", header=TRUE, sep=",")
+df <- read.table("tables/forest_cover_change_mean.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::select(area_name, for2000, for2010, for2020, andef, pdef) %>%
@@ -179,7 +182,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
 
 ```{r fcc-hist-reg, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
+df <- read.table("tables/fcc_hist_region_mean.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::filter(!(area_cont %in% c("DRC", "Indonesia"))) %>%
@@ -209,7 +212,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALS
 
 ```{r fcc-proj, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/forest_cover_change.csv", header=TRUE, sep=",")
+df <- read.table("tables/forest_cover_change_mean.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
@@ -235,7 +238,7 @@ knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
 
 ```{r fcc-proj-reg, results="asis", echo=FALSE}
 ## Import data
-df <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
+df <- read.table("tables/fcc_proj_region_mean.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::filter(!(cont %in% c("DRC", "Indonesia"))) %>%
@@ -407,6 +410,7 @@ df <- df %>%
                           sapply(df$CI_high, f_format),
                           ")")) %>%
   dplyr::mutate(for2010=round(for2010/1000)) %>%
+  dplyr::mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0)) %>%
   dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
   dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
   dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
@@ -459,6 +463,7 @@ df <- df %>%
                           sapply(df$CI_high, f_format),
                           ")")) %>%
   dplyr::mutate(for2010=round(for2010/1000)) %>%
+  dplyr::mutate(sign=ifelse(CI_low * CI_high > 0 & !is.na(Mean), 1, 0)) %>%
   dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
   dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
   dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
@@ -493,7 +498,7 @@ knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
 ```{r c-em, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
 ## Import data
-df <- read.table("tables/C_emissions.csv", header=TRUE, sep=",")
+df <- read.table("tables/C_emissions_mean.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::select(area_name, C2040, C2060, C2080, C2100) %>%

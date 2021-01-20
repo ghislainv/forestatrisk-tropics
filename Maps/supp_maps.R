@@ -11,6 +11,9 @@
 ## https://geocompr.robinlovelace.net/adv-map.html
 ## https://cran.r-project.org/web/packages/sf/vignettes/sf5.html
 
+## Note: All maps for figures are in EPSG:3395 projection.
+## Original maps are in Albert's Equal Area and must be reprojected.
+
 ## Libraries
 require(dplyr)
 require(sf)
@@ -19,6 +22,7 @@ require(raster)
 require(stars)
 require(grid)
 require(here)
+require(glue)
 
 ## Declare some variables
 ##dataset <- "gfc2020_70" 
@@ -26,7 +30,8 @@ dataset <- "jrc2020"
 ctry_iso <- "COD"
 
 ## Load country info (encoding pb for ctry names)
-ctry_df <- read.csv2(here("Analysis", "ctry_run.csv"), header=TRUE, sep=";", encoding="UTF-8")
+ctry_df <- read.csv2(here("Analysis", "data", "ctry_run.csv"),
+                     header=TRUE, sep=";", encoding="UTF-8")
 
 ## Identify continent
 cont <- as.character(ctry_df$cont_run[ctry_df$iso3==ctry_iso])
@@ -37,6 +42,75 @@ dir.create(here("Maps", dataset, ctry_iso), recursive=TRUE)
 ## Source data directory
 #dir_fdb <- "/home/forestatrisk-tropics"
 dir_fdb <- here("Data")
+
+# =========================================
+# Reproject in World Mercator (EPSG:3395)
+# =========================================
+
+# Original files for COD are in Africa Albert's Equal Area projection
+# "+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs"
+
+# ---------------------------------------
+# Vectors
+# ---------------------------------------
+
+# List of files
+vect_in <- c("data/ctry_PROJ.shp", "data/pa_PROJ.shp",
+             "data/rivers_PROJ.shp", "data/roads_PROJ.shp",
+             "data/towns_PROJ.shp")
+vect_out <- c("ctry_merc.gpkg", "pa_merc.gpkg",
+              "rivers_merc.gpkg", "roads_merc.gpkg",
+              "towns_merc.gpkg")
+
+# Loop on files
+for (i in 1:length(vect_in)) {
+  in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, vect_in[i])
+  out_f <- here("Maps", dataset, ctry_iso, vect_out[i]) 
+  cmd <- glue("ogr2ogr -overwrite -nlt PROMOTE_TO_MULTI \\
+              -f GPKG -t_srs EPSG:3395 {out_f} {in_f}")
+  system(cmd)
+}
+
+# ---------------------------------------
+# Altitude and slope
+# ---------------------------------------
+
+# List of files
+rast_in <- c("data/altitude.tif", "data/slope.tif")
+rast1_out <- c("elev_500m.tif", "slope_500m.tif")
+rast2_out <- c("elev_500m_crop.tif", "slope_500m_crop.tif")
+ctry_merc <- here("Maps", dataset, ctry_iso, "ctry_merc.gpkg")
+
+# Loop on files
+for (i in 1:length(rast_in)) {
+  in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, rast_in[i])
+  out_f1 <- here("Maps", dataset, ctry_iso, rast1_out[i])
+  out_f2 <- here("Maps", dataset, ctry_iso, rast2_out[i])
+  if (!file.exists(out_f2)) {
+    system(paste0('gdalwarp -r near \\
+                  -ot Int16 -t_srs EPSG:3395 -tr 500 500 -tap -overwrite \\
+							    -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f1))
+    system(paste0('gdalwarp -cutline ', ctry_merc,' -crop_to_cutline \\
+                  -overwrite \\
+							    -co "COMPRESS=LZW" -co "PREDICTOR=2" ', out_f1, ' ', out_f2))
+  }
+}
+
+# ---------------------------------------
+# Forest rasters
+# ---------------------------------------
+
+# List of files
+rast <- c("data/emissions/AGB.tif", "data/forest/fcc123.tif",
+          "data/altitude.tif", "data/slope.tif",
+          "output/prob.tif", "output/rho_orig.tif", "output/rho.tif",
+          "output/fcc_2050.tif", "output/fcc_2100.tif")
+
+
+
+# =========================================
+# Some variables
+# =========================================
 
 ## Countries and continent
 data("World")
@@ -88,9 +162,10 @@ textwidth <- 16.6
 ## Load GADM level0 data
 gadm0 <- st_read(here("Maps", "GADM_data", "gadm36_level0.gpkg"))
 
-#=========================================
+
+# =========================================
 # Africa with COD border
-#=========================================
+# =========================================
 
 ## Extract countries
 gadm0_cont <- gadm0 %>%
@@ -117,9 +192,9 @@ w <- 0.275
 h <- asp * w
 vp_Afr <- viewport(x=0.01, y=0.01, width=w, height=h, just=c("left", "bottom"))
 
-#=========================================
+# =========================================
 # Zoom on fcc
-#=========================================
+# =========================================
 
 #' Function to compute zoom extent on same grid as raster
 #'
@@ -175,9 +250,9 @@ tm_fcc_zoom <-
 ## Viewport for inset
 vp_fcc_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275, just=c("left", "top"))
 
-#=========================================
+# =========================================
 # Historical deforestation map
-#=========================================
+# =========================================
 
 ## Resample r at 500m resolution with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "forest", "fcc123.tif")
@@ -216,9 +291,9 @@ tmap_save(tm_fcc, file=f, width=textwidth, height=textwidth/asp_fcc, units="cm",
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc123.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#=========================================
+# =========================================
 # Extra zoom on fcc
-#=========================================
+# =========================================
 
 ## Zoom on region with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "forest", "fcc123.tif")
@@ -269,9 +344,9 @@ tm_fcc_zoom_extra <-
 	             position=c(0.5,0.14), just=c("center", "top")) +
   tm_layout(outer.margins=c(0,0.015,0,0))
 
-#=========================================
+# =========================================
 # Zoom with sample points
-#=========================================
+# =========================================
 
 ## Import zoom raster
 in_f <- here("Maps", dataset, ctry_iso, "fcc123_zoom.tif")
@@ -305,9 +380,9 @@ dev.off()
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "sample.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#=========================================
+# =========================================
 # Grid for spatial random effects
-#=========================================
+# =========================================
 
 ## File paths
 in_fcc_500 <- here("Maps", dataset, ctry_iso, "fcc123_500m.tif")
@@ -387,9 +462,9 @@ tmap_save(tm_rho_grid, file=f, width=textwidth, height=textwidth/asp_fcc, units=
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "grid.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#=======================================
+# =======================================
 # Spatial random effects
-#=======================================
+# =======================================
 
 ## File paths
 in_rho_orig <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "rho_orig.tif")
@@ -482,9 +557,9 @@ dev.off()
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "rho.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#===========================================
+# ===========================================
 # Spatial probability of deforestation: zoom
-#===========================================
+# ===========================================
 
 ## Zoom on region with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "prob.tif")
@@ -519,9 +594,9 @@ tm_prob_zoom <-
 vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
                          just=c("left", "top"))
 
-#=====================================
+# =====================================
 # Spatial probability of deforestation
-#=====================================
+# =====================================
 
 ## Resample r at 500m resolution with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "prob.tif")
@@ -564,9 +639,9 @@ tmap_save(tm_prob, file=f, width=textwidth, height=textwidth/asp_prob, units="cm
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "prob.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#==================================
+# ==================================
 # Future forest cover in 2050: zoom
-#==================================
+# ==================================
 
 ## Zoom on region with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "fcc_2050.tif")
@@ -600,9 +675,9 @@ tm_prob_zoom <-
 vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
                          just=c("left", "top"))
 
-#============================
+# ============================
 # Future forest cover in 2050
-#============================
+# ============================
 
 ## Resample r at 500m resolution with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "fcc_2050.tif")
@@ -643,9 +718,9 @@ tmap_save(tm_fcc2050, file=f, width=textwidth, height=textwidth/asp_prob, units=
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2050.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#==================================
+# ==================================
 # Future forest cover in 2100: zoom
-#==================================
+# ==================================
 
 ## Zoom on region with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "fcc_2100.tif")
@@ -679,9 +754,9 @@ tm_prob_zoom <-
 vp_prob_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275,
                          just=c("left", "top"))
 
-#============================
+# ============================
 # Future forest cover in 2100
-#============================
+# ============================
 
 ## Resample r at 500m resolution with gdal
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "fcc_2100.tif")
@@ -731,9 +806,9 @@ system(paste0("montage ",f1," ",f2," -tile 2x1 -geometry +25 ",f_out))
 system(paste0("convert ",f_out," -crop +25+0 +repage ",f_out))
 system(paste0("convert ",f_out," -crop -25+0 +repage ",f_out))
 
-#======================
+# ======================
 # Explanatory variables
-#======================
+# ======================
 
 ## Shapefiles
 ctry_PROJ_shp <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "ctry_PROJ.shp")
@@ -742,30 +817,6 @@ roads_shp <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "roads_PROJ.shp
 towns_shp <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "towns_PROJ.shp")
 rivers_shp <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "rivers_PROJ.shp")
 
-## Altitude
-in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "altitude.tif")
-out_f1 <- here("Maps", dataset, ctry_iso, "elev_500m.tif")
-out_f2 <- here("Maps", dataset, ctry_iso, "elev_500m_crop.tif")
-if (!file.exists(out_f2)) {
-  system(paste0('gdalwarp -r near \\
-                -ot Int16 -tr 500 500 -tap -overwrite \\
-							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f1))
-  system(paste0('gdalwarp -cutline ', ctry_PROJ_shp,' -crop_to_cutline \\
-                -overwrite \\
-							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', out_f1, ' ', out_f2))
-}
-## Slope
-in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "slope.tif")
-out_f1 <- here("Maps", dataset, ctry_iso, "slope_500m.tif")
-out_f2 <- here("Maps", dataset, ctry_iso, "slope_500m_crop.tif")
-if (!file.exists(out_f2)) {
-  system(paste0('gdalwarp -r near \\
-                -ot Int16 -tr 500 500 -tap -overwrite \\
-							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f1))
-  system(paste0('gdalwarp -cutline ', ctry_PROJ_shp,' -crop_to_cutline \\
-                -overwrite \\
-							  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', out_f1, ' ', out_f2))
-}
 
 # Load as sf object
 ctry_PROJ <- st_read(ctry_PROJ_shp)
@@ -880,9 +931,9 @@ dev.off()
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "var.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-#======================
+# ======================
 # Carbon map
-#======================
+# ======================
 
 ## Crop carbon map to country extent
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "AGB.tif")
