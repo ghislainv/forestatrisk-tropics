@@ -121,9 +121,9 @@ def run_combine(index_cont):
                          lw=0.5, c="grey")
     plt.close(prob)
 
-    # ====================
-    # Forest cover in 20XX
-    # ====================
+    # =========================================
+    # Forest cover in 20XX - mean deforestation
+    # =========================================
 
     # Dates
     dates_fut = [2030, 2035, 2040, 2050, 2055, 2060,
@@ -137,7 +137,7 @@ def run_combine(index_cont):
         #
         if not os.path.isfile("fcc_" + d + ".tif"):
             # List of tif files
-            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*fcc_" + d + ".tif$' > list_tif.txt"
+            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*mean/fcc_" + d + ".tif$' > list_tif.txt"
             subprocess.call(cmd, shell=True)
             # COG
             tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + ".tif", num_threads=8)
@@ -147,6 +147,68 @@ def run_combine(index_cont):
             -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + ".tif fcc_" + d + "_500m.tif", shell=True)
             # Plot
             fcc = far.plot.fcc("fcc_" + d + "_500m.tif", output_file="fcc_" + d + ".png",
+                               maxpixels=1e13,
+                               borders="borders_simp.gpkg",
+                               zoom=None, dpi=300,
+                               lw=0.5, c="grey")
+            plt.close(fcc)
+
+    # ==================================================
+    # Forest cover in 2050, 2100 - minimum deforestation
+    # ==================================================
+
+    # Dates
+    dates_fut = [2050, 2100]
+    ndates_fut = len(dates_fut)
+
+    # Loop on dates
+    for j in range(ndates_fut):
+        # Date
+        d = str(dates_fut[j])
+        #
+        if not os.path.isfile("fcc_" + d + ".tif"):
+            # List of tif files
+            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*min/fcc_" + d + ".tif$' > list_tif.txt"
+            subprocess.call(cmd, shell=True)
+            # COG
+            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_min.tif", num_threads=8)
+            # Resample at 500m
+            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -t_srs EPSG:3395 \
+            -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
+            -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_min.tif fcc_" + d + "_500m_min.tif", shell=True)
+            # Plot
+            fcc = far.plot.fcc("fcc_" + d + "_500m_min.tif", output_file="fcc_" + d + "_min.png",
+                               maxpixels=1e13,
+                               borders="borders_simp.gpkg",
+                               zoom=None, dpi=300,
+                               lw=0.5, c="grey")
+            plt.close(fcc)
+
+    # ==================================================
+    # Forest cover in 2050, 2100 - maximum deforestation
+    # ==================================================
+
+    # Dates
+    dates_fut = [2050, 2100]
+    ndates_fut = len(dates_fut)
+
+    # Loop on dates
+    for j in range(ndates_fut):
+        # Date
+        d = str(dates_fut[j])
+        #
+        if not os.path.isfile("fcc_" + d + ".tif"):
+            # List of tif files
+            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*max/fcc_" + d + ".tif$' > list_tif.txt"
+            subprocess.call(cmd, shell=True)
+            # COG
+            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_max.tif", num_threads=8)
+            # Resample at 500m
+            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -t_srs EPSG:3395 \
+            -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
+            -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_max.tif fcc_" + d + "_500m_max.tif", shell=True)
+            # Plot
+            fcc = far.plot.fcc("fcc_" + d + "_500m_max.tif", output_file="fcc_" + d + "_max.png",
                                maxpixels=1e13,
                                borders="borders_simp.gpkg",
                                zoom=None, dpi=300,
