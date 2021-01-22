@@ -63,7 +63,7 @@ ncont <- length(continent)
 v <- here("Maps", "GADM_data", "gadm36_level0.gpkg")
 gadm0 <- st_read(v)
 
-## Simpify study area borders (keeping EPSG:3395)
+## Simplify study area borders (keeping EPSG:3395)
 for (i in 1:ncont) {
 	cont <- continent[i]
 	in_f <- here("Maps", dataset, cont, paste0("borders_", cont, ".gpkg"))
@@ -100,6 +100,11 @@ bbox_cont <- list(bbox_Afr, bbox_Ame, bbox_Asi)
 
 ## List to save maps
 l_fcc2100 <- list()
+l_fcc2100_min <- list()
+l_fcc2100_max <- list()
+l_fcc2050 <- list()
+l_fcc2050_min <- list()
+l_fcc2050_max <- list()
 l_prob <- list()
 l_roads <- list()
 l_pa <- list()
@@ -141,6 +146,11 @@ for (i in 1:ncont) {
 	
 	## Import rasters
 	r_fcc2100 <- read_stars(here("Maps", dataset, cont, "fcc_2100_500m.tif"))
+	r_fcc2100_min <- read_stars(here("Maps", dataset, cont, "fcc_2100_500m_min.tif"))
+	r_fcc2100_max <- read_stars(here("Maps", dataset, cont, "fcc_2100_500m_max.tif"))
+	r_fcc2050 <- read_stars(here("Maps", dataset, cont, "fcc_2050_500m.tif"))
+	r_fcc2050_min <- read_stars(here("Maps", dataset, cont, "fcc_2050_500m_min.tif"))
+	r_fcc2050_max <- read_stars(here("Maps", dataset, cont, "fcc_2050_500m_max.tif"))
 	r_prob <- read_stars(here("Maps", dataset, cont, "prob_500m.tif"))
 	r_fcc123 <- read_stars(here("Maps", dataset, cont, "fcc123_500m.tif"))
 	
@@ -157,12 +167,12 @@ for (i in 1:ncont) {
 	  rm(pa_join)
 	}
 	pa <- st_read(f)
-	if (cont=="Asia") {
-	  pa <- pa %>% 
-	    dplyr::filter(!(pa_name=="Natural Park of the Coral Sea"))
-	}
+	# if (cont=="Asia") {
+	#   pa <- pa %>% 
+	#     dplyr::filter(!(pa_name=="Natural Park of the Coral Sea"))
+	# }
 
-	## Maps fcc2050
+	## Maps fcc2100
 	m_fcc2100 <- 
 		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
 		  tm_lines(lty=1,lwd=0.5) +
@@ -171,6 +181,86 @@ for (i in 1:ncont) {
 		tm_shape(gadm0_cont) +
 		  tm_fill(grey(0.9)) +
 	  tm_shape(r_fcc2100) +
+	    tm_raster(style="cat", n=2, legend.show=FALSE,
+	              palette=c(red, green)) +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+	
+	## Maps fcc2100_max
+	m_fcc2100_max <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(r_fcc2100_max) +
+	    tm_raster(style="cat", n=2, legend.show=FALSE,
+	              palette=c(red, green)) +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+
+	## Maps fcc2100_min
+	m_fcc2100_min <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(r_fcc2100_min) +
+	    tm_raster(style="cat", n=2, legend.show=FALSE,
+	              palette=c(red, green)) +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+	
+	## Maps fcc2050
+	m_fcc2050 <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(r_fcc2050) +
+	    tm_raster(style="cat", n=2, legend.show=FALSE,
+	              palette=c(red, green)) +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+
+	## Maps fcc2050_max
+	m_fcc2050_max <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(r_fcc2050_max) +
+	    tm_raster(style="cat", n=2, legend.show=FALSE,
+	              palette=c(red, green)) +
+	  tm_shape(borders) +
+		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_layout(inner.margins=c(0,0,0,0),
+	            outer.margins=c(0,0,0,0))
+	
+	## Maps fcc2050_min
+	m_fcc2050_min <- 
+		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		  tm_lines(lty=1,lwd=0.5) +
+		tm_shape(trop_sf) +
+		  tm_lines(lty=2, lwd=0.5) +
+		tm_shape(gadm0_cont) +
+		  tm_fill(grey(0.9)) +
+	  tm_shape(r_fcc2050_min) +
 	    tm_raster(style="cat", n=2, legend.show=FALSE,
 	              palette=c(red, green)) +
 	  tm_shape(borders) +
@@ -228,6 +318,11 @@ for (i in 1:ncont) {
 	
 	## Save in list
 	l_fcc2100[[i]] <- m_fcc2100
+	l_fcc2100_max[[i]] <- m_fcc2100_max
+	l_fcc2100_min[[i]] <- m_fcc2100_min
+	l_fcc2050[[i]] <- m_fcc2050
+	l_fcc2050_max[[i]] <- m_fcc2050_max
+	l_fcc2050_min[[i]] <- m_fcc2050_min
 	l_prob[[i]] <- m_prob
 	l_roads[[i]] <- m_roads
 	l_pa[[i]] <- m_pa
@@ -239,6 +334,36 @@ fcc2100_Asia <- l_fcc2100[[3]] +
   tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
 	             position=c(0.15, 0.01), just=c("left", "bottom")) +
   tm_layout(title="2100",
+            title.position=c(0.02,0.08), title.size=1.2)
+## fcc2100_max
+fcc2100_Asia_max <- l_fcc2100_max[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_layout(title="2100",
+            title.position=c(0.02,0.08), title.size=1.2)
+## fcc2100_min
+fcc2100_Asia_min <- l_fcc2100_min[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_layout(title="2100",
+            title.position=c(0.02,0.08), title.size=1.2)
+## fcc2050
+fcc2050_Asia <- l_fcc2050[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_layout(title="2050",
+            title.position=c(0.02,0.08), title.size=1.2)
+## fcc2050_max
+fcc2050_Asia_max <- l_fcc2050_max[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_layout(title="2050",
+            title.position=c(0.02,0.08), title.size=1.2)
+## fcc2050_min
+fcc2050_Asia_min <- l_fcc2050_min[[3]] + 
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
+	             position=c(0.15, 0.01), just=c("left", "bottom")) +
+  tm_layout(title="2050",
             title.position=c(0.02,0.08), title.size=1.2)
 ## prob (add legend layout)
 prob_Asia <- l_prob[[3]] + 
@@ -293,6 +418,66 @@ print(fcc2100_Asia, vp=vp_Asi)
 dev.off()
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Article", "figures", "fcc2100.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## fcc2100_max
+f <- here("Maps", dataset, "fcc2100_max.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_fcc2100_max[[2]], vp=vp_Ame)
+print(l_fcc2100_max[[1]], vp=vp_Afr)
+print(fcc2100_Asia_max, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2100_max.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## fcc2100_min
+f <- here("Maps", dataset, "fcc2100_min.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_fcc2100_min[[2]], vp=vp_Ame)
+print(l_fcc2100_min[[1]], vp=vp_Afr)
+print(fcc2100_Asia_min, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2100_min.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## fcc2050
+f <- here("Maps", dataset, "fcc2050.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_fcc2050[[2]], vp=vp_Ame)
+print(l_fcc2050[[1]], vp=vp_Afr)
+print(fcc2050_Asia, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2050.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## fcc2050_max
+f <- here("Maps", dataset, "fcc2050_max.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_fcc2050_max[[2]], vp=vp_Ame)
+print(l_fcc2050_max[[1]], vp=vp_Afr)
+print(fcc2050_Asia_max, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2050_max.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## fcc2050_min
+f <- here("Maps", dataset, "fcc2050_min.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+print(l_fcc2050_min[[2]], vp=vp_Ame)
+print(l_fcc2050_min[[1]], vp=vp_Afr)
+print(fcc2050_Asia_min, vp=vp_Asi)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "fcc2050_min.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## prob

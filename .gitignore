@@ -16,8 +16,8 @@ Intensity/output/*
 !Intensity/output/d_uncertainty.csv
 
 # Manuscript
-Manuscript/Supplementary_Materials/doc/sm.pdf
-Manuscript/Article/doc/article.pdf
+Manuscript/Supplementary_Materials/doc/*.pdf
+Manuscript/Article/doc/*.pdf
 
 # GIS data
 *.gpkg
