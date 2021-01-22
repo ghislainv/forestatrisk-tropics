@@ -66,7 +66,7 @@ Consequently, building new roads in non-forest areas but close to already existi
 
 ```{r fcc-proj, results="asis", echo=FALSE}
 ## Import data
-df <- read.table(here("Manuscript/Supplementary_Materials/tables/forest_cover_change.csv"), header=TRUE, sep=",")
+df <- read.table(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"), header=TRUE, sep=",")
 ## All study areas
 nctry_loss <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%

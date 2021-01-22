@@ -4,7 +4,7 @@
 <!-- Effects of explanatory variables on the spatial probability of deforestation -->
 <!-------------------------------------------------------------------------------------->
 
-(ref:cap-probavar) **Effects of explanatory variables on the spatial probability of deforestation**. For this figure, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed from 3,186,698 to 813,796. _Left_: Points represent the observed mean probability of deforestation in each class of forest's protection status, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the iCAR model of deforestation for all observations in each class. _Right_: Points represent the local mean probability of deforestation for each bins of 10 percentiles for the distances (first point for distance to forest edge includes 3 bins, some bins corresponding to a distance > 22 km for distance to road are not shown). Lines represent the mean of the predicted probabilities of deforestation obtained from the iCAR model of deforestation for all observations in each bin.   
+(ref:cap-probavar) **Effects of explanatory variables on the spatial probability of deforestation**. For this figure, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed from 3,186,698 to 813,796. _Left_: Points represent the observed mean probability of deforestation in each class of forest's protection status, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the iCAR deforestation model for all observations in each class. _Right_: Points represent the local mean probability of deforestation for each bins of 10 percentiles for the distances. For distance to forest edge, the first point account for 3 bins. For distance to road, bins corresponding to a distance > 23 km  are not shown. Lines represent the mean of the predicted probabilities of deforestation obtained from the iCAR deforestation model for all observations in each bin.   
 
 ```{r proba-var, out.width="\\textwidth", fig.cap="(ref:cap-probavar)"}
 knitr::include_graphics("figures/proba-var.png")
@@ -36,7 +36,7 @@ knitr::include_graphics("figures/fcc2100.png")
 
 ```{r}
 dataset <- "jrc2020"
-f <- here("Analysis", dataset, "results", "C_trend.csv")
+f <- here("Analysis", dataset, "C_trend_mean.csv")
 C_trend <- read.table(f, header=TRUE, sep=",")
 C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 2)
 C_all <- C_trend[C_trend$area_cont=="All continents",-c(1)]

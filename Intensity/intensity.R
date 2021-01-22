@@ -161,6 +161,8 @@ d_long <- d_long %>%
   mutate(defor=ifelse(area_code=="COM" & defor==0, NA, defor))
 
 # Compute mean and 90% confidence intervals of deforestation rates per country
+# !! Ten years period on 2009-2018:
+# !! We do not consider 2019 for which defor is underestimated (no difference between defor/degrad).
 d_uncertainty <- d_long %>%
 	filter(year %in% c(2009:2018)) %>%
 	group_by(area_name) %>%

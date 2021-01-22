@@ -26,7 +26,7 @@ pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRU
 																			latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
 																			includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
-full_with_type=FALSE
+full_width_type=FALSE
 font_size_type=10
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 

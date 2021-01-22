@@ -4,12 +4,12 @@
 <!-- Historical and projected forest cover change -->
 <!-------------------------------------------------->
 
-(ref:cap-fcc-reg) **Historical and projected forest cover change**. We provide historical and projected forest cover areas for the three continents and the three countries having the highest forest cover in 2010 in each continent (Brazil in America, DRC in Africa, and Indonesia in Asia). Historical forest cover areas (in thousand hectares, Kha) are provided for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively), together with the mean annual deforested area $d$ (Kha/yr) for the period 2010--2020. We computed the corresponding mean annual deforestation rate $p$ (%/yr) for the period 2010--2020. Projected forest cover areas are given for the years 2050 and 2100 ("fc2050" and "fc2100"). Projections were made using the forest cover in 2020 and the mean annual deforested area in the period 2010--2020 ("fc2000" and $d$, respectively), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). We computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75").\vspace{0.5cm} 
+(ref:cap-fcc-reg) **Historical and projected forest cover change**. We provide historical and projected forest cover areas for the three continents, and the three countries having the highest forest cover in 2010 for each continent (Brazil in America, DRC in Africa, and Indonesia in Asia). Historical forest cover areas (in thousand hectares, Kha) are provided on January 1$^\text{st}$ for the years 2000, 2010, and 2020 ("fc2000", "fc2010", and "fc2020", respectively). We provide the mean annual deforested area $d$ (Kha/yr) for the last ten-year period 2009--2018 (deforestation in 2019 was not considered, see Methods), and the corresponding mean annual deforestation rate $p$ (%/yr). Projected forest cover areas are given for the years 2050 and 2100 ("fc2050" and "fc2100"). Projections were made using the forest cover in 2020 ("fc2020") and the mean annual deforested area ($d$) assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). We estimated the year ("yr75") at which 75% of the forest cover in 2000 will have disappeared.\vspace{0.5cm} 
 
 ```{r fcc-reg, results="asis", echo=FALSE}
 ## Import data
-df1 <- read.table("tables/fcc_hist_region.csv", header=TRUE, sep=",")
-df2 <- read.table("tables/fcc_proj_region.csv", header=TRUE, sep=",")
+df1 <- read.table("tables/fcc_hist_region_mean.csv", header=TRUE, sep=",")
+df2 <- read.table("tables/fcc_proj_region_mean.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df1 %>%
   dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef) %>%
@@ -35,7 +35,8 @@ knitr::kable(df, caption="(ref:cap-fcc-reg)", booktabs=TRUE, longtable=FALSE,
   add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("Countries", 1, 3) %>%
   pack_rows("Continents", 4, 7) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=full_width_type,
+	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+	              full_width=full_width_type,
 	              bootstrap_options = c("striped", "hover"),
 	              position="center", font_size=font_size_type, repeat_header_method="replace")
 ```

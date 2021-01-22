@@ -153,7 +153,7 @@ for (i in 1:nsim) {
            for2080=pmax(0, for2020-60*andef), for2085=pmax(0, for2020-65*andef),
            for2090=pmax(0, for2020-70*andef),
            for2100=pmax(0, for2020-80*andef)) %>%
-    # Year during which forest will have disappeared
+    # Year during which all the forest will have disappeared
     mutate(yrdis=floor(2020 + for2020/andef))
   
   ## Corrections for Brazil with deforestation diffusion
