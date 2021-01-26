@@ -40,6 +40,7 @@ data_allctry_prop.csv
 Maps/*/Africa
 Maps/*/America
 Maps/*/Asia
+Maps/*/COD/
 geemap/*.html
 
 # Singularity
