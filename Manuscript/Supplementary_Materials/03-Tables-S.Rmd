@@ -60,11 +60,13 @@ df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
 df.cat <- df.cat[,-c(1)]
 vect.align <- c(rep("l", 2), rep("r", 4))
 col.names <- c("Country -- Study-area","Code","nfor","ndef","nfHa","ndHa")
+unit.vect <- c("", "", "", "", "(ha)", "(ha)")
 knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
@@ -117,7 +119,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
 
 ## Accuracy indices
 
-(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged across study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
+(ref:cap-accuracy) **Accuracy indices' weighted averages for the three statistical models**. Accuracy indices were averaged across study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC: Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model. While the "rf" model has a higher percentage of deviance explained in average (higher goodness-of-fit), the "icar" model has higher values of accuracy indices from the cross-validation (higher predictive power).\vspace{0.5cm}
 
 ```{r accuracy, results="asis", echo=FALSE}
 df <- read.table("tables/perf_mod.csv", header=TRUE, sep=",")
@@ -132,7 +134,7 @@ knitr::kable(df, caption="(ref:cap-accuracy)", booktabs=TRUE,
 ```
 
 
-(ref:cap-accuracy-cont) **Accuracy indices' weighted averages for the three statistical models by continent**. Accuracy indices were averaged across study areas for each continent using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
+(ref:cap-accuracy-cont) **Accuracy indices' weighted averages for the three statistical models by continent**. Accuracy indices were averaged across study areas for each continent using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC: Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model.\vspace{0.5cm}
 
 ```{r accuracy-cont, results="asis", echo=FALSE}
 df <- read.table("tables/perf_cont_mod.csv", header=TRUE, sep=",")
@@ -165,17 +167,20 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 5))
-col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
+col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$", "$p$")
+unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(ha/yr)", "(\\%/yr)")
 knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 (ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the period 2010--2020 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.\vspace{0.5cm}
@@ -190,14 +195,17 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 5))
-col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$ (ha/yr)", "$p$ (\\%/yr)")
+col.names <- c("Region", "fc2000", "fc2010", "fc2020", "$d$", "$p$")
+unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(ha/yr)", "(\\%/yr)")
 knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALSE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
@@ -221,17 +229,20 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
-col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yrdis")
+col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21", "yrdis")
+unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(Kha)", "(\\%)", "")
 knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 (ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm}
@@ -247,15 +258,18 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
-col.names <- c("Region", "fc2040", "fc2060", "fc2080", "fc2100", "loss21 (\\%)", "yr75dis")
+col.names <- c("Region", "fc2040", "fc2060", "fc2080", "fc2100", "loss21", "yr75dis")
+unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(Kha)", "(\\%)", "")
 knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALSE,
                          format.args=list(big.mark=","),
                          digits=0,
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 <!------------------------------------------------->
@@ -286,8 +300,9 @@ knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=10, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=10, repeat_header_method="replace")
 ```
 
 (ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm}
@@ -306,7 +321,8 @@ knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
                          escape=FALSE,
                          col.names=col.names,
                          align=vect.align, linesep="") %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
+    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                  full_width=FALSE,
                   position="center", font_size=10, repeat_header_method="replace")
 ```
 
@@ -342,8 +358,9 @@ knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=10, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=10, repeat_header_method="replace")
 ```
 
 (ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
@@ -364,8 +381,9 @@ knitr::kable(df, caption="(ref:cap-bt-par-reg)", booktabs=TRUE, longtable=TRUE,
                          col.names=unit.vect,
                          align=vect.align, linesep="") %>%
   add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=10, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=10, repeat_header_method="replace")
 ```
 
 \newpage
@@ -417,19 +435,22 @@ df <- df %>%
   dplyr::relocate(CI, .before=sign)
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 4), "c")
-col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95\\%",
+col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95%",
                "signif")
+unit.vect <- c("", "(Kha)", "", "", "", "")
 knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          digits=3,
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=TRUE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
@@ -470,19 +491,22 @@ df <- df %>%
   dplyr::relocate(CI, .before=sign)
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 4), "c")
-col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95\\%",
+col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95%",
                "signif")
+unit.vect <- c("", "(Kha)", "", "", "", "")
 knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          digits=3,
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=TRUE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
@@ -506,18 +530,21 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
  
 ## Make table
-vect.align <- c(rep("l", 1), rep("r", 6))
+vect.align <- c(rep("l", 1), rep("r", 4))
 col.names <- c("Country -- Study-area", "C2040", "C2060", "C2080", "C2100")
+unit.vect <- c("", "(Gg)", "(Gg)", "(Gg)", "(Gg)")
 knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
-                         col.names=col.names,
+                         col.names=unit.vect,
                          align=vect.align, linesep="") %>%
+  add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
   pack_rows("America", 1, 64) %>%
   pack_rows("Africa", 65, 96) %>%
   pack_rows("Asia", 97, 119) %>%
-    kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=FALSE,
-                  position="center", font_size=11, repeat_header_method="replace")
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
 ```
 
 \newpage
