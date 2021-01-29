@@ -102,8 +102,10 @@ knitr::kable(df, caption=NULL, booktabs=TRUE, longtable=TRUE,
   scroll_box(width="800px", height="600px")
 ```
 
+
+
 <!---------------->
-<!-- Rferences  -->
+<!-- References  -->
 <!---------------->
 
 ## References

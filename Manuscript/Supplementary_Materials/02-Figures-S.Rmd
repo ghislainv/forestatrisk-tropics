@@ -150,15 +150,15 @@ knitr::include_graphics("figures/AGB.png")
 <!-- Uncertainty -->
 <!--------------------------------------------->
 
-## Uncertainty surrounding the projected forest cover change
+## Uncertainty surrounding future change in forest cover
 
-(ref:cap-fcc2100-low) **Projected forest cover change map assuming a low deforestation**. This map was derived using $d'$, the _lower_ limit of the confidence interval for the annual deforested area (in ha/yr), for each study-area. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
+(ref:cap-fcc2100-low) **Projected forest cover change map assuming a low annual deforestation**. This map was derived using $d'$, the _lower_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study-area. This map must be compared with Fig. 2 in the main text and Fig \@ref(fig:fcc2100-high) below, which consider average and high annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
 
 ```{r fcc2100-low, out.width="\\textwidth", fig.cap="(ref:cap-fcc2100-low)"}
 knitr::include_graphics("figures/fcc2100_min.png")
 ```
 
-(ref:cap-fcc2100-high) **Projected forest cover change map assuming a high deforestation**. This map was derived using $d''$, the _upper_ limit of the confidence interval for the annual deforested area (in ha/yr), for each study-area. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
+(ref:cap-fcc2100-high) **Projected forest cover change map assuming a high annual deforestation**. This map was derived using $d''$, the _upper_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study-area. This map must be compared with Fig. 2 in the main text and Fig \@ref(fig:fcc2100-low) above, which consider average and low annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
 
 ```{r fcc2100-high, out.width="\\textwidth", fig.cap="(ref:cap-fcc2100-high)"}
 knitr::include_graphics("figures/fcc2100_max.png")

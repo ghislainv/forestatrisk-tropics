@@ -181,7 +181,8 @@ d_uncertainty <- d_long %>%
   select(-id)
 
 # Save data
-write_delim(d_uncertainty, here("Intensity", "output", "d_uncertainty.csv"), delim=",")
+f <- here("Intensity", "output", "d_uncertainty.csv")
+write_delim(d_uncertainty, f, delim=",")
 
 # ==============================
 # Plot
