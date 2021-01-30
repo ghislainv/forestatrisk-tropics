@@ -1627,4 +1627,68 @@ write_delim(df2, f, delim=",")
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "species_loss.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-## End of file
+## =======================================
+## Uncertainty
+## =======================================
+
+## ---------------------------------------
+## Forest cover change
+## ---------------------------------------
+
+# Data
+f_mean <- here("Analysis", dataset, "forest_cover_change_mean.csv")
+f_min <- here("Analysis", dataset, "forest_cover_change_min.csv")
+f_max <- here("Analysis", dataset, "forest_cover_change_max.csv")
+df_mean <- read_delim(f_mean, delim=",") %>% mutate(proj="mean")
+df_min <- read_delim(f_min, delim=",") %>% mutate(proj="low")
+df_max <- read_delim(f_max, delim=",") %>% mutate(proj="high")
+
+# Combine datasets
+df <- df_min %>%
+  bind_rows(df_mean) %>%
+  bind_rows(df_max) %>%
+  # Id
+  mutate(id_cont=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+  mutate(id_d=ifelse(proj=="low", 1, ifelse(proj=="mean", 2, 3))) %>%
+  # Arrange
+  arrange(id_cont, area_name, id_d) %>%
+  relocate(proj, .after=area_code)
+
+## Save results
+f <- here("Analysis", dataset, "forest_cover_change_ci.csv")
+write_delim(df, f, delim=",")
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Data", "tables", "forest_cover_change_ci.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## ---------------------------------------
+## Carbon emissions
+## ---------------------------------------
+
+# Data
+f_mean <- here("Analysis", dataset, "C_emissions_mean.csv")
+f_min <- here("Analysis", dataset, "C_emissions_min.csv")
+f_max <- here("Analysis", dataset, "C_emissions_max.csv")
+df_mean <- read_delim(f_mean, delim=",") %>% mutate(proj="mean")
+df_min <- read_delim(f_min, delim=",") %>% mutate(proj="low")
+df_max <- read_delim(f_max, delim=",") %>% mutate(proj="high")
+
+# Combine datasets
+df <- df_min %>%
+  bind_rows(df_mean) %>%
+  bind_rows(df_max) %>%
+  # Id
+  mutate(id_cont=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+  mutate(id_d=ifelse(proj=="low", 1, ifelse(proj=="mean", 2, 3))) %>%
+  # Arrange
+  arrange(id_cont, area_name, id_d) %>%
+  relocate(proj, .after=area_code)
+
+## Save results
+f <- here("Analysis", dataset, "C_emissions_ci.csv")
+write_delim(df, f, delim=",")
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Data", "tables", "C_emissions_ci.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+## End Of File
