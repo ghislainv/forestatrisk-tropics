@@ -156,7 +156,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 
 ## Historical forest cover change
 
-(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2018 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
+(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
 
 ```{r fcc-hist, results="asis", echo=FALSE}
 ## Import data
@@ -183,7 +183,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
                 position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2018 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.5 Mha (75,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2010--2020.\vspace{0.5cm}
+(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.6 Mha (76,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2009--2019.\vspace{0.5cm}
 
 ```{r fcc-hist-reg, results="asis", echo=FALSE}
 ## Import data
@@ -273,6 +273,36 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
 ```
 
 <!------------------------------------------------->
+<!-- Endemic species in biodiversity hotspots    -->
+<!------------------------------------------------->
+
+## Endemic species in the biodiversity hotspots
+
+(ref:cap-hotspots) **Plant and vertebrate species endemic to each of the biodiversity hotspots**. Estimates come from @Mittermeier2011. P: Plants, B: Birds, R: Reptiles, F: Freshwater fishes, A: Amphibians, M: Mammals.\vspace{0.5cm}
+
+```{r hotspots, results="asis", echo=FALSE}
+## Import data
+df <- read.table("tables/species_biodiversity_hotspots.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(Hotspot, ends_with("_E"))
+## Make table
+vect.align <- c(rep("l", 1), rep("r", 6))
+col.names <- c("Hotspot", "P", "B", "R", "F", "A", "M")
+knitr::kable(df, caption="(ref:cap-hotspots)", booktabs=TRUE, longtable=FALSE,
+                         format.args=list(big.mark=","),
+                         digits=0,
+                         escape=FALSE,
+                         col.names=col.names,
+                         align=vect.align, linesep="") %>%
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
+                full_width=FALSE,
+                position="center", font_size=11, repeat_header_method="replace")
+```
+
+\newpage
+
+<!------------------------------------------------->
 <!-- Parameter estimates and variable importance -->
 <!------------------------------------------------->
 
@@ -304,6 +334,8 @@ knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
                 full_width=FALSE,
                 position="center", font_size=10, repeat_header_method="replace")
 ```
+
+\newpage
 
 (ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm}
 
@@ -555,7 +587,7 @@ knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
 
 ## Confidence interval of the annual deforested area
 
-(ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study-area. We used the deforestation observations $d_t$ for the ten years $t$ from 2009 to 2018. The lower and upper limits of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
+(ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study-area. We used the deforestation observations $d_t$ for the ten years $t$ from 2009 to 2019. The lower and upper limits of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
 
 ```{r ci-d, results="asis", echo=FALSE}
 ## Import data
@@ -589,12 +621,12 @@ knitr::kable(df, caption="(ref:cap-ci-d)", booktabs=TRUE, longtable=TRUE,
 Supplementary Data are available at:    
 <https://forestatrisk.cirad.fr/tropics/supplementary-data/>.
 
-Data S1: **Past and projected forest cover change by study-area with a time step of ten years**. Past and projected forest cover change by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2018 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2020") and the mean annual deforested area ("$d$"), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.
+Data S1: **Past and projected forest cover change by study-area with a time step of ten years**. Past and projected forest cover change by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2020") and the mean annual deforested area ("$d$"), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.
 
 Data S2: **Cumulative carbon emissions associated with future deforestation with a time step of ten years**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
 
-Data S3: **Uncertainty around projected forest cover by study-area**. Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2018, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a "business-as-usual" scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.
+Data S3: **Uncertainty around projected forest cover by study-area**. Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a "business-as-usual" scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.
 
-Data S4: **Uncertainty around carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2018, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
+Data S4: **Uncertainty around carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
 
 \newpage

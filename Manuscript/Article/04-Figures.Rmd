@@ -1,15 +1,5 @@
 # Figures {-}
 
-<!-------------------------------------------------------------------------------------->
-<!-- Effects of explanatory variables on the spatial probability of deforestation -->
-<!-------------------------------------------------------------------------------------->
-
-(ref:cap-probavar) **Effects of explanatory variables on the spatial probability of deforestation**. For this figure, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed from 3,186,698 to 813,796. _Left_: Points represent the observed mean probability of deforestation in each class of forest's protection status, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the iCAR deforestation model for all observations in each class. _Right_: Points represent the local mean probability of deforestation for each bins of 10 percentiles for the distances. For distance to forest edge, the first point account for 3 bins. For distance to road, bins corresponding to a distance > 23 km  are not shown. Lines represent the mean of the predicted probabilities of deforestation obtained from the iCAR deforestation model for all observations in each bin.   
-
-```{r proba-var, out.width="\\textwidth", fig.cap="(ref:cap-probavar)"}
-knitr::include_graphics("figures/proba-var.png")
-```
-
 <!----------------------------------------------------------------->
 <!-- Pantropical map of the spatial probability of deforestation -->
 <!----------------------------------------------------------------->
@@ -38,15 +28,26 @@ knitr::include_graphics("figures/fcc2100.png")
 dataset <- "jrc2020"
 f <- here("Analysis", dataset, "C_trend_mean.csv")
 C_trend <- read.table(f, header=TRUE, sep=",")
-C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 2)
+C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 3)
 C_all <- C_trend[C_trend$area_cont=="All continents",-c(1)]
-C_max <- round(max(C_all), 2)
+C_max <- round(max(C_all), 3)
 ```
 
-(ref:cap-cem) **Carbon emissions associated with projected deforestation**. This figure displays the future change in annual carbon emissions (Pg/yr) associated with projected deforestation of moist tropical forests. Mean annual carbon emissions were computed for ten-year intervals from 2010--2020 to 2090--2100. Points represent the observed mean annual carbon emissions (based on historical deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for all continents together. Lines represent the projected mean annual carbon emissions (based on projected forest cover change maps) from 2020--2030 to 2090--2100 per continent, and for all continents together. Annual carbon emissions at the pantropical scale are predicted to increase from `r C_10_20` in 2010--2020 up to `r C_max` Pg/yr in 2080--2090.  
+(ref:cap-cem) **Carbon emissions associated with projected deforestation**. This figure displays the future change in annual carbon emissions (Pg/yr) associated with projected deforestation of moist tropical forests. Mean annual carbon emissions were computed for ten-year intervals from 2010--2020 to 2090--2100. Points represent the observed mean annual carbon emissions (based on historical deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for all continents together. Lines represent the projected mean annual carbon emissions (based on projected forest cover change maps) from 2020--2030 to 2090--2100 per continent, and for all continents together. Envelopes were obtained from the lower and upper limits of the confidence intervals of the mean annual deforested areas for all the study-areas. Annual carbon emissions at the pantropical scale are predicted to increase from `r C_10_20` in 2010--2020 up to `r C_max` Pg/yr in 2070--2080.  
 
 ```{r c-em, out.width="\\textwidth", fig.cap="(ref:cap-cem)"}
 knitr::include_graphics("figures/C_trend.png")
+```
+
+<!-------------------------------------------------------------------------------------->
+<!-- Effects of explanatory variables on the spatial probability of deforestation -->
+<!-------------------------------------------------------------------------------------->
+
+(ref:cap-probavar) **Effects of explanatory variables on the spatial probability of deforestation**. For this figure, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. The total number of observations changed
+from 3,202,570 to 813,796 (Tab. S3). _Left_: Points represent the observed mean probability of deforestation in each class of forest's protection status, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the iCAR deforestation model for all observations in each class. _Right_: Points represent the local mean probability of deforestation for each bins of 10 percentiles for the distances. Lines represent the mean of the predicted probabilities of deforestation obtained from the iCAR deforestation model for all observations in each bin. (Note that for distance to forest edge, the first point account for 3 bins while for distance to road, bins corresponding to a distance > 23 km are not shown).
+
+```{r proba-var, out.width="\\textwidth", fig.cap="(ref:cap-probavar)"}
+knitr::include_graphics("figures/proba-var.png")
 ```
 
 \newpage

@@ -1626,6 +1626,10 @@ write_delim(df2, f, delim=",")
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "species_loss.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
+## Copy also the dataset
+f <- here("Analysis", "data", "species_biodiversity_hotspots.csv")
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "species_biodiversity_hotspots.csv")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## =======================================
 ## Uncertainty
