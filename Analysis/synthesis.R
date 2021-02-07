@@ -193,6 +193,101 @@ for (i in 1:nsim) {
 }
 
 ## ====================================================
+## Number of countries with no more forest in 2100
+## ====================================================
+
+## Import data
+f_in <- here("Analysis", dataset, "forest_cover_change_mean.csv")
+df <- read.table(f_in, header=TRUE, sep=",")
+
+## Arrange data
+df <- df %>%
+  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000))
+
+## Compute number of countries (apart from India and Brazil)
+nctry_loss21 <- df %>%
+  dplyr::filter(!area_ctry %in% c("Brazil", "India")) %>%
+  group_by(area_cont) %>%
+  summarize(n=sum(loss21==100))
+
+nctry_loss21_large <- df %>%
+  dplyr::filter(!area_ctry %in% c("Brazil", "India")) %>%
+  dplyr::filter(for2020 >= 1e6) %>%
+  group_by(area_cont) %>%
+  summarize(n=sum(loss21==100))
+  
+## For Brazil
+nstate_BRA_loss21 <- df %>%
+  dplyr::filter(area_ctry=="Brazil") %>%
+  group_by(area_ctry) %>%
+  summarize(n=sum(loss21==100)) %>%
+  rename(area_cont=area_ctry)
+
+nstate_BRA_loss21_large <- df %>%
+  dplyr::filter(area_ctry=="Brazil") %>%
+  dplyr::filter(for2020 >= 1e6) %>%
+  group_by(area_ctry) %>%
+  summarize(n=sum(loss21==100)) %>%
+  rename(area_cont=area_ctry)
+
+## For India
+nstate_IND_loss21 <- df %>%
+  dplyr::filter(area_ctry=="India") %>%
+  group_by(area_ctry) %>%
+  summarize(n=sum(loss21==100)) %>%
+  rename(area_cont=area_ctry)
+
+nstate_IND_loss21_large <- df %>%
+  dplyr::filter(area_ctry=="India") %>%
+  dplyr::filter(for2020 >= 1e6) %>%
+  group_by(area_ctry) %>%
+  summarize(n=sum(loss21==100)) %>%
+  rename(area_cont=area_ctry)
+
+## All regions
+nall <- df %>%
+  summarize(n=sum(loss21==100)) %>%
+  pull()
+nctry_all <- tibble(area_cont="All", n=nall)
+
+nall <- df %>%
+  dplyr::filter(for2020 >= 1e6) %>%
+  summarize(n=sum(loss21==100)) %>%
+  pull()
+nctry_all_large <- tibble(area_cont="All", n=nall)
+
+## Combine results
+nctry_loss21_bycont <- nctry_loss21 %>%
+  dplyr::bind_rows(nstate_BRA_loss21) %>%
+  dplyr::bind_rows(nstate_IND_loss21) %>%
+  dplyr::bind_rows(nctry_all)
+
+nctry_loss21_bycont_large <- nctry_loss21_large %>%
+  dplyr::bind_rows(nstate_BRA_loss21_large) %>%
+  dplyr::bind_rows(nstate_IND_loss21_large) %>%
+  dplyr::bind_rows(nctry_all_large)
+
+## Save results
+f_out <- here("Analysis", dataset, "nctry_loss21_bycont.csv")
+write.table(nctry_loss21_bycont, file=f_out, sep=",", row.names=FALSE)
+f_out <- here("Analysis", dataset, "nctry_loss21_bycont_large.csv")
+write.table(nctry_loss21_bycont_large, file=f_out, sep=",", row.names=FALSE)
+
+## Number of countries with more than 1 Mha forest in 2020
+nctry_large <- df %>%
+  dplyr::filter(!area_ctry %in% c("Brazil", "India")) %>%
+  dplyr::filter(for2020 >= 1e6) %>%
+  summarize(n=n()) %>% pull()
+nctry_large <- nctry_large + 2 # For Brazil and India
+msg <- paste0("Number of countries with more than 1 Mha ",
+              "forest in 2020: ", nctry_large)
+# Save
+f_out <- here("Analysis", dataset, "nctry_large.txt")
+sink(f_out)
+cat(msg)
+sink()
+
+## ====================================================
 ## Forest cover change summarized per region
 ## ====================================================
 
@@ -1479,12 +1574,6 @@ for (j in 1:nsim) {
 ## Friedlingstein, P. et al. Update on CO2 emissions. Nature Geosci. 3, 811–812 (2010).
 ## Le Quéré, C. et al. Trends in the sources and sinks of carbon dioxide. Nature Geosci. 2, 831–836 (2009).
 
-## ====================================
-## Plot for cumulative carbon emissions
-## ====================================
-
-# !! TODO !!
-
 ## ======================
 ## Carbon emission trends
 ## ======================
@@ -1695,4 +1784,6 @@ write_delim(df, f, delim=",")
 f_doc <- here("Manuscript", "Supplementary_Data", "tables", "C_emissions_ci.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
+## ==================================
 ## End Of File
+## ==================================
