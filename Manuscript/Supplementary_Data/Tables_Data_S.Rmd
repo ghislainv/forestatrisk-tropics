@@ -7,107 +7,7 @@ library(dplyr)
 <!-- Forest cover projections -->
 <!------------------------------>
 
-## Data S1: Past and projected forest cover change
-
-Download the raw data:
-
-* Text CSV: [forest_cover_change.csv](forest_cover_change.csv)
-* ODF Spreadsheet: [forest_cover_change.ods](forest_cover_change.ods)
-* Excel 2007--365: [forest_cover_change.xlsx](forest_cover_change.xlsx)
-
-Data S1: **Past and projected forest cover change by study-area with a time step of ten years**. Past and projected forest cover change by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2020") and the mean annual deforested area ("$d$"), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
-
-```{r fcc-proj, results="asis", echo=FALSE}
-## Import data
-df <- read.table("tables/forest_cover_change_mean.csv", header=TRUE, sep=",")
-## Arrange data
-df <- df %>%
-  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
-  dplyr::mutate(yrdis=as.character(yrdis)) %>%
-  dplyr::select(area_cont:area_code, for2000:for2100, loss21, yrdis, -for2005, -for2015, -for2035) %>%
-  dplyr::select(-starts_with("d_")) %>%
-  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)}) %>%
-  dplyr::rename(d=andef, p=pdef)
-# Export table for website
-write.table(df, "tables_website/forest_cover_change.csv", sep=",", row.names=FALSE)
-## Remove some area info
-df <- df %>%
-  dplyr::select(-area_cont, -area_ctry, -area_code)
-
-## Make table
-vect.align <- c(rep("l", 1), rep("r", 17))
-col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$", "$p$", "fc2030", "fc2040",
-               "fc2050", "fc2055", "fc2060", "fc2070", "fc2080", "fc2085", "fc2090", "fc2100", "loss21", "yrdis")
-unit.vect <- c("", rep("(Kha)", 3), "  (ha/yr)", "(\\%/yr)", rep("(Kha)", 10), "(\\%)", " ")
-col.names <- paste(col.names, unit.vect, sep=" \\n ")
-knitr::kable(df, caption=NULL, booktabs=TRUE, longtable=TRUE,
-                         format.args=list(big.mark=","),
-                         escape=FALSE,
-                         col.names=col.names,
-                         align=vect.align, linesep="") %>%
-  #add_header_above(header=col.names, line=FALSE, escape=FALSE, align=vect.align) %>%
-  pack_rows("America", 1, 64) %>%
-  pack_rows("Africa", 65, 96) %>%
-  pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=full_width_type,
-	              bootstrap_options = c("striped", "hover"),
-	              position="center", font_size=font_size_type, repeat_header_method="replace") %>%
-  scroll_box(width="800px", height="600px")
-```
-
-<!---------------------------------------------------->
-<!-- Carbon emissions associated with deforestation -->
-<!---------------------------------------------------->
-
-## Data S2: Cumulative carbon emissions associated with future deforestation
-
-Download the raw data:
-
-* Text CSV: [carbon_emissions.csv](carbon_emissions.csv)
-* ODF Spreadsheet: [carbon_emissions.ods](carbon_emissions.ods)
-* Excel 2007--365: [carbon_emissions.xlsx](carbon_emissions.xlsx)
-
-Data S2: **Cumulative carbon emissions associated with future deforestation with a time step of ten years**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example). Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.\vspace{0.5cm}
-
-```{r c-em, results="asis", echo=FALSE}
-options(knitr.kable.NA="--")
-## Import data
-df <- read.table("tables/carbon_emissions_mean.csv", header=TRUE, sep=",")
-## Arrange data
-df <- df %>%
-  dplyr::select(area_cont:area_code, C2020:C2100, -C2035, -C2055, -C2085) %>%
-  dplyr::na_if(0) %>%
-  mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
-# Export table for website
-write.table(df, "tables_website/carbon_emissions.csv", sep=",", row.names=FALSE)
-## Remove some area info
-df <- df %>%
-  dplyr::select(-area_cont, -area_ctry, -area_code)
-
-## Make table
-vect.align <- c(rep("l", 1), rep("r", 9))
-col.names <- c("Country -- Study-area", paste0("C", seq(2020,2100, by=10)))
-unit.vect <- c("", rep("(Gg)", 9))
-col.names <- paste(col.names, unit.vect, sep=" \n ")
-knitr::kable(df, caption=NULL, booktabs=TRUE, longtable=TRUE,
-                         format.args=list(big.mark=","),
-                         escape=FALSE,
-                         col.names=col.names,
-                         align=vect.align, linesep="") %>%
-  pack_rows("America", 1, 64) %>%
-  pack_rows("Africa", 65, 96) %>%
-  pack_rows("Asia", 97, 119) %>%
-	kable_styling(latex_options=c("HOLD_position","striped","repeat_header"), full_width=full_width_type,
-	              bootstrap_options = c("striped", "hover"),
-	              position="center", font_size=font_size_type, repeat_header_method="replace") %>%
-  scroll_box(width="800px", height="600px")
-```
-
-<!---------------------------------------------------->
-<!-- Uncertainty -->
-<!---------------------------------------------------->
-
-## Data S3: Uncertainty around projected forest cover by study-area
+## Data S1: Uncertainty around projected forest cover by study-area
 
 Download the raw data:
 
@@ -115,7 +15,7 @@ Download the raw data:
 * ODF Spreadsheet: [forest_cover_change_uncertainty.ods](forest_cover_change_uncertainty.ods)
 * Excel 2007--365: [forest_cover_change_uncertainty.xlsx](forest_cover_change_uncertainty.xlsx)
 
-Data S3: **Uncertainty around projected forest cover by study-area**. Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a "business-as-usual" scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
+Data S1: **Uncertainty around projected forest cover by study-area**. Past and projected forest cover change by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
 
 ```{r fcc-proj-uncertainty, results="asis", echo=FALSE}
 ## Import data
@@ -155,7 +55,11 @@ knitr::kable(df, caption=NULL, booktabs=TRUE, longtable=TRUE,
   scroll_box(width="800px", height="600px")
 ```
 
-## Data S4: Uncertainty around carbon emissions associated with future deforestation
+<!---------------------------------------------------->
+<!-- Carbon emissions associated with deforestation -->
+<!---------------------------------------------------->
+
+## Data S2: Uncertainty around cumulative carbon emissions associated with future deforestation
 
 Download the raw data:
 
@@ -163,7 +67,7 @@ Download the raw data:
 * ODF Spreadsheet: [carbon_emissions_uncertainty.ods](carbon_emissions_uncertainty.ods)
 * Excel 2007--365: [carbon_emissions_uncertainty.xlsx](carbon_emissions_uncertainty.xlsx)
 
-Data S4: **Uncertainty around carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.\vspace{0.5cm}
+Data S2: **Uncertainty around cumulative carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.\vspace{0.5cm}
 
 ```{r c-em-uncertainty, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")

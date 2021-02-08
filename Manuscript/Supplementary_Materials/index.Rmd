@@ -57,18 +57,16 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
 **This PDF file includes:**
 
 Materials and Methods    
-Figs. S1 to S13    
-Tables S1 to S18      
-Captions for Data S1 to S4
+Figs. S1 to S15    
+Tables S1 to S20    
+Captions for Data S1 and S2
 
 \vspace{1cm}
 
 **Other Supplementary Materials for this manuscript include the following:**
 
-Data S1: Past and projected forest cover by study-area with a time step of ten years.    
-Data S2: Cumulative carbon emissions associated with future deforestation with a time step of ten years.
-Data S3: Uncertainty around projected forest cover by study-area.
-Data S4: Uncertainty around carbon emissions associated with future deforestation.
+Data S1: Uncertainty around projected forest cover by study-area.    
+Data S2: Uncertainty around cumulative carbon emissions associated with future deforestation.
 
 \linenumbers
 \newpage
