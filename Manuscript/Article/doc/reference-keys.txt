@@ -1,5 +1,0 @@
-tab:fcc-reg
-fig:prob
-fig:fcc2100
-fig:c-em
-fig:proba-var
