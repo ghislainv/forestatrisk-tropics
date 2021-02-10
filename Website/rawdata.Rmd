@@ -1,0 +1,12 @@
+---
+title: "Raw data"
+---
+
+Raw data used for geo-statistical analysis are sorted by continent and country iso code. Data for Brazilian states are available separately.
+
+- [America](https://drive.google.com/drive/folders/1LGc4GPvlkcl9imi2Y3CCIlWybAPqQxtX?usp=sharing)
+- [Africa](https://drive.google.com/drive/folders/1qaSKQa8ZOLL6-_jjwo2gisj05rVq3s2N?usp=sharing)
+- [Asia](https://drive.google.com/drive/folders/1PGHHtJCZ14HSJN8g-u6erGBhd-T6Grk9?usp=sharing)
+- [Brazil](https://drive.google.com/drive/folders/1o9qndF_2koSR0NIaBkJ0Re_tZf4KBwPY?usp=sharing)
+
+For each study-area, folders `data_raw`, `data`, and `output` include raw data, processed data, and raw outputs, respectively.  

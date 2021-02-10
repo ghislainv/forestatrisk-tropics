@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <title>ForestAtRisk Tropics</title>
+
+	<!-- ====================================================== -->
+	<!-- Leaflet -->
+	<!-- ====================================================== -->
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="../lib/leaflet/leaflet.css" />
+    <script src="../lib/leaflet/leaflet.js"></script>
+
+    <!-- Control opacity plugin -->
+    <link rel="stylesheet" href="../lib/opacity/Control.Opacity.css" />
+    <script src="../lib/opacity/Control.Opacity.js"></script>
+    
+    <!-- jquery for control opacity plugin -->
+    <script src="../lib/jquery/jquery-1.9.1.js"></script>
+    <script src="../lib/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+    <link rel="stylesheet" href="../lib/jquery/jquery-ui-1.10.3.custom.min.css" />
+
+    <!-- vendors
+    <script src="https://forobs.jrc.ec.europa.eu/resources/external-libs/vue.js"></script>
+    <script src="https://forobs.jrc.ec.europa.eu/resources/external-libs/axios.js"></script>
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/resources/external-libs/FortAwesome/all.css">
+    <script src="https://forobs.jrc.ec.europa.eu/resources/external-libs/Leaflet/leaflet.js"></script>
+    <script src="https://forobs.jrc.ec.europa.eu/resources/external-libs/Leaflet/L.Control.Basemaps-min.js"></script>
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/resources/external-libs/Leaflet/leaflet.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/resources/external-libs/Leaflet/L.Control.Basemaps.css">
+    <script src="https://forobs.jrc.ec.europa.eu/resources/external-libs/Chart.min.js"></script>
+    -->
+
+    <!-- local
+    <script src="https://forobs.jrc.ec.europa.eu/TMF/assets/js/query_mixin.js"></script>
+    <script src="https://forobs.jrc.ec.europa.eu/TMF/assets/js/app.js"></script>
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/index.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/toggle.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/layer_selector.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/timeline.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/coordinates.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/query_response.css">
+    <link rel="stylesheet" href="https://forobs.jrc.ec.europa.eu/TMF/assets/css/banner.css">
+    -->
+    
+    <!-- Style -->
+    <style>
+      body { margin:0; padding:0; }
+      body, table, tr, td, th, div, h1, h2, input { font-family: "Calibri", "Trebuchet MS", "Ubuntu", Serif; font-size: 11pt; }
+      #map { position:absolute; top:0; bottom:0; width:100%; } /* full size */
+      .ctl {
+          padding: 2px 10px 2px 10px;
+          background: white;
+          background: rgba(255,255,255,0.9);
+          box-shadow: 0 0 15px rgba(0,0,0,0.2);
+          border-radius: 5px;
+          text-align: right;
+      }
+      .title {
+          font-size: 18pt;
+          font-weight: bold;
+      }
+      .src {
+          font-size: 10pt;
+      }
+      .overlay_card{
+	  font-family: 'Montserrat', sans-serif;
+	  z-index: 400;
+	  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+      }
+      #coordinates{
+	  position: fixed;
+	  bottom: 10px;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  background-color: white;
+	  border-radius: 5px;
+	  padding: 6px;
+	  font-size: 0.7rem;
+      }
+
+    </style>
+
+  </head>
+
+  
+  <body>
+  	
+	<!-- ====================================================== -->
+	<!-- MAP -->
+	<!-- ====================================================== -->
+
+    <div id="map"></div>
+      
+    <!-- Coordinates (mouse position)
+    <div id="coordinates" class="overlay_card">
+      <b>LAT</b>: {{ mouse_lat | format_coords }} - <b>LON</b>: {{ mouse_lon | format_coords }}
+    </div> -->
+    
+    <!-- Leaflet maps -->
+    <script type="text/javascript">
+ 
+      // Base layers
+      //  .. OpenStreetMap
+      var osm = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+			    {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+			     minZoom: 0,
+			     maxZoom: 16});
+
+      // .. MapBox
+      var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+	  'Imagery &copy <a href="https://www.mapbox.com/">Mapbox</a>';
+      var mbToken = 'pk.eyJ1IjoiZ2hpc2xhaW52IiwiYSI6ImNrOGZyaXJ1bTAzOXEzZG1wcDl5MnpicXQifQ.xVKyIs5IQsB3jaVpR-hKjQ'
+      var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mbToken;
+      var mapbox = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+      // // .. Wikimedia
+      // var wmfUrl = 'https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
+      // var wmfAttr = '&copy; <a href="https://tools.wmflabs.org">Wikimedia</a>'
+      // var wmflabs = L.tileLayer(wmfUrl, {attribution: wmfAttr, minZoom: 0, maxZoom: 16});
+
+      // // .. Borders
+      // var borders_AFR = L.tileLayer.wms('https://geo.fraisedesbois.net/geoserver/far/wms?', {layers: 'far:borders_AFR', format: 'image/png', attribution: "<a href='https://gadm.org'>GADM</a>"});
+      
+      //  .. CartoDB Positron
+      //var cartodb = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>', minZoom: 0, maxZoom: 14});
+
+      //  .. OSM Toner
+      //var toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.', minZoom: 0, maxZoom: 14});
+
+      //  .. White background
+      //var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", {minZoom: 0, maxZoom: 14});
+
+      // .. MapSurfer ASTER GDEM-SRTM Hillshade
+      // var hillshade = L.tileLayer('https://maps.heigit.org/openmapsurfer/tiles/asterh/webmercator/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://srtm.csi.cgiar.org/">SRTM</a>, <a href="https://lpdaac.usgs.gov/data/data-citation-and-policies/">ASTER GDEM</a>', minZoom: 0, maxZoom: 18});
+
+      // CIRAD-JRC attribution
+      var ciradUrl = "https://geo.fraisedesbois.net/geoserver/far/wms?";
+      var ciradAttr = "Forest data &copy <a href='https://www.cirad.fr/en/'>CIRAD</a>, <a href='https://ec.europa.eu/jrc/en/'>JRC</a>";
+
+      // fcc123
+      var fcc123_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc123_AFR', format: 'image/png',
+						  transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+       						  attribution: ciradAttr});
+      var fcc123_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc123_AME', format: 'image/png',
+						  transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						  attribution: ciradAttr});
+      var fcc123_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc123_ASI', format: 'image/png',
+						  transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						  attribution: ciradAttr});
+      var fcc123 = L.layerGroup([fcc123_AFR, fcc123_AME, fcc123_ASI]);
+      
+      // Probability
+      var prob_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:prob_AFR', format: 'image/png',
+       						transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+       						attribution: ciradAttr});
+      // var prob_AFR = L.tileLayer("http://localhost:5000/singleband/prob/AFR/{z}/{x}/{y}.png?colormap=accent", {format: 'image/png',
+      // 						transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+      // 						attribution: ciradAttr}); // This is for Terracotta
+      var prob_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:prob_AME', format: 'image/png',
+						transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						attribution: ciradAttr});
+      var prob_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:prob_ASI', format: 'image/png',
+						transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						attribution: ciradAttr});
+      var prob = L.layerGroup([prob_AFR, prob_AME, prob_ASI]);
+
+      // fcc_2050
+      var fcc_2050_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2050_AFR', format: 'image/png',
+						    transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						    attribution: ciradAttr});
+      var fcc_2050_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2050_AME', format: 'image/png',
+						    transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						    attribution: ciradAttr});
+      var fcc_2050_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2050_ASI', format: 'image/png',
+						    transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
+						    attribution: ciradAttr});
+      var fcc_2050 = L.layerGroup([fcc_2050_AFR, fcc_2050_AME, fcc_2050_ASI]);
+
+      // fcc_2100
+      var fcc_2100_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2100_AFR',
+						    format: 'image/png', transparent: true, opacity: 0.8,
+						    minZoom: 0, maxZoom: 16, attribution: ciradAttr});
+      var fcc_2100_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2100_AME',
+						    format: 'image/png', transparent: true, opacity: 0.8,
+						    minZoom: 0, maxZoom: 16, attribution: ciradAttr});
+      var fcc_2100_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2100_ASI',
+						    format: 'image/png', transparent: true, opacity: 0.8,
+						    minZoom: 0, maxZoom: 16, attribution: ciradAttr});
+      var fcc_2100 = L.layerGroup([fcc_2100_AFR, fcc_2100_AME, fcc_2100_ASI]);
+
+      // All overlays
+      var overlayGroup = L.layerGroup([fcc123_AFR, fcc123_AME, fcc123_ASI,
+				       prob_AFR, prob_AME, prob_ASI,
+				       fcc_2050_AFR, fcc_2050_AME, fcc_2050_ASI,
+				       fcc_2100_AFR, fcc_2100_AME, fcc_2100_ASI]);
+      
+      // Map
+      var map = L.map('map', {
+          center: [5.65, 26.17],
+          zoom: 4,
+          minZoom: 0,
+          maxZoom: 16,
+          layers: [mapbox, prob]
+      });
+      var basemaps = {
+	  "OpenStreetMap": osm,
+	  "MapBox": mapbox
+      };
+      var overlaymaps = {
+     	  "Past deforestation 2000-2010-2020" : fcc123,
+     	  "Deforestation probability 2020": prob,
+     	  "Projected deforestation 2020-2050": fcc_2050,
+	      "Projected deforestation 2020-2100": fcc_2100
+      };
+
+      // Title
+      var title = L.control();
+      title.onAdd = function(map) {
+          this._div = L.DomUtil.create('div', 'ctl title');
+          this.update();
+          return this._div;
+      };
+      title.update = function(props) {
+          this._div.innerHTML = "Deforestation risk in the tropics";
+      };
+      //title.addTo(map);
+
+      // Note
+      var src = 'Home: <a href="https://forestatrisk.cirad.fr">ForestAtRisk</a>';
+      var title = L.control({position: 'bottomleft'});
+      title.onAdd = function(map) {
+          this._div = L.DomUtil.create('div', 'ctl src');
+          this.update();
+          return this._div;
+      };
+      title.update = function(props) {
+          this._div.innerHTML = src;
+      };
+      title.addTo(map);
+
+      // Add layers
+      L.control.layers(basemaps, overlaymaps, {collapsed: true, position: 'topleft'}).addTo(map);
+
+      // Add scale
+      L.control.scale({position: 'bottomright', imperial: false}).addTo(map);
+
+      // Opacity slider
+      var opacitySliderGroup = new L.Control.opacitySliderGroup();
+      map.addControl(opacitySliderGroup);
+      opacitySliderGroup.setOpacityLayerGroup(overlayGroup);
+
+      // Fit to overlay bounds (SW and NE points with (lat, lon))
+      //map.fitBounds([[-25.7148104485, 50.9763321497], [-11.8650203788, 42.991281867]]);
+
+    </script>
+    
+  </body>
+</html>
+
+

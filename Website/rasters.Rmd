@@ -1,0 +1,65 @@
+---
+title: "Rasters"
+---
+
+Rasters of results from this study can be downloaded as Cloud Optimized GeoTIFF ([COG](https://www.cogeo.org/)):
+
+- [List of all rasters](https://forestatrisk.cirad.fr/tropics/tif/)
+- [COG tutorial](https://forestatrisk.cirad.fr/notebooks/cog.html)
+
+### Table of rasters (some)
+
+```{r cogs, echo=FALSE, results='asis'}
+# Create data frame
+raster_type <- c("Past deforestation 2000-2010-2020",
+				 "Deforestation probability in 2020",
+				 "Projected deforestation 2020-2050",
+				 "Projected deforestation 2020-2100")
+df <- data.frame(rast=raster_type, America=NA, Africa=NA, Asia=NA)
+cont <- c("America", "Africa", "Asia")
+cont_ab <- c("AME", "AFR", "ASI") # Abbreviation
+url_base <- "https://forestatrisk.cirad.fr/tropics/tif/"
+
+# Loop on continents
+for (i in 1:length(cont)) {
+	# Continent abbreviation
+	cab <- cont_ab[i]
+	# fcc123
+	text_fcc <- glue("fcc123_{cab}.tif")
+	url_fcc <- glue("{url_base}{text_fcc}")	
+	# Prob
+	text_prob <- glue("prob_{cab}.tif")
+	url_prob <- glue("{url_base}{text_prob}")
+	# Projected 2050
+	text_fcc_2050 <- glue("fcc_2050_{cab}.tif")
+	url_fcc_2050 <- glue("{url_base}{text_fcc_2050}")
+	# Projected 2100
+	text_fcc_2100 <- glue("fcc_2100_{cab}.tif")
+	url_fcc_2100 <- glue("{url_base}{text_fcc_2100}")
+	# 
+	df[cont[i]] <- c(glue("<a href='{url_fcc}'>{text_fcc}</a>"),
+					 glue("<a href='{url_prob}'>{text_prob}</a>"),
+					 glue("<a href='{url_fcc_2050}'>{text_fcc_2050}</a>"),
+					 glue("<a href='{url_fcc_2100}'>{text_fcc_2100}</a>"))
+}
+
+# Table
+col_names <- c("", "America", "Africa", "Asia")
+vect_align <- c("l", rep("c", 3))
+knitr::kable(df, booktabs=TRUE, longtable=FALSE,
+			 format.args=list(big.mark=","),
+			 escape=FALSE,
+			 col.names=col_names,
+			 align=vect_align, linesep="") %>%
+	kable_styling(full_width=FALSE,
+	              bootstrap_options=c("striped", "hover"),
+	              position="center")
+```
+
+### Rasters resolution and projection
+
+Rasters have a resolution of 30 m and are available in Albers equal area conic projections (one different projection for each continent):
+
+- America: [South America Albers Equal Area Conic](https://epsg.io/102033)
+- Africa: [Africa Albers Equal Area Conic](https://epsg.io/102022)
+- Asia: [Asia South Albers Equal Area Conic](https://epsg.io/102028)

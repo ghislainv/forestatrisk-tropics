@@ -1,0 +1,40 @@
+# https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html
+name: "forestatrisk.cirad.fr"
+output_dir: "_site"
+exclude: ["LICENSE"]
+navbar:
+  title: "forestatrisk.cirad.fr"
+  #type: inverse
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+    - text: "Maps"
+      icon: fa-map
+      href: maps.html
+    - text: "Rasters"
+      icon: fa-download
+      href: rasters.html
+    - text: "Data S"
+      icon: fa-table
+      href: data-s.html
+    - text: "Raw data"
+      icon: fa-database
+      href: rawdata.html
+    - text: "Package"
+      icon: fab fa-python
+      href: https://ecology.ghislainv.fr/forestatrisk/
+  right:
+    - icon: fab fa-github
+      href: https://github.com/ghislainv/forestatrisk-tropics
+output:
+  bookdown::html_document2:
+    theme: flatly
+    # readable theme is also nice
+    number_sections: false
+    highlight: textmate
+    include:
+      in_header: header.html
+      after_body: footer.html
+    css: styles.css
+    

@@ -1,0 +1,127 @@
+---
+title: "Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century"
+subtitle: "Supplementary Data"
+author: "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
+date: ""
+output:
+  bookdown::html_document2:
+    number_sections: no
+    toc: yes
+    toc_float: yes
+    css: "style-data-s.css"
+bibliography: _biblio/biblio.bib
+link-citations: yes
+csl: _biblio/journal-of-applied-ecology.csl
+---
+
+```{r lib-tab, echo=FALSE, results="hide"}
+require(knitr)
+require(dplyr)
+require(DT)
+options(knitr.table.format="html")
+```
+
+<span style="display: block; height: 15px;"></span>
+
+<!------------------------------>
+<!-- Forest cover projections -->
+<!------------------------------>
+
+## Data S1: Uncertainty around projected forest cover by study-area
+
+Download the raw data:
+
+* Text CSV: [forest_cover_change_uncertainty.csv](tropics/supplementary-data/forest_cover_change_uncertainty.csv)
+* ODF Spreadsheet: [forest_cover_change_uncertainty.ods](tropics/supplementary-data/forest_cover_change_uncertainty.ods)
+* Excel 2007--365: [forest_cover_change_uncertainty.xlsx](tropics/supplementary-data/forest_cover_change_uncertainty.xlsx)
+
+Data S1: **Uncertainty around projected forest cover by study-area**. Past and projected forest cover change by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
+
+```{r fcc-proj-uncertainty, results="asis", echo=FALSE}
+## Import data
+df <- read.table("_tables/forest_cover_change_ci.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
+  dplyr::mutate(yrdis=as.character(yrdis)) %>%
+  dplyr::select(area_cont:area_code, proj, for2000:for2100, loss21, yrdis, -for2005, -for2015, -for2035) %>%
+  dplyr::select(-starts_with("d_")) %>%
+  mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)}) %>%
+  dplyr::rename(d=andef, p=pdef)
+# Export table for website
+write.table(df, "tropics/supplementary-data/forest_cover_change_uncertainty.csv", sep=",", row.names=FALSE)
+## Remove some area info
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code)
+
+## Make table
+col.names <- c("Country", "proj", "fc2000", "fc2010", "fc2020", "d", "p", "fc2030", "fc2040",
+               "fc2050", "fc2055", "fc2060", "fc2070", "fc2080", "fc2085", "fc2090", "fc2100", "loss21", "yrdis")
+datatable(
+	df,
+	colnames=col.names,
+	#extensions=c("RowGroup", "FixedColumns"),
+	extensions=c("FixedColumns"),
+	rownames=FALSE,
+	options=list(
+		scrollX=TRUE, searching=TRUE, pageLength=9, lengthMenu=c(9, 18, 36),
+		#selection="none", 
+		#rowGroup=list(dataSrc=1),
+		fixedColumns=list(leftColumns=2)
+		)
+)
+
+```
+
+<span style="display: block; height: 15px;"></span>
+
+<!---------------------------------------------------->
+<!-- Carbon emissions associated with deforestation -->
+<!---------------------------------------------------->
+
+## Data S2: Uncertainty around cumulative carbon emissions associated with future deforestation
+
+Download the raw data:
+
+* Text CSV: [carbon_emissions_uncertainty.csv](tropics/supplementary-data/carbon_emissions_uncertainty.csv)
+* ODF Spreadsheet: [carbon_emissions_uncertainty.ods](tropics/supplementary-data/carbon_emissions_uncertainty.ods)
+* Excel 2007--365: [carbon_emissions_uncertainty.xlsx](tropics/supplementary-data/carbon_emissions_uncertainty.xlsx)
+
+Data S2: **Uncertainty around cumulative carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.\vspace{0.5cm}
+
+```{r c-em-uncertainty, results="asis", echo=FALSE}
+options(knitr.kable.NA="--")
+## Import data
+df <- read.table("_tables/C_emissions_ci.csv", header=TRUE, sep=",")
+## Arrange data
+df <- df %>%
+  dplyr::select(area_cont:area_code, proj, C2020:C2100, -C2035, -C2055, -C2085) %>%
+  dplyr::na_if(0) %>%
+  mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
+# Export table for website
+write.table(df, "tropics/supplementary-data/carbon_emissions_uncertainty.csv", sep=",", row.names=FALSE)
+## Remove some area info
+df <- df %>%
+  dplyr::select(-area_cont, -area_ctry, -area_code)
+
+## Make table
+col.names <- c("Country", "proj", paste0("C", seq(2020,2100, by=10)))
+datatable(
+	df,
+	colnames=col.names,
+	extensions=c("FixedColumns"),
+	rownames=FALSE,
+	options=list(
+		scrollX=TRUE, searching=TRUE, pageLength=9, lengthMenu=c(9, 18, 36),
+		fixedColumns=list(leftColumns=2)
+		)
+)
+```
+
+<span style="display: block; height: 15px;"></span>
+
+<!----------------->
+<!-- References  -->
+<!----------------->
+
+## References
