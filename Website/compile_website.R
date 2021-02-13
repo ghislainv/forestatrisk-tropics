@@ -12,7 +12,7 @@ library(rmarkdown)
 library(here)
 
 # Compile site
-render_site(here("Website"))
+render_site(here::here("Website"))
 
 # Copy website directory
 system("cp -r Website/_site/* /home/www/forestatrisk/")
