@@ -10,7 +10,7 @@ library(dplyr)
 
 ## Categories of the forest cover annual product
 
-(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2020**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm}
+(ref:cap-cat-annual-product) **Categories of the forest cover annual product by @Vancutsem2021**. The forest cover annual product classifies Landsat image pixels in 16 categories for each year (on the 31$^{\text{st}}$ of December) between 1982 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from @Pekel2016.\vspace{0.5cm}
 
 ```{r cat-annual-product, results="asis", echo=FALSE}
 df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")

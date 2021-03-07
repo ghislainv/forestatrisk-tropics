@@ -1,5 +1,5 @@
 Product,Source,Variable derived,Unit,Resolution,Date
-Forest maps (2000-2010-2020),Vancutsem et al. 2020,distance to forest edge,m,30,--
+Forest maps (2000-2010-2020),Vancutsem et al. 2021,distance to forest edge,m,30,--
 ,,distance to past deforestation,m,30,--
 Digital Elevation Model,SRTM v4.1 CSI-CGIAR,elevation,m,90,--
 ,,slope,degree,90,--

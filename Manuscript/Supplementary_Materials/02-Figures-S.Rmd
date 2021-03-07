@@ -26,7 +26,7 @@ knitr::include_graphics("figures/study_areas_Asia.png")
 
 ## Historical forest cover change map
 
-(ref:cap-fcc-maps) **Historical forest cover change map**. Forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2020. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/maps.html>.
+(ref:cap-fcc-maps) **Historical forest cover change map**. Forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2021. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/maps.html>.
 
 ```{r fcc-maps, out.width="\\textwidth", fig.cap="(ref:cap-fcc-maps)"}
 knitr::include_graphics("figures/fcc123.png")
