@@ -120,7 +120,7 @@ for (i in 1:3) {
 l_prob <- list()
 
 ## Loop on continent
-tmap_opt(npix=1e5)
+tmap_opt(npix=1e+07)
 for (i in 1:ncont) {
 	
 	## Continent
@@ -158,22 +158,22 @@ for (i in 1:ncont) {
 	r_prob <- read_stars(here("Maps", dataset, cont, "prob_500m.tif"))
 
 	## Maps prob
-	l.show <- ifelse(cont=="Asia", TRUE, FALSE)
+	l.show <- ifelse(cont=="Africa", TRUE, FALSE)
 	m_prob <- 
-		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
+		tm_shape(eq_sf) +
 		  tm_lines(lty=1,lwd=0.5) +
 		tm_shape(trop_sf) +
 		  tm_lines(lty=2, lwd=0.5) +
 		tm_shape(gadm0_cont) +
 		  tm_fill(grey(0.9)) +
-	  tm_shape(r_prob) +
+	  tm_shape(r_prob, bbox=bbox_cont[[i]], is.master=TRUE) +
 	    tm_raster(style="cont", title="", legend.reverse=TRUE, legend.show=l.show,
 	              palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
 	              breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
 	  tm_shape(borders) +
 		  tm_borders(col=grey(0.5), lwd=0.5) +
 	  tm_shape(zoom_points[[i]]) +
-		  tm_dots(col="black", size=0.25) +
+		  tm_squares(col="black", size=0.1) +
 	  tm_layout(inner.margins=c(0,0,0,0),
 	            outer.margins=c(0,0,0,0))
 	
@@ -181,13 +181,15 @@ for (i in 1:ncont) {
 	l_prob[[i]] <- m_prob
 }
 
-## Add year and scale bar to Asia
-## prob (add legend layout)
+## Add scale bar to Asia
 prob_Asia <- l_prob[[3]] + 
-  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
-	             position=c(0.15, 0.01), just=c("left", "bottom")) +
-  tm_legend(position=c(0.02, 0.02), just=c("left","bottom")) +
-  tm_layout(legend.text.size=0.5)
+  tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.5,
+	             position=c("left", "bottom"), just=c("left", "bottom"))
+
+## Add legend to Africa
+prob_Africa <- l_prob[[2]] + 
+  tm_legend(position=c("left", "bottom"), just=c("left", "bottom")) +
+  tm_layout(legend.text.size=0.6)
 
 # ===============================================
 # Zooming on the deforestation probability map
@@ -232,14 +234,14 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
     tm_shape(borders) +
       tm_fill(col=grey(0.9)) +
     tm_shape(r_prob, bbox=bb_proj, is.master=TRUE) +
-      tm_raster(style="cont", alpha=0.6, title="", legend.reverse=TRUE,
+      tm_raster(style="cont", alpha=0.8, title="", legend.reverse=TRUE,
                 legend.show=FALSE,
   	            palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
   	            breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
     tm_shape(roads) +
-  	  tm_lines(col=col_roads, lwd=2) +
+  	  tm_lines(col=col_roads, lwd=0.7) +
     tm_shape(pa) +
-      tm_borders(col="black", lwd=2) +
+      tm_borders(col="black", lwd=1.2) +
     tm_shape(pa) +
       tm_fill(col=grey(0.5), alpha=0.4) +
     tm_layout(inner.margins=c(0,0,0,0),
@@ -249,75 +251,76 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
   return(m_zoom_prob)
 }
 
+# Set npix
+npix <- 1e+07
+
 # ---------------------
 # America (Mato Grosso)
 # ---------------------
-
-# Region
 ctry_iso <- "BRA-MT"
 cont <- "AME"
 continent <- "Brazil"
 xmin <- 20840; ymin <- 2548500
 zoom_prob_Ame <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
-                             size_m=100000, npix=1e+05, col_roads=grey(0.4))
-
-
+                             size_m=100000, npix=npix, col_roads="black")
 # -------------------
 # Africa (Madagascar)
 # -------------------
-
-# Region
 ctry_iso <- "MDG"
 cont <- "AFR"
 continent <- "Africa"
 xmin <- 2347879; ymin <- -2289793
 zoom_prob_Afr <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
-                             size_m=100000, npix=1e+05, col_roads=grey(0.4))
-
+                             size_m=100000, npix=npix, col_roads="black")
 # -------------------
 # Asia (Indonesia)
 # -------------------
-
-# Region
 ctry_iso <- "IDN"
 cont <- "ASI"
 continent <- "Asia"
 xmin <- -1636620; ymin <- 1525793
 zoom_prob_Asi <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
-                             size_m=100000, npix=1e+05, col_roads=grey(0.4))
-
+                             size_m=100000, npix=npix, col_roads="black")
+## Add legend and scale bar to Asia
+zoom_prob_Asi <- zoom_prob_Asi + 
+  tm_scale_bar(breaks=c(0, 10, 20), text.size=0.5,
+	             position=c("left", "bottom"), just=c("left", "bottom"))
 
 # ==============================
 # Arrange plot with grid package
 # ==============================
 
 ## Plot (map) size in m
-height_trop_m <- bbox_Ame$ymax-bbox_Ame$ymin
+height_cont_m <- bbox_Ame$ymax-bbox_Ame$ymin
 width_cont_m <- bbox_Ame$xmax-bbox_Ame$xmin # Same between continents (52°)
 
 ## Figure width in m (map unit)
-space_npc <- 0.015 # White space between plots (in "npc")
+space_npc <- 0.0075 # White space between plots (in "npc")
 width_fig_m <- (3*width_cont_m)/(1-2*space_npc)
 space_m <- space_npc*width_fig_m
-height_fig_m <- height_trop_m + space_m + width_cont_m
+height_fig_m <- height_cont_m + space_m + width_cont_m
 ratio <- height_fig_m/width_fig_m
 
 ## Plot (map) width and height in npc
-height_trop_npc <- 0.5*(1-space_npc)
+# Continents
+height_cont_npc <- height_cont_m/height_fig_m
 width_cont_npc <- width_cont_m/width_fig_m
+# Zooms
+height_zoom_npc <- 1-space_npc-height_cont_npc
+width_zoom_npc <- 1-2*space_npc-2*width_cont_npc
 
 ## Viewports in npc
 # Continents
-vp_Ame <- viewport(x=0, y=1, width=width_cont_npc, height=height_trop_npc, just=c(0,1))
-vp_Afr <- viewport(x=0.5, y=1, width=width_cont_npc, height=height_trop_npc, just=c(0.5,1))
-vp_Asi <- viewport(x=1, y=1, width=width_cont_npc, height=height_trop_npc, just=c(1,1))
+vp_Ame <- viewport(x=0, y=1, width=width_cont_npc, height=height_cont_npc, just=c(0,1))
+vp_Afr <- viewport(x=0.5, y=1, width=width_cont_npc, height=height_cont_npc, just=c(0.5,1))
+vp_Asi <- viewport(x=1, y=1, width=width_cont_npc, height=height_cont_npc, just=c(1,1))
 # Zooms
-vp_Ame_z <- viewport(x=0, y=0, width=height_trop_npc, height=height_trop_npc, just=c(0,0))
-vp_Afr_z <- viewport(x=0.5, y=0, width=height_trop_npc, height=height_trop_npc, just=c(0.5,0))
-vp_Asi_z <- viewport(x=1, y=0, width=height_trop_npc, height=height_trop_npc, just=c(1,0))
+vp_Ame_z <- viewport(x=0, y=0, width=width_zoom_npc, height=height_zoom_npc, just=c(0,0))
+vp_Afr_z <- viewport(x=0.5, y=0, width=width_zoom_npc, height=height_zoom_npc, just=c(0.5,0))
+vp_Asi_z <- viewport(x=1, y=0, width=width_zoom_npc, height=height_zoom_npc, just=c(1,0))
 
 ## Arrange plots with grid package
 ## prob
@@ -326,7 +329,7 @@ png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
 grid.newpage()
 # Continents
 print(l_prob[[1]], vp=vp_Ame)
-print(l_prob[[2]], vp=vp_Afr)
+print(prob_Africa, vp=vp_Afr)
 print(prob_Asia, vp=vp_Asi)
 # Zooms
 print(zoom_prob_Ame, vp=vp_Ame_z)
