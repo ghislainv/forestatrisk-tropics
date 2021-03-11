@@ -56,8 +56,12 @@ tmap_opt <- function(npix=1e5, ...) {
 ## textwidth (in cm) for figure width
 textwidth <- 16.6
 
+# =============================
+# Maps at the continental scale
+# =============================
+
 ## Continents
-continent <- c("Africa", "America", "Asia")
+continent <- c("America", "Africa", "Asia")
 ncont <- length(continent)
 
 ## Load GADM level0 data
@@ -82,33 +86,33 @@ data("World")
 ## Bounding boxes
 ## Tropics in latlong
 ymin_trop <- -23.43661; ymax_trop <- 23.43661
-## Africa
-bb <- st_bbox(c(xmin=-19, xmax=52,
-                ymin=ymin_trop, ymax=ymax_trop),
-              crs=4326)
-bbox_Afr <- bb %>% st_as_sfc() %>% st_transform(crs=3395) %>% st_bbox()
 ## America
-bb <- st_bbox(c(xmin=-94, xmax=-33,
+bb <- st_bbox(c(xmin=-86, xmax=-34,
                 ymin=ymin_trop, ymax=ymax_trop),
               crs=4326)
 bbox_Ame <- bb %>% st_as_sfc() %>% st_transform(crs=3395) %>% st_bbox()
+## Africa
+bb <- st_bbox(c(xmin=-10, xmax=42,
+                ymin=ymin_trop, ymax=ymax_trop),
+              crs=4326)
+bbox_Afr <- bb %>% st_as_sfc() %>% st_transform(crs=3395) %>% st_bbox()
 ## Asia
-bb <- st_bbox(c(xmin=68, xmax=170,
+bb <- st_bbox(c(xmin=94, xmax=146,
                 ymin=ymin_trop, ymax=ymax_trop),
               crs=4326)
 bbox_Asi <- bb %>% st_as_sfc() %>% st_transform(crs=3395) %>% st_bbox()
-bbox_cont <- list(bbox_Afr, bbox_Ame, bbox_Asi)
+bbox_cont <- list(bbox_Ame, bbox_Afr, bbox_Asi)
 
-## Points for zoom
+## Points for zoom (order: America, Africa, Asia)
 xmin <- c(20840, 2347879, -1636620)
 ymin <- c(2548500, -2289793, 1525793)
 size_m <- 100000 
 coords <- data.frame(X=xmin+size_m/2, Y=ymin+size_m/2)
 crs_cont <- c("ESRI:102033", "ESRI:102022", "ESRI:102028")
-zoom_points_list <- list()
+zoom_points <- list()
 for (i in 1:3) {
   sp_proj <- st_as_sf(coords[i, ], coords = c("X", "Y"), crs=crs_cont[i])
-  zoom_points_list[[i]] <- st_transform(sp_proj, crs=3395)
+  zoom_points[[i]] <- st_transform(sp_proj, crs=3395)
 }
 
 
@@ -116,7 +120,7 @@ for (i in 1:3) {
 l_prob <- list()
 
 ## Loop on continent
-tmap_opt(npix=1e7)
+tmap_opt(npix=1e5)
 for (i in 1:ncont) {
 	
 	## Continent
@@ -168,6 +172,8 @@ for (i in 1:ncont) {
 	              breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
 	  tm_shape(borders) +
 		  tm_borders(col=grey(0.5), lwd=0.5) +
+	  tm_shape(zoom_points[[i]]) +
+		  tm_dots(col="black", size=0.25) +
 	  tm_layout(inner.margins=c(0,0,0,0),
 	            outer.margins=c(0,0,0,0))
 	
@@ -181,44 +187,7 @@ prob_Asia <- l_prob[[3]] +
   tm_scale_bar(breaks=c(0, 1000, 2000), text.size=0.6,
 	             position=c(0.15, 0.01), just=c("left", "bottom")) +
   tm_legend(position=c(0.02, 0.02), just=c("left","bottom")) +
-  tm_layout(legend.text.size=0.8)
-
-## Plot (map) size in m
-height_trop_m <- bbox_Ame$ymax-bbox_Ame$ymin
-width_Ame_m <- bbox_Ame$xmax-bbox_Ame$xmin
-width_Afr_m <- bbox_Afr$xmax-bbox_Afr$xmin
-width_Asi_m <- bbox_Asi$xmax-bbox_Asi$xmin
-
-## Figure width in m (map unit)
-space_npc <- 0.015 # White space between plots (in "npc")
-width_fig_m <- (width_Ame_m+width_Afr_m)/(1-space_npc)
-space_m <- space_npc*width_fig_m
-height_fig_m <- 2*height_trop_m + space_m
-ratio <- height_fig_m/width_fig_m
-
-## Plot (map) width and height in npc
-height_trop_npc <- 0.5*(1-space_npc)
-width_Ame_npc <- width_Ame_m/width_fig_m
-width_Afr_npc <- width_Afr_m/width_fig_m
-width_Asi_npc <- width_Asi_m/width_fig_m
-
-## Viewports in npc
-vp_Ame <- viewport(x=0, y=1, width=width_Ame_npc, height=height_trop_npc, just=c(0,1))
-vp_Afr <- viewport(x=1, y=1, width=width_Afr_npc, height=height_trop_npc, just=c(1,1))
-vp_Asi <- viewport(x=0.5, y=0, width=width_Asi_npc, height=height_trop_npc, just=c(0.5,0))
-
-## Arrange plots with grid package
-## prob
-f <- here("Maps", dataset, "prob.png")
-png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
-grid.newpage()
-print(l_prob[[2]], vp=vp_Ame)
-print(l_prob[[1]], vp=vp_Afr)
-print(prob_Asia, vp=vp_Asi)
-dev.off()
-## Copy for manuscript
-f_doc <- here("Manuscript", "Article", "figures", "prob.png")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
+  tm_layout(legend.text.size=0.5)
 
 # ===============================================
 # Zooming on the deforestation probability map
@@ -291,7 +260,7 @@ continent <- "Brazil"
 xmin <- 20840; ymin <- 2548500
 zoom_prob_Ame <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
-                             size_m=100000, npix=1e+07, col_roads=grey(0.4))
+                             size_m=100000, npix=1e+05, col_roads=grey(0.4))
 
 
 # -------------------
@@ -305,7 +274,7 @@ continent <- "Africa"
 xmin <- 2347879; ymin <- -2289793
 zoom_prob_Afr <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
-                             size_m=100000, npix=1e+07, col_roads=grey(0.4))
+                             size_m=100000, npix=1e+05, col_roads=grey(0.4))
 
 # -------------------
 # Asia (Indonesia)
@@ -319,5 +288,53 @@ xmin <- -1636620; ymin <- 1525793
 zoom_prob_Asi <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
                              size_m=100000, npix=1e+05, col_roads=grey(0.4))
+
+
+# ==============================
+# Arrange plot with grid package
+# ==============================
+
+## Plot (map) size in m
+height_trop_m <- bbox_Ame$ymax-bbox_Ame$ymin
+width_cont_m <- bbox_Ame$xmax-bbox_Ame$xmin # Same between continents (52°)
+
+## Figure width in m (map unit)
+space_npc <- 0.015 # White space between plots (in "npc")
+width_fig_m <- (3*width_cont_m)/(1-2*space_npc)
+space_m <- space_npc*width_fig_m
+height_fig_m <- height_trop_m + space_m + width_cont_m
+ratio <- height_fig_m/width_fig_m
+
+## Plot (map) width and height in npc
+height_trop_npc <- 0.5*(1-space_npc)
+width_cont_npc <- width_cont_m/width_fig_m
+
+## Viewports in npc
+# Continents
+vp_Ame <- viewport(x=0, y=1, width=width_cont_npc, height=height_trop_npc, just=c(0,1))
+vp_Afr <- viewport(x=0.5, y=1, width=width_cont_npc, height=height_trop_npc, just=c(0.5,1))
+vp_Asi <- viewport(x=1, y=1, width=width_cont_npc, height=height_trop_npc, just=c(1,1))
+# Zooms
+vp_Ame_z <- viewport(x=0, y=0, width=height_trop_npc, height=height_trop_npc, just=c(0,0))
+vp_Afr_z <- viewport(x=0.5, y=0, width=height_trop_npc, height=height_trop_npc, just=c(0.5,0))
+vp_Asi_z <- viewport(x=1, y=0, width=height_trop_npc, height=height_trop_npc, just=c(1,0))
+
+## Arrange plots with grid package
+## prob
+f <- here("Maps", dataset, "prob_zoom.png")
+png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
+grid.newpage()
+# Continents
+print(l_prob[[1]], vp=vp_Ame)
+print(l_prob[[2]], vp=vp_Afr)
+print(prob_Asia, vp=vp_Asi)
+# Zooms
+print(zoom_prob_Ame, vp=vp_Ame_z)
+print(zoom_prob_Afr, vp=vp_Afr_z)
+print(zoom_prob_Asi, vp=vp_Asi_z)
+dev.off()
+## Copy for manuscript
+f_doc <- here("Manuscript", "Article", "figures", "prob_zoom.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
