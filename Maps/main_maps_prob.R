@@ -104,8 +104,8 @@ bbox_Asi <- bb %>% st_as_sfc() %>% st_transform(crs=3395) %>% st_bbox()
 bbox_cont <- list(bbox_Ame, bbox_Afr, bbox_Asi)
 
 ## Points for zoom (order: America, Africa, Asia)
-xmin <- c(20840, 2347879, -1636620)
-ymin <- c(2548500, -2289793, 1525793)
+xmin <- c(20840, 384395, -1636620)
+ymin <- c(2548500, 94677, 1525793)
 size_m <- 100000 
 coords <- data.frame(X=xmin+size_m/2, Y=ymin+size_m/2)
 crs_cont <- c("ESRI:102033", "ESRI:102022", "ESRI:102028")
@@ -114,7 +114,6 @@ for (i in 1:3) {
   sp_proj <- st_as_sf(coords[i, ], coords = c("X", "Y"), crs=crs_cont[i])
   zoom_points[[i]] <- st_transform(sp_proj, crs=3395)
 }
-
 
 ## List to save maps
 l_prob <- list()
@@ -209,7 +208,7 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
   bb_ll <- bb_proj %>% st_as_sfc() %>% st_transform(crs=4326) %>% st_bbox()
   
   # Prob extract
-  f_out <- here("Maps", dataset, ctry_iso, "prob_zoom.tif")
+  f_out <- here("Maps", dataset, ctry_iso, "prob_zoom_100km.tif")
   if (!file.exists(f_out)) {
     extent <- glue("{bb_ll$xmin} {bb_ll$ymax} {bb_ll$xmax} {bb_ll$ymin}")
     proj <- "EPSG:4326"
@@ -221,7 +220,7 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
   # Data
   roads <- st_read(here("Data", dataset, continent, ctry_iso, "data", "roads_PROJ.shp"))
   pa <- st_read(here("Data", dataset, continent, ctry_iso, "data", "pa_PROJ.shp"))
-  r_prob <- read_stars(here("Maps", dataset, ctry_iso, "prob_zoom.tif"))
+  r_prob <- read_stars(here("Maps", dataset, ctry_iso, "prob_zoom_100km.tif"))
   
   # Crop to extent
   roads <- roads %>% st_crop(bb_proj)
@@ -254,9 +253,9 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
 # Set npix
 npix <- 1e+07
 
-# ---------------------
-# America (Mato Grosso)
-# ---------------------
+# ----------------------
+# America (Matto Grosso)
+# ----------------------
 ctry_iso <- "BRA-MT"
 cont <- "AME"
 continent <- "Brazil"
@@ -265,12 +264,12 @@ zoom_prob_Ame <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
                              size_m=100000, npix=npix, col_roads="black")
 # -------------------
-# Africa (Madagascar)
+# Africa (DRC)
 # -------------------
-ctry_iso <- "MDG"
+ctry_iso <- "COD"
 cont <- "AFR"
 continent <- "Africa"
-xmin <- 2347879; ymin <- -2289793
+xmin <- 384395; ymin <- 94677
 zoom_prob_Afr <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
                              size_m=100000, npix=npix, col_roads="black")
