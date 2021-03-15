@@ -55,7 +55,7 @@ def run_country(iso3):
     far.make_dir("data_raw")
 
     # Input/output directories
-    in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2019",
+    in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020_bak",
                           cont, iso3, "data_raw/")
     out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
                            cont, iso3, "data_raw/")
@@ -70,10 +70,10 @@ def run_country(iso3):
     cmd = " ".join(["cp", in_f, out_dir])
     subprocess.call(cmd, shell=True)
 
-    # Copy WDPA
-    in_f = in_dir + "pa_" + iso3 + ".*"
-    cmd = " ".join(["cp", in_f, out_dir])
-    subprocess.call(cmd, shell=True)
+    # # Copy WDPA
+    # in_f = in_dir + "pa_" + iso3 + ".*"
+    # cmd = " ".join(["cp", in_f, out_dir])
+    # subprocess.call(cmd, shell=True)
 
     # Copy OSM
     in_f = in_dir + "country.osm.pbf"

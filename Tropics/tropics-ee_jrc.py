@@ -47,7 +47,7 @@ def run_country(iso3):
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/jrc2020/" + cont
+    owd = "/share/nas2-amap/gvieilledent/jrc2020_bak/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
