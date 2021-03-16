@@ -3,18 +3,32 @@ output: github_document
 title: forestatrisk-tropics
 ---
 
-This repository is accompanying the following scientific article:
+[![Website ForestAtRisk](https://img.shields.io/badge/website-ForestAtRisk-blue)](https://forestatrisk.cirad.fr)
+[![License GPLv3](https://img.shields.io/badge/licence-GPLv3-8f10cb.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 
-**Vieilledent G., C. Vancutsem, F. Achard.** Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century. in prep.
+This repository includes the code used to produce the results of the following scientific article:
+
+<a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://ecology.ghislainv.fr" style="color:#2C3E50;">**Vieilledent G.,**</a>
+<a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem,**</a>
+<a href="https://www.researchgate.net/profile/Achard_Frederic" style="color:#2C3E50;">**F. Achard.**</a>
+Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century. in prep.
 
 ## Reproducibility of the results
 
-### Python for geoprocessing and modelling
-
-1\. Derive historical forest cover change map from the annual product of Vancutsem et al. 2020 on Google Earth Engine.
+### Computing historical deforestation rates and uncertainty
 
 ```bash
-combine.py
+Rscript Intensity/intensity.R
+```
+
+### Geoprocessing and modelling
+
+1\. Derive historical forest cover change map from the annual product of Vancutsem et al. 2021 using Google Earth Engine.
+
+```bash
+python combine.py
 ```
 
 2\. Download raw data from on-line databases (GADM, SRTM, WDPA, OSM), and Google Drive.
@@ -43,57 +57,28 @@ Maps/combine.py
 
 ### R for post-processing and writing
 
-6\. Plot main maps
+1\. Plot main maps
 
 ```bash
 Rscript Maps/main_maps.R
 ```
 
-7\. Plot supplementary maps
+2\. Plot supplementary maps
 
 ```bash
 Rscript Maps/supp_maps.R
 ```
 
-8\. Synthesize results
+3\. Synthesize results
 
 ```bash
 Rscript Analysis/synthesis.R
 ```
 
-9\. Compile documents
+4\. Compile documents
 
 ```bash
 Rscript Manuscript/zzz_knitr_compile/compile_book.R
 ```
-
-## Associated ressources
-
-### Interactive maps
-
-Interactive maps from this study (forest cover change, deforestation risk, and projected forest cover in 2050 and 2100) have been made available:
-
-- [Tropics](https://forestatrisk.cirad.fr/tropics/)
-- [Madagascar](https://forestatrisk.cirad.fr/mada/)
-- [New-Caledonia](https://forestatrisk.cirad.fr/newcal/)
-
-### Downloading
-
-Rasters of results from this study can be downloaded as Cloud Optimized GeoTIFF ([COG](https://www.cogeo.org/)):
-
-- [Rasters](https://forestatrisk.cirad.fr/rasters.html)
-- [COG tutorial](https://forestatrisk.cirad.fr/notebooks/cog.html)
-
-### Supplementary data
-
-- [Data S1](https://forestatrisk.cirad.fr/tropics/supplementary-data): Past and projected forest cover.
-- [Data S2](https://forestatrisk.cirad.fr/tropics/supplementary-data): Cumulative carbon emissions associated to future deforestation
-
-### `forestatrisk` Python package
-
-Results from this study have been obtained with the `forestatrisk` Python package:
-
-- [Package website](https://ecology.ghislainv.fr/forestatrisk/) (with full documentation)
-- [Tutorials](https://ecology.ghislainv.fr/forestatrisk/articles.html)
 
 <!-- End of file -->

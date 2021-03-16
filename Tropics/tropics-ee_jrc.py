@@ -14,6 +14,8 @@
 # 2. rclone with Google Drive: https://rclone.org/drive/
 # 3. WDPA: https://www.protectedplanet.net/
 
+from pywdpa import get_token
+from dotenv import load_dotenv
 import sys
 import os
 import subprocess
@@ -29,9 +31,7 @@ import forestatrisk as far
 import ee
 ee.Initialize()
 # WDPA API
-from dotenv import load_dotenv
 load_dotenv("/home/gvieilledent/Code/forestatrisk-tropics/.env")
-from pywdpa import get_token
 get_token()
 # ==================
 
@@ -42,20 +42,21 @@ data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
+
 # Function for multiprocessing
 def run_country(iso3):
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/jrc2020_bak/" + cont
+    owd = "/share/nas2-amap/gvieilledent/jrc2020/" + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
 
     # # Copy borders
     # far.make_dir("data_raw")
-    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2019",
-    #                          cont, iso3, "data_raw/")
+    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020_bak",
+    #                       cont, iso3, "data_raw/")
     # out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
     #                          cont, iso3, "data_raw/")
     # in_f = in_dir + "gadm36_" + iso3 + "_0.*"
@@ -73,6 +74,7 @@ def run_country(iso3):
 
     # Return country iso code
     return(iso3)
+
 
 # Run country
 for i in range(nctry):

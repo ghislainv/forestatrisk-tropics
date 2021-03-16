@@ -90,9 +90,14 @@ for (i in 1:length(continents)) {
   system(glue("v.out.ogr --o format=ESRI_Shapefile input=ctry_{cont}_grid output={output_file}"))
 }
 
-## This vector data-set as been imported as a table in Google Earth Engine
+## 1. This vector data-set as been imported as a table in Google Earth Engine
 ## with id "users/ghislainv/deforintensity/ctry_grid".
-## Then gee_fcc.py has been executed.
+
+## 2. Then gee_fcc.py has been executed.
+## system("python gee_fcc.py")
+
+## 3. Finally, resulting datasets ForestArea_grid_{cont}.csv 
+## have been imported in folder "output"
 
 # ==============================
 # Import table obtained with GEE
