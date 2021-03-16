@@ -18,6 +18,7 @@ Intensity/output/*
 # Manuscript
 Manuscript/Supplementary_Materials/doc/*.pdf
 Manuscript/Article/doc/*.pdf
+Manuscript/Cover_Letter/*.pdf
 
 # GIS data
 *.gpkg
