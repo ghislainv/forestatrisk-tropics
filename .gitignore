@@ -32,6 +32,7 @@ Manuscript/Cover_Letter/*.pdf
 !Manuscript/Article/figures/*.png
 !Analysis/*/results/*.png
 !Analysis/*/*.png
+!Website/images/*.png
 *.svg
 
 # Data
