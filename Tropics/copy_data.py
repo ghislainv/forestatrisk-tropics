@@ -21,7 +21,7 @@ import pkg_resources
 import pandas as pd
 import forestatrisk as far
 
-index_ctry = int(sys.argv[1])-1
+#index_ctry = int(sys.argv[1])-1
 
 # # ==================
 # # Settings
@@ -93,7 +93,8 @@ def run_country(iso3):
 
 
 # Run country
-# for i in range(nctry):
-run_country(iso3[index_ctry])
+for i in range(nctry):
+    run_country(iso3[i])
+    # run_country(iso3[index_ctry])
 
 # End
