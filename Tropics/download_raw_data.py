@@ -16,7 +16,7 @@
 
 import sys
 import os
-import shutil  # for rmtree
+import shutil  # for rmtree and copy
 # import re  # regular expressions
 import pkg_resources
 import pandas as pd
@@ -63,6 +63,43 @@ def run_country(iso3):
         gdrive_remote_rclone="gdrive_gv",
         gdrive_folder="GEE-forestatrisk-tropics-jrc-2020",
         output_dir="data_raw")
+
+    # Exceptions WDPA
+    if cont == "Brazil":
+        if iso3 == "BRA-AC":
+            # Download data
+            far.data.country_wdpa(iso3="BRA", output_dir="data_raw")
+            # Rename
+            for ext in [".dbf", ".prj", ".shp", ".shx"]:
+                os.rename("data_raw/pa_BRA" + ext,
+                          "data_raw/pa_" + iso3 + ext)
+        else:
+            # Copy data
+            for ext in [".dbf", ".prj", ".shp", ".shx"]:
+                shutil.copy(os.path.join(owd, "BRA-AC", "data_raw",
+                                         "pa_BRA-AC" + ext),
+                            "data_raw/pa_" + iso3 + ext)
+    if cont == "Asia":
+        if iso3 == "AUS-QLD":
+            # Download data
+            far.data.country_wdpa(iso3="AUS", output_dir="data_raw")
+            # Rename
+            for ext in [".dbf", ".prj", ".shp", ".shx"]:
+                os.rename("data_raw/pa_AUS" + ext,
+                          "data_raw/pa_" + iso3 + ext)
+        if iso3 == "IND-AND":
+            # Download data
+            far.data.country_wdpa(iso3="IND", output_dir="data_raw")
+            # Rename
+            for ext in [".dbf", ".prj", ".shp", ".shx"]:
+                os.rename("data_raw/pa_IND" + ext,
+                          "data_raw/pa_" + iso3 + ext)
+        if iso3 in ["IND-EAST", "IND-WEST"]:
+            # Copy data
+            for ext in [".dbf", ".prj", ".shp", ".shx"]:
+                shutil.copy(os.path.join(owd, "IND-AND", "data_raw",
+                                         "pa_IND-AND" + ext),
+                            "data_raw/pa_" + iso3 + ext)
 
     # Return country iso code
     return iso3
