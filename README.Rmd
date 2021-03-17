@@ -28,13 +28,13 @@ Rscript Intensity/intensity.R
 1\. Derive historical forest cover change map from the annual product of Vancutsem et al. 2021 using Google Earth Engine.
 
 ```bash
-python combine.py
+python Tropics/forest_gee_jrc.py
 ```
 
 2\. Download raw data from on-line databases (GADM, SRTM, WDPA, OSM), and Google Drive.
 
 ```bash
-combine.py
+python Tropics/download_raw_data.py
 ```
 
 3\. Compute explanatory variables (elevation, slope, distances, etc.).

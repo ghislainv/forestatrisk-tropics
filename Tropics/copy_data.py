@@ -21,7 +21,7 @@ import pkg_resources
 import pandas as pd
 import forestatrisk as far
 
-#index_ctry = int(sys.argv[1])-1
+# index_ctry = int(sys.argv[1])-1
 
 # # ==================
 # # Settings
