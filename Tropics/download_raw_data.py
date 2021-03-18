@@ -23,7 +23,7 @@ import pandas as pd
 import forestatrisk as far
 from run_modelling_steps import run_modelling_steps
 
-# index_ctry = int(sys.argv[1])-1
+index_ctry = int(sys.argv[1])-1
 
 # ==================
 # Settings
@@ -64,50 +64,51 @@ def run_country(iso3):
         gdrive_folder="GEE-forestatrisk-tropics-jrc-2020",
         output_dir="data_raw")
 
-    # Exceptions WDPA
-    if cont == "Brazil":
-        if iso3 == "BRA-AC":
-            # Download data
-            far.data.country_wdpa(iso3="BRA", output_dir="data_raw")
-            # Rename
-            for ext in [".dbf", ".prj", ".shp", ".shx"]:
-                os.rename("data_raw/pa_BRA" + ext,
-                          "data_raw/pa_" + iso3 + ext)
-        else:
-            # Copy data
-            for ext in [".dbf", ".prj", ".shp", ".shx"]:
-                shutil.copy(os.path.join(owd, "BRA-AC", "data_raw",
-                                         "pa_BRA-AC" + ext),
-                            "data_raw/pa_" + iso3 + ext)
-    if cont == "Asia":
-        if iso3 == "AUS-QLD":
-            # Download data
-            far.data.country_wdpa(iso3="AUS", output_dir="data_raw")
-            # Rename
-            for ext in [".dbf", ".prj", ".shp", ".shx"]:
-                os.rename("data_raw/pa_AUS" + ext,
-                          "data_raw/pa_" + iso3 + ext)
-        if iso3 == "IND-AND":
-            # Download data
-            far.data.country_wdpa(iso3="IND", output_dir="data_raw")
-            # Rename
-            for ext in [".dbf", ".prj", ".shp", ".shx"]:
-                os.rename("data_raw/pa_IND" + ext,
-                          "data_raw/pa_" + iso3 + ext)
-        if iso3 in ["IND-EAST", "IND-WEST"]:
-            # Copy data
-            for ext in [".dbf", ".prj", ".shp", ".shx"]:
-                shutil.copy(os.path.join(owd, "IND-AND", "data_raw",
-                                         "pa_IND-AND" + ext),
-                            "data_raw/pa_" + iso3 + ext)
+    # # Exceptions WDPA
+    # if cont == "Brazil":
+    #     if iso3 == "BRA-AC":
+    #         # Download data
+    #         far.data.country_wdpa(iso3="BRA", output_dir="data_raw")
+    #         # Rename
+    #         for ext in [".dbf", ".prj", ".shp", ".shx"]:
+    #             os.rename("data_raw/pa_BRA" + ext,
+    #                       "data_raw/pa_" + iso3 + ext)
+    #     else:
+    #         # Copy data
+    #         for ext in [".dbf", ".prj", ".shp", ".shx"]:
+    #             shutil.copy(os.path.join(owd, "BRA-AC", "data_raw",
+    #                                      "pa_BRA-AC" + ext),
+    #                         "data_raw/pa_" + iso3 + ext)
+    # if cont == "Asia":
+    #     if iso3 == "AUS-QLD":
+    #         # Download data
+    #         far.data.country_wdpa(iso3="AUS", output_dir="data_raw")
+    #         # Rename
+    #         for ext in [".dbf", ".prj", ".shp", ".shx"]:
+    #             os.rename("data_raw/pa_AUS" + ext,
+    #                       "data_raw/pa_" + iso3 + ext)
+    #     if iso3 == "IND-AND":
+    #         # Download data
+    #         far.data.country_wdpa(iso3="IND", output_dir="data_raw")
+    #         # Rename
+    #         for ext in [".dbf", ".prj", ".shp", ".shx"]:
+    #             os.rename("data_raw/pa_IND" + ext,
+    #                       "data_raw/pa_" + iso3 + ext)
+    #     if iso3 in ["IND-EAST", "IND-WEST"]:
+    #         # Copy data
+    #         for ext in [".dbf", ".prj", ".shp", ".shx"]:
+    #             shutil.copy(os.path.join(owd, "IND-AND", "data_raw",
+    #                                      "pa_IND-AND" + ext),
+    #                         "data_raw/pa_" + iso3 + ext)
 
     # Return country iso code
     return iso3
 
 
 # Run country
-for i in range(nctry):
-    run_country(iso3[i])
-    # run_country(iso3[index_ctry])
+#for i in range(nctry):
+#    run_country(iso3[i])
+
+run_country(iso3[index_ctry])
 
 # End

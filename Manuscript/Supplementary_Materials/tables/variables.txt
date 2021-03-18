@@ -6,4 +6,4 @@ Digital Elevation Model,SRTM v4.1 CSI-CGIAR,elevation,m,90,--
 Highways,OSM-Geofabrik,distance to road,m,150,Jan-Mar 2020
 Places,,distance to town,m,150,Jan-Mar 2020
 Waterways,,distance to river,m,150,Jan-Mar 2020
-Protected areas,WDPA,presence of protected area,--,30,Jan-Mar 2020
+Protected areas,WDPA,presence of protected area,--,30,March 2021

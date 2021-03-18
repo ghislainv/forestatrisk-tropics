@@ -32,8 +32,8 @@ output:
         vk: no
         all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
 bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
-biblio-style: bib/Science.bst
-#biblio-style: bib/jae.bst
+#biblio-style: bib/Science.bst
+biblio-style: bib/jae.bst
 link-citations: yes
 csl: bib/science.csl
 #csl: bib/journal-of-applied-ecology.csl
