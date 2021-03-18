@@ -3,7 +3,7 @@ Forest maps (2000-2010-2020),Vancutsem et al. 2021,distance to forest edge,m,30,
 ,,distance to past deforestation,m,30,--
 Digital Elevation Model,SRTM v4.1 CSI-CGIAR,elevation,m,90,--
 ,,slope,degree,90,--
-Highways,OSM-Geofabrik,distance to road,m,150,Jan-Mar 2020
-Places,,distance to town,m,150,Jan-Mar 2020
-Waterways,,distance to river,m,150,Jan-Mar 2020
+Highways,OSM-Geofabrik,distance to road,m,150,March 2021
+Places,,distance to town,m,150,March 2021
+Waterways,,distance to river,m,150,March 2021
 Protected areas,WDPA,presence of protected area,--,30,March 2021

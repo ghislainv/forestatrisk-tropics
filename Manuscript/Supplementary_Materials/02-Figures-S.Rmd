@@ -1,12 +1,12 @@
 # Figures
 
 <!--------------------------------------------->
-<!-- Study-areas -->
+<!-- study areas -->
 <!--------------------------------------------->
 
-## Study-areas in the three continents
+## Study areas in the three continents
 
-(ref:cap-study-areas) **Study-areas in the three continents: America, Africa, and Asia**. America included 64 study-areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study-areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study-area. In the three figures, each study-area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
+(ref:cap-study-areas) **Study areas in the three continents: America, Africa, and Asia**. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
 
 ```{r study-areas-am, out.width="\\textwidth", fig.cap=NULL}
 knitr::include_graphics("figures/study_areas_America.png")
@@ -21,12 +21,12 @@ knitr::include_graphics("figures/study_areas_Asia.png")
 ```
 
 <!--------------------------------------------->
-<!-- Historical forest cover change map -->
+<!-- Past forest cover change map -->
 <!--------------------------------------------->
 
-## Historical forest cover change map
+## Past forest cover change map
 
-(ref:cap-fcc-maps) **Historical forest cover change map**. Forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2021. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/maps.html>.
+(ref:cap-fcc-maps) **Past forest cover change map**. Forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa. \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by @Vancutsem2021. Original resolution of the forest cover change map is 30 m. The inset at the bottom left shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global forest cover change map is available at <https://forestatrisk.cirad.fr/maps.html>.
 
 ```{r fcc-maps, out.width="\\textwidth", fig.cap="(ref:cap-fcc-maps)"}
 knitr::include_graphics("figures/fcc123.png")
@@ -56,7 +56,7 @@ knitr::include_graphics("figures/roads.png")
 knitr::include_graphics("figures/pa.png")
 ```
 
-(ref:cap-corr-var) **Correlation between explanatory variables**. To compute the correlations, we used a representative data-set at the global scale where the number of observations for each study-area was proportional to its forest cover in 2010. We used a total of 813,796 observations. We computed the Pearson's correlation matrix for the seven continuous explanatory variables used to model the deforestation: elevation ("elev"), slope ("slope"), distance to nearest road, town, and river ("droad", "dtown", and "driver", respectively), distance to forest edge ("dedge"), and distance to past deforestation ("ddefor"). For the protected areas ("pa"), which is a categorical variable for which a Pearson's correlation coefficient cannot be computed, we reported the slope coefficient of simple logistic regressions where the probability of presence of a protected area was a function of one intercept and one of the continuous variable (which was normalized).
+(ref:cap-corr-var) **Correlation between explanatory variables**. To compute the correlations, we used a representative data-set at the global scale where the number of observations for each study area was proportional to its forest cover in 2010. We used a total of 813,796 observations. We computed the Pearson's correlation matrix for the seven continuous explanatory variables used to model the deforestation: elevation ("elev"), slope ("slope"), distance to nearest road, town, and river ("droad", "dtown", and "driver", respectively), distance to forest edge ("dedge"), and distance to past deforestation ("ddefor"). For the protected areas ("pa"), which is a categorical variable for which a Pearson's correlation coefficient cannot be computed, we reported the slope coefficient of simple logistic regressions where the probability of presence of a protected area was a function of one intercept and one of the continuous variable (which was normalized).
 
 ```{r corr-var, out.width="\\textwidth", fig.cap="(ref:cap-corr-var)"}
 knitr::include_graphics("figures/corr-var.png")
@@ -152,13 +152,13 @@ knitr::include_graphics("figures/AGB.png")
 
 ## Uncertainty surrounding future change in forest cover
 
-(ref:cap-fcc2100-low) **Projected forest cover change map assuming a low annual deforestation**. This map was derived using $d'$, the _lower_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study-area. This map must be compared with Fig. 2 in the main text and Fig \@ref(fig:fcc2100-high) below, which consider average and high annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
+(ref:cap-fcc2100-low) **Projected forest cover change map assuming a low annual deforestation**. This map was derived using $d'$, the _lower_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig. 2 in the main text and Fig \@ref(fig:fcc2100-high) below, which consider average and high annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
 
 ```{r fcc2100-low, out.width="\\textwidth", fig.cap="(ref:cap-fcc2100-low)"}
 knitr::include_graphics("figures/fcc2100_min.png")
 ```
 
-(ref:cap-fcc2100-high) **Projected forest cover change map assuming a high annual deforestation**. This map was derived using $d''$, the _upper_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study-area. This map must be compared with Fig. 2 in the main text and Fig \@ref(fig:fcc2100-low) above, which consider average and low annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
+(ref:cap-fcc2100-high) **Projected forest cover change map assuming a high annual deforestation**. This map was derived using $d''$, the _upper_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig. 2 in the main text and Fig \@ref(fig:fcc2100-low) above, which consider average and low annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas-are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
 
 ```{r fcc2100-high, out.width="\\textwidth", fig.cap="(ref:cap-fcc2100-high)"}
 knitr::include_graphics("figures/fcc2100_max.png")

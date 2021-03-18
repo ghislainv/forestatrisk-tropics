@@ -61,7 +61,7 @@ knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
 df.cat <- read.table("tables/samp_size.csv", header=TRUE, sep=",")
 df.cat <- df.cat[,-c(1)]
 vect.align <- c(rep("l", 2), rep("r", 4))
-col.names <- c("Country -- Study-area","Code","nfor","ndef","nfHa","ndHa")
+col.names <- c("Country -- Study area","Code","nfor","ndef","nfHa","ndHa")
 unit.vect <- c("", "", "", "", "(ha)", "(ha)")
 knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
@@ -85,7 +85,7 @@ knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRU
 
 ## Parameter estimates and variable importance
 
-(ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study-areas.\vspace{0.5cm}
+(ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study areas.\vspace{0.5cm}
 
 ```{r par, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -96,7 +96,7 @@ df <- df %>%
   dplyr::select(-area_cont, -area_ctry, -area_name)
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 10))
-col.names <- c("Study-area", "int", "pa", "elev", "slope",
+col.names <- c("study area", "int", "pa", "elev", "slope",
                "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
 knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
@@ -152,7 +152,7 @@ perc <- df$perc[df$var=="PA"]
 perc_w <- df$perc_w[df$var=="PA"]
 ```
 
-(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
+(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
 
 ```{r pa, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -184,7 +184,7 @@ df <- df %>%
   dplyr::relocate(CI, .before=sign)
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 4), "c")
-col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95%",
+col.names <- c("Country -- study area", "fc2010", "Mean", "Sd", "CI 95%",
                "signif")
 unit.vect <- c("", "(Kha)", "", "", "", "")
 knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
@@ -219,7 +219,7 @@ perc <- df$perc[df$var=="road"]
 perc_w <- df$perc_w[df$var=="road"]
 ```
 
-(ref:cap-road) **Effect of the distance to road on deforestation**. We show here the estimated effect of the distance to the nearest road on the probability of deforestation for each study-area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study-areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study-areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
+(ref:cap-road) **Effect of the distance to road on deforestation**. We show here the estimated effect of the distance to the nearest road on the probability of deforestation for each study area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
 
 ```{r road, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -240,7 +240,7 @@ df <- df %>%
   dplyr::relocate(CI, .before=sign)
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 4), "c")
-col.names <- c("Country -- Study-area", "fc2010", "Mean", "Sd", "CI 95%",
+col.names <- c("Country -- study area", "fc2010", "Mean", "Sd", "CI 95%",
                "signif")
 unit.vect <- c("", "(Kha)", "", "", "", "")
 knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
@@ -266,7 +266,7 @@ knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
 
 ## Back-transformed parameters
 
-(ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm}
+(ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm}
 
 ```{r bt-par, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -277,7 +277,7 @@ df <- df %>%
   dplyr::select(-area_cont, -area_ctry, -area_name)
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 10))
-col.names <- c("Study-area", "int", "pa", "elev", "slope",
+col.names <- c("study area", "int", "pa", "elev", "slope",
                "ddefor", "dedge", "driver", "droad", "dtown", "Vrho")
 unit.vect <- c("", "", "", "(Km)", "($10^2$°)", rep("(Km)", 5), "")
 knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
@@ -295,7 +295,7 @@ knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
                 position="center", font_size=10, repeat_header_method="replace")
 ```
 
-(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study-area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
+(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
 
 ```{r bt-par-region, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -403,7 +403,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 
 ## Historical forest cover change
 
-(ref:cap-fcc-hist) **Historical forest cover change for each study-area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
+(ref:cap-fcc-hist) **Historical forest cover change for each study area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
 
 ```{r fcc-hist, results="asis", echo=FALSE}
 ## Import data
@@ -414,7 +414,7 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 5))
-col.names <- c("Country -- Study-area", "fc2000", "fc2010", "fc2020", "$d$", "$p$")
+col.names <- c("Country -- study area", "fc2000", "fc2010", "fc2020", "$d$", "$p$")
 unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(ha/yr)", "(\\%/yr)")
 knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
@@ -430,7 +430,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
                 position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.6 Mha (76,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2009--2019.\vspace{0.5cm}
+(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.6 Mha (76,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2009--2019.\vspace{0.5cm}
 
 ```{r fcc-hist-reg, results="asis", echo=FALSE}
 ## Import data
@@ -463,7 +463,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALS
 
 ## Forest cover projections
 
-(ref:cap-fcc-proj) **Forest cover projections for each study-area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.\vspace{0.5cm}
+(ref:cap-fcc-proj) **Forest cover projections for each study area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study area will have disappeared.\vspace{0.5cm}
 
 ```{r fcc-proj, results="asis", echo=FALSE}
 ## Import data
@@ -476,7 +476,7 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 6))
-col.names <- c("Country -- Study-area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21", "yrdis")
+col.names <- c("Country -- study area", "fc2040", "fc2060", "fc2080", "fc2100", "loss21", "yrdis")
 unit.vect <- c("", "(Kha)", "(Kha)", "(Kha)", "(Kha)", "(\\%)", "")
 knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
@@ -492,7 +492,7 @@ knitr::kable(df, caption="(ref:cap-fcc-proj)", booktabs=TRUE, longtable=TRUE,
                 position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm}
+(ref:cap-fcc-proj-reg) **Forest cover projections per region and continent**. Projected areas of forest cover are given in thousand hectares (Kha) for four dates in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist-reg)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). At the continental level, it makes less sense to compute the year at which all the forest will have disappeared, as some countries might conserve forest for a very long time, even though they account for a very small proportion of the total forest area at the continental scale. Instead, we computed the estimated year at which 75% of the forest cover in 2000 will have disappeared ("yr75dis").\vspace{0.5cm}
 
 ```{r fcc-proj-reg, results="asis", echo=FALSE}
 ## Import data
@@ -555,7 +555,7 @@ knitr::kable(df, caption="(ref:cap-hotspots)", booktabs=TRUE, longtable=FALSE,
 
 ## Cumulative carbon emissions associated with deforestation
 
-(ref:cap-c-em) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example).\vspace{0.5cm}
+(ref:cap-c-em) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example).\vspace{0.5cm}
 
 ```{r c-em, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -569,7 +569,7 @@ df <- df %>%
  
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 4))
-col.names <- c("Country -- Study-area", "C2040", "C2060", "C2080", "C2100")
+col.names <- c("Country -- study area", "C2040", "C2060", "C2080", "C2100")
 unit.vect <- c("", "(Gg)", "(Gg)", "(Gg)", "(Gg)")
 knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
@@ -593,7 +593,7 @@ knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
 
 ## Confidence interval of the annual deforested area
 
-(ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study-area. We used the deforestation observations $d_t$ for the ten years $t$ from 2009 to 2019. The lower and upper limits of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
+(ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study area. We used the deforestation observations $d_t$ for the ten years $t$ from 2009 to 2019. The lower and upper limits of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
 
 ```{r ci-d, results="asis", echo=FALSE}
 ## Import data
@@ -604,7 +604,7 @@ df <- df %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)})
 ## Make table
 vect.align <- c(rep("l", 1), rep("r", 5))
-col.names <- c("Country -- Study-area", "fc2010", "fc2020", "$d$", "$d'$", "$d''$")
+col.names <- c("Country -- study area", "fc2010", "fc2020", "$d$", "$d'$", "$d''$")
 unit.vect <- c("", "(Kha)", "(Kha)", "(ha/yr)", "(ha/yr)", "(ha/yr)")
 knitr::kable(df, caption="(ref:cap-ci-d)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
@@ -627,8 +627,8 @@ knitr::kable(df, caption="(ref:cap-ci-d)", booktabs=TRUE, longtable=TRUE,
 Supplementary Data are available at:    
 <https://forestatrisk.cirad.fr/data-s.html>.
 
-Data S1: **Uncertainty around projected forest cover by study-area**. Past and projected forest cover change by study-area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study-areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study-area will have disappeared.
+Data S1: **Uncertainty around projected forest cover by study area**. Past and projected forest cover change by study area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr). Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study area will have disappeared.
 
-Data S2: **Uncertainty around cumulative carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study-area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
+Data S2: **Uncertainty around cumulative carbon emissions associated with future deforestation**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
 
 \newpage

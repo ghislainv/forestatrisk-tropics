@@ -3,17 +3,22 @@ output: github_document
 title: forestatrisk-tropics
 ---
 
-[![Website ForestAtRisk](https://img.shields.io/badge/website-ForestAtRisk-blue)](https://forestatrisk.cirad.fr)
+[![Website ForestAtRisk](https://img.shields.io/badge/web-ForestAtRisk-blue)](https://forestatrisk.cirad.fr)
 [![License GPLv3](https://img.shields.io/badge/licence-GPLv3-8f10cb.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Cirad Dataverse](https://img.shields.io/badge/DOI-10.18167/DVN1/FKEEEP-green)](http://dx.doi.org/10.18167/DVN1/FKEEEP)
 
 This repository includes the code used to produce the results of the following scientific article:
 
 <a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-<a href="https://ecology.ghislainv.fr" style="color:#2C3E50;">**Vieilledent G.,**</a>
+**Vieilledent G.,**
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem,**</a>
-<a href="https://www.researchgate.net/profile/Achard_Frederic" style="color:#2C3E50;">**F. Achard.**</a>
+**C. Vancutsem,**
+**F. Achard.**
 Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century. in prep.
+
+<img alt="ORCID logo" src="Manuscript/Article/figures/prob_zoom.png" />
+
+Figure 2: **Pantropical map of the risk of deforestation.**
 
 ## Reproducibility of the results
 
@@ -40,19 +45,19 @@ python Tropics/download_raw_data.py
 3\. Compute explanatory variables (elevation, slope, distances, etc.).
 
 ```bash
-combine.py
+python Tropics/compute_variables.py
 ```
 
 4\. Model and forecast
 
 ```bash
-combine.py
+python Tropics/model_and_forecast.py
 ```
 
 5\. Combine rasters to obtain continental maps
 
 ```bash
-Maps/combine.py
+python Maps/combine.py
 ```
 
 ### R for post-processing and writing
@@ -80,5 +85,13 @@ Rscript Analysis/synthesis.R
 ```bash
 Rscript Manuscript/zzz_knitr_compile/compile_book.R
 ```
+
+<span style="display: block; height: 15px;"></span>
+<p>Copyright &copy; 2021 <a href="https://www.cirad.fr/en/">Cirad</a>, <a href="https://ec.europa.eu/jrc/en">EC JRC</a>. All rights reserved.</p>
+
+<a href="https://www.cirad.fr/en/"><img alt="RF" src="Website/images/Logo_RF.jpg" height="75"></a>
+<a href="https://www.cirad.fr/en/"><img alt="Cirad" src="Website/images/Logo_Cirad.jpg" height="60"></a>
+<a href="https://amap.cirad.fr"><img alt="AMAP" src="Website/images/Logo_AMAP.jpg" height="60"></a>
+<a href="https://ec.europa.eu/jrc/en"><img alt="Cirad" src="Website/images/Logo_JRC.png" height="60"></a>
 
 <!-- End of file -->
