@@ -14,30 +14,32 @@
 # 2. rclone with Google Drive: https://rclone.org/drive/
 # 3. WDPA: https://www.protectedplanet.net/
 
-import sys
 import os
-import shutil  # for rmtree and copy
-# import re  # regular expressions
+import sys
+# import shutil  # for rmtree
 import pkg_resources
+
+from dotenv import load_dotenv
+import ee
 import pandas as pd
+from pywdpa import get_token
 import forestatrisk as far
-from run_modelling_steps import run_modelling_steps
+
+# from run_modelling_steps import run_modelling_steps
 
 index_ctry = int(sys.argv[1])-1
 
 # ==================
 # Settings
 # Earth engine
-import ee
 ee.Initialize()
 # WDPA API
-from dotenv import load_dotenv
 load_dotenv("/home/gvieilledent/Code/forestatrisk-tropics/.env")
-from pywdpa import get_token
 get_token()
 # GDAL
 os.environ["GDAL_CACHEMAX"] = "1024"
 # ==================
+
 
 # Country isocode
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
@@ -106,8 +108,8 @@ def run_country(iso3):
 
 
 # Run country
-#for i in range(nctry):
-#    run_country(iso3[i])
+# for i in range(nctry):
+#     run_country(iso3[i])
 
 run_country(iso3[index_ctry])
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # ==============================================================================
@@ -41,13 +41,12 @@ get_token()
 os.environ["GDAL_CACHEMAX"] = "1024"
 # ==================
 
-# Country isocode for Brazil
+# Country isocode
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
                                                 "data/ctry_run.csv")
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
-iso3 = data_ctry_run.loc[data_ctry_run["cont_run"] == "Brazil",
-                         "iso3"].tolist()
-nctry = len(iso3)  # 26
+iso3 = list(data_ctry_run.iso3)
+nctry = len(iso3)  # 120
 
 
 # Function for multiprocessing
@@ -67,14 +66,17 @@ def run_country(iso3):
     # Model and Forecast
     run_modelling_steps(iso3, fcc_source="jrc")
 
-    # Remove GDAL tmp directory
+    # Remove GDAL temp directory
     shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
 
     # Return country iso code
-    return(iso3)
+    return iso3
 
 
 # Run country
+# for i in range(nctry):
+#     run_country(iso3[i])
+
 run_country(iso3[index_ctry])
 
 # End

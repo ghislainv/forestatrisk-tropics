@@ -12,11 +12,13 @@
 # Imports
 import sys
 import os
-# os.chdir("/home/ghislain/Code/forestatrisk-tropics/Maps/")
-os.chdir("/home/gvieilledent/Code/forestatrisk-tropics/Maps/")
 import subprocess
+
 import forestatrisk as far
 import matplotlib.pyplot as plt
+
+# os.chdir("/home/ghislain/Code/forestatrisk-tropics/Maps/")
+os.chdir("/home/gvieilledent/Code/forestatrisk-tropics/Maps/")
 from tif2cog import tif2cog
 
 # Set PROJ_LIB
@@ -215,11 +217,12 @@ def run_combine(index_cont):
                                lw=0.5, c="grey")
             plt.close(fcc)
 
-# Run funtion
-# Loop on continent
-#for index_cont in range(ncont):
-run_combine(index_cont)
 
+# Run funtion
+# for i in range(ncont):
+#     run_combine(i)
+
+run_combine(index_cont)
 
 # # ===================
 # # Resample for Maxime
