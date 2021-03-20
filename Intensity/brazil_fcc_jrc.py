@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # ==============================================================================
 # author          :Ghislain Vieilledent
@@ -12,9 +13,9 @@
 import os
 import pkg_resources
 
-import pandas as pd
-import numpy as np
 import forestatrisk as far
+import numpy as np
+import pandas as pd
 
 # Original working directory
 owd = "/share/nas2-amap/gvieilledent/jrc2020/Brazil"
