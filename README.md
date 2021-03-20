@@ -1,5 +1,3 @@
-forestatrisk-tropics
-================
 
 [![License
 GPLv3](https://img.shields.io/badge/licence-GPLv3-8f10cb.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
