@@ -86,6 +86,19 @@ bookdown::render_book("index.Rmd", output_format=pdf_format)
 # bookdown::render_book("index.Rmd")
 
 # ==============================================================================
+# Combined pdf
+# ==============================================================================
+
+require(glue)
+require(here)
+
+Manuscript_pdf <- here("Manuscript", "Article", "doc", "article.pdf")
+SM_pdf <- here("Manuscript", "Supplementary_Materials", "doc", "sm.pdf")
+Combined_pdf <- here("Manuscript", "Combined", "combined.pdf")
+cmd <- glue("pdftk {Manuscript_pdf} {SM_pdf} cat output {Combined_pdf}")
+system(cmd)
+
+# ==============================================================================
 # Data S
 # ==============================================================================
 
