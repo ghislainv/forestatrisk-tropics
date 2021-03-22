@@ -120,7 +120,7 @@ def run_modelling_steps(iso3, fcc_source="jrc"):
     # Exceptions
     if iso3 == "VIR":
         variables.remove("scale(dist_river)")
-    if iso3 == "SXM":
+    if iso3 in ["IND-AND", "SXM"]:
         variables.remove("C(pa)")
     # Transform into numpy array
     variables = np.array(variables)
