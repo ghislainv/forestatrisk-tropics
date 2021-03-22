@@ -2,7 +2,7 @@
 [![License
 GPLv3](https://img.shields.io/badge/licence-GPLv3-8f10cb.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Cirad
-Dataverse](https://img.shields.io/badge/DOI-10.18167/DVN1/FKEEEP-green)](https://doi.org/10.18167/DVN1/FKEEEP)
+Dataverse](https://img.shields.io/badge/DOI-10.18167/DVN1/7N2BTU-green)](https://doi.org/10.18167/DVN1/7N2BTU)
 [![Website
 ForestAtRisk](https://img.shields.io/badge/web-ForestAtRisk-blue)](https://forestatrisk.cirad.fr)
 [![forestatrisk Python
