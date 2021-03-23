@@ -22,7 +22,7 @@ setwd(here::here("Manuscript/Article"))
 # Bookdown
 # pdf
 options(knitr.table.format="latex")
-pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE, keep_md=FALSE,
+pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=TRUE, keep_md=FALSE,
 																			latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
 																			includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
@@ -67,7 +67,7 @@ setwd(here::here("Manuscript/Supplementary_Materials"))
 # Bookdown
 # pdf
 options(knitr.table.format="latex")
-pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=FALSE, keep_md=FALSE,
+pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=TRUE, keep_md=FALSE,
                                       latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
                                       includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
@@ -128,5 +128,43 @@ bookdown::render_book("index.Rmd", output_format=html_format)
 # Move files to server
 # system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/supplementary-data.html fdb:/home/www/forestatrisk/tropics/supplementary-data/index.html")
 # system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
+
+# ==============================================================================
+# LaTex
+# ==============================================================================
+
+require(here)
+
+# Copy article
+f_in <- here("Manuscript", "Article", "doc", "article.tex")
+f_out <- here("Manuscript", "LaTeX", "article.tex")
+file.copy(f_in, f_out, overwrite=TRUE)
+
+# Copy sm
+f_in <- here("Manuscript", "Supplementary_Materials", "doc", "sm.tex")
+f_out <- here("Manuscript", "LaTeX", "sm.tex")
+file.copy(f_in, f_out, overwrite=TRUE)
+
+# Combine article and sm
+# article
+article <- readLines(f_in <- here("Manuscript", "LaTeX", "article.tex"))
+article <- gsub(pattern="\\{figures/", replace="\\{figs_article/", x=article)
+l_a <- length(article)
+article <- article[-l_a]
+# sm
+sm <- readLines(f_in <- here("Manuscript", "LaTeX", "sm.tex"))
+sm <- gsub(pattern="\\{figures/", replace="\\{figs_sm/", x=sm)
+l_sm <- length(sm)
+sm <- sm[-c(1:110, (l_sm-8):(l_sm-1))]
+# sm header
+sm_head <- c("\\renewcommand{\\thetable}{S\\arabic{table}}",
+             "\\renewcommand{\\thefigure}{S\\arabic{figure}}",
+             "\\renewcommand{\\theequation}{S\\arabic{equation}}",
+             "\\setcounter{figure}{0}",
+             "\\setcounter{table}{0}",
+             "\\newpage")
+# Combine
+combined <- c(article, sm_head, sm)
+writeLines(combined, here("Manuscript", "LaTeX", "combined.tex"))
 
 # EOF
