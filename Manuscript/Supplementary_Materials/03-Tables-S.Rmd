@@ -1,4 +1,4 @@
-# Tables
+# Supplementary tables
 
 ```{r lib-tab, echo=FALSE, results="hide"}
 library(dplyr)
@@ -398,12 +398,12 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 \newpage
 
 <!------------------------------------>
-<!-- Historical forest cover change -->
+<!-- Past forest cover change -->
 <!------------------------------------>
 
-## Historical forest cover change
+## Past forest cover change
 
-(ref:cap-fcc-hist) **Historical forest cover change for each study area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
+(ref:cap-fcc-hist) **Past forest cover change for each study area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision.\vspace{0.5cm}
 
 ```{r fcc-hist, results="asis", echo=FALSE}
 ## Import data
@@ -430,7 +430,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist)", booktabs=TRUE, longtable=TRUE,
                 position="center", font_size=11, repeat_header_method="replace")
 ```
 
-(ref:cap-fcc-hist-reg) **Historical forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.6 Mha (76,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2009--2019.\vspace{0.5cm}
+(ref:cap-fcc-hist-reg) **Past forest cover change per region and continent**. Areas of forest cover are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). For comparing the deforestation intensity between study areas, the corresponding mean annual deforestation rate $p$ on the period 2010--2020 is also provided in percent per year (%/yr), with one decimal precision. Estimates for America include Brazil, and estimates for Asia include India. Around 7.6 Mha (76,000 km$^2$, about the size of Scotland or South Carolina) of natural old-growth moist tropical forest have been disappearing each year in the period 2009--2019.\vspace{0.5cm}
 
 ```{r fcc-hist-reg, results="asis", echo=FALSE}
 ## Import data
@@ -555,9 +555,9 @@ knitr::kable(df, caption="(ref:cap-hotspots)", booktabs=TRUE, longtable=FALSE,
 
 ## Cumulative carbon emissions associated with deforestation
 
-(ref:cap-c-em) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by Avitabile _et al._ [@Avitabile2016]. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example).\vspace{0.5cm}
+(ref:cap-c-em-sm) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by Avitabile _et al._ [@Avitabile2016]. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example).\vspace{0.5cm}
 
-```{r c-em, results="asis", echo=FALSE}
+```{r c-em-sm, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
 ## Import data
 df <- read.table("tables/C_emissions_mean.csv", header=TRUE, sep=",")
@@ -571,7 +571,7 @@ df <- df %>%
 vect.align <- c(rep("l", 1), rep("r", 4))
 col.names <- c("Country -- study area", "C2040", "C2060", "C2080", "C2100")
 unit.vect <- c("", "(Gg)", "(Gg)", "(Gg)", "(Gg)")
-knitr::kable(df, caption="(ref:cap-c-em)", booktabs=TRUE, longtable=TRUE,
+knitr::kable(df, caption="(ref:cap-c-em-sm)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          escape=FALSE,
                          col.names=unit.vect,

@@ -68,7 +68,7 @@ setwd(here::here("Manuscript/Supplementary_Materials"))
 # pdf
 options(knitr.table.format="latex")
 pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=TRUE, keep_md=FALSE,
-                                      latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
+                                      latex_engine="pdflatex", number_sections=FALSE, toc=FALSE,
                                       includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
@@ -135,6 +135,9 @@ bookdown::render_book("index.Rmd", output_format=html_format)
 
 require(here)
 
+# Working directory
+setwd(here::here("Manuscript/LaTeX"))
+
 # Copy article
 f_in <- here("Manuscript", "Article", "doc", "article.tex")
 f_out <- here("Manuscript", "LaTeX", "article.tex")
@@ -167,7 +170,7 @@ sm_head <- c("\\renewcommand{\\thetable}{S\\arabic{table}}",
 combined <- c(article, sm_head, sm)
 writeLines(combined, here("Manuscript", "LaTeX", "combined.tex"))
 
-# Compîle with pdflatex
-
+# Compile with pdflatex
+tools::texi2dvi(here("Manuscript", "LaTeX", "combined.tex"), pdf=TRUE, clean=TRUE)
 
 # EOF
