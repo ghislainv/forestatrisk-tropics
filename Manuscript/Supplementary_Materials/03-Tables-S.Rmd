@@ -10,7 +10,7 @@ library(dplyr)
 
 ## Categories of the forest cover annual product
 
-(ref:cap-cat-annual-product) **Categories of the forest cover annual product by Vancutsem _et al._ [@Vancutsem2021]**. The forest cover annual product classifies Landsat image pixels in 6 categories for each year (on the 31$^{\text{st}}$ of December) between 1990 and 2019 and allows identifying moist tropical forest pixels at each date. Water data comes from Pekel _et al._ [@Pekel2016].\vspace{0.5cm}
+(ref:cap-cat-annual-product) **Categories of the forest cover annual product by Vancutsem _et al._ [@Vancutsem2021]**. The forest cover annual product classifies Landsat image pixels in 6 categories for each year (on the 31$^{\text{st}}$ of December) between 1990 and 2019 and allows identifying moist tropical forest pixels at each date.\vspace{0.5cm}
 
 ```{r cat-annual-product, results="asis", echo=FALSE}
 df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")
@@ -114,7 +114,7 @@ knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
 
 \newpage
 
-(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river. \vspace{0.5cm}
+(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate relative variable importance in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At the pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river.\vspace{0.5cm}
 
 ```{r par-region, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")

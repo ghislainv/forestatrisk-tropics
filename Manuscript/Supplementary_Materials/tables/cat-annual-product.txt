@@ -3,5 +3,5 @@ Class; Definition
 2; Degraded TMF
 3; Deforested land
 4; Forest regrowth
-5; Permanent or seasonal water (Pekel et al. 2016)
+5; Permanent or seasonal water
 6; Other land cover

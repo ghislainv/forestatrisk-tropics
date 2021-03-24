@@ -23,7 +23,7 @@ setwd(here::here("Manuscript/Article"))
 # pdf
 options(knitr.table.format="latex")
 pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=TRUE, keep_md=FALSE,
-																			latex_engine="pdflatex", number_sections=TRUE, toc=FALSE,
+																			latex_engine="pdflatex", number_sections=FALSE, toc=FALSE,
 																			includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
 full_width_type=FALSE
@@ -85,18 +85,18 @@ bookdown::render_book("index.Rmd", output_format=pdf_format)
 # # Dynamic YAML options
 # bookdown::render_book("index.Rmd")
 
-# ==============================================================================
-# Combined pdf
-# ==============================================================================
-
-require(glue)
-require(here)
-
-Manuscript_pdf <- here("Manuscript", "Article", "doc", "article.pdf")
-SM_pdf <- here("Manuscript", "Supplementary_Materials", "doc", "sm.pdf")
-Combined_pdf <- here("Manuscript", "Combined", "combined.pdf")
-cmd <- glue("pdftk {Manuscript_pdf} {SM_pdf} cat output {Combined_pdf}")
-system(cmd)
+# # ==============================================================================
+# # Combined pdf
+# # ==============================================================================
+# 
+# require(glue)
+# require(here)
+# 
+# Manuscript_pdf <- here("Manuscript", "Article", "doc", "article.pdf")
+# SM_pdf <- here("Manuscript", "Supplementary_Materials", "doc", "sm.pdf")
+# Combined_pdf <- here("Manuscript", "Combined", "combined.pdf")
+# cmd <- glue("pdftk {Manuscript_pdf} {SM_pdf} cat output {Combined_pdf}")
+# system(cmd)
 
 # ==============================================================================
 # Data S
@@ -130,7 +130,7 @@ bookdown::render_book("index.Rmd", output_format=html_format)
 # system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
 
 # ==============================================================================
-# LaTex
+# Combined with LaTex
 # ==============================================================================
 
 require(here)
@@ -166,5 +166,8 @@ sm_head <- c("\\renewcommand{\\thetable}{S\\arabic{table}}",
 # Combine
 combined <- c(article, sm_head, sm)
 writeLines(combined, here("Manuscript", "LaTeX", "combined.tex"))
+
+# Compîle with pdflatex
+
 
 # EOF
