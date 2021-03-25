@@ -77,14 +77,15 @@ python Tropics/model_and_forecast.py
 ## Combine rasters to obtain continental maps
 python Maps/combine.py
 
+## Synthesize results
+Rscript Analysis/synthesis.R
+
 ## Plot main maps
 Rscript Maps/main_maps.R
+Rscript Maps/main_maps_prob.R
 
 ## Plot supplementary maps
 Rscript Maps/supp_maps.R
-
-## Synthesize results
-Rscript Analysis/synthesis.R
 
 ## Compile documents
 Rscript Manuscript/zzz_knitr_compile/compile_book.R

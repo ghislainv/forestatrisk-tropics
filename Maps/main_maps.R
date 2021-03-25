@@ -158,16 +158,19 @@ for (i in 1:ncont) {
 	## Import roads
 	roads <- st_read(here("Maps", dataset, cont, "roads_simp.gpkg"))
 	
-	## Intersect protected areas with ctry borders and import pa
-	f <- here("Maps", dataset, cont, "pa_simp_crop.gpkg")
-	if (!file.exists(f)) {
-	  pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
-	  pa_join <- st_join(pa, borders, join=st_intersects,
-	                suffix=c(".x", ".y"), left=FALSE)
-	  write_sf(pa_join, f)
-	  rm(pa_join)
-	}
-	pa <- st_read(f)
+	## Import pa
+	pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
+	
+	# ## Intersect protected areas with ctry borders and import pa
+	# f <- here("Maps", dataset, cont, "pa_simp_crop.gpkg")
+	# if (!file.exists(f)) {
+	#   pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
+	#   pa_join <- st_join(pa, borders, join=st_intersects,
+	#                 suffix=c(".x", ".y"), left=FALSE)
+	#   write_sf(pa_join, f)
+	#   rm(pa_join)
+	# }
+	# pa <- st_read(f)
 	# if (cont=="Asia") {
 	#   pa <- pa %>% 
 	#     dplyr::filter(!(pa_name=="Natural Park of the Coral Sea"))
@@ -311,7 +314,8 @@ for (i in 1:ncont) {
 		tm_shape(gadm0_cont) +
 		  tm_fill(grey(0.9)) +
 	  tm_shape(pa) +
-	    tm_fill(col="olivedrab3") +
+	    tm_fill(col="is_marine", palette=c("olivedrab3", "#87acd3"),
+	            legend.show=FALSE) +
 	  tm_shape(borders) +
 		  tm_borders(col=grey(0.5), lwd=0.5) +
 	  tm_layout(inner.margins=c(0,0,0,0),

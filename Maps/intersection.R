@@ -1,10 +1,27 @@
+#!/usr/bin/R
+
+## ==============================================================================
+## author          :Ghislain Vieilledent
+## email           :ghislain.vieilledent@cirad.fr, ghislainv@gmail.com
+## web             :https://ghislainv.github.io
+## license         :GPLv3
+## ==============================================================================
+
+
 library(sf)
 library(lwgeom)
 library(dplyr)
+library(here)
 
-# Import data
-ctry <- st_read("ctry_PROJ.shp")
-pa <- st_read("pa_PROJ.shp")
+dataset <- "jrc2020"
+
+# Import data for Australia
+f_ctry <- here("Data", dataset, "Asia",
+               "AUS-QLD", "data", "ctry_PROJ.shp")
+f_pa <- here("Data", dataset, "Asia",
+             "AUS-QLD", "data", "pa_PROJ.shp")
+ctry <- st_read(f_ctry)
+pa <- st_read(f_pa)
 
 # Find intersection
 mat <- st_intersects(st_make_valid(pa), ctry, sparse=FALSE)
@@ -20,4 +37,5 @@ pa_AUS_QLD <- pa_int %>%
   st_cast("MULTIPOLYGON")
 
 # Write data
-st_write(pa_AUS_QLD, "results/pa_PROJ.shp")
+f_out <- here("Maps", dataset, "AUS-QLD", "pa_PROJ_intersect.shp")
+st_write(pa_AUS_QLD, f_out)
