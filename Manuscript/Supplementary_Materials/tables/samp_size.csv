@@ -30,12 +30,12 @@
 "America","Brazil – Sao Paulo","SP",9998,9998,900,900
 "America","Brazil – Sergipe","SE",9982,10000,898,900
 "America","Brazil – Tocantins","TO",10000,10000,900,900
-"America","Colombia","COL",49997,49999,4500,4500
+"America","Colombia","COL",49998,49997,4500,4500
 "America","Costa Rica","CRI",9988,9991,899,899
 "America","Cuba","CUB",9919,9967,893,897
 "America","Dominica","DMA",9989,9880,899,889
 "America","Dominican Rep.","DOM",9990,9999,899,900
-"America","Ecuador","ECU",14950,14951,1346,1346
+"America","Ecuador","ECU",14964,14963,1347,1347
 "America","El Salvador","SLV",9960,9987,896,899
 "America","French Guiana","GUF",10000,10000,900,900
 "America","Grenada","GRD",9981,9917,898,893
@@ -66,26 +66,26 @@
 "Africa","Angola","AGO",10000,10000,900,900
 "Africa","Benin","BEN",9985,9998,899,900
 "Africa","Burundi","BDI",10000,10000,900,900
-"Africa","Cameroon","CMR",23570,23567,2121,2121
+"Africa","Cameroon","CMR",23570,23566,2121,2121
 "Africa","CAR","CAF",10000,10000,900,900
 "Africa","Comoros","COM",9991,9967,899,897
 "Africa","Congo","COG",23969,23972,2157,2157
 "Africa","DRC","COD",50000,50000,4500,4500
 "Africa","Eq. Guinea","GNQ",9996,9986,900,899
 "Africa","Ethiopia","ETH",10000,10000,900,900
-"Africa","Gabon","GAB",24108,24080,2170,2167
+"Africa","Gabon","GAB",24110,24084,2170,2168
 "Africa","Gambia","GMB",9983,9998,898,900
 "Africa","Ghana","GHA",9999,10000,900,900
 "Africa","Guinea","GIN",9960,9997,896,900
 "Africa","Guinea Bissau","GNB",9882,9984,889,899
-"Africa","Ivory Coast","CIV",9997,10000,900,900
+"Africa","Ivory Coast","CIV",10000,9999,900,900
 "Africa","Kenya","KEN",9995,9997,900,900
 "Africa","Liberia","LBR",10000,9998,900,900
 "Africa","Madagascar","MDG",9993,9997,899,900
 "Africa","Malawi","MWI",10000,10000,900,900
 "Africa","Mauritius","MUS",9967,9956,897,896
 "Africa","Mayotte","MYT",9966,9990,897,899
-"Africa","Nigeria","NGA",9981,9997,898,900
+"Africa","Nigeria","NGA",9978,9998,898,900
 "Africa","Reunion","REU",9994,9990,899,899
 "Africa","Rwanda","RWA",10000,10000,900,900
 "Africa","Senegal","SEN",9897,9981,891,898
@@ -103,10 +103,10 @@
 "Asia","Fiji","FJI",9976,9959,898,896
 "Asia","India – Andaman and N.","AN",9956,9880,896,889
 "Asia","India – North-East","NE",9998,10000,900,900
-"Asia","India – West. Ghats","WG",9995,9992,900,899
-"Asia","Indonesia","IDN",49967,49983,4497,4498
+"Asia","India – West. Ghats","WG",9996,9992,900,899
+"Asia","Indonesia","IDN",49968,49979,4497,4498
 "Asia","Laos","LAO",10000,10000,900,900
-"Asia","Malaysia","MYS",22521,22525,2027,2027
+"Asia","Malaysia","MYS",22520,22525,2027,2027
 "Asia","Myanmar","MMR",15630,15639,1407,1408
 "Asia","New Caledonia","NCL",9959,9896,896,891
 "Asia","Papua New Guinea","PNG",39883,39814,3589,3583
@@ -117,5 +117,5 @@
 "Asia","Thailand","THA",9994,9996,899,900
 "Asia","Timor-Leste","TLS",9993,9965,899,897
 "Asia","Vanuatu","VUT",9977,9915,898,892
-"Asia","Vietnam","VNM",9994,9998,899,900
-"All continents","TOTAL","",1610582,1591988,144953,143284
+"Asia","Vietnam","VNM",9992,10000,899,900
+"All continents","TOTAL","",1610598,1591999,144954,143286

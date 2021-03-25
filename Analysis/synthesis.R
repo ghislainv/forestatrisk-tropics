@@ -937,7 +937,7 @@ par_bra <- par_tab %>%
     dplyr::filter(area_ctry=="Brazil") %>%
     dplyr::select(-area_cont, -area_code, -area_name) %>%
     dplyr::mutate(across(.cols=!c(area_ctry, for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::group_by(area_ctry) %>%
     dplyr::summarize(across(.cols=everything(),
@@ -947,7 +947,7 @@ par_ind <- par_tab %>%
     dplyr::filter(area_ctry=="India") %>%
     dplyr::select(-area_cont, -area_code, -area_name) %>%
     dplyr::mutate(across(.cols=!c(area_ctry, for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::group_by(area_ctry) %>%
     dplyr::summarize(across(.cols=everything(),
@@ -957,7 +957,7 @@ par_ind <- par_tab %>%
 par_all <- par_tab %>%
     dplyr::select(-area_cont, -area_code, -area_name) %>%
     dplyr::mutate(across(.cols=!c(area_ctry, for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::mutate(area_ctry="All continents") %>%
     dplyr::group_by(area_ctry) %>%
@@ -969,7 +969,7 @@ par_cont <- par_tab %>%
     dplyr::select(-area_ctry, -area_code, -area_name) %>%
     dplyr::group_by(area_cont) %>%
     dplyr::mutate(across(.cols=!c(for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::summarize(across(.cols=everything(),
                             .fns=function(x){sum(x, na.rm=TRUE)})) %>%
@@ -1102,7 +1102,7 @@ par_bra <- par_tab %>%
     dplyr::filter(area_ctry=="Brazil") %>%
     dplyr::select(-area_cont, -area_code, -area_name) %>%
     dplyr::mutate(across(.cols=!c(area_ctry, for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::group_by(area_ctry) %>%
     dplyr::summarize(across(.cols=everything(),
@@ -1112,7 +1112,7 @@ par_ind <- par_tab %>%
     dplyr::filter(area_ctry=="India") %>%
     dplyr::select(-area_cont, -area_code, -area_name) %>%
     dplyr::mutate(across(.cols=!c(area_ctry, for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::group_by(area_ctry) %>%
     dplyr::summarize(across(.cols=everything(),
@@ -1122,7 +1122,7 @@ par_ind <- par_tab %>%
 par_all <- par_tab %>%
     dplyr::select(-area_cont, -area_code, -area_name) %>%
     dplyr::mutate(across(.cols=!c(area_ctry, for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::mutate(area_ctry="All continents") %>%
     dplyr::group_by(area_ctry) %>%
@@ -1134,7 +1134,7 @@ par_cont <- par_tab %>%
     dplyr::select(-area_ctry, -area_code, -area_name) %>%
     dplyr::group_by(area_cont) %>%
     dplyr::mutate(across(.cols=!c(for2010),
-                         .fns=function(x){x*for2010/sum(for2010)})) %>%
+                         .fns=~.x*for2010/sum(for2010))) %>%
     dplyr::select(-for2010) %>%
     dplyr::summarize(across(.cols=everything(),
                             .fns=function(x){sum(x, na.rm=TRUE)})) %>%
