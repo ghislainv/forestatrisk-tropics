@@ -116,7 +116,7 @@ if (!file.exists(out_f)) {
 
 # List of files
 rast_in <- c("data/forest/fcc123.tif", "output/prob.tif",
-          "output/fcc_2050.tif", "output/fcc_2100.tif")
+          "output/mean/fcc_2050.tif", "output/mean/fcc_2100.tif")
 rast_out <- c("fcc123_500m.tif", "prob_500m.tif",
               "fcc_2050_500m.tif", "fcc_2100_500m.tif")
 
@@ -255,7 +255,6 @@ textwidth <- 16.6
 
 ## Load GADM level0 data
 gadm0 <- st_read(here("Maps", "GADM_data", "gadm36_level0.gpkg"))
-
 
 # =========================================
 # Africa with COD border
@@ -490,11 +489,15 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 in_fcc_500 <- here("Maps", dataset, ctry_iso, "fcc123_500m.tif")
 in_fcc_zoom <- here("Maps", dataset, ctry_iso, "fcc123_zoom.tif")
 in_fcc123 <- here("Maps", dataset, ctry_iso, "fcc123.tif")
+in_rho_orig <- here("Maps", dataset, ctry_iso, "rho_orig.tif")
+in_rho <- here("Maps", dataset, ctry_iso, "rho.tif")
 
 ## Rasters
 fcc_500 <- read_stars(in_fcc_500)
 fcc_zoom <- read_stars(in_fcc_zoom)
 fcc123 <- read_stars(in_fcc123)
+rho_orig <- read_stars(in_rho_orig)
+rho <- read_stars(in_rho)
 
 ## Grid
 geom_grid <- st_make_grid(st_as_sfc(st_bbox(rho_orig), crs=3395), cellsize=10000)
@@ -761,7 +764,7 @@ rect_geom <- st_as_sfc(rect_bbox)
 rect <- st_sf(id=1, geometry=rect_geom)
 
 ## Zoom on region with gdal
-in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "fcc_2050.tif")
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "mean", "fcc_2050.tif")
 out_f <- here("Maps", dataset, ctry_iso, "fcc2050_zoom.tif")
 z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
 if (!file.exists(out_f)) {
@@ -835,7 +838,7 @@ rect_geom <- st_as_sfc(rect_bbox)
 rect <- st_sf(id=1, geometry=rect_geom)
 
 ## Zoom on region with gdal
-in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "fcc_2100.tif")
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "output", "mean","fcc_2100.tif")
 out_f <- here("Maps", dataset, ctry_iso, "fcc2100_zoom.tif")
 z_ext_gdal <- paste(z_ext$xmin, z_ext$ymin, z_ext$xmax, z_ext$ymax)
 if (!file.exists(out_f)) {
