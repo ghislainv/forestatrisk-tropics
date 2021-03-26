@@ -157,6 +157,12 @@ for (i in 1:ncont) {
 	
 	## Import roads
 	roads <- st_read(here("Maps", dataset, cont, "roads_simp.gpkg"))
+	## Remove some roads posing pb in Fiji
+	if (cont=="Asia") {
+	  roads <- roads %>%
+	    dplyr::filter(!c(osm_id %in% c(615528265, 615530793, 384974257)))
+	  # st_write(roads, here("Maps", dataset, cont, "roads_simp_corr.gpkg"))
+	}
 	
 	## Import pa
 	pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
