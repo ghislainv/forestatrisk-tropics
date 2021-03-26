@@ -102,32 +102,32 @@ bookdown::render_book("index.Rmd", output_format=pdf_format)
 # Data S
 # ==============================================================================
 
-# Libraries
-require(bookdown)
-require(knitr)
-require(here)
+# # Libraries
+# require(bookdown)
+# require(knitr)
+# require(here)
+# 
+# # Working directory
+# setwd(here::here("Manuscript/Supplementary_Data"))
+# 
+# # params
+# title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century"
+# subtitle_html <- "Supplementary Data"
+# author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
+# date_html <- ""
+# params <- list(title=title_html, subtitle=subtitle_html, author=author_html, date=date_html)
 
-# Working directory
-setwd(here::here("Manuscript/Supplementary_Data"))
-
-# params
-title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century"
-subtitle_html <- "Supplementary Data"
-author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
-date_html <- ""
-params <- list(title=title_html, subtitle=subtitle_html, author=author_html, date=date_html)
-
-# html
-options(knitr.table.format="html")
-full_width_type=FALSE
-font_size_type=NULL
-# Dynamic YAML options
-html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=TRUE, toc_float=TRUE)
-bookdown::render_book("index.Rmd", output_format=html_format)
+# # html
+# options(knitr.table.format="html")
+# full_width_type=FALSE
+# font_size_type=NULL
+# # Dynamic YAML options
+# html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=TRUE, toc_float=TRUE)
+# bookdown::render_book("index.Rmd", output_format=html_format)
 
 # Move files to server
 # system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/supplementary-data.html fdb:/home/www/forestatrisk/tropics/supplementary-data/index.html")
-# system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
+system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
 
 # ==============================================================================
 # Combined with LaTex
