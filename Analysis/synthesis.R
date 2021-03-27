@@ -1676,7 +1676,7 @@ p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont, fill=area_cont),
               alpha=0.2, data=C_proj, linetype=0) + 
   geom_line(aes(group=area_cont, col=area_cont), data=C_proj, size=0.8) +
   geom_point(aes(group=area_cont, col=area_cont), data=C_hist, size=1) +
-  xlab("Year") + ylab("Annual carbon emissions (Pg/yr) associated to \ndeforestation of moist tropical forests") +
+  xlab("Year") + ylab("Annual carbon emissions (Pg/yr) associated with \ndeforestation of moist tropical forests") +
   scale_color_manual(values=wes_palette("Moonrise2")[c(4, 3, 2, 1)],
                      name="Continents",
                      breaks=c("All continents", "America", "Africa", "Asia"),

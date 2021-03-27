@@ -67,8 +67,8 @@ Captions for Data S1 and S2
 
 **Other Supplementary Materials for this manuscript include the following:**
 
-Data S1: Uncertainty around projected forest cover by study-area.    
-Data S2: Uncertainty around cumulative carbon emissions associated with future deforestation.
+Data S1: Uncertainty around projected forest cover.    
+Data S2: Uncertainty around projected carbon emissions.
 
 \linenumbers
 \newpage

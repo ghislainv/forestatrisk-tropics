@@ -66,6 +66,6 @@ Tropical forests are disappearing at an alarming rate due to human activities. H
 
 **Keywords:** deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios.
 
-**One sentence summary:** Anthropogenic deforestation will affect tropical forests with higher carbon stocks in the future, thus increasing carbon dioxide emissions in the atmosphere.
+**One sentence summary:** Anthropogenic deforestation will affect tropical forests with higher carbon stocks in the future.
 
 \newpage
