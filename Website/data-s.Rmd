@@ -14,7 +14,7 @@ link-citations: yes
 csl: _biblio/journal-of-applied-ecology.csl
 ---
 
-```{r lib-tab, echo=FALSE, results="hide"}
+```{r lib-tab, echo=FALSE, message=FALSE, results="hide"}
 require(knitr)
 require(dplyr)
 require(DT)
