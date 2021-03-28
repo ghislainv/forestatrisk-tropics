@@ -22,8 +22,8 @@ system("cp -r Website/_site/* /home/www/forestatrisk/")
 # ===============================
 
 # # Continents and abbreviations
-# continent <- c("America", "Africa", "Asia")
-# continent_ab <- c("AME", "AFR", "ASI")
+# cont <- c("America", "Africa", "Asia")
+# cab <- c("AME", "AFR", "ASI")
 # year <- c("2030", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100")
 # 
 # # loop on continent and year
