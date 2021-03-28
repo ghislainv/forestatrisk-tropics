@@ -186,9 +186,6 @@ for (i in 1:nsim) {
   ## Copy for manuscript
   f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
   file.copy(from=f, to=f_doc, overwrite=TRUE)
-  ## Copy for data
-  f_doc <- here("Manuscript", "Supplementary_Data", "tables", f_name)
-  file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 }
 
@@ -1521,9 +1518,6 @@ for (j in 1:nsim) {
   ## Copy for manuscript
   f_doc <- here("Manuscript", "Supplementary_Materials", "tables", glue("C_emissions_{s}.csv"))
   file.copy(from=f, to=f_doc, overwrite=TRUE)
-  ## Copy for data
-  f_doc <- here("Manuscript", "Supplementary_Data", "tables", glue("carbon_emissions_{s}.csv"))
-  file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 }
 
@@ -1750,8 +1744,8 @@ df <- df_min %>%
 ## Save results
 f <- here("Analysis", dataset, "forest_cover_change_ci.csv")
 write_delim(df, f, delim=",")
-## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Data", "tables", "forest_cover_change_ci.csv")
+## Copy for website
+f_doc <- here("Website", "_tables", "forest_cover_change_ci.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ---------------------------------------
@@ -1780,8 +1774,8 @@ df <- df_min %>%
 ## Save results
 f <- here("Analysis", dataset, "C_emissions_ci.csv")
 write_delim(df, f, delim=",")
-## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Data", "tables", "C_emissions_ci.csv")
+## Copy for website
+f_doc <- here("Website", "_tables", "C_emissions_ci.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## ==================================

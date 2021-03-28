@@ -1,5 +1,0 @@
-delete_merged_file: true
-book_filename: "supplementary-data.Rmd"
-language:
-  label:
-    tab: "Data S"
