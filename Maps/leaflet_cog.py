@@ -18,9 +18,9 @@ import tempfile
 import validate_cloud_optimized_geotiff
 
 
-# tif2cog
-def tif2cog(input_file_list, output_file, levels=6, num_threads=10,
-            cachemax=4096):
+# leaflet_cog
+def leaflet_cog(input_file_list, output_file, levels=6, num_threads=10,
+                cachemax=4096):
     """Cloud Optimized GeoTIFF from a list of GeoTIFFs"
 
     Use gdal functions to create Cloud Optimized GeoTIFF from a list
@@ -60,8 +60,14 @@ def tif2cog(input_file_list, output_file, levels=6, num_threads=10,
 
     # Step 2: Create big Geotiff from vrt
     print("Creating big Geotiff from vrt")
-    gdal_cmd = ["gdal_translate",
+    gdal_cmd = ["gdalwarp",
+                "-tr 30 30",
+                "-tap",
+                "-multi",
+                "-r near",
+                "-t_srs EPSG:3857",
                 "-of GTiff",
+                "-wo NUM_THREADS=" + str(num_threads),
                 "-co BIGTIFF=YES",
                 "-co TILED=YES",
                 "-co COMPRESS=DEFLATE",

@@ -10,15 +10,14 @@
 # ==============================================================================
 
 # Imports
-import sys
 import os
 import subprocess
+import sys
 
 import forestatrisk as far
 import matplotlib.pyplot as plt
 
-# os.chdir("/home/ghislain/Code/forestatrisk-tropics/Maps/")
-os.chdir("/home/gvieilledent/Code/forestatrisk-tropics/Maps/")
+os.chdir(os.path.expanduser("~/Code/forestatrisk-tropics/Maps/"))
 from tif2cog import tif2cog
 
 # Set PROJ_LIB
@@ -87,10 +86,12 @@ def run_combine(index_cont):
     # fcc123
     # ===================
     # List of tif files
-    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*fcc123.tif$' > list_tif.txt"
+    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+        cont_regex + ".*fcc123.tif$' > list_tif.txt"
     subprocess.call(cmd, shell=True)
     # COG
-    tif2cog(input_file_list="list_tif.txt", output_file="fcc123.tif", num_threads=8)
+    tif2cog(input_file_list="list_tif.txt",
+            output_file="fcc123.tif", num_threads=8)
     # Resample at 500m
     subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -t_srs EPSG:3395 \
     -tap -r near -tr 500 500 -co 'COMPRESS=DEFLATE' \
