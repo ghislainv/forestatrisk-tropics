@@ -722,7 +722,7 @@ p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
 f <- here("Analysis", dataset, "perc_loss_cont.png")
 ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
 ## Copy for manuscript
-f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
+f_doc <- here("Manuscript", "Article", "figures",
               "perc_loss_cont.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 

@@ -7,9 +7,9 @@ Our warm thanks to Rémy Dernat and Philippe Verley for help using the computing
 # Supplementary Materials
 
 Materials and Methods    
-Figs. S1 to S15    
-Tables S1 to S20    
-Data S1 to S2    
+Figs. S1 to S14    
+Tables S1 to S20    
+Data S1 to S2    
 References (49--78)
 
 \nolinenumbers
