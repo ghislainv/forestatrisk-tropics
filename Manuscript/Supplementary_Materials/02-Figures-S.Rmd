@@ -44,13 +44,13 @@ knitr::include_graphics("figures/fcc123.png")
 knitr::include_graphics("figures/var.png")
 ```
 
-(ref:cap-data-roads) **Pantropical road network**. The road network was obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads included "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM.
+(ref:cap-data-roads) **Pantropical road network**. The road network was obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads included "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM. Our dataset included a total of 3,606,841 roads.
 
 ```{r data-roads, out.width="\\textwidth", fig.cap="(ref:cap-data-roads)"}
 knitr::include_graphics("figures/roads.png")
 ```
 
-(ref:cap-data-pa) **Pantropical data-set on protected areas**. Terrestrial protected areas in \textcolor[HTML]{5c7b1e}{green}, marine protected areas in \textcolor[HTML]{51677e}{blue}. Protected areas were downloaded from the World Database on Protected Areas (<https://www.protectedplanet.net> [@WDPA2020]) using the `pywdpa` Python package. We retained protected areas defined by at least one polygon and which had the following status: "Designated", "Inscribed", "Established", or "Proposed" before 1^st^ January 2010. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves).
+(ref:cap-data-pa) **Pantropical data-set on protected areas**. Terrestrial protected areas in \textcolor[HTML]{5c7b1e}{green}, marine protected areas in \textcolor[HTML]{51677e}{blue}. Protected areas were downloaded from the World Database on Protected Areas (<https://www.protectedplanet.net> [@WDPA2020]) using the `pywdpa` Python package. We retained protected areas defined by at least one polygon and which had the following status: "Designated", "Inscribed", "Established", or "Proposed" before 1^st^ January 2010. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves). Our dataset included a total of 89,855 protected areas.
 
 ```{r data-pa, out.width="\\textwidth", fig.cap="(ref:cap-data-pa)"}
 knitr::include_graphics("figures/pa.png")

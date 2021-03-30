@@ -13,6 +13,7 @@
 
 ## Libraries
 require(dplyr)
+require(readr)
 require(sf)
 require(tmap)
 require(raster)
@@ -525,6 +526,39 @@ print(pa_Asia, vp=vp_Asi)
 dev.off()
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "pa.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+# ==========================
+# Number of PAs and roads
+# ==========================
+
+# Variables
+continent <- c("Africa", "America", "Asia")
+ncont <- length(continent)
+
+# Data frame to store results
+df <- data.frame(cont=continent, n_pa=NA, n_road=NA)
+
+# Loop on continents
+for (i in 1:ncont) {
+  cont <- continent[i]
+  roads <- st_read(here("Maps", dataset, cont, "roads_simp.gpkg"))
+	pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
+	df$n_road[df$cont==cont] <- nrow(roads)
+	df$n_pa[df$cont==cont] <- nrow(pa)
+}
+
+# Total
+df <- df %>%
+  bind_rows(summarise(.,
+                      across(where(is.numeric), sum),
+                      across(where(is.character), ~"Total")))
+
+# Save
+f <- here("Maps", dataset, "df_npa_nroad.csv")
+write_delim(df, f, delim=",")
+## Copy for manuscript
+f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "df_npa_nroad.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 # EOF
