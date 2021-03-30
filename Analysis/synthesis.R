@@ -746,6 +746,11 @@ for (j in 1:nsim) {
   f <- here("Analysis", dataset, f_name)
   fc_perc_cont <- read.table(f, header=TRUE, sep=",")
   
+  ## fcc
+  f_name <- glue("forest_cover_change_{s}.csv")
+  f <- here("Analysis", dataset, f_name)
+  fcc_df <- read.table(f, header=TRUE, sep=",")
+  
   ## yr75dis
   yr75dis_cont <- fc_perc_cont %>%
     dplyr::filter(perc>=75) %>%
@@ -761,7 +766,8 @@ for (j in 1:nsim) {
     dplyr::arrange(cont)
   
   ## Results in one table for continents
-  fc_proj_cont <- fc_proj_cont_long %>%
+  fc_proj_cont <- fc_perc_cont %>%
+    dplyr::select(-perc) %>%
     dplyr::filter(year %in% c(2040, 2050, 2060, 2080, 2100)) %>%
     tidyr::pivot_wider(names_from=year,
                        values_from=fc, names_prefix="for") %>%
@@ -821,7 +827,8 @@ for (j in 1:nsim) {
                   loss21, yr75dis)
   
   ## All continents
-  fc_allcont <- fc_cont %>% 
+  fc_allcont <- fc_perc_cont %>%
+    dplyr::select(-perc) %>%
     dplyr::group_by(year) %>%
     dplyr::summarise_if(is.numeric, sum) %>%
     dplyr::mutate(perc=100*(fc[year==2000]-fc)/fc[year==2000])
@@ -1729,6 +1736,22 @@ f_max <- here("Analysis", dataset, "forest_cover_change_max.csv")
 df_mean <- read_delim(f_mean, delim=",") %>% mutate(proj="mean")
 df_min <- read_delim(f_min, delim=",") %>% mutate(proj="low")
 df_max <- read_delim(f_max, delim=",") %>% mutate(proj="high")
+
+# Annual deforested area
+d_ci <- data.frame(d=c("mean", "min", "max"), value=NA)
+d_ci$value <- c(sum(df_mean$d_mean),
+                sum(df_mean$d_min),
+                sum(df_mean$d_max))
+f <- here("Analysis", dataset, "d_ci.csv")
+write_delim(d_ci, f, delim=",")
+
+# Percentage of forest cover loss
+perc_ci <- data.frame(perc=c("mean", "min", "max"), value=NA)
+perc_ci$value <- c(1-sum(df_mean$for2100)/sum(df_mean$for2000),
+                   1-sum(df_min$for2100)/sum(df_min$for2000),
+                   1-sum(df_max$for2100)/sum(df_max$for2000))
+f <- here("Analysis", dataset, "perc_ci.csv")
+write_delim(perc_ci, f, delim=",")
 
 # Combine datasets
 df <- df_min %>%
