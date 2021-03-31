@@ -165,7 +165,7 @@ sm_head <- c("\\renewcommand{\\thetable}{S\\arabic{table}}",
              "\\renewcommand{\\theequation}{S\\arabic{equation}}",
              "\\setcounter{figure}{0}",
              "\\setcounter{table}{0}",
-             "\\newpage")
+             "\\newpage~\\newpage")
 # Combine
 combined <- c(article, sm_head, sm)
 writeLines(combined, here("Manuscript", "LaTeX", "combined.tex"))
