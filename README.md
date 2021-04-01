@@ -15,7 +15,7 @@ following scientific article:
 **Vieilledent G.,**
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
 **C. Vancutsem,** **F. Achard.** Spatial forecasting of forest cover
-change in the humid tropics over the 21<sup>st</sup> century. in prep.
+change in the humid tropics over the 21<sup>st</sup> century.
 
 <img alt="ORCID logo" src="Manuscript/Article/figures/prob_zoom.png" />
 
