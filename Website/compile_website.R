@@ -15,7 +15,8 @@ library(here)
 render_site(here::here("Website"))
 
 # Copy website directory
-system("cp -r Website/_site/* /home/www/forestatrisk/")
+#system("cp -r Website/_site/* /home/www/forestatrisk/")
+system("scp -r Website/_site/* fdb:/home/www/forestatrisk/")
 
 # ===============================
 # Make symbolic link to COG files

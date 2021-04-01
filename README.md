@@ -93,14 +93,14 @@ Rscript Manuscript/zzz_knitr_compile/compile_book.R
 
 ## Website accompanying the article
 
-A website at <https://forestatrisk.cirad.fr> is accompanying the above
-article. The website includes the following ressources:
+A website at <https://forestatrisk.cirad.fr> is accompanying the article
+cited above. The website includes the following resources:
 
 ### Interactive map
 
-Interactive maps from this study (forest cover change, deforestation
-risk, and projected forest cover in 2050 and 2100) have been made
-available:
+We release interactive pantropical maps of the past forest cover change
+(2000–2010–2020), of the risk of deforestation (2020), and of the
+projected forest cover in 2050 and 2100:
 
 -   [Map of the tropics](https://forestatrisk.cirad.fr/maps.html)
 
@@ -115,10 +115,9 @@ GeoTIFFs ([COG](https://www.cogeo.org/)):
 ### Supplementary data
 
 -   [Data S1](https://forestatrisk.cirad.fr/data-s.html): Uncertainty
-    around projected forest cover by study-area.
+    around projected forest cover.
 -   [Data S2](https://forestatrisk.cirad.fr/data-s.html): Uncertainty
-    around cumulative carbon emissions associated with future
-    deforestation.
+    around projected carbon emissions.
 
 ### `forestatrisk` Python package
 

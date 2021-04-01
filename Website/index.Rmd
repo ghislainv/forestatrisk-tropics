@@ -27,12 +27,12 @@ This website is accompanying the following scientific article:
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
 <a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem,**</a>
 <a href="https://www.researchgate.net/profile/Achard_Frederic" style="color:#2C3E50;">**F. Achard.**</a>
-Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century. in prep.
+Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century.
 
 
-### Interactive map
+### Interactive maps
 
-Interactive maps from this study (forest cover change, deforestation risk, and projected forest cover in 2050 and 2100) have been made available:
+We release interactive pantropical maps of the past forest cover change (2000--2010--2020), of the risk of deforestation (2020), and of the projected forest cover in 2050 and 2100: 
 
 - [Map of the tropics](https://forestatrisk.cirad.fr/maps.html)
 
@@ -45,8 +45,8 @@ Rasters of results from this study can be downloaded as Cloud Optimized GeoTIFFs
 
 ### Supplementary data
 
-- [Data S1](https://forestatrisk.cirad.fr/data-s.html): Uncertainty around projected forest cover by study-area.
-- [Data S2](https://forestatrisk.cirad.fr/data-s.html): Uncertainty around cumulative carbon emissions associated with future deforestation.
+- [Data S1](https://forestatrisk.cirad.fr/data-s.html): Uncertainty around projected forest cover.
+- [Data S2](https://forestatrisk.cirad.fr/data-s.html): Uncertainty around projected carbon emissions.
 
 ### `forestatrisk` Python package
 
@@ -57,6 +57,7 @@ Results from this study have been obtained with the `forestatrisk` Python packag
 
 ### Reproducibility
 
-All the code used for this study is available on GitHub to ensure reproducibility of the results:
+All the code used for this study is available on GitHub and has been permanently archived in the Cirad Dataverse repository to ensure the reproducibility of the results:
 
 - [GitHub repository](https://github.com/ghislainv/forestatrisk-tropics)
+- [Cirad Dataverse](<https://doi.org/10.18167/DVN1/7N2BTU>)
