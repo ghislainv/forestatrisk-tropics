@@ -21,7 +21,6 @@ Manuscript/Supplementary_Materials/doc/*.tex
 Manuscript/Article/doc/*.pdf
 Manuscript/Article/doc/*.tex
 Manuscript/Combined/*.pdf
-Manuscript/Cover_Letter/*.pdf
 Manuscript/LaTeX/*
 
 # GIS data
@@ -29,6 +28,9 @@ Manuscript/LaTeX/*
 
 # tif
 *.tif
+
+# Cover letter
+Manuscript/Cover_Letter
 
 # Figures
 *.png
