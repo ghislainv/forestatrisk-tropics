@@ -1,5 +1,5 @@
 ---
-title: "Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century"
+title: "Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
 subtitle: "Supplementary Data"
 author: "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 date: ""

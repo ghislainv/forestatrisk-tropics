@@ -22,7 +22,7 @@ Manuscript/Article/doc/*.pdf
 Manuscript/Article/doc/*.tex
 Manuscript/Combined/*.pdf
 Manuscript/LaTeX/*
-!Manuscript/LaTeX/combined_ncc.tex
+!Manuscript/LaTeX/combined_nature.tex
 
 # GIS data
 *.gpkg
