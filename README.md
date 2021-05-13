@@ -14,8 +14,8 @@ following scientific article:
 <a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
 **Vieilledent G.,**
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-**C. Vancutsem,** **F. Achard.** Spatial forecasting of forest cover
-change in the humid tropics over the 21<sup>st</sup> century.
+**C. Vancutsem,** **F. Achard.** Forest refuge areas and carbon
+emissions from tropical deforestation in the 21<sup>st</sup> century.
 
 <img alt="ORCID logo" src="Manuscript/Article/figures/prob_zoom.png" />
 
