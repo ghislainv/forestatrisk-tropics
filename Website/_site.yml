@@ -3,7 +3,7 @@ name: "forestatrisk.cirad.fr"
 output_dir: "_site"
 exclude: ["LICENSE"]
 navbar:
-  title: "forestatrisk.cirad.fr"
+  title: "ForestAtRisk"
   #type: inverse
   left:
     - text: "Home"

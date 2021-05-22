@@ -1,7 +1,5 @@
 ---
-title: "Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
-subtitle: "Supplementary Data"
-author: "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
+title: "Data S"
 date: ""
 output:
   bookdown::html_document2:
@@ -22,6 +20,15 @@ options(knitr.table.format="html")
 ```
 
 <span style="display: block; height: 15px;"></span>
+
+Supplementary data for the following scientific article:
+
+<a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://ecology.ghislainv.fr" style="color:#2C3E50;">**Vieilledent G.,**</a>
+<a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem,**</a>
+<a href="https://www.researchgate.net/profile/Achard_Frederic" style="color:#2C3E50;">**F. Achard.**</a>
+Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century.
 
 <!------------------------------>
 <!-- Forest cover projections -->
