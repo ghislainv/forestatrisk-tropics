@@ -99,9 +99,7 @@ We developed a specific package called `forestatrisk` [@Vieilledent2021a] to mod
 
 We also developed another smaller Python package called `pywdpa` (<https://ecology.ghislainv.fr/pywdpa>) that allows downloading the shapefiles of the protected areas for each country using the API of the World Database on Protected Areas (<https://api.protectedplanet.net>). The package is also available on GitHub at <https://github.com/ghislainv/pywdpa> or PyPI at <https://pypi.org/project/pywdpa>, and can also be easily installed using `pip`.
 
-Computations for each country were run in parallel on the computing cluster of the Montpellier Bioinformatics Biodiversity (MBB) platform (<https://mbb.univ-montp2.fr>) provided by LabEx CeMEB (<http://www.labex-cemeb.org/>). Google Earth Engine [@Gorelick2017] was used to process the annual product by Vancutsem _et al._ [@Vancutsem2021] and derive the past forest cover change map for each country.
-
-While the raw results of our study (which implied intensive computations on large raster data) were obtained using the Python programming language, the summarized results (tables and figures) presented in this article (main text and supplementary materials) were obtained using the R software [@R2020].
+Computations for each country were run in parallel on the computing cluster of the Montpellier Bioinformatics Biodiversity (MBB) platform (<https://mbb.univ-montp2.fr>) provided by LabEx CeMEB (<http://www.labex-cemeb.org/>). Google Earth Engine [@Gorelick2017] was used to process the annual product by Vancutsem _et al._ [@Vancutsem2021] and derive the past forest cover change map for each country. While the raw results of our study (which implied intensive computations on large raster data) were obtained using the Python programming language, the summarized results (tables and figures) presented in this article (main text and supplementary materials) were obtained using the R software [@R2020].
 
 <!-- ## Repeating the analysis with the tree cover loss product by @Hansen2013
 

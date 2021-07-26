@@ -32,7 +32,7 @@ output:
         vk: no
         all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
 bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
-biblio-style: bib/Science.bst
+biblio-style: bib/naturemag.bst
 #biblio-style: bib/jae.bst
 link-citations: yes
 csl: bib/science.csl
@@ -62,10 +62,10 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
 
 # Abstract {-}
 
-Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. We demonstrate the effectiveness of protected areas in displacing deforestation and the negative impact of roads on forest conservation in the tropics. We derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21^st^ century under a "business-as-usual" scenario. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 54% (46--61%) of all forest cover is expected to disappear during the course of the 21^st^ century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.221 Pg/yr (+42%) during the 21^st^ century.
+**Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. Our models confirm the effectiveness of protected areas in displacing deforestation and the negative impact of roads and landscape fragmentation on forest conservation in the tropics. Using our models, we derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21^st^ century under a "business-as-usual" scenario based on the deforestation rates observed in the 2010s. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 54% (46--61%) of all forest cover is expected to disappear during the course of the 21^st^ century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.221 Pg/yr (+42%) between the 2010s and the 2070s.**
 
-**Keywords:** deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios.
+<!-- **Keywords:** deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios. -->
 
-**One sentence summary:** Anthropogenic deforestation will affect tropical forests with higher carbon stocks in the future.
+<!-- **One sentence summary:** Anthropogenic deforestation will affect tropical forests with higher carbon stocks in the future. -->
 
 \newpage

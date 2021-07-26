@@ -30,19 +30,19 @@ full_width_type=FALSE
 font_size_type=10
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
-# params
-title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century"
-author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
-date_html <- format(Sys.time(), "%d %B, %Y")
-params <- list(title=title_html,author=author_html, date=date_html)
+# # params
+# title_html <- "Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
+# author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
+# date_html <- format(Sys.time(), "%d %B, %Y")
+# params <- list(title=title_html,author=author_html, date=date_html)
 
-# html
-options(knitr.table.format="html")
-full_width_type=TRUE
-font_size_type=NULL
-# Dynamic YAML options
-html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=FALSE)
-bookdown::render_book("index.Rmd", output_format=html_format)
+# # html
+# options(knitr.table.format="html")
+# full_width_type=TRUE
+# font_size_type=NULL
+# # Dynamic YAML options
+# html_format <- bookdown::html_document2(number_sections=FALSE, fig_caption=TRUE, toc=FALSE)
+# bookdown::render_book("index.Rmd", output_format=html_format)
 
 # Then the html can be imported in Google Doc
 
@@ -74,7 +74,7 @@ params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
 # # params
-# title_html <- "SUPPLEMENTARY MATERIALS\nSpatial forecasting of forest cover change in the humid tropics over the 21st century"
+# title_html <- "SUPPLEMENTARY MATERIALS\nForest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
 # author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 # date_html <- format(Sys.time(), "%d %B, %Y")
 # params <- list(title=title_html,author=author_html, date=date_html)
@@ -111,7 +111,7 @@ bookdown::render_book("index.Rmd", output_format=pdf_format)
 # setwd(here::here("Manuscript/Supplementary_Data"))
 # 
 # # params
-# title_html <- "Spatial forecasting of forest cover change in the humid tropics over the 21^st^ century"
+# title_html <- "Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
 # subtitle_html <- "Supplementary Data"
 # author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 # date_html <- ""

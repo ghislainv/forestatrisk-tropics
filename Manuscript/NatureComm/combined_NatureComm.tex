@@ -99,9 +99,9 @@
 \pagestyle{fancy}
 \setlength\headheight{36pt}
 \renewcommand\headrulewidth{0pt}
-\fancyhead[L]{\includegraphics[width=3cm]{figs_article/Nature_logo.png}}
-\fancyhead[C]{Submitted Manuscript: Confidential}
-\fancyhead[R]{}
+\fancyhead[L]{\includegraphics[width=6.5cm]{figs_article/NatureComm_logo.png}}
+\fancyhead[C]{}
+\fancyhead[R]{Submitted Manuscript: Confidential}
 \usepackage[numbers, round, comma]{natbib}
 \usepackage{etoolbox} %% Several bib, see: https://tex.stackexchange.com/questions/69675/how-to-set-the-number-of-the-first-citation
 %%\def\bibfont{\footnotesize}
@@ -126,17 +126,18 @@
 %\bibliographystyle{bib/naturemag.bst}
 
 \author{}
-\date{\vspace{-2.5em}}
+\date{}
 
 \begin{document}
 
 \renewcommand{\bibsection}{}  %% No section name for bibliography
-
+~
+\vspace{-0.25cm}
 \begin{center}
   \LARGE{Forest refuge areas and carbon emissions from tropical deforestation in the 21\textsuperscript{st} century}
 \end{center}
 
-\vspace{1cm}
+\vspace{0.5cm}
 
 \begin{center}
   \large{
@@ -166,15 +167,15 @@
 
 \linenumbers
 
-\hypertarget{summary}{%
-\section*{Summary}\label{summary}}
-\addcontentsline{toc}{section}{Summary}
+\hypertarget{abstract}{%
+\section*{Abstract}\label{abstract}}
+\addcontentsline{toc}{section}{Abstract}
 
-\textbf{Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. We demonstrate the effectiveness of protected areas in displacing deforestation and the negative impact of roads on forest conservation in the tropics. We derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21\textsuperscript{st} century under a ``business-as-usual'' scenario. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 54\% (46--61\%) of all forest cover is expected to disappear during the course of the 21\textsuperscript{st} century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.221~Pg/yr (+42\%) during the 21\textsuperscript{st} century.}\\
+\textbf{Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. Our models confirm the effectiveness of protected areas in displacing deforestation and the negative impact of roads and landscape fragmentation on forest conservation in the tropics. Using our models, we derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21\textsuperscript{st} century under a ``business-as-usual'' scenario based on the deforestation rates observed in the 2010s. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 54\% (46--61\%) of all forest cover is expected to disappear during the course of the 21\textsuperscript{st} century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.221~Pg/yr (+42\%) between the 2010s and the 2070s.}\\
 
-%%\noindent\textbf{Keywords:} deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios.
-
-%%\textbf{One sentence summary:} Anthropogenic deforestation will affect tropical forests with higher carbon stocks in the future.
+% \textbf{Keywords:} deforestation, forecasts, forest cover change, forest refuge areas, moist tropical forests, spatial modelling, scenarios.
+% 
+% \textbf{One sentence summary:} Anthropogenic deforestation will affect tropical forests with higher carbon stocks in the future.
 
 \newpage
 
@@ -184,9 +185,9 @@
 
 \indent Tropical forests are at the heart of concerns when it comes to climate change and biodiversity loss, which both pose unprecedented threats to human civilization \citep{IPCC2014, Cardinale2012}. Commonly called the ``Jewels of the Earth'', tropical forests shelter 30 million species of plants and animals, representing half of the Earth's wildlife and at least two-thirds of its plant species \citep{Gibson2011, Wilson2012}. Through carbon sequestration, they play an important role in the global carbon cycle and regulate the global climate \citep{Baccini2017}. Intact tropical forest ecosystems also prevent outbreaks of zoonoses and reduce the risk of pandemics \citep{Tollefson2020}. At local scale, tropical forests regulate the regional climate \citep{Dickinson1992}, cooling the atmosphere \citep{Ellison2017}, and facilitate access to water \citep{Ellison2017, Zhang2021}. They also protect against erosion and flooding \citep{Bradshaw2007}. Close to 1.6 billion people (a quarter of the world's population) rely on forest resources for their livelihoods \citep{FAO2015}. Despite the many ecosystem services they provide, tropical forests are disappearing at an alarming rate \citep{FAO2015, Hansen2013, Vancutsem2021, Achard2014}, mostly because of human activities \citep{Curtis2018, Geist2002}. Past studies have estimated that about 8~Mha of tropical forest (including moist and dry forests) are currently disappearing each year \citep{FAO2015}. At this rate, will there still be any tropical forests left at the end of the 21\textsuperscript{st} century, if so, where will they be concentrated, and what will be the consequences of tropical deforestation on climate and biodiversity in the future?\\
 
-Forecasting forest cover change is paramount as it allows us to foresee the consequences of deforestation (in terms of carbon emissions, biodiversity loss, or water supply) under various technological, political, and socio-economic scenarios, and to inform decision makers accordingly \citep{Clark2001}. The ``business-as-usual'' scenario (i.e., in the absence of any change in deforestation in the future) is of particular interest as it makes it possible to predict the likely future in the absence of change, and if necessary, to alert decision-makers to an essential change of course to avoid any potential environmental disaster. Although carbon dioxide emission and climate change scenarios have been developed for several years \citep{IPCC2014} by the Intergovernmental Panel on Climate Change (IPCC) and are now widely used by the scientific community and known to the general public, no equivalent scenarios for land-use change and biodiversity at the global scale are currently available. Spatialized forest cover change scenarios are crucial because both forest carbon stocks \citep{Baccini2017, Avitabile2016} and biodiversity \citep{Kremen2008, Mittermeier2011} vary considerably in space at fine scale. Non-spatial scenarios of forest cover change \citep{FAO2015} cannot be used to forecast associated carbon emissions and change in biodiversity accurately, or for systematic conservation planning at the local scale. Spatial forecasts of forest cover change are based on spatial statistical models, which enable estimation of a probability of change in space as a function of a set of spatial predictors. In addition to forecasts, statistical models can be used to identify the main drivers of deforestation and to quantify their relative effects. For example, models can be used to assess the impact of roads on the risk of deforestation \citep{Laurance2014} and the effectiveness of protected areas at reducing deforestation \citep{Andam2008, Wolf2021}.\\
+Forecasting forest cover change is paramount as it allows us to foresee the consequences of deforestation (in terms of carbon emissions, biodiversity loss, or water supply) under various technological, political, and socio-economic scenarios, and to inform decision makers accordingly \citep{Clark2001}. The ``business-as-usual'' scenario is of particular interest as it makes it possible to predict the likely future in the absence of change in deforestation rates, and if necessary, to alert decision-makers to an essential change of course to avoid any potential environmental disaster. While models and scenarios of carbon dioxide emission and climate change have been developed for several years by the Intergovernmental Panel on Climate Change \citep{IPCC2014} and are now widely used by the scientific community and known to the general public, equivalent models and scenarios for land-use change and biodiversity at the global scale are still relatively scarce \citep{Pereira2020}. Moreover, baseline scenarios of deforestation and associated carbon dioxide emission are necessary for implementing REDD+ (Reducing Emissions from Deforestation and forest Degradation) activities in the framework of the Paris Agreement on climate change \citep{Goetz2015}. Spatialized forest cover change scenarios are crucial because both forest carbon stocks \citep{Baccini2017, Avitabile2016} and biodiversity \citep{Kremen2008, Mittermeier2011} vary considerably in space at fine scale. Non-spatial scenarios of forest cover change \citep{FAO2015} cannot be used to forecast associated carbon emissions and change in biodiversity accurately, or for systematic conservation planning at the local scale. Spatial forecasts of forest cover change are based on spatial statistical models, which enable estimation of a probability of change in space as a function of a set of spatial predictors \citep{Rosa2014}. In addition to forecasts, statistical models can be used to identify the main drivers of deforestation and to quantify their relative effects. For example, models can be used to assess the impact of roads on the risk of deforestation \citep{Laurance2014} and the effectiveness of protected areas at reducing deforestation \citep{Andam2008, Wolf2021}.\\
 
-Few authors have attempted to provide spatialized forest cover change scenarios in the tropics at large spatial scales. The largest studies to date have focused on modelling and forecasting forest cover change at the scale of the Amazonian basin \citep{Soares-Filho2006}. In this paper, we present the first attempt to model and forecast tropical deforestation at the pantropical scale using high-resolution spatial data. This was made possible by the recent availability of pantropical spatial datasets of forest cover change \citep{Vancutsem2021} and of global spatial datasets of explanatory factors related to deforestation at the required resolution (World Database on Protected Areas, SRTM Digital Elevation Database, and OpenStreetMap). We combine these extensive datasets in a spatial statistical model to test the effectiveness of protected areas at reducing deforestation and to assess the impact of roads on the risk of deforestation. Assuming a business-as-usual scenario, we derive high-resolution maps of deforestation risk and future forest cover over the 21\textsuperscript{st} century in the humid tropics. We also estimate the carbon emissions associated with projected deforestation and conduct an uncertainty analysis.
+Few authors have attempted to provide spatialized forest cover change scenarios in the tropics at large spatial scales. The largest studies to date have focused on modelling and forecasting forest cover change at the scale of the Amazonian basin \citep{Aguiar2016, Swann2015, Soares-Filho2006}. In this paper, we model and forecast tropical deforestation at the pantropical scale using high-resolution spatial data. This was made possible by the recent availability of pantropical spatial datasets of forest cover change \citep{Vancutsem2021} and of global spatial datasets of explanatory factors related to deforestation at the required resolution (World Database on Protected Areas, SRTM Digital Elevation Database, and OpenStreetMap). We combine these extensive datasets in a spatial statistical model to test the effectiveness of protected areas at reducing deforestation and to assess the impact of roads on the risk of deforestation. Assuming a business-as-usual scenario, we derive high-resolution maps of deforestation risk and future forest cover over the 21\textsuperscript{st} century in the humid tropics. We also estimate the carbon emissions associated with projected deforestation and conduct an uncertainty analysis.
 
 \hypertarget{remaining-tropical-moist-forests-in-2100}{%
 \section{Remaining tropical moist forests in 2100}\label{remaining-tropical-moist-forests-in-2100}}
@@ -195,20 +196,26 @@ Using Vancutsem \emph{et al.}'s study \citep{Vancutsem2021} as a reference, we e
 
 At the country scale, we predict that 47 countries (18 in Latin America, 21 in Africa, and 8 in Southeast Asia) out of the 92 we studied, plus 18 states in Brazil and one region in India, will lose all their tropical forests by 2100 (Fig.~\ref{fig:fcc2100} and table~S16). Among these countries or regions, 20 countries (six in America, eight in Africa, and six in Asia), five states in Brazil, and one region in India had more than one million hectares of forest in 2020. These 20 countries include most of the countries of Central America (Mexico, Guatemala, Honduras, Nicaragua), Western (Sierra Leone, Ivory Coast, Ghana, Nigeria) and Eastern (Ethiopia, Madagascar) Africa, and continental Southeast Asia (Myanmar, Laos, Vietnam, Cambodia, Malaysia, Indian Western Ghats). These regions include almost all tropical forests located within six biodiversity hotspots identified by Mittermeier \emph{et al.} \citep{Mittermeier2011}: Mesoamerica, Guinean Forests of West Africa, the Horn of Africa, Madagascar and Indian Ocean Islands, Indo-Burma, Western Ghats and Sri Lanka (Fig.~\ref{fig:fcc2100}).\\
 
-Using an advanced spatial statistical modelling approach (see Methods, figs.~S1--S9, and tables~S1--S3), we obtain high resolution (30~m) pantropical maps of the deforestation risk (Fig.~\ref{fig:prob} and fig.~S10) and project forest cover for the 21\textsuperscript{st} century in the humid tropics (Fig.~\ref{fig:fcc2100} and fig.~S11) under a business-as-usual scenario. Three large ``blocks'' of relatively intact tropical moist forest will remain in 2100 (see both Fig.~\ref{fig:fcc2100} and the interactive map of projected deforestation for the period 2020--2100 available at \url{https://forestatrisk.cirad.fr/maps.html}). One forest block will be located in Latin America and will include the upper part of the Amazonian basin (including the Peruvian, Ecuadorian, Colombian and Venezuelan Amazonia) and the Guiana Shield (Guyana, Suriname, and French Guiana). The second block will be located in the western part of the Congo basin and will include forests in Gabon, Equatorial Guinea, Cameroon, the Central African Republic, and the Republic of Congo. The third block will be located in Melanesia and will include forests in Papua New Guinea, Solomon Islands, and Vanuatu.\\
+\newpage
+
+Using a spatial statistical modelling approach (see Methods, figs.~S1--S9, and tables~S1--S3), we obtain high resolution (30~m) pantropical maps of the deforestation risk (Fig.~\ref{fig:prob} and fig.~S10) and project forest cover for the 21\textsuperscript{st} century in the humid tropics (Fig.~\ref{fig:fcc2100} and fig.~S11) under a business-as-usual scenario. Three large ``blocks'' of relatively intact tropical moist forest will remain in 2100 (see both Fig.~\ref{fig:fcc2100} and the interactive map of projected deforestation for the period 2020--2100 available at \url{https://forestatrisk.cirad.fr/maps.html}). One forest block will be located in Latin America and will include the upper part of the Amazonian basin (including the Peruvian, Ecuadorian, Colombian and Venezuelan Amazonia) and the Guiana Shield (Guyana, Suriname, and French Guiana). The second block will be located in the western part of the Congo basin and will include forests in Gabon, Equatorial Guinea, Cameroon, the Central African Republic, and the Republic of Congo. The third block will be located in Melanesia and will include forests in Papua New Guinea, Solomon Islands, and Vanuatu.\\
 
 Apart from these three large and relatively intact forest blocks, the tropical moist forest remaining in 2100 will be highly fragmented (Fig.~\ref{fig:fcc2100}). In Latin America, highly fragmented forests will be found in the Brazilian states of the Amazonian deforestation arc (Acre, Rondonia, Mato Grosso, Para, Amapa) and in the Roraima state in the northern Amazonia. In Africa, forests in the Democratic Republic of the Congo (DRC) will also be highly fragmented (fig.~S11) and will be completely separated from the large forest block located in the western part of the Congo basin (Fig.~\ref{fig:fcc2100}). In Southeast Asia, small patches of heavily fragmented forests will remain in Thailand, Indonesia, and the Philippines (Fig.~\ref{fig:fcc2100}). The remaining forests will be concentrated in remote areas (far from roads and towns), preferentially in protected areas, and at high elevations (Figs.~\ref{fig:fcc2100},~\ref{fig:prob} and tables~S6--S9). For example, the remaining forests of Borneo will be concentrated in the Betung Kerihun and Kayan Mentarang National Parks.\\
 
 As tropical forests shelter a large proportion of terrestrial biodiversity and carbon stocks on land, future tropical deforestation is expected to have strong negative impacts on both biodiversity and climate. The impact of projected deforestation on carbon emissions is discussed below, but rigorous assessment of the impact of projected deforestation on biodiversity is beyond the scope of this study. Such an impact analysis would require accurate species distribution and biodiversity maps including a large number of species representative of the biodiversity in the tropics. Such maps are not available to date \citep{Pimm2014}. Nonetheless, as a rough estimate, if we consider only endemic species \citep{Mittermeier2011} in the six biodiversity hotspots where almost all the tropical forest is predicted to disappear by 2100, and assume that most of these species depend on tropical moist forests, deforestation would lead to the extinction of 29,140 species of plants and 4,576 species of vertebrates (including birds, reptiles, amphibians, freshwater fishes, and mammals) which cannot be found anywhere else on Earth (table~S18).
+
+\newpage
 
 \hypertarget{carbon-emissions-under-a-business-as-usual-scenario-of-deforestation}{%
 \section{Carbon emissions under a business-as-usual scenario of deforestation}\label{carbon-emissions-under-a-business-as-usual-scenario-of-deforestation}}
 
 Here we estimate the aboveground carbon emissions associated with deforestation projected for the period 2020--2100 under a business-as-usual scenario of deforestation. When computing carbon emissions associated with projected deforestation, we assume that the carbon stocks of existing forests will remain stable in the future. Under a business-as-usual scenario of deforestation (i.e., constant annual deforested area), the change in predicted annual carbon emissions is only attributable to the location of the future deforestation (Fig.~\ref{fig:fcc2100} and fig.~S11) and to the spatial distribution of forest carbon stocks (fig.~S12). We find that annual carbon emissions associated with deforestation of tropical moist forests will increase from 0.525~Pg/yr in 2010--2020 to 0.746~Pg/yr in 2070--2080, which corresponds to a 42\% increase (Fig.~\ref{fig:c-em}). This increase in annual carbon emissions is predicted for all three continents (Fig.~\ref{fig:c-em}). A decrease in carbon emissions is then predicted starting from the period 2070--2080 for Southeast Asia and the period 2080--2090 at pantropical scale (Fig.~\ref{fig:c-em}).\\
 
-The predicted increase in annual carbon emissions is explained by the fact that the forests which will be deforested in the future have higher carbon stocks. Several studies have shown that elevation is an important variable in determining forest carbon stocks \citep{Vieilledent2016, Saatchi2011}. Forest carbon stocks are expected to be optimal at mid-elevation \citep{Vieilledent2016} due to higher orographic precipitation at this elevation and because the climatic stress associated with strong winds and low temperature is lower at mid-elevation than at high elevation. Here, we show that low-elevation areas are more deforested than high-elevation areas (tables~S4, S5). This is explained by the fact that low-elevation areas are more accessible to human populations and by the fact that arable lands are concentrated at low elevation, where the terrain slope is usually lower and the soil is more productive \citep{Geist2002}. Consequently, the predicted increase in carbon emissions can be explained by the fact that deforestation will move towards higher elevation areas where forest carbon stocks are higher. Moreover, remote forest areas that have been less disturbed by human activities in the past have accumulated large quantities of carbon \citep{Dargie2017, Brinck2017}. The progressive deforestation of more intact forests also explains the predicted increase in carbon emissions.\\
+The predicted increase in annual carbon emissions is explained by the fact that the forests which will be deforested in the future have higher carbon stocks. Several studies have shown that elevation is an important variable in determining forest carbon stocks \citep{Vieilledent2016, Saatchi2011}. Forest carbon stocks are expected to be optimal at mid-elevation \citep{Vieilledent2016} due to higher orographic precipitation at this elevation and because the climatic stress associated with winds and temperature is lower at mid-elevation than at high elevation. Here, we show that low-elevation areas are more deforested than high-elevation areas (tables~S4, S5). This is explained by the fact that low-elevation areas are more accessible to human populations and by the fact that arable lands are concentrated at low elevation, where the terrain slope is usually lower and the soil is more productive \citep{Geist2002}. Consequently, the predicted increase in carbon emissions can be explained by the fact that deforestation will move towards higher elevation areas where forest carbon stocks are higher. Moreover, remote forest areas that have been less disturbed by human activities in the past have accumulated large quantities of carbon \citep{Dargie2017, Brinck2017}. The progressive deforestation of more intact forests also explains the predicted increase in carbon emissions.\\
 
 The decrease in carbon emissions predicted from the period 2070--2080 for Southeast Asia, and from the period 2080--2090 at pantropical scale, can be associated with a decrease in carbon stocks of deforested areas (in association with environmental factors, such as lower carbon stocks at very high elevation) or a decrease in the total deforested area at the continental and global scale, as countries progressively lose all their forest. In Southeast Asia, six countries will lose all their forest between 2070 and 2100 (table~S16). These countries (which include Laos, Malaysia, Myanmar, and Vietnam) account for a significant proportion (32\%) of the annual deforested area in Southeast Asia (808,363~ha/yr out of 2,532,985~ha/yr, see tables~S14, S15). This largely explains the predicted decrease in carbon emissions in Southeast Asia from 2070 on.\\
+
+\newpage
 
 Our estimates of 0.525~Pg/yr (0.208, 0.199, and 0.118~Pg/yr for Latin America, Southeast Asia, and Africa, respectively) of aboveground carbon emissions due to tropical deforestation for the period 2010--2020 are consistent with those of previous studies \citep{Baccini2017, Achard2014, Harris2012}. For the period 2000--2014, previous studies estimated 0.81--0.88~Pg/yr of carbon emissions associated with deforestation considering both moist and dry tropical forests, while our study only focuses on tropical \emph{moist} forests. Because of the projected 42\% increase in carbon emissions associated with tropical deforestation under a business-as-usual scenario, tropical forests will act as an increasing net carbon source \citep{Baccini2017}, thus reinforcing climate change in the future.\\
 
@@ -219,26 +226,30 @@ These results demonstrate the importance of spatial predictions of deforestation
 
 Forested protected areas are usually located in areas of high or unique biodiversity, in a non-random way. They are also usually found in remote places with less human disturbances and reduced accessibility, i.e.~far from roads or cities, and usually at higher elevation (fig.~S6), because low-lying arable lands have already been preempted for agriculture \citep{Geist2002}. As a consequence, it is usually difficult to unravel the effect of protected areas from other correlated variables, for example distance to the nearest road, city, or elevation \citep{Andam2008}. The multivariate logistic regression model we use makes it possible to disentangle the effect of each explanatory variable in the spatial deforestation process. Moreover, the spatial random effects included in our model (see Methods and figs.~S8,~S9) correct the potential bias in the protected area effect that could be associated with other unmeasured confounding variables, such as population density \citep{Andam2008}.\\
 
-Here we show that protected areas significantly reduce the risk of deforestation in 74 study areas out of 119 (62\% of the study areas). These 74 study areas accounted for 88\% of the tropical moist forest in 2010 (table~S6). On average, protected areas reduce the risk of deforestation by 40\% (Figs.~\ref{fig:prob},~\ref{fig:proba-var} and table~S5). This result clearly demonstrates the efficiency of protected areas at reducing the spatial risk of deforestation in the tropics. In a recent global study, Wolf \emph{et al.} \citep{Wolf2021} found that protected areas reduced deforestation rates by 41\%, close to the 40\% we find here by focusing on tropical moist forests. While past studies have assessed the effect of protected areas at reducing deforestation in particular countries or regions \citep{Andam2008, Bruner2001} or at efficiently protecting a particular group of species \citep{Cazalis2020}, our study is one of the first (see also \citep{Wolf2021, Yang2021}) to assess the effectiveness of protected areas at reducing deforestation at the pantropical scale. Previous global studies \citep{Wolf2021, Yang2021} were at 1~km resolution and used spatial matching methods and tree cover loss data \citep{Hansen2013}. Our approach is based on more accurate forest cover change maps in the humid tropics, in particular in Africa \citep{Vancutsem2021}, and accounts for fine scale deforestation factors acting at a much smaller distance than the distance imposed by a 1~km resolution (see the effect of the distance to forest edge discussed below). Moreover, contrary to most spatial matching methods \citep{Andam2008, Schleicher2019}, the statistical model we use allows us to account for any potential confounding variables which might skew the estimated effect of protected areas.\\
+Here we show that protected areas significantly reduce the risk of deforestation in 74 study areas out of 119 (62\% of the study areas). These 74 study areas accounted for 88\% of the tropical moist forest in 2010 (table~S6). On average, protected areas reduce the risk of deforestation by 40\% (Figs.~\ref{fig:prob},~\ref{fig:proba-var} and table~S5). This result clearly demonstrates the efficiency of protected areas at reducing the spatial risk of deforestation in the tropics. In a recent global study, Wolf \emph{et al.} \citep{Wolf2021} found that protected areas reduced deforestation rates by 41\%, close to the 40\% we find here by focusing on tropical moist forests. Most of the previous studies have assessed the effect of protected areas at reducing deforestation in particular countries or regions \citep{Andam2008, Bruner2001} or at efficiently protecting a particular group of species \citep{Cazalis2020}. Studies at the global scale \citep{Wolf2021, Yang2021} were at 1~km resolution and used spatial matching methods and tree cover loss data \citep{Hansen2013}. Our pantropical approach is based on more accurate forest cover change maps in the humid tropics, in particular in Africa \citep{Vancutsem2021}, and accounts for fine scale deforestation factors acting at a much smaller distance than the distance imposed by a 1~km resolution (see the effect of the distance to forest edge discussed below). Moreover, contrary to most spatial matching methods \citep{Andam2008, Schleicher2019}, the statistical model we use allows us to account for any potential confounding variables which might skew the estimated effect of protected areas.\\
 
 Like other studies reporting the effect of protected areas on deforestation, our study demonstrates that protected areas are effective at \emph{displacing} deforestation outside protected areas in tropical countries, but not necessarily that protected areas play a role in \emph{reducing} the deforestation intensity per se. Indeed, the factors that drive the intensity of deforestation at the country scale are more socio-economic or political, such as the level of economic development, which determines people's livelihood and the link between people and deforestation \citep{Geist2002}, the size of the population \citep{Barnes1990}, or the environmental policy \citep{Soares-Filho2014}. In tropical countries with weak governance (where environmental law enforcement is low) and with a low level of development (where the pressure on forest is high), it is very unlikely that protected areas will remain forested. Under a business-as-usual scenario of deforestation, we assume that the deforestation intensity will remain constant over time. When all the forest outside the protected areas is deforested, deforestation is expected to occur inside protected areas (Fig.~\ref{fig:fcc2100}). In this scenario, protected areas are efficient at protecting forest areas of high and unique biodiversity in the medium term, i.e., forests will be concentrated in protected areas, where the probability of deforestation is lower. In the long term, under a business-as-usual scenario, forests should completely disappear from protected areas while deforestation continues (Fig.~\ref{fig:fcc2100}). This phenomenon is already clearly visible in countries or states where deforestation is advanced, such as in Rondonia state (Brazil) in South America \citep{Ribeiro2005}, Ivory Coast \citep{Sangne2015} or Madagascar \citep{Vieilledent2020} in Africa, or Cambodia \citep{Davis2015} in Southeast Asia. In these countries, several forested protected areas have been entirely deforested (e.g., the Haut-Sassandra protected forest in Ivory Coast, or the PK-32 Ranobe protected area in Madagascar) or severely deforested (e.g., the Beng Per wildlife sanctuary in Cambodia).
 
-\hypertarget{impact-of-roads-on-deforestation}{%
-\section{Impact of roads on deforestation}\label{impact-of-roads-on-deforestation}}
+\hypertarget{impact-of-roads-and-distance-to-forest-edge-on-the-deforestation-risk}{%
+\section{Impact of roads and distance to forest edge on the deforestation risk}\label{impact-of-roads-and-distance-to-forest-edge-on-the-deforestation-risk}}
 
 Here we find that a longer distance to the road significantly reduces the risk of deforestation in 59 study areas out of 119 (50\% of the study areas). These 59 study areas accounted for 90\% of the tropical moist forest in 2010 (table~S7). On average, a distance of 10~km from a road reduces the risk of deforestation by 13\% (Figs.~\ref{fig:prob},~\ref{fig:proba-var} and tables~S5,~S9). This said, opening a road in the forest leads to the creation of two forest edges and computing a distance from a forest pixel to the nearest road implies the existence of a distance to the forest edge. When studying the effect of roads on deforestation, it is thus impossible to neglect the effect of the distance to forest edge on the risk of deforestation.\\
 
 Here, we find that the distance to the forest edge is the most important variable in determining the risk of deforestation (table~S5), in agreement with the results of other studies showing the impact of forest fragmentation on the risk of deforestation in the tropics \citep{Hansen2020}. We estimate that, on average, a distance of 1~km from the forest edge reduces the risk of deforestation by 93\%, and a distance of 10~km reduces the risk of deforestation by almost 100\% (Figs.~\ref{fig:prob},~\ref{fig:proba-var} and tables~S5,~S9).\\
 
-Consequently, building new roads in non-forest areas but close to existing forest edges would significantly increase the risk of deforestation in the nearby forest. This negative impact would be even greater if new roads are opened in the heart of forest areas. In addition to the direct deforestation associated with road building in the forest \citep{Kleinschroth2017}, this would involve creating new forest edges and would dramatically increase deforestation probability in the area concerned. While road networks are expanding rapidly worldwide, notably in remote areas in tropical countries \citep{Laurance2014}, our results underline the importance of conserving large roadless connected (unfragmented) forest areas.\\
+Consequently, building new roads in non-forest areas but close to existing forest edges would significantly increase the risk of deforestation in the nearby forest. This negative impact would be even greater if new roads are opened in the heart of forest areas. In addition to the direct deforestation associated with road building in the forest \citep{Kleinschroth2017}, this would involve creating new forest edges and would dramatically increase deforestation probability in the area concerned. While road networks are expanding rapidly worldwide, notably in remote areas in tropical countries \citep{Laurance2014}, our results underline the importance of conserving large roadless connected (unfragmented) forest areas.
 
 \hypertarget{uncertainty-and-alternative-deforestation-scenarios}{%
 \section{Uncertainty and alternative deforestation scenarios}\label{uncertainty-and-alternative-deforestation-scenarios}}
 
-Despite the uncertainty surrounding the mean annual deforested area for each country (figs.~S13,~S14 and table~S20), the consequences of a business-as-usual deforestation scenario on the loss of biodiversity and carbon emissions by 2100 remain clear and alarming (Figs.~\ref{fig:perc-loss},~\ref{fig:c-em} and data~S1,~S2). Moreover, given the current global context, the business-as-usual deforestation scenario we examine here appears to be very conservative. For example, we do not account for the effect of future population growth \citep{Raftery2012}, which will likely have a major effect on deforestation, particularly in Africa, where a large part of the population depends on slash-and-burn agriculture for their livelihood \citep{Barnes1990, Vieilledent2020}. Nor do we account for the increasing demand for agricultural commodities from the tropics, such as palm oil, beef and soybean, which will likely lead to a significant increase in deforestation \citep{Strona2018, Karstensen2013}. Although some conservation strategies, such as protected areas, can help save some time in the fight against deforestation (being efficient at displacing deforestation toward areas of lower biodiversity or carbon stocks), it is extremely urgent to find political and socio-economic solutions that are efficient at curbing deforestation in the long term. According to previous studies \citep{Geist2002, Soares-Filho2014, Vieilledent2020, Jones2019, Pendrill2019}, these solutions partly involve the fight against imported deforestation and an increase in international aid to tropical developing countries to help them find economic alternatives to deforestation and enforce environmental laws. We hope that the results and products of our study will facilitate the concrete application of such solutions, so that our projected deforestation map never becomes more than a scenario.\\
+Despite the uncertainty surrounding the mean annual deforested area for each country (figs.~S13,~S14 and table~S20), the consequences of a business-as-usual deforestation scenario on the loss of biodiversity and carbon emissions by 2100 remain clear and alarming (Figs.~\ref{fig:perc-loss},~\ref{fig:c-em} and data~S1,~S2). Moreover, given the current global context, the business-as-usual deforestation scenario we examine here appears to be very conservative. For example, we do not account for the effect of future population growth \citep{Raftery2012}, which will likely have a major effect on deforestation, particularly in Africa, where a large part of the population depends on slash-and-burn agriculture for their livelihood \citep{Barnes1990, Vieilledent2020}. Nor do we account for the increasing demand for agricultural commodities from the tropics, such as palm oil, beef and soybean, which will likely lead to a significant increase in deforestation \citep{Strona2018, Karstensen2013}. Although some conservation strategies, such as protected areas, can help save some time in the fight against deforestation (being efficient at displacing deforestation toward areas of lower biodiversity or carbon stocks), it is extremely urgent to find political and socio-economic solutions that are efficient at curbing deforestation in the long term. Several initiatives involving actors from the political and economical world have been taken for this purpose, without, however, leading to a significant decrease in deforestation rates in the tropics for the moment \citep{Vancutsem2021}. Such initiatives include recent national or multinational strategies against imported deforestation \citep{Bager2021}, certification schemes for private companies providing agricultural commodities such as the Roundtable on Sustainable Palm Oil \citep{CazzollaGatti2020}, or the REDD+ mechanism \citep{Goetz2015}. The results and products of our study could facilitate the concrete implementation of these actions on the ground and help increase their effectiveness. In particular, our deforestation probability map could be used to monitor areas identified as having a high risk of being deforested. Our projections by country could also be used as baseline scenarios of deforestation and associated carbon emissions which are necessary for implementing REDD+ at a wider scale on the basis of a common methodology. Doing so, we hope to contribute to the fight against deforestation and that our projected deforestation map never becomes more than a scenario.\enlargethispage{\baselineskip}
 
 \nolinenumbers
 \newpage
+
+%% =========================================================================================
+%% FIGURES AND TABLES
+%% =========================================================================================
 
 \hypertarget{figures}{%
 \section*{Figures}\label{figures}}
@@ -252,7 +263,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 }
 
-\caption{\textbf{Pantropical map of the predicted change in forest cover}. Maps show the predicted change in tropical moist forest cover in the three continents (America, Africa, and Asia) for the period 2020--2100 under a business-as-usual scenario of deforestation. The horizontal black line represents the Equator. The boundaries of the study area are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are likely to still exist in 2100. Several countries on the three continents are expected to lose all their tropical moist forest by 2100 (including Nicaragua and Mexico in Central America, Madagascar and Ghana in Africa, and Laos and Vietnam in Asia). We predict progressive fragmentation of the remaining forest in the future, with an increasing number of isolated forest patches of smaller size (e.g.~Pará state in Brazil, the Democratic Republic of the Congo, and Indonesia). These maps make it possible to identify both future hotspots of deforestation and forest refuge areas (e.g.~concentrated in the heart of the Amazon, West Central Africa, and Papua New Guinea). An interactive map is available at \url{https://forestatrisk.cirad.fr/maps.html}, and a zoom of this map for the DRC is available in Supplementary Materials.}\label{fig:fcc2100}
+\caption{\textbf{Pantropical map of the predicted change in forest cover}. Maps show the predicted change in tropical moist forest cover in the three continents (America, Africa, and Asia) for the period 2020--2100 under a business-as-usual scenario of deforestation. The horizontal black line represents the Equator. The boundaries of the study area are represented by dark grey lines. For the deforestation projections, we assumed no diffusion of the deforestation between countries. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are likely to still exist in 2100. Several countries on the three continents are expected to lose all their tropical moist forest by 2100 (including Nicaragua and Mexico in Central America, Madagascar and Ghana in Africa, and Laos and Vietnam in Asia). We predict progressive fragmentation of the remaining forest in the future, with an increasing number of isolated forest patches of smaller size (e.g.~Pará state in Brazil, the Democratic Republic of the Congo, and Indonesia). These maps make it possible to identify both future hotspots of deforestation and forest refuge areas (e.g.~concentrated in the heart of the Amazon, West Central Africa, and Papua New Guinea). An interactive map is available at \url{https://forestatrisk.cirad.fr/maps.html}, and a zoom of this map for the DRC is available in Supplementary Materials.}\label{fig:fcc2100}
 \end{figure}
 
 
@@ -263,7 +274,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 }
 
-\caption{\textbf{Projected percentage of forest cover loss per continent}. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for the years 2000 (0\%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from year 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries. When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have nor more forest (in 2237, 2156, and 2115, respectively, see table~S16), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75\% of the forest cover in comparison with the year 2000. Under a ``business-as-usual'' scenario, this should happen in 2094, 2143, and 2197 for Asia, Africa, and America, respectively. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas.}\label{fig:perc-loss}
+\caption{\textbf{Projected percentage of forest cover loss per continent}. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for the years 2000 (0\%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from year 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries. When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have no more forest (in 2237, 2156, and 2115, respectively, see table~S16), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75\% of the forest cover in comparison with the year 2000. Under a ``business-as-usual'' scenario, this should happen in 2094, 2143, and 2197 for Asia, Africa, and America, respectively. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas.}\label{fig:perc-loss}
 \end{figure}
 
 
@@ -274,7 +285,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 }
 
-\caption{\textbf{Pantropical map of the risk of deforestation}. \emph{Upper panels}: Maps of the spatial probability of deforestation at 30~m resolution for the three continents. Maps of the spatial probability of deforestation at the level of the study area were aggregated at the pantropical level. The horizontal black line represents the Equator. The boundaries of the study area are represented by dark gray lines. Colored pixels represent forest pixels for the year 2020. Inside each study area, forest areas in dark red have a higher risk of deforestation than forest areas in green. \emph{Lower panels}: Detailed maps for three 100 \(\times\) 100~km regions (black squares in the upper panels) in the Matto Grosso state (Brazil), the Albertine Rift mountains (the Democratic Republic of the Congo), and the West Kalimantan region (Borneo Indonesian part). Deforestation probability is lower inside protected areas (black shaded polygons) and increases when the forest is located at a distance closer to roads (dark grey lines) and forest edge. An interactive map of the spatial probability of deforestation is available at \url{https://forestatrisk.cirad.fr/maps.html}.}\label{fig:prob}
+\caption{\textbf{Pantropical map of the risk of deforestation}. \emph{Upper panels}: Maps of the spatial probability of deforestation at 30~m resolution for the three continents. Maps of the spatial probability of deforestation at the level of the study area were aggregated at the pantropical level. The horizontal black line represents the Equator. The boundaries of the study area are represented by dark grey lines. Coloured pixels represent forest pixels for the year 2020. Inside each study area, forest areas in dark red have a higher risk of deforestation than forest areas in green. \emph{Lower panels}: Detailed maps for three 100 \(\times\) 100~km regions (black squares in the upper panels) in the Mato Grosso state (Brazil), the Albertine Rift mountains (the Democratic Republic of the Congo), and the West Kalimantan region (Borneo Indonesian part). Deforestation probability is lower inside protected areas (black shaded polygons) and increases when the forest is located at a distance closer to roads (dark grey lines) and forest edge. An interactive map of the spatial probability of deforestation is available at \url{https://forestatrisk.cirad.fr/maps.html}.}\label{fig:prob}
 \end{figure}
 
 
@@ -296,7 +307,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 }
 
-\caption{\textbf{Effects of protected areas, roads, and distance to forest edge on the spatial probability of deforestation}. In this figure, we use a representative dataset at the global scale where the number of observations for each study area is proportional to its forest cover in 2010. We used a total of 813,796 observations sampled in the original dataset (table~S3). \emph{Left}: The dots represent the observed mean probability of deforestation in each forest protection class, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the deforestation model for all observations in each class. \emph{Right}: The dots represent the local mean probability of deforestation for each bin of 10 percentiles for the distance. Lines represent the mean of the predicted probabilities of deforestation obtained from the deforestation model for all observations in each bin. (Note that for distance to forest edge, the first dot accounts for three bins while for distance to road, bins for a distance \textgreater~23~km are not shown).}\label{fig:proba-var}
+\caption{\textbf{Effects of protected areas, roads, and distance to forest edge on the spatial probability of deforestation}. In this figure, we use a representative dataset at the global scale where the number of observations for each study area is proportional to its forest cover in 2010. We used a total of 813,796 observations sampled in the original dataset (table~S3). \emph{Left}: The dots represent the observed mean probability of deforestation in each forest protection class, either protected or unprotected. Bars represent the mean of the predicted probabilities of deforestation obtained from the deforestation model for all observations in each class. \emph{Right}: The dots represent the local mean probability of deforestation for each bin of 10 percentiles for the distance. Lines represent the mean of the predicted probabilities of deforestation obtained from the deforestation model for all observations in each bin. Note that for distance to forest edge, the first dot accounts for three bins while for distance to road, bins for a distance \textgreater~23~km are not shown. For both left and right panels, confidence intervals for predictions were to small to be represented because of the high number of observations per class and bin.}\label{fig:proba-var}
 \end{figure}
 
 \newpage
@@ -334,11 +345,15 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 \newpage
 
+%% =========================================================================================
+%% REFERENCES
+%% =========================================================================================
+
 \hypertarget{references}{%
 \section*{References}\label{references}}
 \addcontentsline{toc}{section}{References}
 
-  %\bibliography{/home/ghislain/Documents/Bibliography/biblio.bib}
+  %%\bibliography{/home/ghislain/Documents/Bibliography/biblio.bib}
 
 \begin{thebibliography}{99}
 \expandafter\ifx\csname url\endcsname\relax
@@ -397,7 +412,8 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 \bibitem{Dickinson1992}
 \bibinfo{author}{Dickinson, R.~E.} \& \bibinfo{author}{Kennedy, P.}
-\newblock \bibinfo{title}{Impacts on regional climate of amazon deforestation}.
+\newblock \bibinfo{title}{Impacts on regional climate of {A}mazon
+  deforestation}.
 \newblock \emph{\bibinfo{journal}{Geophysical Research Letters}}
   \textbf{\bibinfo{volume}{19}}, \bibinfo{pages}{1947--1950}
   (\bibinfo{year}{1992}).
@@ -408,7 +424,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 \bibitem{Ellison2017}
 \bibinfo{author}{Ellison, D.} \emph{et~al.}
-\newblock \bibinfo{title}{Trees, forests and water: Cool insights for a hot
+\newblock \bibinfo{title}{Trees, forests and water: cool insights for a hot
   world}.
 \newblock \emph{\bibinfo{journal}{Global Environmental Change}}
   \textbf{\bibinfo{volume}{43}}, \bibinfo{pages}{51 -- 61}
@@ -421,7 +437,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \newblock \bibinfo{title}{Deforestation, forestation, and water supply}.
 \newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{371}},
   \bibinfo{pages}{990--991} (\bibinfo{year}{2021}).
-% \newblock \urlprefix\url{https://science.sciencemag.org/content/371/6533/990}.
+%\newblock \urlprefix\url{https://science.sciencemag.org/content/371/6533/990}.
 % \newblock
 %   \eprint{https://science.sciencemag.org/content/371/6533/990.full.pdf}.
 
@@ -492,9 +508,27 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 \bibitem{Clark2001}
 \bibinfo{author}{Clark, J.~S.} \emph{et~al.}
-\newblock \bibinfo{title}{{Ecological forecasts: An emerging imperative}}.
+\newblock \bibinfo{title}{{Ecological forecasts: an emerging imperative}}.
 \newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{293}},
   \bibinfo{pages}{657--660} (\bibinfo{year}{2001}).
+
+\bibitem{Pereira2020}
+\bibinfo{author}{Pereira, H.~M.} \emph{et~al.}
+\newblock \bibinfo{title}{Global trends in biodiversity and ecosystem services
+  from 1900 to 2050}.
+\newblock \emph{\bibinfo{journal}{bioRxiv}}
+  \textbf{\bibinfo{volume}{2020.04.14.031716}} (\bibinfo{year}{2020}).
+%\newblock \urlprefix\url{https://doi.org/10.1101/2020.04.14.031716}.
+
+\bibitem{Goetz2015}
+\bibinfo{author}{Goetz, S.~J.} \emph{et~al.}
+\newblock \bibinfo{title}{Measurement and monitoring needs, capabilities and
+  potential for addressing reduced emissions from deforestation and forest
+  degradation under {REDD}+}.
+\newblock \emph{\bibinfo{journal}{Environmental Research Letters}}
+  \textbf{\bibinfo{volume}{10}}, \bibinfo{pages}{123001}
+  (\bibinfo{year}{2015}).
+%\newblock \urlprefix\url{https://doi.org/10.1088/1748-9326/10/12/123001}.
 
 \bibitem{Avitabile2016}
 \bibinfo{author}{Avitabile, V.} \emph{et~al.}
@@ -508,7 +542,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \bibitem{Kremen2008}
 \bibinfo{author}{Kremen, C.} \emph{et~al.}
 \newblock \bibinfo{title}{Aligning conservation priorities across taxa in
-  madagascar with high-resolution planning tools}.
+  {M}adagascar with high-resolution planning tools}.
 \newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{320}},
   \bibinfo{pages}{222--226} (\bibinfo{year}{2008}).
 
@@ -516,12 +550,20 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \bibinfo{author}{Mittermeier, R.~A.}, \bibinfo{author}{Turner, W.~R.},
   \bibinfo{author}{Larsen, F.~W.}, \bibinfo{author}{Brooks, T.~M.} \&
   \bibinfo{author}{Gascon, C.}
-\newblock \bibinfo{title}{Global biodiversity conservation: The critical role
+\newblock \bibinfo{title}{Global biodiversity conservation: the critical role
   of hotspots}.
 \newblock In \emph{\bibinfo{booktitle}{Biodiversity Hotspots}},
   \bibinfo{pages}{3--22} (\bibinfo{publisher}{Springer Berlin Heidelberg},
   \bibinfo{year}{2011}).
 %\newblock \urlprefix\url{https://doi.org/10.1007/978-3-642-20992-5_1}.
+
+\bibitem{Rosa2014}
+\bibinfo{author}{Rosa, I.~M.}, \bibinfo{author}{Purves, D.},
+  \bibinfo{author}{Carreiras, J.~M.} \& \bibinfo{author}{Ewers, R.~M.}
+\newblock \bibinfo{title}{Modelling land cover change in the {B}razilian
+  {A}mazon: temporal changes in drivers and calibration issues}.
+\newblock \emph{\bibinfo{journal}{Regional Environmental Change}}
+  \bibinfo{pages}{1--15} (\bibinfo{year}{2014}).
 
 \bibitem{Laurance2014}
 \bibinfo{author}{Laurance, W.~F.} \emph{et~al.}
@@ -547,13 +589,33 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
   D.~A.} \& \bibinfo{author}{Betts, M.~G.}
 \newblock \bibinfo{title}{A forest loss report card for the world's protected
   areas}.
-\newblock \emph{\bibinfo{journal}{Nature Ecology {\&} Evolution}}
-  (\bibinfo{year}{2021}).
+\newblock \emph{\bibinfo{journal}{Nature Ecology {\&} Evolution}} \textbf{\bibinfo{volume}{5}},
+ \bibinfo{pages}{520--529} (\bibinfo{year}{2021}).
 %\newblock \urlprefix\url{https://doi.org/10.1038/s41559-021-01389-0}.
+
+\bibitem{Aguiar2016}
+\bibinfo{author}{Aguiar, A. P.~D.} \emph{et~al.}
+\newblock \bibinfo{title}{Land use change emission scenarios: anticipating a
+  forest transition process in the brazilian amazon}.
+\newblock \emph{\bibinfo{journal}{Global Change Biology}}
+  \textbf{\bibinfo{volume}{22}}, \bibinfo{pages}{1821--1840}
+  (\bibinfo{year}{2016}).
+%\newblock \urlprefix\url{https://doi.org/10.1111/gcb.13134}.
+
+\bibitem{Swann2015}
+\bibinfo{author}{Swann, A.~L.}, \bibinfo{author}{Longo, M.},
+  \bibinfo{author}{Knox, R.~G.}, \bibinfo{author}{Lee, E.} \&
+  \bibinfo{author}{Moorcroft, P.~R.}
+\newblock \bibinfo{title}{Future deforestation in the amazon and consequences
+  for south american climate}.
+\newblock \emph{\bibinfo{journal}{Agricultural and Forest Meteorology}}
+  \textbf{\bibinfo{volume}{214-215}}, \bibinfo{pages}{12--24}
+  (\bibinfo{year}{2015}).
+%\newblock \urlprefix\url{https://doi.org/10.1016/j.agrformet.2015.07.006}.
 
 \bibitem{Soares-Filho2006}
 \bibinfo{author}{Soares-Filho, B.~S.} \emph{et~al.}
-\newblock \bibinfo{title}{Modelling conservation in the amazon basin}.
+\newblock \bibinfo{title}{Modelling conservation in the {A}mazon basin}.
 \newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{440}},
   \bibinfo{pages}{520--523} (\bibinfo{year}{2006}).
 %\newblock \urlprefix\url{https://doi.org/10.1038/nature04389}.
@@ -569,7 +631,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \bibitem{Vieilledent2016}
 \bibinfo{author}{Vieilledent, G.} \emph{et~al.}
 \newblock \bibinfo{title}{Bioclimatic envelope models predict a decrease in
-  tropical forest carbon stocks with climate change in {Madagascar}}.
+  tropical forest carbon stocks with climate change in {M}adagascar}.
 \newblock \emph{\bibinfo{journal}{Journal of Ecology}}
   \textbf{\bibinfo{volume}{104}}, \bibinfo{pages}{703--715}
   (\bibinfo{year}{2016}).
@@ -585,13 +647,13 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
   Sciences}} \textbf{\bibinfo{volume}{108}}, \bibinfo{pages}{9899--9904}
   (\bibinfo{year}{2011}).
-% \newblock \urlprefix\url{http://www.pnas.org/content/108/24/9899.abstract}.
-% \newblock \eprint{http://www.pnas.org/content/108/24/9899.full.pdf+html}.
+%\newblock \urlprefix\url{http://www.pnas.org/content/108/24/9899.abstract}.
+%\newblock \eprint{http://www.pnas.org/content/108/24/9899.full.pdf+html}.
 
 \bibitem{Dargie2017}
 \bibinfo{author}{Dargie, G.~C.} \emph{et~al.}
-\newblock \bibinfo{title}{Age, extent and carbon storage of the central congo
-  basin peatland complex}.
+\newblock \bibinfo{title}{Age, extent and carbon storage of the central {C}ongo
+  {B}asin peatland complex}.
 \newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{542}},
   \bibinfo{pages}{86--90} (\bibinfo{year}{2017}).
 %\newblock \urlprefix\url{https://doi.org/10.1038/nature21048}.
@@ -665,7 +727,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 
 \bibitem{Soares-Filho2014}
 \bibinfo{author}{Soares-Filho, B.} \emph{et~al.}
-\newblock \bibinfo{title}{Cracking brazil{\textquotesingle}s forest code}.
+\newblock \bibinfo{title}{Cracking {B}razil's forest code}.
 \newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{344}},
   \bibinfo{pages}{363--364} (\bibinfo{year}{2014}).
 %\newblock \urlprefix\url{https://doi.org/10.1126/science.1246663}.
@@ -673,8 +735,8 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \bibitem{Ribeiro2005}
 \bibinfo{author}{Ribeiro, B.}, \bibinfo{author}{Veríssimo, A.} \&
   \bibinfo{author}{Pereira, K.}
-\newblock \bibinfo{title}{O avanço do desmatamento sobre as Áreas protegidas
-  em rondônia}.
+\newblock \bibinfo{title}{O avanço do desmatamento sobre as \'areas protegidas
+  em {R}ondônia}.
 \newblock \emph{\bibinfo{journal}{O Estado da Amazônia (IMAZON)}}
   \textbf{\bibinfo{volume}{5}}, \bibinfo{pages}{1--5} (\bibinfo{year}{2005}).
 %\newblock \urlprefix\url{https://www.imazon.org.br}.
@@ -683,14 +745,15 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \bibinfo{author}{Sangne, C.~Y.}, \bibinfo{author}{Barima, Y.~S.~S.},
   \bibinfo{author}{Bamba, I.} \& \bibinfo{author}{N'Doum{\'{e}}, C.-T.~A.}
 \newblock \bibinfo{title}{Dynamique foresti{\`{e}}re post-conflits arm{\'{e}}s
-  de la for{\^{e}}t class{\'{e}}e du haut-sassandra (c{\^{o}}te d'ivoire)}.
+  de la {F}or{\^{e}}t class{\'{e}}e du {H}aut-{S}assandra ({C}{\^{o}}te
+  d'{I}voire)}.
 \newblock \emph{\bibinfo{journal}{{VertigO}}}  (\bibinfo{year}{2015}).
 %\newblock \urlprefix\url{https://doi.org/10.4000/vertigo.16784}.
 
 \bibitem{Vieilledent2020}
 \bibinfo{author}{Vieilledent, G.} \emph{et~al.}
 \newblock \bibinfo{title}{It's not just poverty: unregulated global market and
-  bad governance explain unceasing deforestation in western madagascar}.
+  bad governance explain unceasing deforestation in {W}estern {M}adagascar}.
 \newblock \emph{\bibinfo{journal}{bioRxiv}}
   \textbf{\bibinfo{volume}{2020.07.30.229104}} (\bibinfo{year}{2020}).
 %\newblock \urlprefix\url{https://doi.org/10.1101/2020.07.30.229104}.
@@ -700,7 +763,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
   \bibinfo{author}{Rulli, M.~C.}, \bibinfo{author}{Pichdara, L.} \&
   \bibinfo{author}{D'Odorico, P.}
 \newblock \bibinfo{title}{Accelerated deforestation driven by large-scale land
-  acquisitions in cambodia}.
+  acquisitions in {C}ambodia}.
 \newblock \emph{\bibinfo{journal}{Nature Geoscience}}
   \textbf{\bibinfo{volume}{8}}, \bibinfo{pages}{772--775}
   (\bibinfo{year}{2015}).
@@ -746,30 +809,34 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 \bibitem{Karstensen2013}
 \bibinfo{author}{Karstensen, J.}, \bibinfo{author}{Peters, G.~P.} \&
   \bibinfo{author}{Andrew, R.~M.}
-\newblock \bibinfo{title}{Attribution of {C02} emissions from brazilian
+\newblock \bibinfo{title}{Attribution of {C02} emissions from {B}razilian
   deforestation to consumers between 1990 and 2010}.
 \newblock \emph{\bibinfo{journal}{Environmental Research Letters}}
   \textbf{\bibinfo{volume}{8}}, \bibinfo{pages}{024005} (\bibinfo{year}{2013}).
 %\newblock \urlprefix\url{https://doi.org/10.1088/1748-9326/8/2/024005}.
 
-\bibitem{Jones2019}
-\bibinfo{author}{Jones, J. P.~G.} \emph{et~al.}
-\newblock \bibinfo{title}{Last chance for madagascar’s biodiversity}.
-\newblock \emph{\bibinfo{journal}{Nature Sustainability}}
-  \textbf{\bibinfo{volume}{2}}, \bibinfo{pages}{350--352}
-  (\bibinfo{year}{2019}).
-%\newblock \urlprefix\url{https://doi.org/10.1038/s41893-019-0288-0}.
+\bibitem{Bager2021}
+\bibinfo{author}{Bager, S.~L.}, \bibinfo{author}{Persson, U.~M.} \&
+  \bibinfo{author}{dos Reis, T.~N.}
+\newblock \bibinfo{title}{Eighty-six {EU} policy options for reducing imported
+  deforestation}.
+\newblock \emph{\bibinfo{journal}{One Earth}} \textbf{\bibinfo{volume}{4}},
+  \bibinfo{pages}{289--306} (\bibinfo{year}{2021}).
+%\newblock \urlprefix\url{https://doi.org/10.1016/j.oneear.2021.01.011}.
 
-\bibitem{Pendrill2019}
-\bibinfo{author}{Pendrill, F.} \emph{et~al.}
-\newblock \bibinfo{title}{Agricultural and forestry trade drives large share of
-  tropical deforestation emissions}.
-\newblock \emph{\bibinfo{journal}{Global Environmental Change}}
-  \textbf{\bibinfo{volume}{56}}, \bibinfo{pages}{1--10} (\bibinfo{year}{2019}).
-%\newblock \urlprefix\url{https://doi.org/10.1016/j.gloenvcha.2019.03.002}.
+\bibitem{CazzollaGatti2020}
+\bibinfo{author}{Cazzolla Gatti, R.} \& \bibinfo{author}{Velichevskaya, A.}
+\newblock \bibinfo{title}{Certified
+  {\textquotedblleft}sustainable{\textquotedblright} palm oil took the place of
+  endangered {B}ornean and {S}umatran large mammals habitat and tropical forests in
+  the last 30~years}.
+\newblock \emph{\bibinfo{journal}{Science of The Total Environment}}
+  \textbf{\bibinfo{volume}{742}}, \bibinfo{pages}{140712}
+  (\bibinfo{year}{2020}).
+%\newblock \urlprefix\url{https://doi.org/10.1016/j.scitotenv.2020.140712}.
 
 \end{thebibliography}
-\linenumbers 
+\linenumbers
 \newpage
 
 %% =========================================================================================
@@ -777,7 +844,7 @@ Despite the uncertainty surrounding the mean annual deforested area for each cou
 %% =========================================================================================
 
 \hypertarget{materials-and-methods}{%
-\section{Methods}\label{materials-and-methods}}
+\section{Materials and Methods}\label{materials-and-methods}}
 
 \hypertarget{study-areas}{%
 \subsection{Study areas}\label{study-areas}}
@@ -857,7 +924,7 @@ For all the study areas, we found that the percentage of deviance explained for 
 \hypertarget{computing-the-spatial-probability-of-deforestation-for-the-year-2020}{%
 \subsection{Computing the spatial probability of deforestation for the year 2020}\label{computing-the-spatial-probability-of-deforestation-for-the-year-2020}}
 
-Before computing the predictions of the deforestation probability, the spatial random effects at 10 km were interpolated at 1 km using a bicubic interpolation method (Fig.~\ref{fig:rho}). This was done in order to obtain spatial random effects at a resolution closer to the original forest raster resolution of 30 m, and to smooth the deforestation probability predictions spatially.\\
+Before computing the predictions of the deforestation probability, the spatial random effects at 10 km were interpolated at 1 km using a bicubic interpolation method (Fig.~\ref{fig:rho}). This was done in order to obtain spatial random effects at a resolution closer to the original forest raster resolution of 30 m, and to smooth the deforestation probability predictions spatially.\enlargethispage{\baselineskip}
 
 Distance to forest edge in 2020 was recomputed at 30 m resolution from the forest cover map in 2020. Distance to past deforestation in 2020 was computed at 30 m resolution from the 2010--2020 forest cover change map. All other explanatory variables (protected areas, distance to nearest road, town and river, elevation, and slope) were supposed unchanged between years 2010 and 2020. Using rasters of explanatory variables at their original resolution, interpolated spatial random effects at 1 km resolution, and the fitted ``icar'' model for each study area, we computed the spatial probability of deforestation at 30 m resolution for the year 2020 for each study area.\\
 
@@ -905,10 +972,13 @@ All the data used for the analysis and the resulting products of the study can b
 
 The code used in the current study is available on GitHub (\url{https://github.com/ghislainv/forestatrisk-tropics}) and has been permanently archived in the Cirad Dataverse repository (\url{https://doi.org/10.18167/DVN1/7N2BTU}).
 
+\nolinenumbers
+\newpage
+
 \section{References}
 
 \makeatletter
-\apptocmd{\thebibliography}{\global\c@NAT@ctr 48\relax}{}{}
+\apptocmd{\thebibliography}{\global\c@NAT@ctr 53\relax}{}{}
 \makeatother
 
 \begin{thebibliography}{99}
@@ -932,7 +1002,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
   \bibinfo{author}{Le~Floc’h, E.} \& \bibinfo{author}{Leprun, J.-C.}
 \newblock \bibinfo{title}{{\'E}volution de la v{\'e}g{\'e}tation et de quelques
   param{\`e}tres {\'e}daphiques au cours de la phase post-culturale dans la
-  r{\'e}gion d’analabo}.
+  r{\'e}gion d’{A}nalabo}.
 \newblock \emph{\bibinfo{journal}{Soci{\'e}t{\'e}s paysannes, transitions
   agraires et dynamiques {\'e}cologiques dans le Sud-Ouest de Madagascar,
   Antananarivo, IRD/CNRE}} \bibinfo{pages}{327--337} (\bibinfo{year}{2001}).
@@ -940,7 +1010,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
 \bibitem{Grinand2017}
 \bibinfo{author}{Grinand, C.} \emph{et~al.}
 \newblock \bibinfo{title}{Estimating temporal changes in soil carbon stocks at
-  ecoregional scale in madagascar using remote-sensing}.
+  ecoregional scale in {M}adagascar using remote-sensing}.
 \newblock \emph{\bibinfo{journal}{International Journal of Applied Earth
   Observation and Geoinformation}} \textbf{\bibinfo{volume}{54}},
   \bibinfo{pages}{1--14} (\bibinfo{year}{2017}).
@@ -958,7 +1028,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
   \bibinfo{author}{Vaudry, R.}
 \newblock \bibinfo{title}{Forecasting deforestation and carbon emissions in
   tropical developing countries facing demographic expansion: a case study in
-  madagascar}.
+  {M}adagascar}.
 \newblock \emph{\bibinfo{journal}{Ecology and Evolution}}
   \textbf{\bibinfo{volume}{3}}, \bibinfo{pages}{1702--1716}
   (\bibinfo{year}{2013}).
@@ -980,7 +1050,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
 
 \bibitem{Pontius2011}
 \bibinfo{author}{Pontius, R. G.~J.} \& \bibinfo{author}{Millones, M.}
-\newblock \bibinfo{title}{Death to kappa: birth of quantity disagreement and
+\newblock \bibinfo{title}{Death to {K}appa: birth of quantity disagreement and
   allocation disagreement for accuracy assessment}.
 \newblock \emph{\bibinfo{journal}{International Journal of Remote Sensing}}
   \textbf{\bibinfo{volume}{32}}, \bibinfo{pages}{4407--4429}
@@ -1007,7 +1077,8 @@ The code used in the current study is available on GitHub (\url{https://github.c
 
 \bibitem{Clark2005}
 \bibinfo{author}{Clark, J.~S.}
-\newblock \bibinfo{title}{Why environmental scientists are becoming bayesians}.
+\newblock \bibinfo{title}{Why environmental scientists are becoming
+  {B}ayesians}.
 \newblock \emph{\bibinfo{journal}{Ecology Letters}}
   \textbf{\bibinfo{volume}{8}}, \bibinfo{pages}{2--14} (\bibinfo{year}{2005}).
 %\newblock \urlprefix\url{https://doi.org/10.1111/j.1461-0248.2004.00702.x}.
@@ -1024,32 +1095,24 @@ The code used in the current study is available on GitHub (\url{https://github.c
 
 \bibitem{Vieilledent2021a}
 \bibinfo{author}{Vieilledent, G.}
-\newblock \bibinfo{title}{forestatrisk: a {P}ython package for modelling and
-  forecasting deforestation in the tropics}.
+\newblock \bibinfo{title}{\texttt{forestatrisk}: a {P}ython package for
+  modelling and forecasting deforestation in the tropics}.
 \newblock \emph{\bibinfo{journal}{{Journal of Open Source Software}}}
   \textbf{\bibinfo{volume}{6}}, \bibinfo{pages}{2975} (\bibinfo{year}{2021}).
 %\newblock \urlprefix\url{https://doi.org/10.21105/joss.02975}.
 
 \bibitem{Mas2007}
 \bibinfo{author}{Mas, J.-F.} \emph{et~al.}
-\newblock \bibinfo{title}{Modelling tropical deforestation: A comparison of
+\newblock \bibinfo{title}{Modelling tropical deforestation: a comparison of
   approaches}.
 \newblock \emph{\bibinfo{journal}{Symposium Remote Sensing of Environment}}
   \bibinfo{pages}{3} (\bibinfo{year}{2007}).
-
-\bibitem{Rosa2014}
-\bibinfo{author}{Rosa, I.~M.}, \bibinfo{author}{Purves, D.},
-  \bibinfo{author}{Carreiras, J.~M.} \& \bibinfo{author}{Ewers, R.~M.}
-\newblock \bibinfo{title}{Modelling land cover change in the brazilian amazon:
-  temporal changes in drivers and calibration issues}.
-\newblock \emph{\bibinfo{journal}{Regional Environmental Change}}
-  \bibinfo{pages}{1--15} (\bibinfo{year}{2014}).
 
 \bibitem{Ludeke1990}
 \bibinfo{author}{Ludeke, A.~K.}, \bibinfo{author}{Maggio, R.~C.} \&
   \bibinfo{author}{Reid, L.~M.}
 \newblock \bibinfo{title}{An analysis of anthropogenic deforestation using
-  logistic regression and gis}.
+  logistic regression and {GIS}}.
 \newblock \emph{\bibinfo{journal}{Journal of Environmental Management}}
   \textbf{\bibinfo{volume}{31}}, \bibinfo{pages}{247--259}
   (\bibinfo{year}{1990}).
@@ -1059,8 +1122,8 @@ The code used in the current study is available on GitHub (\url{https://github.c
 \bibitem{Soares-Filho2002}
 \bibinfo{author}{Soares-Filho, B.~S.}, \bibinfo{author}{Cerqueira, G.~C.} \&
   \bibinfo{author}{Pennachin, C.~L.}
-\newblock \bibinfo{title}{Dinamica - a stochastic cellular automata model
-  designed to simulate the landscape dynamics in an amazonian colonization
+\newblock \bibinfo{title}{{DINAMICA} - a stochastic cellular automata model
+  designed to simulate the landscape dynamics in an {A}mazonian colonization
   frontier}.
 \newblock \emph{\bibinfo{journal}{Ecological Modelling}}
   \textbf{\bibinfo{volume}{154}}, \bibinfo{pages}{217--235}
@@ -1096,7 +1159,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
 \bibinfo{author}{Zanella, L.}, \bibinfo{author}{Folkard, A.~M.},
   \bibinfo{author}{Blackburn, G.~A.} \& \bibinfo{author}{Carvalho, L. M.~T.}
 \newblock \bibinfo{title}{How well does random forest analysis model
-  deforestation and forest fragmentation in the brazilian atlantic forest?}
+  deforestation and forest fragmentation in the {B}razilian {A}tlantic forest?}
 \newblock \emph{\bibinfo{journal}{Environmental and Ecological Statistics}}
   \textbf{\bibinfo{volume}{24}}, \bibinfo{pages}{529--549}
   (\bibinfo{year}{2017}).
@@ -1104,7 +1167,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
 
 \bibitem{Pedregosa2011}
 \bibinfo{author}{Pedregosa, F.} \emph{et~al.}
-\newblock \bibinfo{title}{Scikit-learn: Machine learning in {P}ython}.
+\newblock \bibinfo{title}{Scikit-learn: machine learning in {P}ython}.
 \newblock \emph{\bibinfo{journal}{Journal of Machine Learning Research}}
   \textbf{\bibinfo{volume}{12}}, \bibinfo{pages}{2825--2830}
   (\bibinfo{year}{2011}).
@@ -1162,7 +1225,7 @@ The code used in the current study is available on GitHub (\url{https://github.c
 
 \bibitem{Harris2020}
 \bibinfo{author}{Harris, C.~R.} \emph{et~al.}
-\newblock \bibinfo{title}{Array programming with numpy}.
+\newblock \bibinfo{title}{Array programming with {N}um{P}y}.
 \newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{585}},
   \bibinfo{pages}{357--362} (\bibinfo{year}{2020}).
 %\newblock \urlprefix\url{https://doi.org/10.1038/s41586-020-2649-2}.
@@ -1177,6 +1240,12 @@ The code used in the current study is available on GitHub (\url{https://github.c
 
 \end{thebibliography}
 
+%% =========================================================================================
+%% ACKOWLEDGEMENTS
+%% =========================================================================================
+
+\newpage
+\linenumbers
 
 \hypertarget{acknowledgements}{%
 \section{Acknowledgements}\label{acknowledgements}}
@@ -1206,7 +1275,7 @@ Data~S1 to S2\\
 
 \nolinenumbers
 \newpage
-  
+
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\theequation}{S\arabic{equation}}
@@ -1214,7 +1283,7 @@ Data~S1 to S2\\
 \setcounter{table}{0}
 
 \begin{center}
-  ~\\%%\includegraphics[width=3cm]{figs_sm/NCC_logo.png}\\
+  ~\\%%\includegraphics[width=5cm]{figs_sm/NatureEE_logo.png}\\
   \vspace{0.5cm}
   \Large{\textbf{Supplementary Information for}}
 \end{center}
@@ -1252,18 +1321,18 @@ Data~S1 to S2\\
   \end{flushleft}}
 
 % \vspace{1cm}
-
+% 
 % \textbf{This PDF file includes:}
-
+% 
 % Materials and Methods\\
 % Figs.~S1 to S14\\
 % Tables~S1 to S20\\
 % Captions for Data~S1 and S2
-
+% 
 % \vspace{1cm}
-
+% 
 % \textbf{Other Supplementary Materials for this manuscript include the following:}
-
+% 
 % Data~S1: Uncertainty around projected forest cover.\\
 % Data~S2: Uncertainty around projected carbon emissions.
 
@@ -1287,7 +1356,7 @@ Data~S1 to S2\\
 
 }
 
-\caption{\textbf{Study areas in the three continents: America, Africa, and Asia}. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same color. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).}\label{fig:study-areas}
+\caption{\textbf{Study areas in the three continents: America, Africa, and Asia}. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same colour. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).}\label{fig:study-areas}
 \end{figure}
 
 \hypertarget{past-forest-cover-change-map}{%
@@ -1446,7 +1515,7 @@ Data~S1 to S2\\
 
 }
 
-\caption{\textbf{Projected forest cover change map assuming a low annual deforestation}. This map was derived using \(d'\), the \emph{lower} limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig.~1 in the main text and Fig.~\ref{fig:fcc2100-high} below, which consider average and high annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.}\label{fig:fcc2100-low}
+\caption{\textbf{Projected forest cover change map assuming a low annual deforestation}. This map was derived using \(d'\), the \emph{lower} limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig.~1 in the main text and Fig.~\ref{fig:fcc2100-high} below, which consider average and high annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas are represented by dark grey lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.}\label{fig:fcc2100-low}
 \end{figure}
 
 
@@ -1457,7 +1526,7 @@ Data~S1 to S2\\
 
 }
 
-\caption{\textbf{Projected forest cover change map assuming a high annual deforestation}. This map was derived using \(d''\), the \emph{upper} limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig.~1 in the main text and Fig.~\ref{fig:fcc2100-low} above, which consider average and low annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas are represented by dark gray lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.}\label{fig:fcc2100-high}
+\caption{\textbf{Projected forest cover change map assuming a high annual deforestation}. This map was derived using \(d''\), the \emph{upper} limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig.~1 in the main text and Fig.~\ref{fig:fcc2100-low} above, which consider average and low annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas are represented by dark grey lines. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.}\label{fig:fcc2100-high}
 \end{figure}
 
 \newpage
@@ -3161,8 +3230,8 @@ Polynesia-Micronesia & 3,074 & 170 & 31 & 20 & 3 & 12\\
 
 Supplementary Data are available at: \url{https://forestatrisk.cirad.fr/data-s.html}.\\
 
-\noindent Data S1: \textbf{Uncertainty around projected forest cover}. Past and projected forest cover change by study area are given in thousand hectares (Kha). The mean annual deforested area \(d\) for the ten-year period 2009--2019 is given in hectare per year (ha/yr). The corresponding mean annual deforestation rate \(p\) is also provided in percent per year (\%/yr), with one decimal precision, to be able to compare the intensity of deforestation between study areas. Projections were made using the forest cover in 2020 (``fc2000'') and either (i) the mean annual deforested area \(d\) for the ten-year period 2009--2019, (ii) the lower limit \(d'\) of the confidence interval for the annual deforested area, or (iii) the upper limit \(d''\) of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column ``loss21'' indicates the projected percentage of forest cover loss during the 21\textsuperscript{st} century (2100 vs.~2000). Column ``yrdis'' indicates the estimated year at which all the forest of the study area will have disappeared.\\
+Data S1: \textbf{Uncertainty around projected forest cover}. Past and projected forest cover change by study area are given in thousand hectares (Kha). The mean annual deforested area \(d\) for the ten-year period 2009--2019 is given in hectare per year (ha/yr). The corresponding mean annual deforestation rate \(p\) is also provided in percent per year (\%/yr), with one decimal precision, to be able to compare the intensity of deforestation between study areas. Projections were made using the forest cover in 2020 (``fc2000'') and either (i) the mean annual deforested area \(d\) for the ten-year period 2009--2019, (ii) the lower limit \(d'\) of the confidence interval for the annual deforested area, or (iii) the upper limit \(d''\) of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column ``loss21'' indicates the projected percentage of forest cover loss during the 21\textsuperscript{st} century (2100 vs.~2000). Column ``yrdis'' indicates the estimated year at which all the forest of the study area will have disappeared.\\
 
-\noindent Data S2: \textbf{Uncertainty around projected carbon emissions}. We combined our maps of projected forest cover change together with the aboveground biomass map by Avitabile \emph{et al.} \citep{Avitabile2016} to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg=10\textsuperscript{9}~g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area \(d\) for the ten-year period 2009--2019, (ii) the lower limit \(d'\) of the confidence interval for the annual deforested area, or (iii) the upper limit \(d''\) of the confidence interval for the annual deforested area. Column ``C2020'' indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
+Data S2: \textbf{Uncertainty around projected carbon emissions}. We combined our maps of projected forest cover change together with the aboveground biomass map by Avitabile \emph{et al.} \citep{Avitabile2016} to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg=10\textsuperscript{9}~g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area \(d\) for the ten-year period 2009--2019, (ii) the lower limit \(d'\) of the confidence interval for the annual deforested area, or (iii) the upper limit \(d''\) of the confidence interval for the annual deforested area. Column ``C2020'' indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
 
 \end{document}

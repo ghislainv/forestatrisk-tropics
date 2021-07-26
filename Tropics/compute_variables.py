@@ -81,7 +81,7 @@ def run_country(iso3):
         output_dir="data",
         proj=proj,
         data_country=True,
-        data_forest=False,
+        data_forest=True,
         keep_temp_dir=True)
 
     # Remove GDAL temp directory
