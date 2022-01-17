@@ -38,7 +38,7 @@ ncont = len(continent)
 # ===============================
 
 
-# compute_forest_area
+# Compute_forest_area
 def compute_forest_area(feature):
     vals = forest.multiply(ee.Image.pixelArea()).reduceRegion(
         reducer=ee.Reducer.sum(), geometry=feature.geometry(),
@@ -46,7 +46,7 @@ def compute_forest_area(feature):
     return feature.set(vals).select([".*"], None, False)
 
 
-## Loop on continents
+# Loop on continents
 for c in range(ncont):
 
     # =========
@@ -54,7 +54,7 @@ for c in range(ncont):
     # =========
 
     # JRC annual product (AP)
-    AP = ee.ImageCollection("projects/JRC/TMF/v1_2019/AnnualChanges")
+    AP = ee.ImageCollection("projects/JRC/TMF/v1_2020/AnnualChanges")
     AP = AP.mosaic().toByte()
 
     # Country grid
@@ -71,28 +71,24 @@ for c in range(ncont):
     ap_allYear = AP_forest.where(AP_forest.neq(1), 0)
 
     # Forest cover Jan 2000
-    ap_2000_2020 = ap_allYear.select(list(range(9, 30)))
-    forest2000 = ap_2000_2020.reduce(ee.Reducer.sum()).gte(1)
+    ap_2000_2021 = ap_allYear.select(list(range(9, 31)))
+    forest2000 = ap_2000_2021.reduce(ee.Reducer.sum()).gte(1)
     forest = forest2000.rename('fc2000')
 
-    # Loop on year
-    for i in range(1, 21):
-        ap_20XX_2020 = ap_allYear.select(list(range(9 + i, 30)))
-        forest20XX = ap_20XX_2020.reduce(ee.Reducer.sum()).gte(1)
+    # Loop on year (max Janv 2021)
+    for i in range(1, 22):
+        ap_20XX_2021 = ap_allYear.select(list(range(9 + i, 31)))
+        forest20XX = ap_20XX_2021.reduce(ee.Reducer.sum()).gte(1)
         band = forest20XX.rename('fc' + str(2000 + i))
         forest = ee.Image.cat(forest, band)
-
-
 
     # ===============================
     # Extract some countries
     # ===============================
 
-
     # # extractCountry
     # def extractCountry(area_code):
     #     return ctry_grid.filterMetadata("area_code", "equals", area_code)
-
 
     # countryList = ee.List(["MDG", "GNQ"])
     # some_countries = ee.FeatureCollection(
@@ -115,10 +111,10 @@ for c in range(ncont):
     # Compute forest area
     forest_area = ctry_grid.map(compute_forest_area)
 
+    # ===================================
+    # Export
+    # ===================================
 
-    # ===================================
-    # Maps an algorithm over a collection
-    # ===================================
     # Export table to drive
     task = ee.batch.Export.table.toDrive(
         collection=forest_area,
