@@ -13,6 +13,7 @@ Data
 # Intensity
 grassdata
 Intensity/output/*
+!Intensity/output/ForestArea_grid_*.csv
 !Intensity/output/d_uncertainty.csv
 
 # Manuscript
