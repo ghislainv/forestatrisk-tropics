@@ -16,19 +16,14 @@
 
 # import sys
 import os
-# import shutil  # for rmtree
 import pkg_resources
 import subprocess
-# import sys
 
 from dotenv import load_dotenv
 import ee
 import pandas as pd
 from pywdpa import get_token
 import forestatrisk as far
-# from run_modelling_steps import run_modelling_steps
-
-# index_ctry = int(sys.argv[1])-1
 
 # ==================
 # Settings
@@ -49,7 +44,7 @@ iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
 
-# Function for multiprocessing
+# Function run_country
 def run_country(iso3):
 
     # Set original working directory
@@ -85,7 +80,5 @@ def run_country(iso3):
 # Run country
 for i in range(nctry):
     run_country(iso3[i])
-
-# run_country(iso3[index_ctry])
 
 # End
