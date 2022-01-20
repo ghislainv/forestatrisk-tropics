@@ -14,8 +14,8 @@
 # 2. rclone with Google Drive: https://rclone.org/drive/
 # 3. WDPA: https://www.protectedplanet.net/
 
-import sys
 import os
+# import sys
 import subprocess
 import pkg_resources
 import pandas as pd
@@ -60,20 +60,20 @@ def run_country(iso3):
     out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
                            cont, iso3, "data_raw/")
 
-    # Copy GADM borders
-    in_f = in_dir + "gadm36_" + iso3 + "_0.*"
-    cmd = " ".join(["cp", in_f, out_dir])
-    subprocess.call(cmd, shell=True)
+    # # Copy GADM borders
+    # in_f = in_dir + "gadm36_" + iso3 + "_0.*"
+    # cmd = " ".join(["cp", in_f, out_dir])
+    # subprocess.call(cmd, shell=True)
 
     # Copy SRTM
     in_f = in_dir + "SRTM_V41_*.zip"
     cmd = " ".join(["cp", in_f, out_dir])
     subprocess.call(cmd, shell=True)
 
-    # # Copy WDPA
-    # in_f = in_dir + "pa_" + iso3 + ".*"
-    # cmd = " ".join(["cp", in_f, out_dir])
-    # subprocess.call(cmd, shell=True)
+    # Copy WDPA
+    in_f = in_dir + "pa_" + iso3 + ".*"
+    cmd = " ".join(["cp", in_f, out_dir])
+    subprocess.call(cmd, shell=True)
 
     # Copy OSM
     in_f = in_dir + "country.osm.pbf"
@@ -81,9 +81,9 @@ def run_country(iso3):
     subprocess.call(cmd, shell=True)
 
     # # Copy country data
-    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2019_70",
+    # in_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020_bak",
     #                       cont, iso3, "data")
-    # out_dir = os.path.join("/share/nas2-amap/gvieilledent/gfc2020_70",
+    # out_dir = os.path.join("/share/nas2-amap/gvieilledent/jrc2020",
     #                        cont, iso3, "data")
     # cmd = " ".join(["rclone sync", in_dir, out_dir])
     # subprocess.call(cmd, shell=True)
@@ -95,6 +95,7 @@ def run_country(iso3):
 # Run country
 for i in range(nctry):
     run_country(iso3[i])
-    # run_country(iso3[index_ctry])
+
+# run_country(iso3[index_ctry])
 
 # End
