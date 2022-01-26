@@ -8,7 +8,7 @@ library(dplyr)
 <!-- Categories of the forest cover annual product -->
 <!--------------------------------------------------->
 
-## Categories of the forest cover annual product
+## Table S1 -- Categories of the forest cover annual product {-}
 
 (ref:cap-cat-annual-product) **Categories of the forest cover annual product by Vancutsem _et al._ [@Vancutsem2021]**. The forest cover annual product classifies Landsat image pixels in 6 categories for each year (on the 31$^{\text{st}}$ of December) between 1990 and 2019 and allows identifying moist tropical forest pixels at each date.\vspace{0.5cm}
 
@@ -29,9 +29,9 @@ knitr::kable(df.cat, caption="(ref:cap-cat-annual-product)", booktabs=TRUE,
 <!-- Variables -->
 <!--------------->
 
-## Variables
+## Table S2 -- Variables {-}
 
-(ref:cap-variables) **Set of explicative variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm}
+(ref:cap-variables) **Set of explanatory variables used to model the spatial probability of deforestation**. A total of height variables were tested. They indicate topography, forest accessibility, forest landscape, deforestation history, and conservation status.\vspace{0.5cm}
 
 ```{r variables, results="asis", echo=FALSE}
 df.variables <- read.table("tables/variables.txt", header=TRUE, sep=",")
@@ -53,7 +53,7 @@ knitr::kable(df.variables, caption="(ref:cap-variables)", booktabs=TRUE,
 <!-- Sample size -->
 <!----------------->
 
-## Sample size
+## Table S3 -- Sample size {-}
 
 (ref:cap-samp-size) **Number of observations used for the spatial model of deforestation for each study area**. The table includes the number of non-deforested (nfor) and deforested (ndef) pixels per study area. These numbers include the forest pixels with full information regarding the explanatory variables. The corresponding number of hectares is also provided (nfHa and ndHa, respectively).\vspace{0.5cm}
 
@@ -83,7 +83,7 @@ knitr::kable(df.cat, caption="(ref:cap-samp-size)", booktabs=TRUE, longtable=TRU
 <!-- Parameter estimates and variable importance -->
 <!------------------------------------------------->
 
-## Parameter estimates and variable importance
+## Tables S4--S5 -- Parameter estimates and variable importance {-}
 
 (ref:cap-par) **Parameter estimates for each study area**. For each study area, we computed the posterior mean of each parameter ("int": intercept, "pa": protected area effect, "elev", "slope", "ddefor","dedge", "driver", "droad", "dtown": slope parameters associated to elevation, slope, distance to past deforestation, distance to forest edge, distance to nearest river, distance to nearest road, and distance to nearest town, respectively, "Vrho": variance of the spatial random effects). Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate the relative importance of each variable in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between study areas.\vspace{0.5cm}
 
@@ -141,7 +141,7 @@ knitr::kable(df, caption="(ref:cap-par-region)", booktabs=TRUE, longtable=TRUE,
 <!-- Effect of protected areas on deforestation -->
 <!------------------------------------------------>
 
-## Effect of protected areas on deforestation
+## Table S6 -- Effect of protected areas on deforestation {-}
 
 ```{r pa-sign, results="asis", echo=FALSE}
 ## Import data
@@ -208,7 +208,7 @@ knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
 <!-- Effect of the distance to road on deforestation -->
 <!----------------------------------------------------->
 
-## Effect of the distance to road on deforestation
+## Table S7 -- Effect of the distance to road on deforestation {-}
 
 ```{r road-sign, results="asis", echo=FALSE}
 ## Import data
@@ -264,7 +264,7 @@ knitr::kable(df, caption="(ref:cap-road)", booktabs=TRUE, longtable=TRUE,
 <!-- Back-transformed parameters -->
 <!--------------------------------->
 
-## Back-transformed parameters
+## Tables S8--S9 -- Back-transformed parameters {-}
 
 (ref:cap-bt-par) **Back-transformed parameters for each study area**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study area. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated to a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°). Note that the intercept is affected by the back-transformation but that the effect associated to protected areas ("pa") and the variance of the spatial random effects ("Vrho") are left unchanged.\vspace{0.5cm}
 
@@ -295,7 +295,7 @@ knitr::kable(df, caption="(ref:cap-bt-par)", booktabs=TRUE, longtable=TRUE,
                 position="center", font_size=10, repeat_header_method="replace")
 ```
 
-(ref:cap-bt-par-reg) **Back-transformed parameters per region**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
+(ref:cap-bt-par-reg) **Back-transformed parameters per region and continent**. We back-transformed the parameters using the mean and standard-deviation of each continuous variable for each study area. We then used the forest cover in 2010 to compute the back-transformed parameter estimate weighted mean per region. Doing so, we can use Eq. \@ref(eq:icar) to compute the change in the probability of deforestation associated with a particular change in the explanatory variables, in their original units. To use this table of parameters, distances and elevation must be expressed in kilometers (Km), and slope must be expressed in hecto-degrees ($10^2$°).\vspace{0.5cm}
 
 ```{r bt-par-region, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -324,7 +324,7 @@ knitr::kable(df, caption="(ref:cap-bt-par-reg)", booktabs=TRUE, longtable=TRUE,
 <!-- Mathematical formulas for accuracy indices -->
 <!------------------------------------------------>
 
-## Mathematical formulas for accuracy indices
+## Tables S10--S11 -- Mathematical formulas for accuracy indices {-}
 
 (ref:cap-confusion-matrix) **Confusion matrix used to compute accuracy indices**. A confusion matrix can be computed to compare model predictions with observations.\vspace{0.5cm}
 
@@ -362,7 +362,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-indices)", booktabs=TRUE,
 <!-- Accuracy indices -->
 <!---------------------->
 
-## Accuracy indices
+## Tables S12--S13 -- Accuracy indices {-}
 
 (ref:cap-accuracy) **Accuracy indices' weighted means for the three statistical models**. Accuracy indices were averaged across study areas using forest cover areas in 2010 as weights. D: percentage of deviance explained, AUC: Area Under ROC Curve, OA: overall accuracy, FOM: Figure Of Merit, TSS: True Skill Statistics. Averaged accuracy indices were computed for the three statistical models: "glm", "icar", and "rf" model. While the "rf" model has a higher percentage of deviance explained in average (higher goodness-of-fit), the "icar" model has higher values of accuracy indices from the cross-validation (higher predictive power).\vspace{0.5cm}
 
@@ -401,7 +401,7 @@ knitr::kable(df, caption="(ref:cap-accuracy-cont)", booktabs=TRUE,
 <!-- Past forest cover change -->
 <!------------------------------------>
 
-## Past forest cover change
+## Tables S14--S15 -- Past forest cover change {-}
 
 (ref:cap-fcc-hist) **Past forest cover change for each study area**. Forest cover areas are given in thousand hectares (Kha) for the years 2000, 2010 and 2020 ("fc2000", "fc2010", and "fc2020", respectively). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). The corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr), with one decimal precision, to be able to compare the intensity of deforestation between study areas.\vspace{0.5cm}
 
@@ -461,7 +461,7 @@ knitr::kable(df, caption="(ref:cap-fcc-hist-reg)", booktabs=TRUE, longtable=FALS
 <!-- Forest cover projections -->
 <!------------------------------>
 
-## Forest cover projections
+## Tables S16--17 -- Forest cover projections {-}
 
 (ref:cap-fcc-proj) **Forest cover projections for each study area**. Projected areas of forest cover are given in thousand hectares (Kha) for four years in the future (2040, 2060, 2080, and 2100). Projections were made using the forest cover in 2020 and the mean annual deforested area on the period 2010--2020 ("fc2000" and $d$ respectively in Table \@ref(tab:fcc-hist)), assuming a "business-as-usual" scenario of deforestation. Column "loss21" indicates the projected percentage of forest cover loss during the 21$^\text{st}$ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study area will have disappeared.\vspace{0.5cm}
 
@@ -523,7 +523,7 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
 <!-- Endemic species in biodiversity hotspots    -->
 <!------------------------------------------------->
 
-## Endemic species in the biodiversity hotspots
+## Table S18 -- Endemic species in the biodiversity hotspots {-}
 
 (ref:cap-hotspots) **Plant and vertebrate species endemic to each of the biodiversity hotspots**. Estimates come from Mittermeier _et al._ [@Mittermeier2011]. P: Plants, B: Birds, R: Reptiles, F: Freshwater fishes, A: Amphibians, M: Mammals.\vspace{0.5cm}
 
@@ -553,7 +553,7 @@ knitr::kable(df, caption="(ref:cap-hotspots)", booktabs=TRUE, longtable=FALSE,
 <!-- Carbon emissions associated with deforestation -->
 <!------------------------------------------------->
 
-## Cumulative carbon emissions associated with deforestation
+## Table S19 -- Cumulative carbon emissions associated with deforestation {-}
 
 (ref:cap-c-em-sm) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by Avitabile _et al._ [@Avitabile2016]. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example).\vspace{0.5cm}
 
@@ -591,7 +591,7 @@ knitr::kable(df, caption="(ref:cap-c-em-sm)", booktabs=TRUE, longtable=TRUE,
 <!-- Uncertainty -->
 <!--------------------------------------------->
 
-## Confidence interval of the annual deforested area
+## Table S20 -- Confidence interval of the annual deforested area {-}
 
 (ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study area. We used the deforestation observations $d_t$ for the ten years $t$ from 2009 to 2019. The lower and upper limits of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
 
@@ -622,12 +622,16 @@ knitr::kable(df, caption="(ref:cap-ci-d)", booktabs=TRUE, longtable=TRUE,
 
 \newpage
 
-# Captions for Supplementary Data
+# Legends for Supplementary Data
 
 Supplementary Data are available at:    
 <https://forestatrisk.cirad.fr/data-s.html>.
 
+## Data S1 -- Uncertainty around projected forest cover {-}
+
 Data S1: **Uncertainty around projected forest cover**. Past and projected forest cover change by study area are given in thousand hectares (Kha). The mean annual deforested area $d$ for the ten-year period 2009--2019 is given in hectare per year (ha/yr). The corresponding mean annual deforestation rate $p$ is also provided in percent per year (%/yr), with one decimal precision, to be able to compare the intensity of deforestation between study areas. Projections were made using the forest cover in 2020 ("fc2000") and either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. We considered a business-as-usual scenario of deforestation (deforestation constant through time) for the projections. Column "loss21" indicates the projected percentage of forest cover loss during the 21^st^ century (2100 vs. 2000). Column "yrdis" indicates the estimated year at which all the forest of the study area will have disappeared.
+
+## Data S2 -- Uncertainty around projected carbon emissions {-}
 
 Data S2: **Uncertainty around projected carbon emissions**. We combined our maps of projected forest cover change together with the aboveground biomass map by Avitabile _et al._ [@Avitabile2016] to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2009--2019, (ii) the lower limit $d'$ of the confidence interval for the annual deforested area, or (iii) the upper limit $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.
 

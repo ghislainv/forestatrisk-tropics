@@ -67,8 +67,9 @@ setwd(here::here("Manuscript/Supplementary_Materials"))
 # Bookdown
 # pdf
 options(knitr.table.format="latex")
-pdf_format <- bookdown::pdf_document2(citation_package="natbib", fig_caption=TRUE, keep_tex=TRUE, keep_md=FALSE,
-                                      latex_engine="pdflatex", number_sections=FALSE, toc=FALSE,
+pdf_format <- bookdown::pdf_document2(#citation_package="natbib", 
+                                      fig_caption=TRUE, keep_tex=TRUE, keep_md=FALSE,
+                                      latex_engine="pdflatex", number_sections=TRUE, toc=TRUE,
                                       includes=list(in_header="header.tex", before_body="doc_prefix.tex"))
 params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)

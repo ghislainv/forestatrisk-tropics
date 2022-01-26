@@ -12,10 +12,12 @@
 \usepackage{threeparttablex}
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
-\definecolor{Blue}{rgb}{0.01,0.28,1.0}
+%\definecolor{Blue}{rgb}{0.01,0.28,1.0}
 \definecolor{Maroon}{rgb}{0.5,0.0,0.0}
 \definecolor{darkgreen}{RGB}{0,150,0}
-\hypersetup{colorlinks=true, citecolor=Blue, urlcolor=Maroon}
+\definecolor{Blue}{RGB}{0,101,165} % pnasbluetext
+\definecolor{pinpblue}{HTML}{185FAF}
+\hypersetup{colorlinks=true, linkcolor=Blue, citecolor=Blue, urlcolor=Maroon}
 \renewcommand{\thetable}{S\arabic{table}} 
 \renewcommand{\thefigure}{S\arabic{figure}} 
 \renewcommand{\theequation}{S\arabic{equation}}
@@ -23,5 +25,6 @@
 %% for longtable
 \setlength{\LTcapwidth}{\textwidth} %% long table caption width=\textwidth
 \usepackage[font=small]{caption} %% caption text size=\normalsize
-\usepackage[numbers, round, comma]{natbib}
+%%\usepackage[numbers, round, comma]{natbib}
 %%\def\bibfont{\footnotesize}
+\renewcommand{\contentsname}{Table of contents}

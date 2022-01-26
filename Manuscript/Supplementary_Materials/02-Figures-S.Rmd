@@ -4,7 +4,7 @@
 <!-- study areas -->
 <!--------------------------------------------->
 
-## Study areas in the three continents
+## Fig. S1 -- Study areas in the three continents {-}
 
 (ref:cap-study-areas) **Study areas in the three continents: America, Africa, and Asia**. America included 64 study areas (39 countries), Africa included 32 study areas (32 countries), and Asia included 23 study areas (21 countries). Each country was identified by one unique three-letter code following the ISO 3166-1 standard (eg. MDG for Madagascar or GUF for French Guiana). In America, Brazil was divided in 26 study areas corresponding to the 26 Brazilian states. Each Brazilian state was defined by one unique two-letter code (eg. AM for Amazonas). For India, three study areas were considered: the Whestern Ghats (WG), the North-East India (NE), and the Andaman and Nicobar Islands (AN). For Australia, we only considered the Queensland (QLD) state as a study area. In the three figures, each study area is identified by one unique code and a set of polygons with the same colour. The horizontal lines on each figure indicate the position of the Equator (plain line) and the two tropics (Cancer at the North and Capricorn at the South, dashed lines).
 
@@ -24,7 +24,7 @@ knitr::include_graphics("figures/study_areas_Asia.png")
 <!-- Past forest cover change map -->
 <!--------------------------------------------->
 
-## Past forest cover change map
+## Fig. S2 -- Past forest cover change map {-}
 
 (ref:cap-fcc-maps) **Past forest cover change map**. Forest cover change map on the period 2000--2010--2020 for the Democratic Republic of the Congo in central Africa (bottom-left inset). \textcolor{orange}{orange}: 2000--2010 deforestation, \textcolor{red}{red}: 2010--2020 deforestation, \textcolor{darkgreen}{green}: forest cover in 2020. Forest cover change map was derived from the forest cover change annual product by Vancutsem _et al._ [@Vancutsem2021]. Original resolution of the forest cover change map is 30 m. The top-left inset shows a zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive pantropical forest cover change map is available at <https://forestatrisk.cirad.fr/maps.html>.
 
@@ -36,7 +36,7 @@ knitr::include_graphics("figures/fcc123.png")
 <!-- Spatial explanatory variables -->
 <!--------------------------------------------->
 
-## Spatial explanatory variables used for spatial modelling of deforestation
+## Figs. S3--S6 -- Spatial explanatory variables used for modelling of deforestation {-}
 
 (ref:cap-var) **Spatial explanatory variables**. Spatial explanatory variables for the Democratic Republic of the Congo in central Africa. Elevation (in m) and slope (in degree) at 90 m resolution were obtained from the SRTM Digital Elevation Database v4.1 (<http://srtm.csi.cgiar.org/>). Distances (in m) to nearest road, town and river at 150 m resolution were computed from the road, town and river network obtained from OpenStreetMap (OSM) (<https://www.openstreetmap.org/>). Roads include "motorway", "trunk", "primary", "secondary" and "tertiary" roads from OSM. Towns include "city", "town" and "village"  categories from OSM. Rivers include "river" and "canal" categories from OSM. Protected areas were obtained from the World Database on Protected Areas (<https://www.protectedplanet.net>  [@WDPA2020]). We retained protected areas defined by at least one polygon and which had the following status: "Designated", "Inscribed", "Established", or "Proposed" before 1^st^ January 2010. Data included protected areas of all IUCN categories (from Ia to VI) and of all types defined at the national level (e.g. National Parks, Reserves). Two additional spatial explanatory variables (distance to forest edge and distance to past deforestation) were obtained from the past forest cover change map (Fig. \@ref(fig:fcc-maps)).
 
@@ -66,7 +66,7 @@ knitr::include_graphics("figures/corr-var.png")
 <!-- Data sampling -->
 <!--------------------------------------------->
 
-## Data sampling
+## Fig. S7 -- Data sampling {-}
 
 (ref:cap-sampling) **Data sampling for spatial modelling of the deforestation**. Map on the left corresponds to the top left inset in Fig. \@ref(fig:fcc-maps) representing a zoom of the forest cover change map on the period 2000--2010--2020 for an area at the North-East of the Democratic Republic of the Congo. Map on the right presents an inner zoom showing the delimitation of the 30 m forest pixels with three sample points. We used a stratified balanced sampling between (i) forest pixels in 2010 which have been deforested on the period 2010--2020 ("deforested" pixels in \textcolor{red}{red}), and (ii) forest pixels in 2010 which have not been deforested on that period of time and which represent the remaining forest in 2020 ("non-deforested" pixels in \textcolor{darkgreen}{green}). Forest pixels in each category were sampled randomly.
 
@@ -78,7 +78,7 @@ knitr::include_graphics("figures/sample.png")
 <!-- Grid for spatial random effects -->
 <!--------------------------------------------->
 
-## Grid for spatial random effects
+## Fig. S8 -- Grid for spatial random effects {-}
 
 (ref:cap-grid) **Grid used to compute the spatial random effects**. _Main figure_: $10 \times 10$ km grid covering the Democratic Republic of the Congo (DRC). The grid over DRC includes 45,154 $10 \times 10$ km cells (214 cells on the x axis by 211 cells on the y axis). The background map shows the past forest cover change in the periods 2000--2010--2020 (see Fig. \@ref(fig:fcc-maps)). _Top inset_: Zoom for an area at the North-East of the country (black square) showing specific grid cells. One grid cell can include several sample points (see Fig. \@ref(fig:sampling)). _Bottom inset_: One random effect $\rho_j$ is estimated for each grid cell $j$. Spatial autocorrelation is taken into account through an intrinsic CAR process: the value of the random effect for one cell depends on the values of the random effects $\rho_{j^{\prime}}$ for the neighbouring cells $j^{\prime}$ (see Eq. \@ref(eq:icar)).
 
@@ -90,7 +90,7 @@ knitr::include_graphics("figures/grid.png")
 <!-- Spatial random effects -->
 <!--------------------------------------------->
 
-## Estimated spatial random effects
+## Fig. S9 -- Estimated spatial random effects {-}
 
 (ref:cap-rho) **Estimated spatial random effects**. _Left_: Estimated spatial random effects at 10 km resolution for the Democratic Republic of the Congo (DRC). _Right_: Interpolated spatial random effects at 1 km resolution. A bicubic interpolation method was used. _Bottom_: Zoom for an area at the North-East of the country (black square) which is close to the city of Beni and the Virunga national park. Due to the structure of the intrinsic CAR model (see Eq. \@ref(eq:icar)), spatial random effects are also estimated for cells without sampled points. This includes cells for which there was no forest cover in the period 2000--2010--2020, and also cells outside the country's borders.
 
@@ -102,7 +102,7 @@ knitr::include_graphics("figures/rho.png")
 <!-- Spatial probability of deforestation -->
 <!--------------------------------------------->
 
-## Relative spatial probability of deforestation
+## Fig. S10 -- Relative spatial probability of deforestation {-}
 
 (ref:cap-sm-prob) **Predicted relative spatial probability of deforestation**. _Main figure_: Map of the spatial probability of deforestation computed for each forest pixel in 2020 for the Democratic Republic of the Congo. On the map, we clearly see the effect of the distance to nearest town and road, and the effect of the distance to forest edge on the spatial probability of deforestation. Also, we clearly see the importance of the spatial random effects in structuring the spatial variability of the deforestation probability. For example, the area at the North of the zoom (black square) shows very high deforestation probabilities (in black). This area is politically unstable and is home to a large number of militias who survive at the expense of the forest. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park. An interactive global map of the spatial probability of deforestation is available at <https://forestatrisk.cirad.fr/maps.html>.
 
@@ -114,7 +114,7 @@ knitr::include_graphics("figures/prob.png")
 <!-- Projected forest cover change -->
 <!--------------------------------------------->
 
-## Projected forest cover change
+## Fig. S11 -- Projected forest cover change {-}
 
 (ref:cap-sm-proj) **Projected forest cover change**. _Main figures_: Maps of the projected forest cover change (left: 2020--2050, right: 2020--2100) for the Democratic Republic of the Congo (DRC). \textcolor{red}{red}: projected deforestation, \textcolor{darkgreen}{green}: remaining forest cover. Besides the loss of forest cover, we show a progressive fragmentation of the forest in the future, with an increasing number of forest patches of smaller size in DRC. _Insets_: Zoom of the map for an area at the North-East of the country (black square) which is close to the city of Beni and the Virunga national park. Interactive global maps of the projected forest cover change for years 2050 and 2100 are available at <https://forestatrisk.cirad.fr/maps.html>.
 
@@ -126,7 +126,7 @@ knitr::include_graphics("figures/fcc2050_2100.png")
 <!-- Aboveground biomass map -->
 <!--------------------------------------------->
 
-## Aboveground biomass map
+## Fig. S12 -- Aboveground biomass map {-}
 
 (ref:cap-agb) **Aboveground biomass map**. _Main figure_: Aboveground biomass (AGB in Mg/ha) map for the Democratic Republic of the Congo (DRC) at 1 km resolution produced by Avitabile _et al._ [@Avitabile2016]. This map is a combination of two pantropical aboveground biomass maps by Saatchi _et al._ [@Saatchi2011] and Baccini _et al._ [@Baccini2012]. While the RMSE of the fused map by Avitabile _et al._ [@Avitabile2016] is still substantial (87--98 Mg/ha), the fused map achieved a lower RMSE (a decrease of 5--74%) and bias (a decrease of 90--153%) than the two input maps for all continents. The fusion map is representative of the aboveground biomass for the years 2000--2010. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
 
@@ -138,7 +138,7 @@ knitr::include_graphics("figures/AGB.png")
 <!-- Uncertainty -->
 <!--------------------------------------------->
 
-## Uncertainty map of the future change in forest cover
+## Figs. S13--S14 -- Uncertainty map of the future change in forest cover {-}
 
 (ref:cap-fcc2100-low) **Projected forest cover change map assuming a low annual deforestation**. This map was derived using $d'$, the _lower_ limit of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig. 1 in the main text and Fig. \@ref(fig:fcc2100-high) below, which consider average and high annual deforestation, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas are represented by dark grey lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
 
