@@ -2,7 +2,13 @@
 title: "`r params$title`"
 author: "`r params$author`"
 date: "`r params$date`"
-fontsize: 12pt
+fontsize: 11pt
+classoption: a4paper
+#geometry: left=43pt,right=43pt,top=43pt,bottom=32pt
+bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
+biblio-style: bib/naturemag.bst
+link-citations: yes
+csl: bib/ecology.csl
 output:
   bookdown::gitbook:
     number_sections: yes
@@ -31,12 +37,6 @@ output:
         instapper: no
         vk: no
         all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
-bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
-biblio-style: bib/naturemag.bst
-#biblio-style: bib/jae.bst
-link-citations: yes
-csl: bib/ecology.csl
-#csl: bib/journal-of-applied-ecology.csl
 ---
 
 ```{r options, include=FALSE, results="hide"}
