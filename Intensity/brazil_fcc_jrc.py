@@ -107,7 +107,7 @@ for k in range(nscen):
         defor_diff = far.deforest_diffusion(
             forest_t0=forest_t0,
             t0=t0,
-            annual_defor=andef.astype(np.float),
+            annual_defor=andef.astype(float),
             t=t)
         fcc_BRA_scen["for" + dates_fut[i]] = defor_diff["forest_t"]
         fcc_BRA_scen["defor" + dates_fut[i]] = defor_diff["defor_t0_t"]
@@ -116,7 +116,7 @@ for k in range(nscen):
     defor_diff_t_nofor = far.deforest_diffusion_t_nofor(
         forest_t0=forest_t0,
         t0=t0,
-        annual_defor=andef.astype(np.float))
+        annual_defor=andef.astype(float))
     fcc_BRA_scen["ny_zerof"] = defor_diff_t_nofor["ny"]
     fcc_BRA_scen["yr_zerof"] = defor_diff_t_nofor["year"]
 
