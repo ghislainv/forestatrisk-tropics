@@ -126,19 +126,19 @@ fc_df2 <- fc_df %>%
   summarise(across(starts_with("fc"), sum), .groups="keep") %>%
   mutate(across(starts_with("fc"), function(.x){round(.x/10000)})) %>%
   left_join(area_info, by="area_code") %>%
-  select(iso3, area_cont:area_name, area_code, fc2000:fc2020) %>%
+  select(iso3, area_cont:area_name, area_code, fc2000:fc2021) %>%
   mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
   arrange(id, area_ctry) %>%
   select(-id)
 
 # Save data
-write_delim(fc_df2, here("Intensity", "output", "fc_gee_2000_2020.csv"), delim=",")
+write_delim(fc_df2, here("Intensity", "output", "fc_gee_2000_2021.csv"), delim=",")
 
 # Compute annual deforestation
 d_df <- fc_df2 %>%
-  select(-fc2020)
-d_df[, 6:25] <- fc_df2[, 6:25]-fc_df2[, 7:26]
-names(d_df)[6:25] <- paste0("d", 2000:2019)
+  select(-fc2021)
+d_df[, 6:26] <- fc_df2[, 6:26]-fc_df2[, 7:27]
+names(d_df)[6:26] <- paste0("d", 2000:2020)
 
 # Save data
 write_delim(d_df, here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=",")
@@ -149,37 +149,42 @@ write_delim(d_df, here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=
 # ==============================
 
 # Standard-error function
-se <- function(x, ...) sqrt(var(x, ...)/length(x))
+# Must take into account NAs in x for number of observations
+se <- function(x) {
+    x <- na.omit(x)
+    return(sqrt(var(x)/length(x)))
+}
 
 # Load data
 d_df <- read_delim(here("Intensity", "output", "defor_gee_2000_2020.csv"), delim=",")
 
 # Transform data in long format
 d_long <- d_df %>%
-  tidyr::pivot_longer(cols=c(d2000:d2019),
+  tidyr::pivot_longer(cols=c(d2000:d2020),
                       names_to="year",
                       names_prefix="d",
                       values_to="defor")
 
-# Remove outliers for Comoros (beginning of the period, not enough obs)
+# Remove outliers for Comoros and Gambia (unrealistic low or high annual deforestation estimates)
 d_long <- d_long %>%
-  mutate(defor=ifelse(area_code=="COM" & defor==0, NA, defor))
+    mutate(defor=ifelse(area_code=="COM" & (defor<=10 | defor>=2000), NA, defor)) %>%
+    mutate(defor=ifelse(area_code=="GMB" & (defor<=10 | defor>=2000), NA, defor))
 
 # Compute mean and 95% confidence intervals of deforestation rates per country
-# !! Ten years period on 2009-2018:
-# !! We do not consider 2019 for which defor is underestimated (no difference between defor/degrad).
+# !! Ten years period on 2010-2019:
+# !! We do not consider 2020 for which defor is underestimated (no difference between defor/degrad).
 d_uncertainty <- d_long %>%
-	filter(year %in% c(2009:2018)) %>%
+	filter(year %in% c(2010:2019)) %>%
 	group_by(area_name) %>%
 	summarize(iso3=unique(iso3),
 	          area_cont=unique(area_cont),
 	          area_ctry=unique(area_ctry),
 	          area_code=unique(area_code),
-	          d_se=round(se(defor, na.rm=TRUE)),
+	          d_se=round(se(defor)),
 	          d_mean=round(mean(defor, na.rm=TRUE)),
-						d_min=round(mean(defor, na.rm=TRUE)-1.96*se(defor, na.rm=TRUE)),
-						d_max=round(mean(defor, na.rm=TRUE)+1.96*se(defor, na.rm=TRUE)),
-						.groups="keep") %>%
+                  d_min=round(mean(defor, na.rm=TRUE)-1.96*se(defor)),
+                  d_max=round(mean(defor, na.rm=TRUE)+1.96*se(defor)),
+                  .groups="keep") %>%
   relocate(area_name, .before=area_code) %>%
   mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
   arrange(id, area_ctry) %>%
@@ -272,5 +277,27 @@ for (i in 1:ncont) {
            width=fig_width, height=fig_height, units="cm")
   }
 }
+
+## # Comparing version of TMF
+## df1 <- read_csv(here("Intensity", "output", "d_uncertainty.bak.csv"))
+## df2 <- read_csv(here("Intensity", "output", "d_uncertainty.csv"))
+
+## png(file=here("Intensity", "output", "comp_d_mean.png"))
+## plot(df1$d_mean, df2$d_mean,
+##      xlab="d_mean per country -- v0_2019",
+##      ylab="dmean per country -- v1_2020")
+## abline(a=0, b=1, col="red")
+## dev.off()
+
+## # Comparing version of TMF
+## df1 <- read_csv(here("Intensity", "output", "fc_gee_2000_2020.csv"))
+## df2 <- read_csv(here("Intensity", "output", "fc_gee_2000_2021.csv"))
+
+## png(file=here("Intensity", "output", "comp_fc2020.png"))
+## plot(df1$fc2020, df2$fc2020,
+##      xlab="fc2020 per country -- v0_2019",
+##      ylab="fc2020 per country -- v1_2020")
+## abline(a=0, b=1, col="red")
+## dev.off()
 
 # EOF
