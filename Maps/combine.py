@@ -91,9 +91,9 @@ def run_combine(index_cont):
     subprocess.call(cmd, shell=True)
     # COG
     tif2cog(input_file_list="list_tif.txt",
-            output_file="fcc123.tif", num_threads=8)
+            output_file="fcc123.tif", num_threads="ALL_CPUS")
     # Resample at 500m
-    subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -t_srs EPSG:3395 \
+    subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
     -tap -r near -tr 500 500 -co 'COMPRESS=DEFLATE' \
     -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc123.tif fcc123_500m.tif", shell=True)
     # Plot
@@ -111,9 +111,9 @@ def run_combine(index_cont):
     cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*prob.tif$' > list_tif.txt"
     subprocess.call(cmd, shell=True)
     # COG
-    tif2cog(input_file_list="list_tif.txt", output_file="prob.tif", num_threads=8)
+    tif2cog(input_file_list="list_tif.txt", output_file="prob.tif", num_threads="ALL_CPUS")
     # Resample at 500m
-    subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=4' -wm 2048 -t_srs EPSG:3395 \
+    subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 2048 -t_srs EPSG:3395 \
     -tap -r near -tr 500 500 -co 'COMPRESS=DEFLATE' \
     -co 'PREDICTOR=2' -co 'BIGTIFF=YES' prob.tif prob_500m.tif", shell=True)
     # Plot
@@ -143,9 +143,9 @@ def run_combine(index_cont):
             cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*mean/fcc_" + d + ".tif$' > list_tif.txt"
             subprocess.call(cmd, shell=True)
             # COG
-            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + ".tif", num_threads=8)
+            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + ".tif", num_threads="ALL_CPUS")
             # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=4' -wm 2048 -t_srs EPSG:3395 \
+            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 2048 -t_srs EPSG:3395 \
             -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
             -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + ".tif fcc_" + d + "_500m.tif", shell=True)
             # Plot
@@ -174,9 +174,9 @@ def run_combine(index_cont):
             cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*min/fcc_" + d + ".tif$' > list_tif.txt"
             subprocess.call(cmd, shell=True)
             # COG
-            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_min.tif", num_threads=8)
+            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_min.tif", num_threads="ALL_CPUS")
             # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=4' -wm 2048 -t_srs EPSG:3395 \
+            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 2048 -t_srs EPSG:3395 \
             -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
             -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_min.tif fcc_" + d + "_500m_min.tif", shell=True)
             # Plot
@@ -205,9 +205,9 @@ def run_combine(index_cont):
             cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*max/fcc_" + d + ".tif$' > list_tif.txt"
             subprocess.call(cmd, shell=True)
             # COG
-            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_max.tif", num_threads=8)
+            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_max.tif", num_threads="ALL_CPUS")
             # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=4' -wm 2048 -t_srs EPSG:3395 \
+            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 2048 -t_srs EPSG:3395 \
             -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
             -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_max.tif fcc_" + d + "_500m_max.tif", shell=True)
             # Plot
@@ -231,7 +231,7 @@ run_combine(index_cont)
 
 # subprocess.call("gdalinfo AnthropogenicPressure.tif", shell=True)
 # subprocess.call("gdalinfo prob.tif", shell=True)
-# subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=8' -wm 4096 -r average \
+# subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -r average \
 # -ot UInt16 -t_srs EPSG:4326 \
 # -te 7.9999248 -6.0000216 29.9999160 7.4999730 -tr 0.00833333 0.00833333 \
 # -co 'COMPRESS=DEFLATE' -co 'PREDICTOR=2' -co 'BIGTIFF=YES' \
