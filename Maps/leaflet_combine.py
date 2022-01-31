@@ -57,7 +57,7 @@ def run_combine(index_cont):
     subprocess.call(cmd, shell=True)
     # COG
     leaflet_cog(input_file_list="list_tif.txt",
-                output_file="fcc123_epsg3857.tif", num_threads=8)
+                output_file="fcc123_epsg3857.tif", num_threads="ALL_CPUS")
 
     # ===================
     # Spatial probability
@@ -68,7 +68,7 @@ def run_combine(index_cont):
     subprocess.call(cmd, shell=True)
     # COG
     leaflet_cog(input_file_list="list_tif.txt",
-                output_file="prob_epsg3857.tif", num_threads=8)
+                output_file="prob_epsg3857.tif", num_threads="ALL_CPUS")
 
     # =========================================
     # Forest cover in 20XX - mean deforestation
@@ -90,7 +90,8 @@ def run_combine(index_cont):
             subprocess.call(cmd, shell=True)
             # COG
             leaflet_cog(input_file_list="list_tif.txt",
-                        output_file="fcc_" + d + "_epsg3857.tif", num_threads=8)
+                        output_file="fcc_" + d + "_epsg3857.tif",
+                        num_threads="ALL_CPUS")
 
 
 # Run funtion

@@ -19,7 +19,8 @@ import validate_cloud_optimized_geotiff
 
 
 # leaflet_cog
-def leaflet_cog(input_file_list, output_file, levels=6, num_threads=10,
+def leaflet_cog(input_file_list, output_file, levels=6,
+                num_threads="ALL_CPUS",
                 cachemax=4096):
     """Cloud Optimized GeoTIFF from a list of GeoTIFFs"
 
