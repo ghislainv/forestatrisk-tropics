@@ -728,7 +728,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## =========================================================================
 ## Forest cover projections including yr75dis per region
-## yrdis75: year during which 75% of for2000 wil have disappeared per region
+## yrdis75: year at which 75% of for2000 wil have disappeared per region
 ## =========================================================================
 
 ## Simulations with uncertainty

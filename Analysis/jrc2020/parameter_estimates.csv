@@ -1,120 +1,120 @@
 "area_cont","area_ctry","area_name","area_code","int","pa","alt","slope","ddefor","dedge","driver","droad","dtown","Vrho"
-"America","Antigua and B.","Antigua and B.","ATG",0.78,-0.884,-0.467,NA,-0.619,-1.04,-0.665,NA,NA,10
-"America","Bahamas","Bahamas","BHS",-0.653,NA,NA,-0.0431,-1.11,-0.578,NA,NA,NA,6.7
-"America","Barbados","Barbados","BRB",-0.468,-0.298,-0.444,-0.107,-0.31,-1.63,-0.1,NA,NA,1.88
-"America","Belize","Belize","BLZ",-1.2,-0.782,-0.258,-0.207,-1.7,-1.53,NA,-0.155,-0.347,7.29
-"America","Bolivia","Bolivia","BOL",-0.551,-0.197,-0.334,-0.194,-0.619,-3.35,-0.0545,-0.393,0.00412,5.22
-"America","Brazil","Brazil – Acre","AC",-4.2,-0.606,NA,NA,-4.94,-5.86,NA,-0.14,-0.257,3.89
-"America","Brazil","Brazil – Alagoas","AL",0.715,-0.468,-0.437,-0.0187,-0.477,-1.76,-0.11,-0.161,-0.137,3.45
-"America","Brazil","Brazil – Amapa","AP",-5.63,-0.407,-0.597,-0.074,-2.83,-9.26,NA,-0.438,-0.103,5.09
-"America","Brazil","Brazil – Amazonas","AM",-3.91,-0.691,-0.108,NA,-2.48,-5.08,-0.137,-0.449,-0.731,12.2
-"America","Brazil","Brazil – Bahia","BA",1.18,-0.246,-0.292,-0.168,-0.611,-1.28,0.00316,-0.0308,NA,4.03
-"America","Brazil","Brazil – Ceara","CE",0.659,-0.751,-0.892,NA,NA,-1.76,NA,-0.00502,NA,11.6
-"America","Brazil","Brazil – Espirito Santo","ES",-1,-0.2,-0.863,NA,-0.576,-1.07,-0.0329,-0.0697,-0.0199,3.02
-"America","Brazil","Brazil – Goias","GO",0.00723,-0.168,NA,NA,-0.657,-0.444,-0.0769,NA,NA,2.98
-"America","Brazil","Brazil – Maranhao","MA",-1.78,-0.252,NA,-0.102,-3.5,-4.27,NA,NA,-0.167,2.82
-"America","Brazil","Brazil – Mato Grosso","MT",-0.414,-0.472,NA,NA,-1.17,-1.02,NA,-0.16,-0.322,10.3
-"America","Brazil","Brazil – Mato Grosso do Sul","MS",-0.21,NA,-0.229,NA,-0.323,-1.15,NA,NA,NA,2.96
-"America","Brazil","Brazil – Minas Gerais","MG",0.0818,-0.185,-0.431,NA,-0.537,-0.507,-0.0067,NA,-0.0289,3.57
-"America","Brazil","Brazil – Para","PA",-1.3,-1.1,NA,-0.0421,-1.27,-2.85,NA,-0.823,-0.427,7.02
-"America","Brazil","Brazil – Paraiba","PB",4.53,-0.979,NA,NA,-0.751,-1.05,-0.0934,NA,-0.0728,6.44
-"America","Brazil","Brazil – Parana","PR",-0.924,-0.18,NA,-0.233,-0.923,-2.51,-0.00176,NA,NA,2.76
-"America","Brazil","Brazil – Pernambouco","PE",4.45,-0.709,-0.754,-0.112,-0.649,-2.12,NA,-0.0422,-0.0392,5.07
-"America","Brazil","Brazil – Piaui","PI",0.215,-0.0941,NA,NA,-0.434,-0.792,-0.083,NA,-0.0131,3.31
-"America","Brazil","Brazil – Rio de Janeiro","RJ",-0.403,-0.296,-0.138,NA,-1.1,-2.86,-0.0646,-0.0443,NA,2.36
-"America","Brazil","Brazil – Rio Grande do Norte","RN",0.37,-0.331,NA,-0.0266,-1.24,-0.612,NA,NA,NA,9.39
-"America","Brazil","Brazil – Rio Grande do Sul","RS",0.0537,-0.465,-0.125,-0.472,-0.503,-1.59,-0.0113,NA,NA,1.78
-"America","Brazil","Brazil – Rondonia","RO",-0.869,-1.49,NA,-0.0636,-0.918,-1.72,NA,-0.249,-0.256,7.16
-"America","Brazil","Brazil – Roraima","RR",-1.71,-0.741,-0.589,NA,-1.8,-2.7,-0.0372,0.1,-0.488,7.74
-"America","Brazil","Brazil – Santa Catarina","SC",-0.62,-0.373,NA,-0.499,-0.716,-1.37,NA,NA,NA,1.85
-"America","Brazil","Brazil – Sao Paulo","SP",-0.538,-0.27,-0.231,-0.273,-1.23,-2.59,NA,-0.0791,-0.044,3.59
-"America","Brazil","Brazil – Sergipe","SE",0.572,NA,NA,NA,-0.727,-0.998,-0.00186,NA,NA,4.18
-"America","Brazil","Brazil – Tocantins","TO",-0.314,-0.00649,NA,NA,-0.444,-0.145,-0.0759,0.00981,NA,4.23
-"America","Colombia","Colombia","COL",-3.26,-0.438,-0.677,-0.277,-4.26,-3.51,NA,-0.626,-0.26,5.32
-"America","Costa Rica","Costa Rica","CRI",-2.7,-0.112,-0.0727,-0.318,-2.22,-5.55,-0.00108,-0.121,-0.112,2.78
-"America","Cuba","Cuba","CUB",-0.383,-0.0441,-0.166,-0.0888,-0.592,-0.825,NA,-0.173,-0.0635,5.18
-"America","Dominica","Dominica","DMA",-1.19,NA,-0.13,-0.198,-0.72,-2.38,NA,NA,-0.284,2.91
-"America","Dominican Rep.","Dominican Rep.","DOM",-0.262,-0.263,-0.376,-0.0144,-1.01,-1.44,NA,-0.0179,NA,2.29
-"America","Ecuador","Ecuador","ECU",-3.86,-0.637,-0.125,-0.351,-1.31,-10.3,NA,-0.639,-0.09,2.85
-"America","El Salvador","El Salvador","SLV",-0.114,-0.431,-0.221,-0.138,-0.76,-1.83,NA,-0.132,NA,5.36
-"America","French Guiana","French Guiana","GUF",-1.61,-0.781,-0.805,-0.0465,-1.41,-2.97,NA,-0.814,-0.481,21.3
-"America","Grenada","Grenada","GRD",-0.669,-0.354,-1.04,NA,-1.65,-2.02,-0.0959,-0.275,NA,7.35
-"America","Guadeloupe","Guadeloupe","GLP",-4.05,NA,-0.198,-0.0332,-2.39,-7.37,-0.0469,-0.0573,-0.0344,2.86
-"America","Guatemala","Guatemala","GTM",-0.195,-0.159,-0.292,-0.217,-0.917,-0.904,-0.104,-0.123,-0.0734,3.11
-"America","Guyana","Guyana","GUY",-1.65,-0.729,-0.442,-0.202,-0.723,-3.8,NA,-0.615,-0.442,12.5
-"America","Haiti","Haiti","HTI",-0.042,-0.0193,NA,-0.0782,-0.495,-0.843,-0.092,-0.168,-0.0398,2.53
-"America","Honduras","Honduras","HND",-1.04,-0.406,-0.737,-0.254,-0.868,-1.38,-0.00881,NA,NA,4.06
-"America","Jamaica","Jamaica","JAM",-0.968,-0.105,-0.257,-0.126,-2,-3.01,-0.0983,-0.129,-0.134,2.5
-"America","Martinique","Martinique","MTQ",-1.76,-0.165,-0.475,-0.181,-1.52,-4.83,NA,-0.0256,NA,1.79
-"America","Mexico","Mexico","MEX",-0.602,-0.34,-0.313,-0.21,-0.752,-1.34,NA,-0.021,-0.0255,3.14
-"America","Montserrat","Montserrat","MSR",-7.12,NA,-0.162,-0.0577,-1.4,-5.67,-0.11,NA,NA,7.97
-"America","Nicaragua","Nicaragua","NIC",-1.4,NA,-0.228,-0.16,-0.496,-1.79,NA,-0.0973,NA,3.17
-"America","Panama","Panama","PAN",-2.26,-0.397,-0.16,-0.117,-2.79,-3.32,NA,-0.437,NA,2.6
-"America","Paraguay","Paraguay","PRY",-0.158,-0.0601,-0.147,-0.168,-0.615,-0.384,NA,-0.0775,NA,3.91
-"America","Peru","Peru","PER",-1.95,-0.661,-0.6,-0.328,-2.88,-4.63,-0.0462,-0.531,-0.506,5.53
-"America","Puerto Rico","Puerto Rico","PRI",-0.0991,NA,-0.251,-0.0484,-0.55,-0.877,NA,NA,-0.0732,2.02
-"America","Saint Kitts and N.","Saint Kitts and N.","KNA",-1.75,-0.199,-0.998,-0.286,NA,-1.2,NA,NA,NA,1.34
-"America","Saint Lucia","Saint Lucia","LCA",-1.1,NA,-0.258,-0.0927,-0.837,-2.98,NA,NA,-0.0713,3.09
-"America","Saint Martin","Saint Martin","MAF",0.955,-0.696,NA,-0.115,-0.303,-0.501,-0.557,NA,NA,8.24
-"America","Saint Vincent","Saint Vincent","VCT",-0.469,NA,-0.638,-0.176,-2,-1.37,NA,-0.135,-0.0504,3.1
-"America","Sint Maarten","Sint Maarten","SXM",0.17,NA,NA,-0.543,-0.443,-0.306,-0.0338,NA,-0.0724,10
-"America","Suriname","Suriname","SUR",-1.36,NA,-0.504,NA,-0.628,-1.38,NA,-0.735,-0.358,12.6
-"America","Trinidad and Tobago","Trinidad and Tobago","TTO",-2.59,-0.387,-0.0971,-0.11,-2.09,-5.35,NA,-0.0612,-0.114,2.09
-"America","Venezuela","Venezuela","VEN",-3.11,-0.101,-0.361,-0.121,-1.61,-7.52,-0.0579,-0.428,-0.3,6.36
-"America","Virgin Isl. UK","Virgin Isl. UK","VGB",0.787,NA,-0.292,NA,-0.877,-1.15,NA,NA,NA,6.43
-"America","Virgin Isl. US","Virgin Isl. US","VIR",0.0109,-0.562,NA,-0.144,-0.14,-0.494,NA,NA,NA,4.01
-"Africa","Angola","Angola","AGO",-0.147,NA,-0.124,-0.0682,-1.81,-3.35,-0.0129,-0.218,-0.145,3.72
-"Africa","Benin","Benin","BEN",2.62,-0.177,NA,-0.136,-0.422,-1.11,NA,NA,NA,8.3
-"Africa","Burundi","Burundi","BDI",-0.707,-1.31,-0.35,NA,-1.91,-3.74,-0.0773,NA,-0.0163,4.85
-"Africa","Cameroon","Cameroon","CMR",0.253,-0.948,NA,-0.152,-1.46,-3.57,-0.0364,-0.4,-0.282,5.42
-"Africa","CAR","CAR","CAF",-0.874,NA,NA,NA,-4.14,-3.66,-0.123,-0.072,-0.167,3.62
-"Africa","Comoros","Comoros","COM",-2.4,NA,0.00135,-0.319,NA,-9.61,NA,NA,NA,8.13
-"Africa","Congo","Congo","COG",-2.02,-0.379,-0.0431,NA,-0.902,-5.08,-0.131,-0.675,-0.304,9.79
-"Africa","DRC","DRC","COD",-3.98,-0.271,NA,0.00425,-4.86,-6.17,NA,-0.389,-0.25,3.92
-"Africa","Eq. Guinea","Eq. Guinea","GNQ",-0.925,-0.15,-0.271,-0.274,-0.2,-2.29,-0.16,-1.21,NA,11
-"Africa","Ethiopia","Ethiopia","ETH",-0.193,-0.301,-0.149,-0.234,-1.02,-2.03,NA,-0.0882,-0.105,3.33
-"Africa","Gabon","Gabon","GAB",-2.73,-0.13,-0.555,-0.221,-0.872,-5.49,NA,-0.479,-0.331,13.3
-"Africa","Gambia","Gambia","GMB",0.412,-0.249,NA,-0.0859,-0.601,-0.675,NA,-0.256,-0.0516,4.23
-"Africa","Ghana","Ghana","GHA",0.471,-0.377,-0.153,-0.14,-0.622,-1.8,NA,-0.0269,-0.0344,1.98
-"Africa","Guinea","Guinea","GIN",-0.907,-0.034,-0.035,NA,-3.87,-3.04,NA,-0.0795,NA,2.04
-"Africa","Guinea Bissau","Guinea Bissau","GNB",0.81,-0.602,NA,NA,-1.17,-0.886,NA,-0.171,NA,4.53
-"Africa","Ivory Coast","Ivory Coast","CIV",0.0106,NA,NA,-0.0915,-2.12,-0.517,NA,-0.0603,-0.0879,2.61
-"Africa","Kenya","Kenya","KEN",-1.13,-0.276,-0.718,0.000341,-0.506,-2.19,-0.105,-0.138,-0.0448,6.01
-"Africa","Liberia","Liberia","LBR",-1.39,-0.433,NA,-0.169,-1.72,-2.6,NA,-0.294,-0.159,1.66
-"Africa","Madagascar","Madagascar","MDG",-1.32,-0.37,-0.464,-0.126,-2.46,-1.01,NA,-0.00867,-0.0844,3.25
-"Africa","Malawi","Malawi","MWI",0.175,-0.582,-0.15,-0.0901,-0.694,-0.253,-0.223,-0.465,-0.0874,14.1
-"Africa","Mauritius","Mauritius","MUS",-0.796,-0.542,-0.00926,-0.165,-0.614,-3.78,-0.0334,-0.0843,NA,0.739
-"Africa","Mayotte","Mayotte","MYT",-0.128,-1.56,NA,NA,-0.765,-1.61,-0.0606,NA,-0.0736,3.49
-"Africa","Nigeria","Nigeria","NGA",0.789,NA,NA,-0.0325,-1.47,-1.24,NA,-0.171,NA,4.82
-"Africa","Reunion","Reunion","REU",-0.749,-0.402,NA,-0.272,-0.046,-3.87,NA,-0.0716,NA,2.28
-"Africa","Rwanda","Rwanda","RWA",-2.28,-1.72,-0.207,-0.238,-1.86,-5.29,NA,-0.0795,NA,2.8
-"Africa","Senegal","Senegal","SEN",2.67,-0.232,NA,-0.0315,-0.703,-0.447,NA,NA,-0.0319,9.14
-"Africa","Sierra Leone","Sierra Leone","SLE",-0.527,-0.29,NA,NA,-1.65,-1.11,NA,-0.0689,NA,1.16
-"Africa","South Sudan","South Sudan","SSD",0.855,-0.226,-0.219,-0.0565,-0.407,-0.536,NA,NA,-0.0668,3.66
-"Africa","Tanzania","Tanzania","TZA",-0.229,-0.489,-0.434,-0.0317,-0.811,-3.41,-0.0619,-0.152,NA,5.76
-"Africa","Togo","Togo","TGO",1.57,-0.507,-0.183,-0.12,-0.397,-0.482,NA,-0.194,NA,3.72
-"Africa","Uganda","Uganda","UGA",-1.17,-1.14,NA,NA,-2.64,-2.49,-0.0161,-0.0658,-0.0191,4.65
-"Africa","Zambia","Zambia","ZMB",-0.29,-0.174,NA,-0.0522,-1.06,-0.442,NA,NA,NA,9.09
-"Asia","Australia","Australia – Queensland","QLD",-0.927,-0.366,NA,-0.042,-0.864,-2.34,NA,NA,NA,5.47
-"Asia","Bangladesh","Bangladesh","BGD",-0.192,-0.226,-0.096,-0.117,-0.755,-1.33,-0.0529,NA,NA,4.31
-"Asia","Bhutan","Bhutan","BTN",-1.09,NA,NA,-0.0165,-5.44,-1.71,-0.0659,-0.00944,-0.0262,1.04
-"Asia","Brunei","Brunei","BRN",-0.429,-0.879,-0.771,-0.276,-2.27,NA,NA,-0.212,-0.689,12.1
-"Asia","Cambodia","Cambodia","KHM",0.497,-1.61,-1.11,-0.126,-0.901,-0.339,NA,-0.318,-0.0761,9.11
-"Asia","Fiji","Fiji","FJI",-1.2,-0.459,-0.271,-0.205,NA,-4.66,-0.187,-0.219,-0.135,5.74
-"Asia","India","India – Andaman and N.","AN",-2.02,NA,-0.463,-0.188,-0.59,-7.75,NA,-0.423,NA,6.9
-"Asia","India","India – North-East","NE",-0.926,-0.429,-0.287,-0.23,-4.34,-1.81,NA,-0.107,-0.0548,1.68
-"Asia","India","India – West. Ghats","WG",0.0108,-0.333,-0.478,NA,-0.782,-1.63,NA,-0.133,-0.0536,2.31
-"Asia","Indonesia","Indonesia","IDN",-1.39,-0.764,-0.325,-0.54,-1.58,-2.02,0.000304,-0.407,-0.108,7.38
-"Asia","Laos","Laos","LAO",-0.209,-0.489,-0.39,-0.291,-1.15,-1,NA,-0.142,-0.184,2.35
-"Asia","Malaysia","Malaysia","MYS",-0.559,-2.07,-0.459,-0.469,-0.669,-1.85,NA,-0.302,NA,6.69
-"Asia","Myanmar","Myanmar","MMR",-0.38,-0.221,-0.407,-0.171,-1.24,-1.48,-0.069,-0.174,-0.045,2.61
-"Asia","New Caledonia","New Caledonia","NCL",-1.43,NA,-0.381,-0.0743,-2.31,-7.62,NA,-0.065,-0.0526,4.3
-"Asia","Papua New Guinea","Papua New Guinea","PNG",-1.62,-0.188,-0.631,-0.362,-0.0403,-3.73,-0.0731,-0.4,-0.181,6.24
-"Asia","Philippines","Philippines","PHL",-1.41,-0.177,-0.211,-0.371,-1.75,-2.44,NA,-0.0899,-0.13,2.49
-"Asia","Singapore","Singapore","SGP",0.0789,-1.16,-0.0811,-0.0971,-1.06,-1.27,NA,-0.717,NA,7.06
-"Asia","Solomon Isl.","Solomon Isl.","SLB",-0.749,-0.368,-0.51,-0.538,-0.318,-1.18,-0.232,-0.201,NA,5.4
-"Asia","Sri Lanka","Sri Lanka","LKA",0.0161,-0.342,-0.098,-0.277,-0.853,-1.34,-0.028,-0.206,-0.0802,1.54
-"Asia","Thailand","Thailand","THA",-1.5,-0.27,-0.768,-0.0788,-1.6,-3.5,NA,NA,NA,2
-"Asia","Timor-Leste","Timor-Leste","TLS",-0.469,-0.193,-0.224,-0.0272,-0.702,-1.51,-0.0461,-0.095,-0.115,1.77
-"Asia","Vanuatu","Vanuatu","VUT",-2.37,-0.33,-0.631,-0.373,-0.372,-1.94,NA,NA,NA,16
-"Asia","Vietnam","Vietnam","VNM",-0.758,-0.648,-0.267,-0.301,-1.64,-1.72,NA,-0.147,-0.0226,2.96
+"America","Antigua and B.","Antigua and B.","ATG",0.11,-0.71,-0.393,NA,-0.719,-1.17,NA,NA,NA,10
+"America","Bahamas","Bahamas","BHS",-0.307,NA,-0.113,-0.0909,-1.02,-0.525,-0.116,NA,NA,8.2
+"America","Barbados","Barbados","BRB",-0.414,-0.323,-0.442,-0.201,-0.248,-0.958,-0.00936,-0.000252,NA,1.99
+"America","Belize","Belize","BLZ",-0.905,-0.653,-0.0579,-0.194,-1.27,-1.28,NA,-0.129,-0.383,6.97
+"America","Bolivia","Bolivia","BOL",-0.697,-0.163,-0.292,-0.223,-1.05,-3.07,NA,-0.306,-0.102,5.36
+"America","Brazil","Brazil – Acre","AC",-6.72,-0.631,NA,NA,-11.1,-4.45,NA,-0.179,-0.162,4.14
+"America","Brazil","Brazil – Alagoas","AL",0.735,-0.192,-0.333,-0.055,-0.632,-1.69,-0.139,-0.214,-0.14,3.01
+"America","Brazil","Brazil – Amapa","AP",-6.11,-0.126,-0.748,-0.0641,-4.1,-8.46,NA,-0.218,-0.273,5.22
+"America","Brazil","Brazil – Amazonas","AM",-3.95,-0.806,-0.118,NA,-2.8,-4.33,-0.157,-0.898,-0.416,13.7
+"America","Brazil","Brazil – Bahia","BA",1.37,-0.213,-0.268,-0.201,-1.01,-0.969,NA,-0.0316,NA,4.11
+"America","Brazil","Brazil – Ceara","CE",1.2,-0.551,-1.15,NA,-0.214,-0.956,NA,NA,NA,8.49
+"America","Brazil","Brazil – Espirito Santo","ES",-0.335,-0.193,-0.813,NA,-0.852,-1.21,-0.0684,0.0017,-0.0782,3.2
+"America","Brazil","Brazil – Goias","GO",0.0431,NA,-0.0472,NA,-0.79,-0.447,-0.116,NA,-0.0246,3.43
+"America","Brazil","Brazil – Maranhao","MA",-1.44,-0.202,NA,-0.0857,-4.67,-2.73,NA,NA,-0.172,3.82
+"America","Brazil","Brazil – Mato Grosso","MT",-0.506,-0.427,NA,NA,-1.53,-0.647,NA,-0.136,-0.24,10.2
+"America","Brazil","Brazil – Mato Grosso do Sul","MS",-0.361,NA,-0.0391,-0.00942,-0.427,-1.21,NA,NA,NA,4.07
+"America","Brazil","Brazil – Minas Gerais","MG",0.0579,-0.153,-0.504,NA,-0.738,-0.515,-0.0592,-0.0584,-0.0376,3.86
+"America","Brazil","Brazil – Para","PA",-1.23,-1.18,NA,-0.033,-1.4,-2.33,-0.0186,-0.874,-0.306,8.08
+"America","Brazil","Brazil – Paraiba","PB",3.03,-0.693,NA,-0.043,-0.821,-1.07,-0.244,NA,-0.0944,4.35
+"America","Brazil","Brazil – Parana","PR",-0.739,-0.339,NA,-0.218,-0.959,-1.98,NA,NA,-0.0367,2.54
+"America","Brazil","Brazil – Pernambouco","PE",7.39,-0.558,-0.73,-0.173,-0.861,-2.1,-0.0329,-0.0665,-0.082,6.55
+"America","Brazil","Brazil – Piaui","PI",0.377,NA,NA,NA,-0.624,-0.626,-0.0253,-0.0192,-0.0883,4.13
+"America","Brazil","Brazil – Rio de Janeiro","RJ",-0.671,-0.22,-0.0796,-0.00921,-1.49,-3.14,-0.142,-0.0869,-0.0365,2.4
+"America","Brazil","Brazil – Rio Grande do Norte","RN",-0.0866,NA,NA,-0.0837,-0.938,-0.625,NA,NA,NA,5.73
+"America","Brazil","Brazil – Rio Grande do Sul","RS",-0.171,-0.343,-0.107,-0.504,-0.622,-1.66,-0.00244,-0.00175,NA,1.81
+"America","Brazil","Brazil – Rondonia","RO",-0.719,-1.63,NA,-0.108,-0.598,-1.79,-0.00309,-0.403,-0.141,7.27
+"America","Brazil","Brazil – Roraima","RR",-1.79,-0.841,-0.446,NA,-2.72,-2.05,-0.0123,-0.165,-0.427,8.49
+"America","Brazil","Brazil – Santa Catarina","SC",-0.675,-0.303,NA,-0.548,-0.921,-1.56,NA,NA,-0.0518,2
+"America","Brazil","Brazil – Sao Paulo","SP",-0.686,-0.184,-0.166,-0.26,-1.87,-2.8,-0.0108,-0.0245,-0.0419,3.79
+"America","Brazil","Brazil – Sergipe","SE",0.669,NA,NA,NA,-0.918,-0.866,-0.132,NA,NA,3.63
+"America","Brazil","Brazil – Tocantins","TO",-0.351,-0.0354,NA,NA,-0.59,-0.0321,-0.081,-0.0463,NA,4.43
+"America","Colombia","Colombia","COL",-2.41,-0.449,-0.803,-0.33,-4.06,-2.05,NA,-0.591,-0.349,5.62
+"America","Costa Rica","Costa Rica","CRI",-3.51,NA,-0.0648,-0.303,-3.05,-6.7,-0.00897,-0.0645,-0.136,2.18
+"America","Cuba","Cuba","CUB",-0.371,NA,-0.242,-0.105,-0.694,-0.707,-0.0533,-0.126,-0.0533,4.77
+"America","Dominica","Dominica","DMA",-1.47,NA,-0.216,-0.181,-0.84,-2.7,NA,NA,-0.407,3.26
+"America","Dominican Rep.","Dominican Rep.","DOM",-0.138,-0.331,-0.236,-0.0751,-1.08,-1.39,-0.00258,-0.13,-0.00548,2.85
+"America","Ecuador","Ecuador","ECU",-4.34,-0.52,-0.0974,-0.362,-2.79,-10.6,NA,-0.433,-0.107,2.53
+"America","El Salvador","El Salvador","SLV",-0.0481,-0.476,-0.327,-0.213,-0.82,-1.59,NA,-0.0731,-0.033,3.38
+"America","French Guiana","French Guiana","GUF",-1.22,-0.835,-0.584,-0.122,-1.2,-2.69,NA,-1.05,-0.88,18.8
+"America","Grenada","Grenada","GRD",-0.776,-0.396,-1.12,NA,-1.84,-2.7,NA,-0.266,-0.108,14.2
+"America","Guadeloupe","Guadeloupe","GLP",-3.96,NA,-0.171,-0.19,-2.02,-7.36,-0.0365,-0.089,-0.0896,2.61
+"America","Guatemala","Guatemala","GTM",0.026,-0.229,-0.427,-0.252,-1.03,-0.145,-0.0222,-0.18,-0.0365,3.15
+"America","Guyana","Guyana","GUY",-1.97,-0.708,-0.452,-0.207,-0.479,-4.86,NA,-0.89,-0.33,13.7
+"America","Haiti","Haiti","HTI",0.0342,-0.038,NA,-0.12,-0.587,-0.751,-0.0779,-0.256,-0.0154,2.87
+"America","Honduras","Honduras","HND",-0.976,-0.364,-0.911,-0.307,-0.939,-0.59,-0.0168,NA,NA,4.46
+"America","Jamaica","Jamaica","JAM",-0.817,-0.00284,-0.242,-0.132,-2.16,-2.64,-0.0239,-0.136,-0.078,2.66
+"America","Martinique","Martinique","MTQ",-1.41,-0.0746,-0.627,-0.0531,-0.9,-4.39,NA,NA,NA,2.66
+"America","Mexico","Mexico","MEX",-0.769,-0.228,-0.317,-0.277,-1.08,-1.15,NA,-0.0555,-0.0291,3.59
+"America","Montserrat","Montserrat","MSR",-8.16,NA,-0.213,NA,-1.74,-6.02,NA,NA,NA,4.81
+"America","Nicaragua","Nicaragua","NIC",-1.36,NA,-0.327,-0.0877,-0.612,-1.68,NA,-0.158,NA,3.19
+"America","Panama","Panama","PAN",-2.51,-0.455,-0.157,-0.239,-4.1,-2.79,NA,-0.511,NA,2.97
+"America","Paraguay","Paraguay","PRY",-0.404,NA,-0.066,-0.109,-0.785,-0.126,-0.00675,-0.0956,NA,3.93
+"America","Peru","Peru","PER",-1.73,-0.617,-0.634,-0.354,-3.58,-3.61,-0.0221,-0.57,-0.504,6.44
+"America","Puerto Rico","Puerto Rico","PRI",0.00861,NA,-0.383,-0.0625,-0.41,-1.1,NA,NA,-0.0638,4.32
+"America","Saint Kitts and N.","Saint Kitts and N.","KNA",-1.96,NA,-1.13,-0.168,-0.297,-0.878,NA,NA,NA,1.62
+"America","Saint Lucia","Saint Lucia","LCA",-1.35,NA,-0.265,-0.0662,-1.14,-3.14,NA,-0.0346,-0.0608,2.97
+"America","Saint Martin","Saint Martin","MAF",0.438,NA,NA,NA,-0.391,-0.895,-0.477,NA,NA,8.11
+"America","Saint Vincent","Saint Vincent","VCT",-0.526,-0.159,-0.691,-0.164,-1.95,-1.84,NA,-0.303,-0.045,3.3
+"America","Sint Maarten","Sint Maarten","SXM",-0.0291,NA,NA,-0.491,-0.597,-0.527,-0.0677,NA,-0.298,10
+"America","Suriname","Suriname","SUR",-1.17,-0.046,-0.548,-0.144,-0.551,-1.21,NA,-1.21,-0.392,12.5
+"America","Trinidad and Tobago","Trinidad and Tobago","TTO",-2.55,-0.265,-0.249,-0.153,-2.29,-5.43,-0.0377,-0.106,-0.105,2.16
+"America","Venezuela","Venezuela","VEN",-2.93,-0.12,-0.39,-0.0886,-1.39,-6.69,-0.0796,-0.585,-0.36,6.59
+"America","Virgin Isl. UK","Virgin Isl. UK","VGB",1.07,NA,-0.347,-0.21,-0.939,-0.973,NA,NA,NA,8.04
+"America","Virgin Isl. US","Virgin Isl. US","VIR",0.0303,-0.35,NA,-0.174,-0.311,-0.782,NA,NA,NA,7.64
+"Africa","Angola","Angola","AGO",-0.382,NA,-0.0415,-0.0956,-2.72,-2.04,-0.0132,-0.194,-0.0665,4
+"Africa","Benin","Benin","BEN",2.76,NA,NA,-0.148,-0.422,-1,NA,NA,NA,8.05
+"Africa","Burundi","Burundi","BDI",-0.691,-1.17,-0.527,NA,-2.13,-3.32,-0.0904,NA,-0.0615,6.39
+"Africa","Cameroon","Cameroon","CMR",-0.13,-0.891,NA,-0.156,-1.57,-2.99,-0.034,-0.419,-0.27,5.96
+"Africa","CAR","CAR","CAF",-0.226,-0.0942,NA,-0.0225,-4.95,-1.51,-0.109,-0.11,-0.37,4.61
+"Africa","Comoros","Comoros","COM",-2.73,NA,-0.163,-0.314,NA,-10.1,NA,NA,NA,7.22
+"Africa","Congo","Congo","COG",-2.35,-0.402,-0.0118,-0.0641,-1.42,-5.41,-0.16,-0.548,-0.314,8.71
+"Africa","DRC","DRC","COD",-3.91,-0.16,NA,NA,-6.45,-4.59,NA,-0.375,-0.295,4.52
+"Africa","Eq. Guinea","Eq. Guinea","GNQ",-1.05,-0.136,-0.364,-0.34,-0.0307,-2.66,-0.0715,-1.3,-0.091,8.7
+"Africa","Ethiopia","Ethiopia","ETH",-0.589,-0.0816,-0.0658,-0.27,-1.12,-1.96,NA,-0.0817,-0.0998,3.55
+"Africa","Gabon","Gabon","GAB",-2.57,-0.16,-0.515,-0.222,-1.14,-4.2,NA,-0.541,-0.433,14.6
+"Africa","Gambia","Gambia","GMB",-0.0138,-0.222,NA,-0.106,-0.543,-0.399,NA,-0.327,-0.0806,5.23
+"Africa","Ghana","Ghana","GHA",0.47,-0.378,-0.125,-0.182,-0.551,-1.74,NA,-0.0149,-0.0571,2.06
+"Africa","Guinea","Guinea","GIN",-0.676,-0.224,-0.0782,-0.0128,-3.22,-2.51,NA,-0.0843,NA,1.88
+"Africa","Guinea Bissau","Guinea Bissau","GNB",0.652,-0.688,NA,NA,-1.27,-0.866,NA,-0.125,-0.0571,3.13
+"Africa","Ivory Coast","Ivory Coast","CIV",0.0065,NA,NA,-0.133,-1.68,-0.828,NA,-0.02,-0.0414,2.61
+"Africa","Kenya","Kenya","KEN",-1.54,-0.186,-0.525,-0.0659,-0.764,-2.99,-0.0622,-0.158,-0.0435,6.97
+"Africa","Liberia","Liberia","LBR",-1.54,-0.491,NA,-0.129,-1.31,-3.15,NA,-0.331,-0.302,2.06
+"Africa","Madagascar","Madagascar","MDG",-1.17,-0.285,-0.531,-0.169,-2.26,-1.26,NA,NA,-0.0962,3.43
+"Africa","Malawi","Malawi","MWI",-0.0893,-0.363,-0.122,-0.148,-0.976,-0.202,-0.246,-0.515,-7.84e-05,18.7
+"Africa","Mauritius","Mauritius","MUS",-1.89,-0.45,-0.153,-0.191,-0.538,-3.63,-0.0169,-0.0906,-0.0311,1.37
+"Africa","Mayotte","Mayotte","MYT",-0.23,-1.34,NA,NA,-0.751,-1.36,-0.0582,NA,-0.0342,2.77
+"Africa","Nigeria","Nigeria","NGA",1.02,NA,NA,-0.0147,-1.33,-0.776,NA,-0.22,NA,5.63
+"Africa","Reunion","Reunion","REU",-0.932,-0.385,NA,-0.206,-0.184,-4.2,NA,NA,NA,2.76
+"Africa","Rwanda","Rwanda","RWA",-2.26,-1.3,-0.337,-0.215,-1.56,-5.18,NA,-0.138,NA,3.98
+"Africa","Senegal","Senegal","SEN",1.69,-0.199,-0.0119,-0.0651,-0.794,-0.401,NA,NA,-0.0616,6.03
+"Africa","Sierra Leone","Sierra Leone","SLE",-0.374,-0.247,NA,NA,-1.36,-1.19,NA,-0.0385,-0.0515,1.31
+"Africa","South Sudan","South Sudan","SSD",0.85,-0.135,-0.182,0.00537,-0.266,-0.644,NA,-0.203,NA,4.16
+"Africa","Tanzania","Tanzania","TZA",-0.268,-0.239,-0.434,-0.0902,-1.04,-3.16,-0.109,-0.184,-0.0667,5.93
+"Africa","Togo","Togo","TGO",1.96,-0.537,-0.19,-0.144,-0.365,-0.525,NA,-0.271,NA,4.68
+"Africa","Uganda","Uganda","UGA",-1.34,-1.19,NA,NA,-2.7,-2.48,-0.0703,-0.0358,-0.116,4.72
+"Africa","Zambia","Zambia","ZMB",-0.325,-0.401,NA,NA,-1.02,-0.439,NA,-0.125,-0.0777,9.53
+"Asia","Australia","Australia – Queensland","QLD",-0.11,-0.349,NA,-0.122,-1.19,-1.66,NA,0.0092,NA,5.56
+"Asia","Bangladesh","Bangladesh","BGD",0.043,-0.544,-0.0807,-0.0925,-0.625,-1.07,-0.0605,NA,NA,4.47
+"Asia","Bhutan","Bhutan","BTN",-1.31,NA,-0.0721,-0.0771,-7.07,-1.48,-0.0465,NA,-0.0486,1.19
+"Asia","Brunei","Brunei","BRN",-0.441,-1.1,-0.984,-0.37,-2.43,NA,NA,-0.0866,-0.617,15.1
+"Asia","Cambodia","Cambodia","KHM",0.572,-1.46,-1.04,-0.193,-0.998,-0.286,NA,-0.387,-0.182,9.4
+"Asia","Fiji","Fiji","FJI",-1.52,-0.306,-0.254,-0.237,-0.416,-4.95,NA,-0.124,-0.0883,5.21
+"Asia","India","India – Andaman and N.","AN",-5.62,NA,-0.223,-0.193,-1.12,-17.3,NA,-0.242,NA,4.55
+"Asia","India","India – North-East","NE",-1.04,-0.585,-0.309,-0.293,-5.39,-1.6,-0.0288,-0.0941,-0.0331,2.39
+"Asia","India","India – West. Ghats","WG",-0.156,-0.369,-0.483,-0.0837,-0.692,-2.06,NA,-0.17,-0.0529,1.93
+"Asia","Indonesia","Indonesia","IDN",-1.33,-0.736,-0.312,-0.583,-1.66,-1.81,-0.0368,-0.433,-0.0877,8.13
+"Asia","Laos","Laos","LAO",-0.258,-0.442,-0.405,-0.34,-1.23,-0.941,NA,-0.162,-0.174,3.08
+"Asia","Malaysia","Malaysia","MYS",-0.687,-2.08,-0.385,-0.472,-0.83,-1.89,NA,-0.241,NA,7.84
+"Asia","Myanmar","Myanmar","MMR",-0.431,-0.167,-0.483,-0.215,-1.37,-1.42,-0.107,-0.139,-0.0183,3.1
+"Asia","New Caledonia","New Caledonia","NCL",-2,NA,-0.368,-0.0977,-2.34,-8.16,NA,0.02,-0.0766,4.11
+"Asia","Papua New Guinea","Papua New Guinea","PNG",-1.63,NA,-0.549,-0.478,-0.0719,-3.84,-0.0553,-0.358,-0.116,7.46
+"Asia","Philippines","Philippines","PHL",-1.57,-0.153,-0.226,-0.393,-2.01,-2.42,NA,-0.0927,-0.182,2.97
+"Asia","Singapore","Singapore","SGP",-0.0134,-1.35,-0.119,-0.108,-1.17,-1.33,NA,-0.616,NA,6.01
+"Asia","Solomon Isl.","Solomon Isl.","SLB",-0.544,NA,-0.802,-0.513,NA,-0.866,-0.221,-0.357,NA,5.86
+"Asia","Sri Lanka","Sri Lanka","LKA",0.0335,-0.516,-0.0899,-0.291,-1.03,-1.48,-0.0354,-0.0681,-0.196,1.71
+"Asia","Thailand","Thailand","THA",-1.39,-0.159,-0.751,-0.08,-1.93,-3.37,-0.0115,NA,NA,2.07
+"Asia","Timor-Leste","Timor-Leste","TLS",-0.563,-0.12,-0.189,-0.104,-1.33,-1.49,-0.0336,-0.0801,-0.124,1.6
+"Asia","Vanuatu","Vanuatu","VUT",-3.22,-0.505,-0.575,-0.287,-0.859,-5.21,NA,NA,0.00424,18.1
+"Asia","Vietnam","Vietnam","VNM",-0.612,-0.536,-0.283,-0.376,-1.65,-1.22,-0.0447,-0.173,-0.0586,3.12
