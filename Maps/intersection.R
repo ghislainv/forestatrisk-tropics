@@ -39,3 +39,5 @@ pa_AUS_QLD <- pa_int %>%
 # Write data
 f_out <- here("Maps", dataset, "AUS-QLD", "pa_PROJ_intersect.shp")
 st_write(pa_AUS_QLD, f_out)
+
+# EOF
