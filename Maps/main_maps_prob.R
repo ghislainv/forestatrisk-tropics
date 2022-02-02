@@ -15,6 +15,7 @@
 require(dplyr)
 require(sf)
 require(tmap)
+require(rgdal)
 require(raster)
 require(stars)
 require(grid)
@@ -56,9 +57,9 @@ tmap_opt <- function(npix=1e5, ...) {
 ## textwidth (in cm) for figure width
 textwidth <- 16.6
 
-# =============================
-# Maps at the continental scale
-# =============================
+## =============================
+## Maps at the continental scale
+## =============================
 
 ## Continents
 continent <- c("America", "Africa", "Asia")
@@ -70,14 +71,14 @@ gadm0 <- st_read(v)
 
 ## Simplify study area borders (keeping EPSG:3395)
 for (i in 1:ncont) {
-	cont <- continent[i]
-	in_f <- here("Maps", dataset, cont, paste0("borders_", cont, ".gpkg"))
-	out_f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp.gpkg"))
-	if (!file.exists(out_f)) {
-		## Simplify and reproject
-		cmd <- paste0("ogr2ogr -overwrite -nlt MULTIPOLYGON ", out_f, " ", in_f, " -simplify 1000")
-		system(cmd)
-	}
+    cont <- continent[i]
+    in_f <- here("Maps", dataset, cont, paste0("borders_", cont, ".gpkg"))
+    out_f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp.gpkg"))
+    if (!file.exists(out_f)) {
+        ## Simplify and reproject
+        cmd <- paste0("ogr2ogr -overwrite -t_srs EPSG:3395 -nlt MULTIPOLYGON ", out_f, " ", in_f, " -simplify 1000")
+        system(cmd)
+    }
 }
 
 ## Load countries and continent data
@@ -149,7 +150,7 @@ for (i in 1:ncont) {
 		filter(GID_0 %in% iso3_cont)
 	
 	## Import study area borders
-	f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp.gpkg"))
+	f <- here("Maps", dataset, cont, "borders_simp.gpkg")
 	borders <- st_read(f) 
 	if (dataset=="jrc2020" & cont=="Africa") {borders <- borders %>% filter(GID_0 != "STP")}
 	
@@ -190,13 +191,13 @@ prob_Africa <- l_prob[[2]] +
   tm_legend(position=c("left", "bottom"), just=c("left", "bottom")) +
   tm_layout(legend.text.size=0.6)
 
-# ===============================================
-# Zooming on the deforestation probability map
-# ===============================================
+## ===============================================
+## Zooming on the deforestation probability map
+## ===============================================
 
-# ----------------------
-# Function f_zoom_prob()
-# ----------------------
+## ----------------------
+## Function f_zoom_prob()
+## ----------------------
 
 f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
                         size_m, npix, col_roads="#043353") {
@@ -209,13 +210,13 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
   
   # Prob extract
   f_out <- here("Maps", dataset, ctry_iso, "prob_zoom_100km.tif")
-  if (!file.exists(f_out)) {
+  #if (!file.exists(f_out)) {
     extent <- glue("{bb_ll$xmin} {bb_ll$ymax} {bb_ll$xmax} {bb_ll$ymin}")
     proj <- "EPSG:4326"
     f_in <- glue("/vsicurl/https://forestatrisk.cirad.fr/tropics/tif/prob_{cont}.tif")
     cmd <- glue("gdal_translate -projwin {extent} -projwin_srs {proj} {f_in} {f_out}")
     system(cmd)
-  }
+  #}
   
   # Data
   roads <- st_read(here("Data", dataset, continent, ctry_iso, "data", "roads_PROJ.shp"))
@@ -230,32 +231,32 @@ f_zoom_prob <- function(ctr_iso, cont, continent, xmin, ymin,
   
   ## Map
   m_zoom_prob <- 
-    tm_shape(borders) +
+      tm_shape(borders) +
       tm_fill(col=grey(0.9)) +
-    tm_shape(r_prob, bbox=bb_proj, is.master=TRUE) +
+      tm_shape(r_prob, bbox=bb_proj, is.master=TRUE) +
       tm_raster(style="cont", alpha=0.8, title="", legend.reverse=TRUE,
                 legend.show=FALSE,
-  	            palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
-  	            breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
-    tm_shape(roads) +
-  	  tm_lines(col=col_roads, lwd=0.7) +
-    tm_shape(pa) +
+                palette=c("#228b22", "#ffa500", "#e31a1c", "#000000"),
+                breaks=c(1, 39322, 54249, 65535), labels=c("0","","","1")) +
+      tm_shape(roads) +
+      tm_lines(col=col_roads, lwd=0.7) +
+      tm_shape(pa) +
       tm_borders(col="black", lwd=1.2) +
-    tm_shape(pa) +
+      tm_shape(pa) +
       tm_fill(col=grey(0.5), alpha=0.4) +
-    tm_layout(inner.margins=c(0,0,0,0),
-              outer.margins=c(0,0,0,0))
-  
+      tm_layout(inner.margins=c(0,0,0,0),
+                outer.margins=c(0,0,0,0))
+    
   ## Return the map
   return(m_zoom_prob)
 }
 
-# Set npix
+## Set npix
 npix <- 1e+07
 
-# ----------------------
-# America (Matto Grosso)
-# ----------------------
+## ----------------------
+## America (Matto Grosso)
+## ----------------------
 ctry_iso <- "BRA-MT"
 cont <- "AME"
 continent <- "Brazil"
@@ -263,9 +264,9 @@ xmin <- 20840; ymin <- 2548500
 zoom_prob_Ame <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
                              size_m=100000, npix=npix, col_roads="black")
-# -------------------
-# Africa (DRC)
-# -------------------
+## -------------------
+## Africa (DRC)
+## -------------------
 ctry_iso <- "COD"
 cont <- "AFR"
 continent <- "Africa"
@@ -273,9 +274,9 @@ xmin <- 384395; ymin <- 94677
 zoom_prob_Afr <- f_zoom_prob(ctr_iso=ctry_iso, cont=cont,
                              continent=continent, xmin=xmin, ymin=ymin,
                              size_m=100000, npix=npix, col_roads="black")
-# -------------------
-# Asia (Indonesia)
-# -------------------
+## -------------------
+## Asia (Indonesia)
+## -------------------
 ctry_iso <- "IDN"
 cont <- "ASI"
 continent <- "Asia"
@@ -288,9 +289,9 @@ zoom_prob_Asi <- zoom_prob_Asi +
   tm_scale_bar(breaks=c(0, 10, 20), text.size=0.5,
 	             position=c("left", "bottom"), just=c("left", "bottom"))
 
-# ==============================
-# Arrange plot with grid package
-# ==============================
+## ==============================
+## Arrange plot with grid package
+## ==============================
 
 ## Plot (map) size in m
 height_cont_m <- bbox_Ame$ymax-bbox_Ame$ymin
@@ -304,19 +305,19 @@ height_fig_m <- height_cont_m + space_m + width_cont_m
 ratio <- height_fig_m/width_fig_m
 
 ## Plot (map) width and height in npc
-# Continents
+## Continents
 height_cont_npc <- height_cont_m/height_fig_m
 width_cont_npc <- width_cont_m/width_fig_m
-# Zooms
+## Zooms
 height_zoom_npc <- 1-space_npc-height_cont_npc
 width_zoom_npc <- 1-2*space_npc-2*width_cont_npc
 
 ## Viewports in npc
-# Continents
+## Continents
 vp_Ame <- viewport(x=0, y=1, width=width_cont_npc, height=height_cont_npc, just=c(0,1))
 vp_Afr <- viewport(x=0.5, y=1, width=width_cont_npc, height=height_cont_npc, just=c(0.5,1))
 vp_Asi <- viewport(x=1, y=1, width=width_cont_npc, height=height_cont_npc, just=c(1,1))
-# Zooms
+## Zooms
 vp_Ame_z <- viewport(x=0, y=0, width=width_zoom_npc, height=height_zoom_npc, just=c(0,0))
 vp_Afr_z <- viewport(x=0.5, y=0, width=width_zoom_npc, height=height_zoom_npc, just=c(0.5,0))
 vp_Asi_z <- viewport(x=1, y=0, width=width_zoom_npc, height=height_zoom_npc, just=c(1,0))
@@ -326,11 +327,11 @@ vp_Asi_z <- viewport(x=1, y=0, width=width_zoom_npc, height=height_zoom_npc, jus
 f <- here("Maps", dataset, "prob_zoom.png")
 png(filename=f, width=textwidth, height=textwidth*ratio, units="cm", res=300)
 grid.newpage()
-# Continents
+## Continents
 print(l_prob[[1]], vp=vp_Ame)
 print(prob_Africa, vp=vp_Afr)
 print(prob_Asia, vp=vp_Asi)
-# Zooms
+## Zooms
 print(zoom_prob_Ame, vp=vp_Ame_z)
 print(zoom_prob_Afr, vp=vp_Afr_z)
 print(zoom_prob_Asi, vp=vp_Asi_z)
@@ -339,4 +340,4 @@ dev.off()
 f_doc <- here("Manuscript", "Article", "figures", "prob_zoom.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-# EOF
+## EOF
