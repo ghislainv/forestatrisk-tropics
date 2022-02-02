@@ -16,6 +16,7 @@ require(dplyr)
 require(readr)
 require(sf)
 require(tmap)
+require(rgdal)
 require(raster)
 require(stars)
 require(grid)
@@ -67,14 +68,14 @@ gadm0 <- st_read(v)
 
 ## Simplify study area borders (keeping EPSG:3395)
 for (i in 1:ncont) {
-	cont <- continent[i]
-	in_f <- here("Maps", dataset, cont, paste0("borders_", cont, ".gpkg"))
-	out_f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp.gpkg"))
-	if (!file.exists(out_f)) {
-		## Simplify and reproject
-		cmd <- paste0("ogr2ogr -overwrite -nlt MULTIPOLYGON ", out_f, " ", in_f, " -simplify 1000")
-		system(cmd)
-	}
+    cont <- continent[i]
+    in_f <- here("Maps", dataset, cont, "borders.gpkg")
+    out_f <- here("Maps", dataset, cont, "borders_simp.gpkg")
+    if (!file.exists(out_f)) {
+        ## Simplify and reproject
+        cmd <- paste0("ogr2ogr -overwrite -t_srs EPSG:3395 -nlt MULTIPOLYGON ", out_f, " ", in_f, " -simplify 1000")
+        system(cmd)
+    }
 }
 
 ## Load countries and continent data
@@ -142,7 +143,7 @@ for (i in 1:ncont) {
 		filter(GID_0 %in% iso3_cont)
 	
 	## Import study area borders
-	f <- here("Maps", dataset, cont, paste0("borders_", cont, "_simp.gpkg"))
+	f <- here("Maps", dataset, cont, "borders_simp.gpkg")
 	borders <- st_read(f) 
 	if (dataset=="jrc2020" & cont=="Africa") {borders <- borders %>% filter(GID_0 != "STP")}
 	
@@ -168,21 +169,6 @@ for (i in 1:ncont) {
 	## Import pa
 	pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
 	
-	# ## Intersect protected areas with ctry borders and import pa
-	# f <- here("Maps", dataset, cont, "pa_simp_crop.gpkg")
-	# if (!file.exists(f)) {
-	#   pa <- st_read(here("Maps", dataset, cont, "pa_simp.gpkg"))
-	#   pa_join <- st_join(pa, borders, join=st_intersects,
-	#                 suffix=c(".x", ".y"), left=FALSE)
-	#   write_sf(pa_join, f)
-	#   rm(pa_join)
-	# }
-	# pa <- st_read(f)
-	# if (cont=="Asia") {
-	#   pa <- pa %>% 
-	#     dplyr::filter(!(pa_name=="Natural Park of the Coral Sea"))
-	# }
-
 	## Maps fcc2100
 	m_fcc2100 <- 
 		tm_shape(eq_sf, bbox=bbox_cont[[i]]) +
@@ -528,18 +514,18 @@ dev.off()
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "pa.png")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-# ==========================
-# Number of PAs and roads
-# ==========================
+## ==========================
+## Number of PAs and roads
+## ==========================
 
-# Variables
+## Variables
 continent <- c("Africa", "America", "Asia")
 ncont <- length(continent)
 
-# Data frame to store results
+## Data frame to store results
 df <- data.frame(cont=continent, n_pa=NA, n_road=NA)
 
-# Loop on continents
+## Loop on continents
 for (i in 1:ncont) {
   cont <- continent[i]
   roads <- st_read(here("Maps", dataset, cont, "roads_simp.gpkg"))
@@ -548,17 +534,17 @@ for (i in 1:ncont) {
 	df$n_pa[df$cont==cont] <- nrow(pa)
 }
 
-# Total
+## Total
 df <- df %>%
   bind_rows(summarise(.,
                       across(where(is.numeric), sum),
                       across(where(is.character), ~"Total")))
 
-# Save
+## Save
 f <- here("Maps", dataset, "df_npa_nroad.csv")
 write_delim(df, f, delim=",")
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "tables", "df_npa_nroad.csv")
 file.copy(from=f, to=f_doc, overwrite=TRUE)
 
-# EOF
+## EOF
