@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -j y
 #$ -l h_rt=999:00:00
-#$ -t 3 -tc 3
+#$ -t 1-3 -tc 3
 #$ -pe multithread8 6
 #$ -N combineTrop
 
