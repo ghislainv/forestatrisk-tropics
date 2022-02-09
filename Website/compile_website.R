@@ -15,38 +15,39 @@ library(here)
 render_site(here::here("Website"))
 
 ## Copy website directory
-## system("cp -r Website/_site/* /home/www/forestatrisk/")
-system("scp -r Website/_site/* fdb:/home/www/forestatrisk/")
+system("cp -r ~/Code/forestatrisk-tropics/Website/_site/* /home/www/forestatrisk/")
+## system("scp -r  ~/Code/forestatrisk-tropics/Website/_site/* fdb:/home/www/forestatrisk/")
 
 ## ===============================
 ## Make symbolic link to COG files
 ## ===============================
 
-## ## Continents and abbreviations
-## continent <- c("America", "Africa", "Asia")
-## continent_ab <- c("AME", "AFR", "ASI")
-## year <- c("2030", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100")
+## Continents and abbreviations
+continent <- c("America", "Africa", "Asia")
+continent_ab <- c("AME", "AFR", "ASI")
+year <- c("2030", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100")
 
-## ## loop on continent and year
-## for (i in 1:length(continent)) {
-## 	# fcc123
-## 	cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc123.tif \\
-## 		    /home/www/forestatrisk/tropics/tif/fcc123_{cab}.tif")
-## 	system(cmd)
-## 	# prob
-## 	cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/prob.tif \\
-## 		    /home/www/forestatrisk/tropics/tif/prob_{cab}.tif")
-## 	system(cmd)
-## 	# future fcc
-## 	for (j in 1:length(year)) {
-## 		cont <- continent[i]
-## 		cab <- continent_ab[i]
-## 		yr <- year[j]
-## 		cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc_{yr}.tif \\
-## 			    /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}.tif")
-## 		system(cmd)
-## 	}
-## }
+## loop on continent and year
+for (i in 1:length(continent)) {
+    ## Indices
+    cont <- continent[i]
+    cab <- continent_ab[i]
+    ## fcc123
+    cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc123.tif \\
+		/home/www/forestatrisk/tropics/tif/fcc_123_{cab}_proj.tif")
+    system(cmd)
+    ## prob
+    cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/prob.tif \\
+		/home/www/forestatrisk/tropics/tif/prob_2020_{cab}_proj.tif")
+    system(cmd)
+    ## future fcc
+    for (j in 1:length(year)) {
+        yr <- year[j]
+        cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc_{yr}.tif \\
+                    /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_proj.tif")
+        system(cmd)
+    }
+}
 
 ## ============================================
 ## Make symbolic link to COG files in EPSG:3857
@@ -59,23 +60,26 @@ year <- c("2050", "2100")
 
 ## loop on continent and year
 for (i in 1:length(continent)) {
-	# fcc123
-	cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc123_epsg3857.tif \\
-		    /home/www/forestatrisk/tropics/tif/fcc123_{cab}_epsg3857.tif")
-	system(cmd)
-	# prob
-	cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/prob_epsg3857.tif \\
-		    /home/www/forestatrisk/tropics/tif/prob_{cab}_epsg3857.tif")
-	system(cmd)
-	# future fcc
-	for (j in 1:length(year)) {
-		cont <- continent[i]
-		cab <- continent_ab[i]
-		yr <- year[j]
-		cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc_{yr}_epsg3857.tif \\
-			    /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_epsg3857.tif")
-		system(cmd)
-	}
+    ## Indices
+    cont <- continent[i]
+    cab <- continent_ab[i]
+    ## fcc123
+    cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc123_epsg3857.tif \\
+		 /home/www/forestatrisk/tropics/tif/fcc_123_{cab}_epsg3857.tif")
+    system(cmd)
+    ## prob
+    cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/prob_epsg3857.tif \\
+		 /home/www/forestatrisk/tropics/tif/prob_2020_{cab}_epsg3857.tif")
+    system(cmd)
+    ## future fcc
+    for (j in 1:length(year)) {
+        cont <- continent[i]
+        cab <- continent_ab[i]
+        yr <- year[j]
+        cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc_{yr}_epsg3857.tif \\
+	            /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_epsg3857.tif")
+        system(cmd)
+    }
 }
 
 ## ==============================
