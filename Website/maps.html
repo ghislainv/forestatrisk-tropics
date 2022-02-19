@@ -311,297 +311,272 @@ $(document).ready(function () {
 </head>
 
 <body>
+  <div class="container-fluid main-container">
+    <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+      <div class="container">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+	  </button>
+	  <a class="navbar-brand" href="index.html">ForestAtRisk</a>
+	</div>
+	<div id="navbar" class="navbar-collapse collapse">
+	  <ul class="nav navbar-nav">
+            <li>
+	      <a href="index.html">
+		<span class="fas fa-home"></span>
+		
+		Home
+	      </a>
+	    </li>
+	    <li>
+	      <a href="maps.html">
+		<span class="fas fa-map"></span>
+		
+		Maps
+	      </a>
+	    </li>
+	    <li>
+	      <a href="rasters.html">
+		<span class="fas fa-download"></span>
+		
+		Rasters
+	      </a>
+	    </li>
+	    <li>
+	      <a href="data-s.html">
+		<span class="fas fa-table"></span>
+		
+		Data S
+	      </a>
+	    </li>
+	    <li>
+	      <a href="rawdata.html">
+		<span class="fas fa-database"></span>
+		
+		Raw data
+	      </a>
+	    </li>
+	    <li>
+	      <a href="https://ecology.ghislainv.fr/forestatrisk/">
+		<span class="fab fa-python"></span>
+		
+		Package
+	      </a>
+	    </li>
+	  </ul>
+	  <ul class="nav navbar-nav navbar-right">
+            <li>
+	      <a href="https://github.com/ghislainv/forestatrisk-tropics">
+		<span class="fab fa-github"></span>
+		
+	      </a>
+	    </li>
+	  </ul>
+	</div><!--/.nav-collapse -->
+      </div><!--/.container -->
+    </div><!--/.navbar -->
+
+    <!-- ====================================================== -->
+    <!-- MAP -->
+    <!-- ====================================================== -->
+    <div id="map"></div>
+
+    <!-- Coordinates (mouse position)
+	 <div id="coordinates" class="overlay_card">
+	   <b>LAT</b>: {{ mouse_lat | format_coords }} - <b>LON</b>: {{ mouse_lon | format_coords }}
+	 </div> -->
+
+	 <!-- Leaflet maps -->
+	 <script type="text/javascript">
+	   
+	   // Base layers
+	   //  .. OpenStreetMap
+	   var osm = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+				 {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+				  minZoom: 0,
+				  maxZoom: 16});
+
+	   // .. MapBox
+	   var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+	       'Imagery &copy <a href="https://www.mapbox.com/">Mapbox</a>';
+	   var mbToken = 'pk.eyJ1IjoiZ2hpc2xhaW52IiwiYSI6ImNrOGZyaXJ1bTAzOXEzZG1wcDl5MnpicXQifQ.xVKyIs5IQsB3jaVpR-hKjQ'
+	   var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mbToken;
+	   var mapbox = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+	   // // .. Wikimedia
+	   // var wmfUrl = 'https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
+	   // var wmfAttr = '&copy; <a href="https://tools.wmflabs.org">Wikimedia</a>'
+	   // var wmflabs = L.tileLayer(wmfUrl, {attribution: wmfAttr, minZoom: 0, maxZoom: 16});
+
+	   // // .. Borders
+	   // var borders_AFR = L.tileLayer.wms('https://geo.fraisedesbois.net/geoserver/far/wms?', {layers: 'far:borders_AFR', format: 'image/png', attribution: "<a href='https://gadm.org'>GADM</a>"});
+	   
+	   //  .. CartoDB Positron
+	   //var cartodb = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>', minZoom: 0, maxZoom: 14});
+
+	   //  .. OSM Toner
+	   //var toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.', minZoom: 0, maxZoom: 14});
+
+	   //  .. White background
+	   //var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", {minZoom: 0, maxZoom: 14});
+
+	   // .. MapSurfer ASTER GDEM-SRTM Hillshade
+	   // var hillshade = L.tileLayer('https://maps.heigit.org/openmapsurfer/tiles/asterh/webmercator/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://srtm.csi.cgiar.org/">SRTM</a>, <a href="https://lpdaac.usgs.gov/data/data-citation-and-policies/">ASTER GDEM</a>', minZoom: 0, maxZoom: 18});
+
+	   // Constants (Base URL, attribution, and layer param)
+	   var ciradUrl = "https://forestatrisk.cirad.fr/terracotta/singleband/";
+	   var ciradAttr = "Forest data &copy <a href='https://www.cirad.fr/en/'>CIRAD</a>, <a href='https://ec.europa.eu/jrc/en/'>EC JRC</a>";
+	   var lPar = {format: 'image/png', transparent: true, opacity: 0.8,
+			  minZoom: 0, maxZoom: 16, attribution: ciradAttr}
+	   
+	   // fcc123
+	   var palette = '?colormap=explicit&explicit_color_map={"1":"ffa500","2":"e31a1c","3":"228b22"}';
+	   var fcc123_AFR = L.tileLayer(ciradUrl + "fcc/123/AFR/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc123_AME = L.tileLayer(ciradUrl + "fcc/123/AME/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc123_ASI = L.tileLayer(ciradUrl + "fcc/123/ASI/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc123 = L.layerGroup([fcc123_AFR, fcc123_AME, fcc123_ASI]);
+	   
+	   // Probability
+	   var palette = '?colormap=prob';
+	   var prob_AFR = L.tileLayer(ciradUrl + "prob/2020/AFR/{z}/{x}/{y}.png" + palette, lPar);
+	   var prob_AME = L.tileLayer(ciradUrl + "prob/2020/AME/{z}/{x}/{y}.png" + palette, lPar);
+	   var prob_ASI = L.tileLayer(ciradUrl + "prob/2020/ASI/{z}/{x}/{y}.png" + palette, lPar);
+	   var prob = L.layerGroup([prob_AFR, prob_AME, prob_ASI]);
+
+	   // fcc_2050
+	   var palette = '?colormap=explicit&explicit_color_map={"0":"e31a1c","1":"228b22"}';
+	   var fcc_2050_AFR = L.tileLayer(ciradUrl + "fcc/2050/AFR/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc_2050_AME = L.tileLayer(ciradUrl + "fcc/2050/AME/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc_2050_ASI = L.tileLayer(ciradUrl + "fcc/2050/ASI/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc_2050 = L.layerGroup([fcc_2050_AFR, fcc_2050_AME, fcc_2050_ASI]);
+
+	   // fcc_2100
+	   var palette = '?colormap=explicit&explicit_color_map={"0":"e31a1c","1":"228b22"}';
+	   var fcc_2100_AFR = L.tileLayer(ciradUrl + "fcc/2100/AFR/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc_2100_AME = L.tileLayer(ciradUrl + "fcc/2100/AME/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc_2100_ASI = L.tileLayer(ciradUrl + "fcc/2100/ASI/{z}/{x}/{y}.png" + palette, lPar);
+	   var fcc_2100 = L.layerGroup([fcc_2100_AFR, fcc_2100_AME, fcc_2100_ASI]);
+
+	   // All overlays
+	   var overlayGroup = L.layerGroup([fcc123_AFR, fcc123_AME, fcc123_ASI,
+					    prob_AFR, prob_AME, prob_ASI,
+					    fcc_2050_AFR, fcc_2050_AME, fcc_2050_ASI,
+					    fcc_2100_AFR, fcc_2100_AME, fcc_2100_ASI]);
+	   
+	   // Map
+	   var map = L.map('map', {
+               center: [5.65, 26.17],
+               zoom: 4,
+               minZoom: 0,
+               maxZoom: 16,
+               layers: [mapbox, prob]
+	   });
+	   var basemaps = {
+	       "OpenStreetMap": osm,
+	       "MapBox": mapbox
+	   };
+	   var overlaymaps = {
+               "Past deforestation 2000-2010-2020" : fcc123,
+               "Deforestation probability 2020": prob,
+               "Projected deforestation 2020-2050": fcc_2050,
+               "Projected deforestation 2020-2100": fcc_2100
+	   };
+
+	   // Title
+	   var title = L.control();
+	   title.onAdd = function(map) {
+               this._div = L.DomUtil.create('div', 'ctl title');
+               this.update();
+               return this._div;
+	   };
+	   title.update = function(props) {
+               this._div.innerHTML = "Deforestation risk in the tropics";
+	   };
+	   //title.addTo(map);
+
+	   // Note
+	   var logo_rf = '<a href="https://www.cirad.fr/en/"><img alt="RF" src="images/Logo_RF.jpg" height="45"></a>';
+	   var logo_cirad = '<a href="https://www.cirad.fr/en/"><img alt="Cirad" src="images/Logo_Cirad.jpg" height="35"></a>';
+	   var logo_amap = '<a href="https://amap.cirad.fr"><img alt="AMAP" src="images/Logo_AMAP.jpg" height="35"></a>';
+	   var logo_jrc = '<a href="https://ec.europa.eu/jrc/en"><img alt="EC" src="images/Logo_JRC.png" height="35"></a>';
+	   var src = logo_rf + logo_cirad + logo_amap + logo_jrc;
+	   var title = L.control({position: 'bottomleft'});
+	   title.onAdd = function(map) {
+               this._div = L.DomUtil.create('div', 'ctl src');
+               this.update();
+               return this._div;
+	   };
+	   title.update = function(props) {
+               this._div.innerHTML = src;
+	   };
+	   title.addTo(map);
+
+	   // Add layers
+	   L.control.layers(basemaps, overlaymaps, {collapsed: true, position: 'topleft'}).addTo(map);
+
+	   // Add scale
+	   L.control.scale({position: 'bottomright', imperial: false}).addTo(map);
+
+	   // Opacity slider
+	   var opacitySliderGroup = new L.Control.opacitySliderGroup();
+	   map.addControl(opacitySliderGroup);
+	   opacitySliderGroup.setOpacityLayerGroup(overlayGroup);
+
+	   // Fit to overlay bounds (SW and NE points with (lat, lon))
+	   //map.fitBounds([[-25.7148104485, 50.9763321497], [-11.8650203788, 42.991281867]]);
+
+	   </script>
+
+	 <!-- <p>Copyright &copy; 2020 <a href="https://www.cirad.fr/en/">Cirad</a>. All rights reserved.</p> -->
+
+	 <!-- <a href="https://www.cirad.fr/en/"><img alt="Cirad" src="images/Logo_Cirad.jpg" height="70"></a> -->
+	 <!-- <a href="https://amap.cirad.fr"><img alt="AMAP" src="images/Logo_AMAP.jpg" height="70"></a> -->
+	 <!-- <a href="https://ec.europa.eu/jrc/en"><img alt="Cirad" src="images/Logo_JRC.jpg" height="70"></a> -->
+
+  </div><!--/.container-fluid main-container -->
+
+  <script>
+
+    // add bootstrap table styles to pandoc tables
+    function bootstrapStylePandocTables() {
+	$('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+    }
+    $(document).ready(function () {
+	bootstrapStylePandocTables();
+    });
 
 
-<div class="container-fluid main-container">
+  </script>
+
+  <!-- tabsets -->
+
+  <script>
+    $(document).ready(function () {
+	window.buildTabsets("TOC");
+    });
+
+    $(document).ready(function () {
+	$('.tabset-dropdown > .nav-tabs > li').click(function () {
+	    $(this).parent().toggleClass('nav-tabs-open')
+	});
+    });
+  </script>
+
+  <!-- code folding -->
 
 
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">ForestAtRisk</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li>
-  <a href="index.html">
-    <span class="fas fa-home"></span>
-     
-    Home
-  </a>
-</li>
-<li>
-  <a href="maps.html">
-    <span class="fas fa-map"></span>
-     
-    Maps
-  </a>
-</li>
-<li>
-  <a href="rasters.html">
-    <span class="fas fa-download"></span>
-     
-    Rasters
-  </a>
-</li>
-<li>
-  <a href="data-s.html">
-    <span class="fas fa-table"></span>
-     
-    Data S
-  </a>
-</li>
-<li>
-  <a href="rawdata.html">
-    <span class="fas fa-database"></span>
-     
-    Raw data
-  </a>
-</li>
-<li>
-  <a href="https://ecology.ghislainv.fr/forestatrisk/">
-    <span class="fab fa-python"></span>
-     
-    Package
-  </a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/ghislainv/forestatrisk-tropics">
-    <span class="fab fa-github"></span>
-     
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<!-- ====================================================== -->
-<!-- MAP -->
-<!-- ====================================================== -->
-<div id="map"></div>
-<!-- Coordinates (mouse position)
-    <div id="coordinates" class="overlay_card">
-      <b>LAT</b>: {{ mouse_lat | format_coords }} - <b>LON</b>: {{ mouse_lon | format_coords }}
-    </div> -->
-<!-- Leaflet maps -->
-<script type="text/javascript">
- 
-      // Base layers
-      //  .. OpenStreetMap
-      var osm = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-                {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-                 minZoom: 0,
-                 maxZoom: 16});
-
-      // .. MapBox
-      var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      'Imagery &copy <a href="https://www.mapbox.com/">Mapbox</a>';
-      var mbToken = 'pk.eyJ1IjoiZ2hpc2xhaW52IiwiYSI6ImNrOGZyaXJ1bTAzOXEzZG1wcDl5MnpicXQifQ.xVKyIs5IQsB3jaVpR-hKjQ'
-      var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mbToken;
-      var mapbox = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
-
-      // // .. Wikimedia
-      // var wmfUrl = 'https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
-      // var wmfAttr = '&copy; <a href="https://tools.wmflabs.org">Wikimedia</a>'
-      // var wmflabs = L.tileLayer(wmfUrl, {attribution: wmfAttr, minZoom: 0, maxZoom: 16});
-
-      // // .. Borders
-      // var borders_AFR = L.tileLayer.wms('https://geo.fraisedesbois.net/geoserver/far/wms?', {layers: 'far:borders_AFR', format: 'image/png', attribution: "<a href='https://gadm.org'>GADM</a>"});
-      
-      //  .. CartoDB Positron
-      //var cartodb = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>', minZoom: 0, maxZoom: 14});
-
-      //  .. OSM Toner
-      //var toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.', minZoom: 0, maxZoom: 14});
-
-      //  .. White background
-      //var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", {minZoom: 0, maxZoom: 14});
-
-      // .. MapSurfer ASTER GDEM-SRTM Hillshade
-      // var hillshade = L.tileLayer('https://maps.heigit.org/openmapsurfer/tiles/asterh/webmercator/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://srtm.csi.cgiar.org/">SRTM</a>, <a href="https://lpdaac.usgs.gov/data/data-citation-and-policies/">ASTER GDEM</a>', minZoom: 0, maxZoom: 18});
-
-      // CIRAD-JRC attribution
-      var ciradUrl = "https://geo.fraisedesbois.net/geoserver/far/wms?";
-      var ciradAttr = "Forest data &copy <a href='https://www.cirad.fr/en/'>CIRAD</a>, <a href='https://ec.europa.eu/jrc/en/'>EC JRC</a>";
-
-      // fcc123
-      var fcc123_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc123_AFR', format: 'image/png',
-                          transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                              attribution: ciradAttr});
-      var fcc123_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc123_AME', format: 'image/png',
-                          transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                          attribution: ciradAttr});
-      var fcc123_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc123_ASI', format: 'image/png',
-                          transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                          attribution: ciradAttr});
-      var fcc123 = L.layerGroup([fcc123_AFR, fcc123_AME, fcc123_ASI]);
-      
-      // Probability
-      var prob_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:prob_AFR', format: 'image/png',
-                            transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                            attribution: ciradAttr});
-      // var prob_AFR = L.tileLayer("http://localhost:5000/singleband/prob/AFR/{z}/{x}/{y}.png?colormap=accent", {format: 'image/png',
-      //                        transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-      //                        attribution: ciradAttr}); // This is for Terracotta
-      var prob_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:prob_AME', format: 'image/png',
-                        transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                        attribution: ciradAttr});
-      var prob_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:prob_ASI', format: 'image/png',
-                        transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                        attribution: ciradAttr});
-      var prob = L.layerGroup([prob_AFR, prob_AME, prob_ASI]);
-
-      // fcc_2050
-      var fcc_2050_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2050_AFR', format: 'image/png',
-                            transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                            attribution: ciradAttr});
-      var fcc_2050_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2050_AME', format: 'image/png',
-                            transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                            attribution: ciradAttr});
-      var fcc_2050_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2050_ASI', format: 'image/png',
-                            transparent: true, opacity: 0.8, minZoom: 0, maxZoom: 16,
-                            attribution: ciradAttr});
-      var fcc_2050 = L.layerGroup([fcc_2050_AFR, fcc_2050_AME, fcc_2050_ASI]);
-
-      // fcc_2100
-      var fcc_2100_AFR = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2100_AFR',
-                            format: 'image/png', transparent: true, opacity: 0.8,
-                            minZoom: 0, maxZoom: 16, attribution: ciradAttr});
-      var fcc_2100_AME = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2100_AME',
-                            format: 'image/png', transparent: true, opacity: 0.8,
-                            minZoom: 0, maxZoom: 16, attribution: ciradAttr});
-      var fcc_2100_ASI = L.tileLayer.wms(ciradUrl, {layers: 'far:fcc_2100_ASI',
-                            format: 'image/png', transparent: true, opacity: 0.8,
-                            minZoom: 0, maxZoom: 16, attribution: ciradAttr});
-      var fcc_2100 = L.layerGroup([fcc_2100_AFR, fcc_2100_AME, fcc_2100_ASI]);
-
-      // All overlays
-      var overlayGroup = L.layerGroup([fcc123_AFR, fcc123_AME, fcc123_ASI,
-                       prob_AFR, prob_AME, prob_ASI,
-                       fcc_2050_AFR, fcc_2050_AME, fcc_2050_ASI,
-                       fcc_2100_AFR, fcc_2100_AME, fcc_2100_ASI]);
-      
-      // Map
-      var map = L.map('map', {
-          center: [5.65, 26.17],
-          zoom: 4,
-          minZoom: 0,
-          maxZoom: 16,
-          layers: [mapbox, prob]
-      });
-      var basemaps = {
-      "OpenStreetMap": osm,
-      "MapBox": mapbox
-      };
-      var overlaymaps = {
-          "Past deforestation 2000-2010-2020" : fcc123,
-          "Deforestation probability 2020": prob,
-          "Projected deforestation 2020-2050": fcc_2050,
-          "Projected deforestation 2020-2100": fcc_2100
-      };
-
-      // Title
-      var title = L.control();
-      title.onAdd = function(map) {
-          this._div = L.DomUtil.create('div', 'ctl title');
-          this.update();
-          return this._div;
-      };
-      title.update = function(props) {
-          this._div.innerHTML = "Deforestation risk in the tropics";
-      };
-      //title.addTo(map);
-
-      // Note
-      var logo_rf = '<a href="https://www.cirad.fr/en/"><img alt="RF" src="images/Logo_RF.jpg" height="45"></a>';
-      var logo_cirad = '<a href="https://www.cirad.fr/en/"><img alt="Cirad" src="images/Logo_Cirad.jpg" height="35"></a>';
-      var logo_amap = '<a href="https://amap.cirad.fr"><img alt="AMAP" src="images/Logo_AMAP.jpg" height="35"></a>';
-      var logo_jrc = '<a href="https://ec.europa.eu/jrc/en"><img alt="EC" src="images/Logo_JRC.png" height="35"></a>';
-      var src = logo_rf + logo_cirad + logo_amap + logo_jrc;
-      var title = L.control({position: 'bottomleft'});
-      title.onAdd = function(map) {
-          this._div = L.DomUtil.create('div', 'ctl src');
-          this.update();
-          return this._div;
-      };
-      title.update = function(props) {
-          this._div.innerHTML = src;
-      };
-      title.addTo(map);
-
-      // Add layers
-      L.control.layers(basemaps, overlaymaps, {collapsed: true, position: 'topleft'}).addTo(map);
-
-      // Add scale
-      L.control.scale({position: 'bottomright', imperial: false}).addTo(map);
-
-      // Opacity slider
-      var opacitySliderGroup = new L.Control.opacitySliderGroup();
-      map.addControl(opacitySliderGroup);
-      opacitySliderGroup.setOpacityLayerGroup(overlayGroup);
-
-      // Fit to overlay bounds (SW and NE points with (lat, lon))
-      //map.fitBounds([[-25.7148104485, 50.9763321497], [-11.8650203788, 42.991281867]]);
-
-    </script>
-
-<!-- <p>Copyright &copy; 2020 <a href="https://www.cirad.fr/en/">Cirad</a>. All rights reserved.</p> -->
-
-<!-- <a href="https://www.cirad.fr/en/"><img alt="Cirad" src="images/Logo_Cirad.jpg" height="70"></a> -->
-<!-- <a href="https://amap.cirad.fr"><img alt="AMAP" src="images/Logo_AMAP.jpg" height="70"></a> -->
-<!-- <a href="https://ec.europa.eu/jrc/en"><img alt="Cirad" src="images/Logo_JRC.jpg" height="70"></a> -->
-
-</div><!--/.container-fluid main-container -->
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
 
 </body>
 </html>
