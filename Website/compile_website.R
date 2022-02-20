@@ -34,17 +34,17 @@ for (i in 1:length(continent)) {
     cab <- continent_ab[i]
     ## fcc123
     cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc123.tif \\
-		/home/www/forestatrisk/tropics/tif/fcc_123_{cab}_proj.tif")
+		/home/www/forestatrisk/tropics/tif/fcc_123_{cab}_aea.tif")
     system(cmd)
     ## prob
     cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/prob.tif \\
-		/home/www/forestatrisk/tropics/tif/prob_2020_{cab}_proj.tif")
+		/home/www/forestatrisk/tropics/tif/prob_2020_{cab}_aea.tif")
     system(cmd)
     ## future fcc
     for (j in 1:length(year)) {
         yr <- year[j]
         cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc_{yr}.tif \\
-                    /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_proj.tif")
+                    /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_aea.tif")
         system(cmd)
     }
 }
@@ -65,11 +65,11 @@ for (i in 1:length(continent)) {
     cab <- continent_ab[i]
     ## fcc123
     cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc123_epsg3857.tif \\
-		 /home/www/forestatrisk/tropics/tif/fcc_123_{cab}_epsg3857.tif")
+		 /home/www/forestatrisk/tropics/tif/fcc_123_{cab}_merc.tif")
     system(cmd)
     ## prob
     cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/prob_epsg3857.tif \\
-		 /home/www/forestatrisk/tropics/tif/prob_2020_{cab}_epsg3857.tif")
+		 /home/www/forestatrisk/tropics/tif/prob_2020_{cab}_merc.tif")
     system(cmd)
     ## future fcc
     for (j in 1:length(year)) {
@@ -77,7 +77,7 @@ for (i in 1:length(continent)) {
         cab <- continent_ab[i]
         yr <- year[j]
         cmd <- glue("ln -s /home/forestatrisk-tropics/jrc2020/Maps/{cont}/fcc_{yr}_epsg3857.tif \\
-	            /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_epsg3857.tif")
+	            /home/www/forestatrisk/tropics/tif/fcc_{yr}_{cab}_merc.tif")
         system(cmd)
     }
 }
