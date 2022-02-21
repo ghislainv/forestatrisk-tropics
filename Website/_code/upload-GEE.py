@@ -13,12 +13,13 @@
 # sudo apt-get update && sudo apt-get install google-cloud-sdk
 # https://developers.google.com/earth-engine/guides/command_line
 
-import os
 import subprocess
 
 # Variables
 name = ["fcc_123", "prob_2020", "fcc_2050", "fcc_2100"]
 cont = ["AFR", "AME", "ASI"]
+proj = "m"
+proj = "aea" if proj == "a" else "merc"
 
 # Create image collections
 for i in name:
@@ -30,7 +31,7 @@ for i in name:
 for i in name:
     for j in cont:
         filepath = ("/home/www/forestatrisk/tropics/tif/"
-                    f"{i}_{j}_aea.tif")
+                    f"{i}_{j}_{proj}.tif")
         bucket = "gs://forestatrisk/tropics/"
         cmd = f"gsutil cp {filepath} {bucket}"
         subprocess.call(cmd, shell=True)
@@ -39,7 +40,7 @@ for i in name:
 for i in name:
     for j in cont:
         ndval = 0 if i in ["fcc_123", "prob_2020"] else 255
-        filepath = f"gs://forestatrisk/tropics/{i}_{j}_aea.tif"
+        filepath = f"gs://forestatrisk/tropics/{i}_{j}_{proj}.tif"
         gee_coll = f"projects/forestatrisk/assets/{i}"
         cmd = (f"earthengine upload image --asset_id={gee_coll} "
                f"--pyramiding_policy=sample --nodata_value={ndval} "
@@ -47,6 +48,10 @@ for i in name:
         print(cmd)
         #subprocess.call(cmd, shell=True)
 
+# # Cleaning GEE
+# for i in name:
+#     for j in cont:
+#         earthengine remove
 
 
 # EOF
