@@ -41,21 +41,21 @@ def colorFader(c1, c2, mix=0):
 os.chdir("/home/ghislain/Code/forestatrisk-tropics/Website/_code")
 
 # Deforestation breaks in the interval 1-255
-rval = rescaling(np.array([1, 39322, 52429, 64535, 65535]),
+rval = rescaling(np.array([1, 39322, 52429, 65535]),
                  [1, 65535], [1, 255])
 # >>> rval
-# array([  1, 153, 204, 251, 255])
+# array([  1, 153, 204, 255])
 
 # Number of colors between breaks (including breaks)
 ncol = (rval[1:] - rval[:-1]) + 1
 # >>> ncol
-# array([153,  52,  48,   5])
+# array([153,  52,  52])
 
 # RGB colors for breaks
 green = (34, 139, 34, 255)
 orange = (255, 165, 0, 255)
 red = (227, 26, 28, 255)
-black = (0, 0, 0, 255)  # black for the two last breaks
+black = (0, 0, 0, 255)
 
 # Array for colors (must be type unint8 for terracotta)
 cmap_data = np.zeros(shape=(255, 4), dtype="uint8")
@@ -72,16 +72,22 @@ for n in range(ncol[2]):
     offset = ncol[0] + ncol[1] - 2
     cmap_data[n + offset] = colorFader(red, black, mix=n/(ncol[2] - 1))
 
-for n in range(ncol[3]):
-    offset = ncol[0] + ncol[1] + ncol[2] - 3
-    cmap_data[n + offset] = colorFader(black, black, mix=n/(ncol[3] - 1))
-
 # Save color maps
 np.save('prob_rgba.npy', cmap_data)
 
 # Copy to fdb
-cmd = ("scp prob_rgba.npy fdb:/home/www/" +
-       "forestatrisk/tropics/tc-cmaps/prob_rgba.npy")
+fdb_path = ("fdb:/home/www/forestatrisk/tropics/"
+            "tc-cmaps/prob_rgba.npy")
+cmd = f"scp prob_rgba.npy {fdb_path}"
 subprocess.call(cmd, shell=True)
+
+
+# Convert to hex color for Google Earth Engine
+def hextriplet(colortuple):
+    return '#' + ''.join(f'{i:02X}' for i in colortuple)
+
+
+hex_list = [hextriplet(x) for x in cmap_data]
+print(hex_list)
 
 # EOF
