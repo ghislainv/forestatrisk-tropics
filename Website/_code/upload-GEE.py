@@ -17,15 +17,10 @@ import subprocess
 
 # Variables
 name = ["fcc_123", "prob_2020", "fcc_2050", "fcc_2100"]
+# name = ["fcc_2050", "fcc_2100"]
 cont = ["AFR", "AME", "ASI"]
 proj = "m"
 proj = "aea" if proj == "a" else "merc"
-
-# Create image collections
-for i in name:
-    gee_coll = f"projects/forestatrisk/assets/{i}"
-    cmd = f"earthengine create collection {gee_coll}"
-    subprocess.call(cmd, shell=True)
 
 # Upload from fdb server to Google Cloud Storage (GCS)
 for i in name:
@@ -36,17 +31,22 @@ for i in name:
         cmd = f"gsutil cp {filepath} {bucket}"
         subprocess.call(cmd, shell=True)
 
+# Create image collections
+for i in name:
+    gee_coll = f"projects/forestatrisk/assets/{i}"
+    cmd = f"earthengine create collection {gee_coll}"
+    subprocess.call(cmd, shell=True)
+
 # Upload from GCS to Google Earth Engine (GEE)
 for i in name:
     for j in cont:
         ndval = 0 if i in ["fcc_123", "prob_2020"] else 255
         filepath = f"gs://forestatrisk/tropics/{i}_{j}_{proj}.tif"
-        gee_coll = f"projects/forestatrisk/assets/{i}"
-        cmd = (f"earthengine upload image --asset_id={gee_coll} "
+        asset_id = f"projects/forestatrisk/assets/{i}/{i}_{j}_{proj}"
+        cmd = (f"earthengine upload image --asset_id={asset_id} "
                f"--pyramiding_policy=sample --nodata_value={ndval} "
                f"{filepath}")
-        print(cmd)
-        #subprocess.call(cmd, shell=True)
+        subprocess.call(cmd, shell=True)
 
 # # Cleaning GEE
 # for i in name:
