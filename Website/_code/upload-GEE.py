@@ -48,10 +48,10 @@ for i in name:
         print(cmd)
         #subprocess.call(cmd, shell=True)
 
-# # Cleaning GEE
-# for i in name:
-#     for j in cont:
-#         earthengine remove
+# Cleaning GEE
+for i in name:
+    for j in cont:
+        cmd = "earthengine rm projects/forestatrisk/assets/{i}/{i}_{j}_{proj}
 
 
 # EOF
