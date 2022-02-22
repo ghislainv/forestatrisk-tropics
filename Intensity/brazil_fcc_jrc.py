@@ -19,6 +19,7 @@ import pandas as pd
 
 # Original working directory
 owd = "/share/nas2-amap/gvieilledent/jrc2020/Brazil"
+# owd = "/home/forestatrisk-tropics/jrc2020/Brazil"
 
 # Country isocode for Brazil
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
@@ -69,7 +70,8 @@ for i in range(nctry):
 
 # Dates for future predictions
 dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060",
-             "2070", "2080", "2085", "2090", "2100"]
+             "2070", "2080", "2085", "2090", "2100", "2110",
+             "2120", "2130", "2140", "2150"]
 ndates_fut = len(dates_fut)
 
 # Deforestation diffusion parameters
