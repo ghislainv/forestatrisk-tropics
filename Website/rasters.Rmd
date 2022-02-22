@@ -2,12 +2,14 @@
 title: "Rasters"
 ---
 
-Rasters of results from this study can be downloaded as Cloud Optimized GeoTIFF ([COG](https://www.cogeo.org/)):
+Raster maps from this study are available as Cloud Optimized GeoTIFF ([COG](https://www.cogeo.org/)) served on the ForestAtRisk website or on Google Earth Engine ([GEE](https://earthengine.google.com/)). 
+
+### Cloud Optimized GeoTIFF
 
 - [List of all rasters](https://forestatrisk.cirad.fr/tropics/tif/)
 - [COG tutorial](https://forestatrisk.cirad.fr/notebooks/cog.html)
 
-### Table of rasters (some)
+#### _Table of rasters (some)_
 
 ```{r cogs, echo=FALSE, results='asis'}
 # Create data frame
@@ -56,10 +58,39 @@ knitr::kable(df, booktabs=TRUE, longtable=FALSE,
 	              position="center")
 ```
 
-### Rasters resolution and projection
+#### _Rasters resolution and projection_
 
 Rasters have a resolution of 30 m and are available in Albers equal area conic projections (one different projection for each continent):
 
 - America: [South America Albers Equal Area Conic](https://epsg.io/102033)
 - Africa: [Africa Albers Equal Area Conic](https://epsg.io/102022)
 - Asia: [Asia South Albers Equal Area Conic](https://epsg.io/102028)
+
+### Google Earth Engine
+
+We provide a [JavaScript code](https://code.earthengine.google.com/d10bacab3bf0994097c37678e8098e7d) for importing and using the ForestAtRisk assets in Google Earth Engine.
+
+```{r assets, echo=FALSE, results='asis'}
+# Create data frame
+asset <- c("Past deforestation 2000-2010-2020",
+           "Deforestation probability in 2020",
+           "Projected deforestation 2020-2050",
+           "Projected deforestation 2020-2100")
+asset_id <- c("projects/forestatrisk/assets/v1_2020/fcc_123",
+              "projects/forestatrisk/assets/v1_2020/prob_2020",
+              "projects/forestatrisk/assets/v1_2020/fcc_2050",
+              "projects/forestatrisk/assets/v1_2020/fcc_2100")
+df <- data.frame(asset=asset, asset_id=asset_id)
+
+# Table
+col_names <- c("Asset", "Asset ID")
+vect_align <- c("ll")
+knitr::kable(df, booktabs=TRUE, longtable=FALSE,
+			 format.args=list(big.mark=","),
+			 escape=FALSE,
+			 col.names=col_names,
+			 align=vect_align, linesep="") %>%
+	kable_styling(full_width=FALSE,
+	              bootstrap_options=c("striped", "hover"),
+	              position="center")
+```

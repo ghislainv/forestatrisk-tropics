@@ -33,7 +33,7 @@ for i in name:
 
 # Create image collections
 for i in name:
-    gee_coll = f"projects/forestatrisk/assets/{i}"
+    gee_coll = f"projects/forestatrisk/assets/v1_2020/{i}"
     cmd = f"earthengine create collection {gee_coll}"
     subprocess.call(cmd, shell=True)
 
@@ -48,10 +48,10 @@ for i in name:
                f"{filepath}")
         subprocess.call(cmd, shell=True)
 
-# Cleaning GEE
-for i in name:
-    for j in cont:
-        cmd = "earthengine rm projects/forestatrisk/assets/{i}/{i}_{j}_{proj}"
-
+# # Cleaning GEE
+# for i in name:
+#     cmd = ("earthengine rm -r "
+#            f"projects/forestatrisk/assets/v1_2020/{i}")
+#     subprocess.call(cmd, shell=True)
 
 # EOF
