@@ -5,7 +5,7 @@
 #$ -l h_rt=999:00:00
 #$ -t 1-120 -tc 20
 #$ -pe multithread8 3
-#$ -N modTrop
+#$ -N forTrop
 
 # load singularity
 module load singularity
