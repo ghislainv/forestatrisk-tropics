@@ -18,11 +18,11 @@ import pandas as pd
 import forestatrisk as far
 
 
-# run_forecast_further
-def run_forecast_further(iso3, fcc_source="jrc"):
-    """Forecast the forest cover further in the future.
+# run_forecast
+def run_forecast(iso3, fcc_source="jrc"):
+    """Forecast the forest cover in the future.
 
-    Forecast the forest cover further in the future following a
+    Forecast the forest cover in the future following a
     business-as-usual scenario and estimate associated carbone
     emissions.
 
@@ -80,9 +80,10 @@ def run_forecast_further(iso3, fcc_source="jrc"):
                 fcc_BRA = pd.read_csv(ifile)
 
         # Dates and time intervals
-        dates_fut = ["2110", "2120", "2130", "2140", "2150"]
+        dates_fut = ["2030", "2035", "2040", "2050", "2055", "2060",
+                     "2070", "2080", "2085", "2090", "2100", "2110"]
         ndates_fut = len(dates_fut)
-        ti = [90, 100, 110, 120, 130]
+        ti = [10, 15, 20, 30, 35, 40, 50, 60, 65, 70, 80, 90]
 
         # --------------------------------------------------------
         # Predicting forest cover change
@@ -120,7 +121,7 @@ def run_forecast_further(iso3, fcc_source="jrc"):
                 input_forest=ifile)
             C_df.loc[C_df["date"] == dates_fut[i], ["C"]] = carbon
         # Save dataframe
-        ofile = "output/{}/C_emissions_further.csv".format(scen)
+        ofile = "output/{}/C_emissions.csv".format(scen)
         C_df.to_csv(ofile, header=True, index=False)
 
         # --------------------------------------------------------

@@ -26,7 +26,7 @@ import forestatrisk as far
 import pandas as pd
 from pywdpa import get_token
 
-from run_forecast_further import run_forecast_further
+from run_forecast import run_forecast
 
 index_ctry = int(sys.argv[1])-1
 
@@ -64,7 +64,7 @@ def run_country(iso3):
     os.chdir(os.path.join(owd, iso3))
 
     # Forecast
-    run_forecast_further(iso3, fcc_source="jrc")
+    run_forecast(iso3, fcc_source="jrc")
 
     # Remove GDAL temp directory
     shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
