@@ -1,6 +1,7 @@
 # https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html
 name: "forestatrisk.cirad.fr"
 output_dir: "_site"
+include: [".htaccess"]
 exclude: ["LICENSE"]
 navbar:
   title: "ForestAtRisk"
@@ -37,4 +38,3 @@ output:
       in_header: header.html
       after_body: footer.html
     css: styles.css
-    

@@ -16,7 +16,7 @@ render_site(here::here("Website"))
 
 ## Copy website directory
 ## system("cp -r ~/Code/forestatrisk-tropics/Website/_site/* /home/www/forestatrisk/")
-system("rsync -azP  ~/Code/forestatrisk-tropics/Website/_site/* fdb:/home/www/forestatrisk/")
+system("rsync -azP ~/Code/forestatrisk-tropics/Website/_site/. fdb:/home/www/forestatrisk/")
 
 ## ===============================
 ## Make symbolic link to COG files
