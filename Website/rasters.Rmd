@@ -27,16 +27,16 @@ for (i in 1:length(cont)) {
 	# Continent abbreviation
 	cab <- cont_ab[i]
 	# fcc123
-	text_fcc <- glue("fcc123_{cab}.tif")
+	text_fcc <- glue("fcc_123_{cab}_aea.tif")
 	url_fcc <- glue("{url_base}{text_fcc}")	
 	# Prob
-	text_prob <- glue("prob_{cab}.tif")
+	text_prob <- glue("prob_2020_{cab}_aea.tif")
 	url_prob <- glue("{url_base}{text_prob}")
 	# Projected 2050
-	text_fcc_2050 <- glue("fcc_2050_{cab}.tif")
+	text_fcc_2050 <- glue("fcc_2050_{cab}_aea.tif")
 	url_fcc_2050 <- glue("{url_base}{text_fcc_2050}")
 	# Projected 2100
-	text_fcc_2100 <- glue("fcc_2100_{cab}.tif")
+	text_fcc_2100 <- glue("fcc_2100_{cab}_aea.tif")
 	url_fcc_2100 <- glue("{url_base}{text_fcc_2100}")
 	# 
 	df[cont[i]] <- c(glue("<a href='{url_fcc}'>{text_fcc}</a>"),
@@ -60,7 +60,7 @@ knitr::kable(df, booktabs=TRUE, longtable=FALSE,
 
 #### _Rasters resolution and projection_
 
-Rasters have a resolution of 30 m and are available in Albers equal area conic projections (one different projection for each continent):
+Rasters have a resolution of 30 m and are available in Albers equal area ("aea") conic projections (one different projection for each continent):
 
 - America: [South America Albers Equal Area Conic](https://epsg.io/102033)
 - Africa: [Africa Albers Equal Area Conic](https://epsg.io/102022)
