@@ -28,7 +28,10 @@ from pywdpa import get_token
 
 from run_forecast import run_forecast
 
-index_ctry = int(sys.argv[1])-1
+ctry_id = [2, 95, 103, 112, 40, 46, 18, 20, 87, 25, 92, 67, 31]
+
+# index_ctry = int(sys.argv[1]) - 1
+index_ctry = ctry_id[int(sys.argv[1]) - 1] - 1
 
 # ==================
 # Settings
