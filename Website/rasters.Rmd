@@ -68,7 +68,7 @@ Rasters have a resolution of 30 m and are available in Albers equal area ("aea"
 
 ### Google Earth Engine
 
-We provide a [JavaScript code](https://code.earthengine.google.com/d10bacab3bf0994097c37678e8098e7d) for importing and using the ForestAtRisk assets in Google Earth Engine.
+We provide a [JavaScript code](https://code.earthengine.google.com/27bfa4a71bc13724f25c77f2cda2e445) for importing and using the ForestAtRisk assets in Google Earth Engine.
 
 ```{r assets, echo=FALSE, results='asis'}
 # Create data frame
