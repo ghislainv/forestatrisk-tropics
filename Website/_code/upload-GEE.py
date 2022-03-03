@@ -17,10 +17,9 @@ import subprocess
 
 # Variables
 name = ["fcc_123", "prob_2020", "fcc_2050", "fcc_2100"]
-name = ["fcc_123", "prob_2020"]
-name_fdb = ["fcc123", "prob"]
+# name = ["fcc_123", "prob_2020"]
 cont = ["AFR", "AME", "ASI"]
-proj = "a"
+proj = "m"
 proj = "aea" if proj == "a" else "merc"
 
 # Upload from fdb server to Google Cloud Storage (GCS)
@@ -30,15 +29,6 @@ for i in name:
                     f"{i}_{j}_{proj}.tif")
         bucket = "gs://forestatrisk/tropics/v1_2020/"
         cmd = f"gsutil cp {filepath} {bucket}"
-        subprocess.call(cmd, shell=True)
-
-# Upload from fdb server to Google Cloud Storage (GCS)
-for i in name:
-    for j in cont:
-        bucket = ("gs://forestatrisk/tropics/"
-                  f"{i}_{j}_{proj}.tif")
-        filepath = "/home/forestatrisk-tropics/jrc2020/"
-        cmd = f"gsutil cp {bucket} {filepath}"
         subprocess.call(cmd, shell=True)
 
 # Create image collections

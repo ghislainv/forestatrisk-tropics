@@ -10,6 +10,7 @@
 # ==============================================================================
 
 # Imports
+from tif2cog import tif2cog
 import os
 import subprocess
 import sys
@@ -18,7 +19,6 @@ import forestatrisk as far
 import matplotlib.pyplot as plt
 
 os.chdir(os.path.expanduser("~/Code/forestatrisk-tropics/Maps/"))
-from tif2cog import tif2cog
 
 # Set PROJ_LIB
 # PROJ_LIB = "/home/ghislain/.pyenv/versions/miniconda3-latest/envs/conda-far/share/proj"
@@ -108,10 +108,12 @@ def run_combine(index_cont):
     # Spatial probability
     # ===================
     # List of tif files
-    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*prob.tif$' > list_tif.txt"
+    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+        cont_regex + ".*prob.tif$' > list_tif.txt"
     subprocess.call(cmd, shell=True)
     # COG
-    tif2cog(input_file_list="list_tif.txt", output_file="prob.tif", num_threads="ALL_CPUS")
+    tif2cog(input_file_list="list_tif.txt",
+            output_file="prob.tif", num_threads="ALL_CPUS")
     # Resample at 500m
     subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
     -tap -r near -tr 500 500 -co 'COMPRESS=DEFLATE' \
@@ -138,23 +140,23 @@ def run_combine(index_cont):
         # Date
         d = str(dates_fut[j])
         #
-        if not os.path.isfile("fcc_" + d + ".tif"):
-            # List of tif files
-            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*mean/fcc_" + d + ".tif$' > list_tif.txt"
-            subprocess.call(cmd, shell=True)
-            # COG
-            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + ".tif", num_threads="ALL_CPUS")
-            # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
-            -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
-            -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + ".tif fcc_" + d + "_500m.tif", shell=True)
-            # Plot
-            fcc = far.plot.fcc("fcc_" + d + "_500m.tif", output_file="fcc_" + d + ".png",
-                               maxpixels=1e13,
-                               borders="borders_simp.gpkg",
-                               zoom=None, dpi=300,
-                               lw=0.5, c="grey")
-            plt.close(fcc)
+        #if not os.path.isfile("fcc_" + d + ".tif"):
+        # List of tif files
+        cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*mean/fcc_" + d + ".tif$' > list_tif.txt"
+        subprocess.call(cmd, shell=True)
+        # COG
+        tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + ".tif", num_threads="ALL_CPUS")
+        # Resample at 500m
+        subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
+        -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
+        -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + ".tif fcc_" + d + "_500m.tif", shell=True)
+        # Plot
+        fcc = far.plot.fcc("fcc_" + d + "_500m.tif", output_file="fcc_" + d + ".png",
+                           maxpixels=1e13,
+                           borders="borders_simp.gpkg",
+                           zoom=None, dpi=300,
+                           lw=0.5, c="grey")
+        plt.close(fcc)
 
     # ==================================================
     # Forest cover in 2050, 2100 - minimum deforestation
@@ -169,23 +171,23 @@ def run_combine(index_cont):
         # Date
         d = str(dates_fut[j])
         #
-        if not os.path.isfile("fcc_" + d + "_min.tif"):
-            # List of tif files
-            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*min/fcc_" + d + ".tif$' > list_tif.txt"
-            subprocess.call(cmd, shell=True)
-            # COG
-            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_min.tif", num_threads="ALL_CPUS")
-            # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
-            -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
-            -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_min.tif fcc_" + d + "_500m_min.tif", shell=True)
-            # Plot
-            fcc = far.plot.fcc("fcc_" + d + "_500m_min.tif", output_file="fcc_" + d + "_min.png",
-                               maxpixels=1e13,
-                               borders="borders_simp.gpkg",
-                               zoom=None, dpi=300,
-                               lw=0.5, c="grey")
-            plt.close(fcc)
+        #if not os.path.isfile("fcc_" + d + "_min.tif"):
+        # List of tif files
+        cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*min/fcc_" + d + ".tif$' > list_tif.txt"
+        subprocess.call(cmd, shell=True)
+        # COG
+        tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_min.tif", num_threads="ALL_CPUS")
+        # Resample at 500m
+        subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
+        -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
+        -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_min.tif fcc_" + d + "_500m_min.tif", shell=True)
+        # Plot
+        fcc = far.plot.fcc("fcc_" + d + "_500m_min.tif", output_file="fcc_" + d + "_min.png",
+                           maxpixels=1e13,
+                           borders="borders_simp.gpkg",
+                           zoom=None, dpi=300,
+                           lw=0.5, c="grey")
+        plt.close(fcc)
 
     # ==================================================
     # Forest cover in 2050, 2100 - maximum deforestation
@@ -200,23 +202,23 @@ def run_combine(index_cont):
         # Date
         d = str(dates_fut[j])
         #
-        if not os.path.isfile("fcc_" + d + "_max.tif"):
-            # List of tif files
-            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*max/fcc_" + d + ".tif$' > list_tif.txt"
-            subprocess.call(cmd, shell=True)
-            # COG
-            tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_max.tif", num_threads="ALL_CPUS")
-            # Resample at 500m
-            subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
-            -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
-            -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_max.tif fcc_" + d + "_500m_max.tif", shell=True)
-            # Plot
-            fcc = far.plot.fcc("fcc_" + d + "_500m_max.tif", output_file="fcc_" + d + "_max.png",
-                               maxpixels=1e13,
-                               borders="borders_simp.gpkg",
-                               zoom=None, dpi=300,
-                               lw=0.5, c="grey")
-            plt.close(fcc)
+        #if not os.path.isfile("fcc_" + d + "_max.tif"):
+        # List of tif files
+        cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + cont_regex + ".*max/fcc_" + d + ".tif$' > list_tif.txt"
+        subprocess.call(cmd, shell=True)
+        # COG
+        tif2cog(input_file_list="list_tif.txt", output_file="fcc_" + d + "_max.tif", num_threads="ALL_CPUS")
+        # Resample at 500m
+        subprocess.call("gdalwarp -overwrite -multi -wo 'NUM_THREADS=ALL_CPUS' -wm 4096 -t_srs EPSG:3395 \
+        -tap -r near -tr 500 500 -co 'COMPRESS=LZW' \
+        -co 'PREDICTOR=2' -co 'BIGTIFF=YES' fcc_" + d + "_max.tif fcc_" + d + "_500m_max.tif", shell=True)
+        # Plot
+        fcc = far.plot.fcc("fcc_" + d + "_500m_max.tif", output_file="fcc_" + d + "_max.png",
+                           maxpixels=1e13,
+                           borders="borders_simp.gpkg",
+                           zoom=None, dpi=300,
+                           lw=0.5, c="grey")
+        plt.close(fcc)
 
 
 # Run funtion
