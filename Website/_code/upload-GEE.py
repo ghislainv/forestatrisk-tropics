@@ -42,7 +42,7 @@ for i in name:
     for j in cont:
         ndval = 0 if i in ["fcc_123", "prob_2020"] else 255
         filepath = f"gs://forestatrisk/tropics/{i}_{j}_{proj}.tif"
-        asset_id = f"projects/forestatrisk/assets/{i}"
+        asset_id = f"projects/forestatrisk/assets/{i}/{i}_{j}_{proj}"
         cmd = (f"earthengine upload image --asset_id={asset_id} "
                f"--pyramiding_policy=sample --nodata_value={ndval} "
                f"{filepath}")
