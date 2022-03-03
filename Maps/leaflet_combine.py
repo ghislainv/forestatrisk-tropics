@@ -48,27 +48,27 @@ def run_combine(index_cont):
     far.make_dir(rdir + "/Maps/" + cont)
     os.chdir(rdir + "/Maps/" + cont)
 
-    # ===================
-    # fcc123
-    # ===================
-    # List of tif files
-    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
-        cont_regex + ".*fcc123.tif$' > list_tif.txt"
-    subprocess.call(cmd, shell=True)
-    # COG
-    leaflet_cog(input_file_list="list_tif.txt",
-                output_file="fcc123_epsg3857.tif", num_threads="ALL_CPUS")
+    # # ===================
+    # # fcc123
+    # # ===================
+    # # List of tif files
+    # cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+    #     cont_regex + ".*fcc123.tif$' > list_tif.txt"
+    # subprocess.call(cmd, shell=True)
+    # # COG
+    # leaflet_cog(input_file_list="list_tif.txt",
+    #             output_file="fcc123_epsg3857.tif", num_threads="ALL_CPUS")
 
-    # ===================
-    # Spatial probability
-    # ===================
-    # List of tif files
-    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
-        cont_regex + ".*prob.tif$' > list_tif.txt"
-    subprocess.call(cmd, shell=True)
-    # COG
-    leaflet_cog(input_file_list="list_tif.txt",
-                output_file="prob_epsg3857.tif", num_threads="ALL_CPUS")
+    # # ===================
+    # # Spatial probability
+    # # ===================
+    # # List of tif files
+    # cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+    #     cont_regex + ".*prob.tif$' > list_tif.txt"
+    # subprocess.call(cmd, shell=True)
+    # # COG
+    # leaflet_cog(input_file_list="list_tif.txt",
+    #             output_file="prob_epsg3857.tif", num_threads="ALL_CPUS")
 
     # =========================================
     # Forest cover in 20XX - mean deforestation
@@ -83,15 +83,15 @@ def run_combine(index_cont):
         # Date
         d = str(dates_fut[j])
         #
-        if not os.path.isfile("fcc_" + d + "_epsg3857.tif"):
-            # List of tif files
-            cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
-                cont_regex + ".*mean/fcc_" + d + ".tif$' > list_tif.txt"
-            subprocess.call(cmd, shell=True)
-            # COG
-            leaflet_cog(input_file_list="list_tif.txt",
-                        output_file="fcc_" + d + "_epsg3857.tif",
-                        num_threads="ALL_CPUS")
+        # if not os.path.isfile("fcc_" + d + "_epsg3857.tif"):
+        # List of tif files
+        cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+            cont_regex + ".*mean/fcc_" + d + ".tif$' > list_tif.txt"
+        subprocess.call(cmd, shell=True)
+        # COG
+        leaflet_cog(input_file_list="list_tif.txt",
+                    output_file="fcc_" + d + "_epsg3857.tif",
+                    num_threads="ALL_CPUS")
 
 
 # Run funtion

@@ -16,10 +16,11 @@
 import subprocess
 
 # Variables
-# name = ["fcc_123", "prob_2020", "fcc_2050", "fcc_2100"]
-name = ["fcc_2050", "fcc_2100"]
+name = ["fcc_123", "prob_2020", "fcc_2050", "fcc_2100"]
+name = ["fcc_123", "prob_2020"]
+name_fdb = ["fcc123", "prob"]
 cont = ["AFR", "AME", "ASI"]
-proj = "m"
+proj = "a"
 proj = "aea" if proj == "a" else "merc"
 
 # Upload from fdb server to Google Cloud Storage (GCS)
@@ -27,8 +28,17 @@ for i in name:
     for j in cont:
         filepath = ("/home/www/forestatrisk/tropics/tif/"
                     f"{i}_{j}_{proj}.tif")
-        bucket = "gs://forestatrisk/tropics/"
+        bucket = "gs://forestatrisk/tropics/v1_2020/"
         cmd = f"gsutil cp {filepath} {bucket}"
+        subprocess.call(cmd, shell=True)
+
+# Upload from fdb server to Google Cloud Storage (GCS)
+for i in name:
+    for j in cont:
+        bucket = ("gs://forestatrisk/tropics/"
+                  f"{i}_{j}_{proj}.tif")
+        filepath = "/home/forestatrisk-tropics/jrc2020/"
+        cmd = f"gsutil cp {bucket} {filepath}"
         subprocess.call(cmd, shell=True)
 
 # Create image collections
@@ -41,7 +51,7 @@ for i in name:
 for i in name:
     for j in cont:
         ndval = 0 if i in ["fcc_123", "prob_2020"] else 255
-        filepath = f"gs://forestatrisk/tropics/{i}_{j}_{proj}.tif"
+        filepath = f"gs://forestatrisk/tropics/v1_2020/{i}_{j}_{proj}.tif"
         asset_id = f"projects/forestatrisk/assets/v1_2020/{i}/{i}_{j}_{proj}"
         cmd = (f"earthengine upload image --asset_id={asset_id} "
                f"--pyramiding_policy=sample --nodata_value={ndval} "
