@@ -24,9 +24,13 @@ Manuscript/Article/doc/*.tex
 Manuscript/Combined/*.pdf
 Manuscript/LaTeX/*
 Manuscript/Nature
-Manuscript/PNAS
 Manuscript/NatureComm/*
 !Manuscript/NatureComm/combined_NatureComm.tex
+Manuscript/Org-mode/*.pdf
+Manuscript/Org-mode/*.tex
+Manuscript/Org-mode/biblio/*
+Manuscript/Org-mode/tables/*
+Manuscript/Org-mode/figures/*
 
 # GIS data
 *.gpkg
