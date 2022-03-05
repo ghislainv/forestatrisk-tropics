@@ -25,7 +25,7 @@ system("rsync -azP ~/Code/forestatrisk-tropics/Website/_site/. fdb:/home/www/for
 ## Continents and abbreviations
 continent <- c("America", "Africa", "Asia")
 continent_ab <- c("AME", "AFR", "ASI")
-year <- c("2030", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100")
+year <- c("2030", "2040", "2050", "2055", "2060", "2070", "2080", "2085", "2090", "2100", "2110")
 
 ## loop on continent and year
 for (i in 1:length(continent)) {
