@@ -56,6 +56,10 @@
 #+CITE_EXPORT: csl ~/Code/forestatrisk-tropics/Manuscript/Org-mode/biblio/ecology.csl
 # #+CITE_EXPORT: natbib ~/Code/org-scipaper/biblio/pnas-new.bst
 
+:PROPERTIES:
+:header-args: :dir ~/Code/forestatrisk-tropics
+:END:
+
 * Abstract                                                           :ignore:
 
 #+begin_abstract
@@ -124,7 +128,7 @@ Few authors have attempted to provide spatialized forest cover change scenarios 
 
 #+begin_src R :results output :exports none
 ## Import data
-df <- read.table(here("Manuscript/Org-mode/tables/forest_cover_change_mean.csv"), header=TRUE, sep=",")
+df <- read.table(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"), header=TRUE, sep=",")
 ## All study areas
 nctry_loss <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
@@ -392,7 +396,7 @@ To perform the analyses, we used the recent =forestatrisk= Python package [cite:
 
 * Local variables                                                  :noexport:
 
-Local Variables:
+Local Variables: 
 org-src-preserve-indentation: t
 org-edit-src-content: 0
 org-export-with-smart-quotes: t
