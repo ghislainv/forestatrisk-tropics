@@ -1491,9 +1491,9 @@ for (j in 1:nsim) {
     s <- sim[j]
 
     ## Create table to store results
-    Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=4+17), stringsAsFactors=FALSE)
+    Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=4+13), stringsAsFactors=FALSE)
     C_var <- paste0("C", 2020 + c(0, 10, 15, 20, 30, 35, 40, 50, 60, 65, 70,
-                                  80, 90, 100, 110, 120, 130))
+                                  80, 90))
     names(Cem_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", C_var)
     
     ## Loop on countries

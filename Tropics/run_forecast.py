@@ -89,29 +89,31 @@ def run_forecast(iso3, fcc_source="jrc"):
         # Predicting forest cover change
         # --------------------------------------------------------
 
-        # Loop on dates
-        for i in range(ndates_fut):
-            # Amount of deforestation (ha)
-            if m is not None:  # For Brazil
-                defor = fcc_BRA.loc[fcc_BRA["iso3"] == iso3,
-                                    "defor" + dates_fut[i]].values[0]
-            else:
-                defor = np.rint(annual_defor * ti[i])
-            # Compute future forest cover
-            ofile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
-            far.deforest(
-                input_raster="output/prob.tif",
-                hectares=defor,
-                output_file=ofile,
-                blk_rows=128)
+        # # Loop on dates
+        # for i in range(ndates_fut):
+        #     # Amount of deforestation (ha)
+        #     if m is not None:  # For Brazil
+        #         defor = fcc_BRA.loc[fcc_BRA["iso3"] == iso3,
+        #                             "defor" + dates_fut[i]].values[0]
+        #     else:
+        #         defor = np.rint(annual_defor * ti[i])
+        #     # Compute future forest cover
+        #     ofile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
+        #     far.deforest(
+        #         input_raster="output/prob.tif",
+        #         hectares=defor,
+        #         output_file=ofile,
+        #         blk_rows=128)
 
         # --------------------------------------------------------
         # Carbon emissions
         # --------------------------------------------------------
 
         # Create dataframe
+        dpast = ["2020"]
+        dpast.extend(dates_fut)
         C_df = pd.DataFrame(
-            {"date": dates_fut, "C": np.repeat(-99, ndates_fut)},
+            {"date": dpast, "C": np.repeat(-99, ndates_fut + 1)},
             columns=["date", "C"])
         # Loop on date
         for i in range(ndates_fut):
@@ -120,6 +122,10 @@ def run_forecast(iso3, fcc_source="jrc"):
                 input_stocks="data/emissions/AGB.tif",
                 input_forest=ifile)
             C_df.loc[C_df["date"] == dates_fut[i], ["C"]] = carbon
+        # Past emissions
+        carbon = far.emissions(input_stocks="data/emissions/AGB.tif",
+                               input_forest="data/fcc23.tif")
+        C_df.loc[C_df["date"] == dpast[0], ["C"]] = carbon
         # Save dataframe
         ofile = "output/{}/C_emissions.csv".format(scen)
         C_df.to_csv(ofile, header=True, index=False)
@@ -128,15 +134,15 @@ def run_forecast(iso3, fcc_source="jrc"):
         # Figures
         # --------------------------------------------------------
 
-        # Projected future forest-cover change
-        for i in range(ndates_fut):
-            ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
-            ofile = "output/{}/fcc_{}.png".format(scen, dates_fut[i])
-            fig_fcc = far.plot.fcc(
-                ifile,
-                maxpixels=1e8,
-                borders="data/ctry_PROJ.shp",
-                output_file=ofile)
-            plt.close(fig_fcc)
+        # # Projected future forest-cover change
+        # for i in range(ndates_fut):
+        #     ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
+        #     ofile = "output/{}/fcc_{}.png".format(scen, dates_fut[i])
+        #     fig_fcc = far.plot.fcc(
+        #         ifile,
+        #         maxpixels=1e8,
+        #         borders="data/ctry_PROJ.shp",
+        #         output_file=ofile)
+        #     plt.close(fig_fcc)
 
 # End
