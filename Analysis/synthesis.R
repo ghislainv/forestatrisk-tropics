@@ -152,7 +152,8 @@ for (i in 1:nsim) {
            for2070=pmax(0, for2020-50*andef),
            for2080=pmax(0, for2020-60*andef), for2085=pmax(0, for2020-65*andef),
            for2090=pmax(0, for2020-70*andef),
-           for2100=pmax(0, for2020-80*andef)) %>%
+           for2100=pmax(0, for2020-80*andef),
+           for2110=pmax(0, for2020-90*andef)) %>%
     # Year during which all the forest will have disappeared
     mutate(yrdis=floor(2020 + for2020/andef))
   
@@ -1509,15 +1510,9 @@ for (j in 1:nsim) {
         ## Carbon emissions
         f_name <- file.path(dir, iso, glue("output/{s}/C_emissions.csv"))
         Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-        ## Carbon emissions further
-        f_name <- file.path(dir, iso, glue("output/{s}/C_emissions_further.csv"))
-        Cem_df_further <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-        ## Combine carbon emission tables
-        Cem_df <- Cem_df %>%
-            dplyr::bind_rows(Cem_df_further)
         ## Fill in the table
         Cem_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
-        Cem_tab[i, 5:21] <- Cem_df$C
+        Cem_tab[i, 5:17] <- Cem_df$C
     }
     
     ## Rearrange study areas per continent
@@ -1560,7 +1555,7 @@ for (j in 1:nsim) {
         bind_rows(data.frame(area_cont="All continents",
                              summarize(Cem_tab, across(starts_with("C"), sum)),
                              stringsAsFactors=FALSE)) %>%
-        mutate(across(C2020:C2150, function(x){x*1e-9}))  # Results in PgC
+        mutate(across(C2020:C2110, function(x){x*1e-9}))  # Results in PgC
     
     ## Save results
     f_name <- glue("C_emissions_summary_{s}.csv")
@@ -1614,12 +1609,8 @@ for (j in 1:nsim) {
                       T70_80=(C2080-C2070)/10,
                       T80_90=(C2090-C2080)/10,
                       T90_100=(C2100-C2090)/10,
-                      T100_110=(C2110-C2100)/10,
-                      T110_120=(C2120-C2110)/10,
-                      T120_130=(C2130-C2120)/10,
-                      T130_140=(C2140-C2130)/10,
-                      T140_150=(C2150-C2140)/10) %>%
-        dplyr::select(area_cont, T10_20:T140_150)
+                      T100_110=(C2110-C2100)/10) %>%
+        dplyr::select(area_cont, T10_20:T100_110)
     
     ## Deforestation => increase in C source with time (deforestation of forest with higher carbon stocks).
     ## Climate change => decrease in C sink with time (higher mortality), see Hubau2020.
@@ -1645,25 +1636,25 @@ f <- here("Analysis", dataset, glue("C_trend_mean.csv"))
 C_trend_mean <- read.table(f, header=TRUE, sep=",")
 ## Transform dataset in long format
 C_long_mean <- C_trend_mean %>%
-  tidyr::pivot_longer(cols=T10_20:T140_150, names_to="T_int",
+  tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
                       values_to="C_em") %>%
-  dplyr::mutate(year=rep(seq(2015, 2145, by=10), 4))
+  dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
 # Min
 f <- here("Analysis", dataset, glue("C_trend_min.csv"))
 C_trend_min <- read.table(f, header=TRUE, sep=",")
 ## Transform dataset in long format
 C_long_min <- C_trend_min %>%
-  tidyr::pivot_longer(cols=T10_20:T140_150, names_to="T_int",
+  tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
                       values_to="C_em") %>%
-  dplyr::mutate(year=rep(seq(2015, 2145, by=10), 4))
+  dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
 # Max
 f <- here("Analysis", dataset, glue("C_trend_max.csv"))
 C_trend_max <- read.table(f, header=TRUE, sep=",")
 ## Transform dataset in long format
 C_long_max <- C_trend_max %>%
-  tidyr::pivot_longer(cols=T10_20:T140_150, names_to="T_int",
+  tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
                       values_to="C_em") %>%
-  dplyr::mutate(year=rep(seq(2015, 2145, by=10), 4))
+  dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
 
 ## Historical data
 C_hist <- C_long_mean %>% dplyr::filter(year==2015)

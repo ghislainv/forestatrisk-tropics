@@ -51,7 +51,7 @@ df <- read.table("_tables/forest_cover_change_ci.csv", header=TRUE, sep=",")
 df <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
   dplyr::mutate(yrdis=as.character(yrdis)) %>%
-  dplyr::select(area_cont:area_code, proj, for2000:for2100, loss21, yrdis, -for2005, -for2015, -for2035) %>%
+  dplyr::select(area_cont:area_code, proj, for2000:for2110, loss21, yrdis, -for2005, -for2015, -for2035) %>%
   dplyr::select(-starts_with("d_")) %>%
   mutate_at(.var=vars(starts_with("for")),.fun=function(x){round(x/1000)}) %>%
   dplyr::rename(d=andef, p=pdef)
@@ -63,7 +63,8 @@ df <- df %>%
 
 ## Make table
 col.names <- c("Country", "proj", "fc2000", "fc2010", "fc2020", "d", "p", "fc2030", "fc2040",
-               "fc2050", "fc2055", "fc2060", "fc2070", "fc2080", "fc2085", "fc2090", "fc2100", "loss21", "yrdis")
+               "fc2050", "fc2055", "fc2060", "fc2070", "fc2080", "fc2085", "fc2090", "fc2100",
+               "fc2110", "loss21", "yrdis")
 datatable(
 	df,
 	colnames=col.names,
@@ -102,7 +103,7 @@ options(knitr.kable.NA="--")
 df <- read.table("_tables/C_emissions_ci.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
-  dplyr::select(area_cont:area_code, proj, C2020:C2100, -C2035, -C2055, -C2085) %>%
+  dplyr::select(area_cont:area_code, proj, C2020:C2110, -C2035, -C2055, -C2085) %>%
   dplyr::na_if(0) %>%
   mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
 # Export table for website
@@ -112,7 +113,7 @@ df <- df %>%
   dplyr::select(-area_cont, -area_ctry, -area_code)
 
 ## Make table
-col.names <- c("Country", "proj", paste0("C", seq(2020,2100, by=10)))
+col.names <- c("Country", "proj", paste0("C", seq(2020, 2110, by=10)))
 datatable(
 	df,
 	colnames=col.names,
