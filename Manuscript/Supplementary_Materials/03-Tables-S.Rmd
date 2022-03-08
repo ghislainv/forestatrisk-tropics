@@ -114,7 +114,7 @@ knitr::kable(df, caption="(ref:cap-par)", booktabs=TRUE, longtable=TRUE,
 
 \newpage
 
-(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate the relative importance of each variable in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, distance to nearest town, altitude, slope, and distance to nearest river.\vspace{0.5cm}
+(ref:cap-par-region) **Parameter estimate weighted means per region**. We used the forest cover in 2010 to compute the parameter estimate weighted mean per region. Continuous explanatory variables were normalized (mean=0 and standard-deviation=1), allowing us to estimate the relative importance of each variable in determining the spatial probability of deforestation from parameter values. Comparison can be done within and between regions. At pantropical scale (when considering all continents together), explanatory variables can be classified in the following decreasing order of importance: distance to forest edge, distance to past deforestation, presence of a protected area, distance to nearest road, elevation, distance to nearest town, slope, and distance to nearest river.\vspace{0.5cm}
 
 ```{r par-region, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
