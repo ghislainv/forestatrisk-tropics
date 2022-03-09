@@ -169,7 +169,7 @@ for (i in 1:nsim) {
   codes_fcc <- paste0("BRA-",fcc_tab3$area_code[fcc_tab3$area_ctry=="Brazil"])
   codes_BRA <- fcc_BRA$iso3
   if (all(codes_fcc==codes_BRA)) {
-    fcc_tab3[fcc_tab3$area_ctry=="Brazil", c(16:ncol(fcc_tab3))] <- round(fcc_BRA[, c(seq(7, 27, by=2), 30)])
+    fcc_tab3[fcc_tab3$area_ctry=="Brazil", c(16:ncol(fcc_tab3))] <- round(fcc_BRA[, c(seq(7, 29, by=2), 40)])
   }
   
   ## Sort continents, and select col
@@ -278,7 +278,7 @@ nctry_large <- df %>%
   summarize(n=n()) %>% pull()
 nctry_large <- nctry_large + 2 # For Brazil and India
 msg <- paste0("Number of countries with more than 1 Mha ",
-              "forest in 2020: ", nctry_large)
+              "forest in 2020: ", nctry_large, "\n")
 # Save
 f_out <- here("Analysis", dataset, "nctry_large.txt")
 sink(f_out)
@@ -805,7 +805,7 @@ for (j in 1:nsim) {
   for2000_ind <- sum(df$for2000)
   perc_ind <- vector()
   ## Loop from i=1 for 2021
-  for (i in 1:80) {
+  for (i in 1:100) {
     ## Deforestation from 2020
     fc_proj_ind <- sum(pmax(0, df$for2020-i*df$andef))
     ## Percentage of forest loss compared with 2000
