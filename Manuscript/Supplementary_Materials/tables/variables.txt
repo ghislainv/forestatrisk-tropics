@@ -1,9 +1,9 @@
-Product,Source,Variable derived,Unit,Resolution,Date
-Forest maps (2000-2010-2020),Vancutsem et al. 2021,distance to forest edge,m,30,--
-,,distance to past deforestation,m,30,--
-Digital Elevation Model,SRTM v4.1 CSI-CGIAR,elevation,m,90,--
-,,slope,degree,90,--
-Highways,OSM-Geofabrik,distance to road,m,150,March 2021
-Places,,distance to town,m,150,March 2021
-Waterways,,distance to river,m,150,March 2021
-Protected areas,WDPA,presence of protected area,--,30,March 2021
+Product,Source,Date,Variable derived,Unit,Resolution
+Forest maps (2000--2010--2020),Vancutsem et al. 2021,v1\_2020,distance to forest edge,m,30
+,,,distance to past deforestation,m,30
+Digital Elevation Model,SRTM CSI-CGIAR,v4.1,elevation,m,90
+,,,slope,degree,90
+Highways,OSM-Geofabrik,March 2021,distance to road,m,150
+Places,,,distance to town,m,150
+Waterways,,,distance to river,m,150
+Protected areas,WDPA,March 2021,presence of protected area,--,30

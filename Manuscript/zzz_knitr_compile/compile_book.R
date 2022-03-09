@@ -7,11 +7,11 @@
 # license         :CC-BY-SA 4.0
 # ==============================================================================
 
-# Libraries
-library(bookdown)
-library(knitr)
-library(here)
-library(rticles)
+## # Libraries
+## library(bookdown)
+## library(knitr)
+## library(here)
+## library(rticles)
 
 # ==============================================================================
 # Article
