@@ -58,29 +58,24 @@
 #+CITE_EXPORT: csl ~/Code/forestatrisk-tropics/Manuscript/Org-mode/biblio/ecology.csl
 # #+CITE_EXPORT: natbib ~/Code/org-scipaper/biblio/pnas-new.bst
 
-* Abstract                                                           :ignore:
-
-#+begin_abstract
-Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. Our models confirm the effectiveness of protected areas in displacing deforestation and the negative impact of roads and landscape fragmentation on forest conservation in the tropics. Using our models, we derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21^{st} century under a "business-as-usual" scenario based on the deforestation rates observed in the 2010s. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 54% (46--61%) of all forest cover is expected to disappear during the course of the 21^{st} century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.221 Pg/yr (+42%) between the 2010s and the 2070s.
-#+end_abstract
-
-@@latex:\keywords{@@
-
-biodiversity $|$ deforestation $|$ tropical forests $|$ CO_{2} emissions $|$ scenarios
-
-@@latex:}@@
-
 * Setup                                                              :ignore:
 
-#+NAME: R setup
+#+NAME: Rsetup
 #+begin_src R :results none :exports none
 # Libraries
+library(readr)
 library(here)
 library(dplyr)
 library(knitr)
+library(glue)
 library(kableExtra)
+library(ascii)
+
+# Options
 full_width_type <- FALSE
 font_size_type <- 8
+options(readr.show_col_types=FALSE, readr.show_progress=FALSE)
+options(asciiType="org")
 
 # Function latextab_2cols_text
 latextab_2cols_text <- function(kable, tabletext) {
@@ -92,6 +87,72 @@ latextab_2cols_text <- function(kable, tabletext) {
   return(cat(tab))
 }
 #+end_src
+
+
+* Abstract                                                           :ignore:
+
+#+NAME: val-forest-summary
+#+begin_src R :results output :exports none
+df_mean <- read_csv(here("Analysis", "jrc2020", "fcc_proj_region_mean.csv")) %>% mutate(sim="mean")
+df_min <- read_csv(here("Analysis", "jrc2020", "fcc_proj_region_min.csv")) %>% mutate(sim="min")
+df_max <- read_csv(here("Analysis", "jrc2020", "fcc_proj_region_max.csv")) %>% mutate(sim="max")
+df <- df_mean %>%
+  dplyr::bind_rows(df_min, df_max) %>%
+  dplyr::filter(cont %in% c("America", "Africa", "Asia", "All continents")) %>%
+  dplyr::arrange(factor(cont, levels=c("America", "Africa", "Asia", "All continents")),
+                 factor(sim, levels=c("min", "mean", "max")))
+print(ascii(df))
+#+end_src
+
+#+RESULTS: val-forest-summary
+#+begin_example
+|    | cont           | for2040       | for2050      | for2060      | for2080      | for2100      | loss21 | yr75dis | sim  |
+|----+----------------+---------------+--------------+--------------+--------------+--------------+--------+---------+------|
+| 1  | America        | 584507063.00  | 566146083.00 | 547785103.00 | 511158049.00 | 476194554.00 | 30.72  | 2290.00 | min  |
+| 2  | America        | 570321329.00  | 544868629.00 | 519771908.00 | 472135034.00 | 427790430.00 | 37.76  | 2220.00 | mean |
+| 3  | America        | 556137349.00  | 524373221.00 | 493634588.00 | 436104701.00 | 380806412.00 | 44.60  | 2180.00 | max  |
+| 4  | Africa         | 213363385.00  | 201250184.00 | 190556925.00 | 169961031.00 | 151415462.00 | 44.94  | 2207.00 | min  |
+| 5  | Africa         | 203301975.00  | 188403221.00 | 174981784.00 | 150357327.00 | 129045039.00 | 53.07  | 2163.00 | mean |
+| 6  | Africa         | 194678891.00  | 177631287.00 | 161825790.00 | 134768399.00 | 110050172.00 | 59.98  | 2136.00 | max  |
+| 7  | Asia           | 220609173.00  | 206896233.00 | 193590998.00 | 167745718.00 | 142358155.00 | 52.08  | 2166.00 | min  |
+| 8  | Asia           | 207998993.00  | 188558188.00 | 169650398.00 | 132402725.00 | 98921850.00  | 66.70  | 2117.00 | mean |
+| 9  | Asia           | 195495638.00  | 170602678.00 | 146054665.00 | 99688530.00  | 62898467.00  | 78.83  | 2093.00 | max  |
+| 10 | All continents | 1018479621.00 | 974292500.00 | 931933026.00 | 848864798.00 | 769968171.00 | 38.86  | 2256.00 | min  |
+| 11 | All continents | 981622297.00  | 921830038.00 | 864404090.00 | 754895086.00 | 655757319.00 | 47.93  | 2192.00 | mean |
+| 12 | All continents | 946311878.00  | 872607186.00 | 801515043.00 | 670561630.00 | 553755051.00 | 56.03  | 2157.00 | max  |
+#+end_example
+
+#+NAME: val-C-summary
+#+begin_src R :results output :exports none
+df <- read_csv(here("Analysis", "jrc2020", "C_trend_mean.csv"))
+print(ascii(df))
+cat("\n")
+Max <- max(df[df$area_cont=="All continents",c(-1)])
+Min <- min(df[df$area_cont=="All continents",c(-1)])
+diff <- round(Max - Min, 3)
+inc <- round(100 * (Max - Min) / Min)
+print(glue("Min (Pg/yr): {round(Min, 3)}, Max (Pg/yr): {round(Max, 3)}, Diff (Pg/yr): {diff}, Inc (%): {inc}"))
+#+end_src
+
+#+RESULTS: val-C-summary
+: |   | area_cont      | T10_20 | T20_30 | T30_40 | T40_50 | T50_60 | T60_70 | T70_80 | T80_90 | T90_100 | T100_110 |
+: |---+----------------+--------+--------+--------+--------+--------+--------+--------+--------+---------+----------|
+: | 1 | Africa         | 0.11   | 0.11   | 0.14   | 0.14   | 0.13   | 0.13   | 0.14   | 0.14   | 0.15    | 0.15     |
+: | 2 | America        | 0.19   | 0.20   | 0.20   | 0.20   | 0.21   | 0.22   | 0.22   | 0.23   | 0.23    | 0.24     |
+: | 3 | Asia           | 0.17   | 0.15   | 0.18   | 0.20   | 0.21   | 0.24   | 0.25   | 0.24   | 0.24    | 0.22     |
+: | 4 | All continents | 0.47   | 0.47   | 0.51   | 0.54   | 0.56   | 0.59   | 0.61   | 0.61   | 0.63    | 0.61     |
+: 
+: Min (Pg/yr): 0.467, Max (Pg/yr): 0.628, Diff (Pg/yr): 0.161, Inc (%): 35
+
+#+begin_abstract
+Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. Our models confirm the effectiveness of protected areas in displacing deforestation and the negative impact of roads and landscape fragmentation on forest conservation in the tropics. Using our models, we derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21^{st} century under a "business-as-usual" scenario based on the deforestation rates observed in the 2010s. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 48% (39--56%) of all forest cover is expected to disappear during the course of the 21^{st} century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.161 Pg/yr (+35%) between the 2010s and the 2090s.
+#+end_abstract
+
+@@latex:\keywords{@@
+
+biodiversity $|$ deforestation $|$ tropical forests $|$ CO_{2} emissions $|$ scenarios
+
+@@latex:}@@
 
 #+begin_export latex
 %\linenumbers
@@ -105,7 +166,7 @@ latextab_2cols_text <- function(kable, tabletext) {
 
 @@latex:\significancestatement{@@
 
-Under a "business-as-usual" scenario of deforestation (i.e. projecting the 2010--2020 deforestation rates at the country level in the future), three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2100, 2150, and 2200 in Southeast Asia, Africa, and Latin America, respectively. By 2100, 47 tropical countries, plus 18 states in Brazil and one region in India, will lose all their tropical forests. Remaining forests will be highly fragmented and concentrated in remote areas (far from roads and towns), preferentially in protected areas, and at high elevations. Future deforestation will concern forests with higher carbon stocks. In the absence of change in the deforestation rates, annual carbon emissions associated with tropical deforestation will increase from 0.525 Pg/yr in the 2010s to 0.746 Pg/yr in the 2070s (+42%), making tropical forests a major carbon source in the 21^{st} century.
+Under a "business-as-usual" scenario of deforestation (i.e. projecting the 2010--2020 deforestation rates at the country level in the future), three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2100, 2150, and 2200 in Southeast Asia, Africa, and Latin America, respectively. By 2100, 47 tropical countries, plus 18 states in Brazil and one region in India, will lose all their tropical forests. Remaining forests will be highly fragmented and concentrated in remote areas (far from roads and towns), preferentially in protected areas, and at high elevations. Future deforestation will concern forests with higher carbon stocks. In the absence of change in the deforestation rates, annual carbon emissions associated with tropical deforestation will increase from 0.467 Pg/yr in the 2010s to 0.628 Pg/yr in the 2090s (+35%), making tropical forests a major carbon source in the 21^{st} century.
 
 @@latex:}@@
 
