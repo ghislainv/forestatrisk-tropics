@@ -92,7 +92,7 @@ latextab_2cols_text <- function(kable, tabletext) {
 * Abstract                                                           :ignore:
 
 #+NAME: val-forest-summary
-#+begin_src R :results output :exports none
+#+begin_src R :results output org :exports none
 df_mean <- read_csv(here("Analysis", "jrc2020", "fcc_proj_region_mean.csv")) %>% mutate(sim="mean")
 df_min <- read_csv(here("Analysis", "jrc2020", "fcc_proj_region_min.csv")) %>% mutate(sim="min")
 df_max <- read_csv(here("Analysis", "jrc2020", "fcc_proj_region_max.csv")) %>% mutate(sim="max")
@@ -101,32 +101,46 @@ df <- df_mean %>%
   dplyr::filter(cont %in% c("America", "Africa", "Asia", "All continents")) %>%
   dplyr::arrange(factor(cont, levels=c("America", "Africa", "Asia", "All continents")),
                  factor(sim, levels=c("min", "mean", "max")))
-print(ascii(df))
+ascii(df, include.rownames=FALSE)
 #+end_src
 
 #+RESULTS: val-forest-summary
-#+begin_example
-|    | cont           | for2040       | for2050      | for2060      | for2080      | for2100      | loss21 | yr75dis | sim  |
-|----+----------------+---------------+--------------+--------------+--------------+--------------+--------+---------+------|
-| 1  | America        | 584507063.00  | 566146083.00 | 547785103.00 | 511158049.00 | 476194554.00 | 30.72  | 2290.00 | min  |
-| 2  | America        | 570321329.00  | 544868629.00 | 519771908.00 | 472135034.00 | 427790430.00 | 37.76  | 2220.00 | mean |
-| 3  | America        | 556137349.00  | 524373221.00 | 493634588.00 | 436104701.00 | 380806412.00 | 44.60  | 2180.00 | max  |
-| 4  | Africa         | 213363385.00  | 201250184.00 | 190556925.00 | 169961031.00 | 151415462.00 | 44.94  | 2207.00 | min  |
-| 5  | Africa         | 203301975.00  | 188403221.00 | 174981784.00 | 150357327.00 | 129045039.00 | 53.07  | 2163.00 | mean |
-| 6  | Africa         | 194678891.00  | 177631287.00 | 161825790.00 | 134768399.00 | 110050172.00 | 59.98  | 2136.00 | max  |
-| 7  | Asia           | 220609173.00  | 206896233.00 | 193590998.00 | 167745718.00 | 142358155.00 | 52.08  | 2166.00 | min  |
-| 8  | Asia           | 207998993.00  | 188558188.00 | 169650398.00 | 132402725.00 | 98921850.00  | 66.70  | 2117.00 | mean |
-| 9  | Asia           | 195495638.00  | 170602678.00 | 146054665.00 | 99688530.00  | 62898467.00  | 78.83  | 2093.00 | max  |
-| 10 | All continents | 1018479621.00 | 974292500.00 | 931933026.00 | 848864798.00 | 769968171.00 | 38.86  | 2256.00 | min  |
-| 11 | All continents | 981622297.00  | 921830038.00 | 864404090.00 | 754895086.00 | 655757319.00 | 47.93  | 2192.00 | mean |
-| 12 | All continents | 946311878.00  | 872607186.00 | 801515043.00 | 670561630.00 | 553755051.00 | 56.03  | 2157.00 | max  |
-#+end_example
+#+begin_src org
+| cont           |       for2040 |      for2050 |      for2060 |      for2080 |      for2100 | loss21 | yr75dis | sim  |
+|----------------+---------------+--------------+--------------+--------------+--------------+--------+---------+------|
+| America        |  584507063.00 | 566146083.00 | 547785103.00 | 511158049.00 | 476194554.00 |  30.72 | 2290.00 | min  |
+| America        |  570321329.00 | 544868629.00 | 519771908.00 | 472135034.00 | 427790430.00 |  37.76 | 2220.00 | mean |
+| America        |  556137349.00 | 524373221.00 | 493634588.00 | 436104701.00 | 380806412.00 |  44.60 | 2180.00 | max  |
+| Africa         |  213363385.00 | 201250184.00 | 190556925.00 | 169961031.00 | 151415462.00 |  44.94 | 2207.00 | min  |
+| Africa         |  203301975.00 | 188403221.00 | 174981784.00 | 150357327.00 | 129045039.00 |  53.07 | 2163.00 | mean |
+| Africa         |  194678891.00 | 177631287.00 | 161825790.00 | 134768399.00 | 110050172.00 |  59.98 | 2136.00 | max  |
+| Asia           |  220609173.00 | 206896233.00 | 193590998.00 | 167745718.00 | 142358155.00 |  52.08 | 2166.00 | min  |
+| Asia           |  207998993.00 | 188558188.00 | 169650398.00 | 132402725.00 |  98921850.00 |  66.70 | 2117.00 | mean |
+| Asia           |  195495638.00 | 170602678.00 | 146054665.00 |  99688530.00 |  62898467.00 |  78.83 | 2093.00 | max  |
+| All continents | 1018479621.00 | 974292500.00 | 931933026.00 | 848864798.00 | 769968171.00 |  38.86 | 2256.00 | min  |
+| All continents |  981622297.00 | 921830038.00 | 864404090.00 | 754895086.00 | 655757319.00 |  47.93 | 2192.00 | mean |
+| All continents |  946311878.00 | 872607186.00 | 801515043.00 | 670561630.00 | 553755051.00 |  56.03 | 2157.00 | max  |
+#+end_src
+
 
 #+NAME: val-C-summary
-#+begin_src R :results output :exports none
+#+begin_src R :results output org :exports none
 df <- read_csv(here("Analysis", "jrc2020", "C_trend_mean.csv"))
-print(ascii(df))
-cat("\n")
+ascii(df, include.rownames=FALSE)
+#+end_src
+
+#+RESULTS: val-C-summary
+#+begin_src org
+| area_cont      | T10_20 | T20_30 | T30_40 | T40_50 | T50_60 | T60_70 | T70_80 | T80_90 | T90_100 | T100_110 |
+|----------------+--------+--------+--------+--------+--------+--------+--------+--------+---------+----------|
+| Africa         |   0.11 |   0.11 |   0.14 |   0.14 |   0.13 |   0.13 |   0.14 |   0.14 |    0.15 |     0.15 |
+| America        |   0.19 |   0.20 |   0.20 |   0.20 |   0.21 |   0.22 |   0.22 |   0.23 |    0.23 |     0.24 |
+| Asia           |   0.17 |   0.15 |   0.18 |   0.20 |   0.21 |   0.24 |   0.25 |   0.24 |    0.24 |     0.22 |
+| All continents |   0.47 |   0.47 |   0.51 |   0.54 |   0.56 |   0.59 |   0.61 |   0.61 |    0.63 |     0.61 |
+#+end_src
+
+#+NAME: trend-C-summary
+#+begin_src R :results output org :exports none
 Max <- max(df[df$area_cont=="All continents",c(-1)])
 Min <- min(df[df$area_cont=="All continents",c(-1)])
 diff <- round(Max - Min, 3)
@@ -134,15 +148,10 @@ inc <- round(100 * (Max - Min) / Min)
 print(glue("Min (Pg/yr): {round(Min, 3)}, Max (Pg/yr): {round(Max, 3)}, Diff (Pg/yr): {diff}, Inc (%): {inc}"))
 #+end_src
 
-#+RESULTS: val-C-summary
-: |   | area_cont      | T10_20 | T20_30 | T30_40 | T40_50 | T50_60 | T60_70 | T70_80 | T80_90 | T90_100 | T100_110 |
-: |---+----------------+--------+--------+--------+--------+--------+--------+--------+--------+---------+----------|
-: | 1 | Africa         | 0.11   | 0.11   | 0.14   | 0.14   | 0.13   | 0.13   | 0.14   | 0.14   | 0.15    | 0.15     |
-: | 2 | America        | 0.19   | 0.20   | 0.20   | 0.20   | 0.21   | 0.22   | 0.22   | 0.23   | 0.23    | 0.24     |
-: | 3 | Asia           | 0.17   | 0.15   | 0.18   | 0.20   | 0.21   | 0.24   | 0.25   | 0.24   | 0.24    | 0.22     |
-: | 4 | All continents | 0.47   | 0.47   | 0.51   | 0.54   | 0.56   | 0.59   | 0.61   | 0.61   | 0.63    | 0.61     |
-: 
-: Min (Pg/yr): 0.467, Max (Pg/yr): 0.628, Diff (Pg/yr): 0.161, Inc (%): 35
+#+RESULTS: trend-C-summary
+#+begin_src org
+Min (Pg/yr): 0.467, Max (Pg/yr): 0.628, Diff (Pg/yr): 0.161, Inc (%): 35
+#+end_src
 
 #+begin_abstract
 Tropical forests are disappearing at an alarming rate due to human activities. Here, we provide spatial models of deforestation in 92 countries covering all the tropical moist forests in the world. Our models confirm the effectiveness of protected areas in displacing deforestation and the negative impact of roads and landscape fragmentation on forest conservation in the tropics. Using our models, we derive high-resolution pantropical maps of the deforestation risk and future forest cover for the 21^{st} century under a "business-as-usual" scenario based on the deforestation rates observed in the 2010s. Although under this scenario, large areas of tropical moist forest should remain in the heart of the Amazon, in the Congo Basin, and in New Guinea in 2100, 48% (39--56%) of all forest cover is expected to disappear during the course of the 21^{st} century, and many countries will have lost all their forests by 2100. The remaining forests will be highly fragmented and located in remote places. As future deforestation will concern forests with higher aboveground carbon stocks, annual carbon emissions associated with tropical deforestation are expected to increase by +0.161 Pg/yr (+35%) between the 2010s and the 2090s.
@@ -185,7 +194,7 @@ Few authors have attempted to provide spatialized forest cover change scenarios 
 
 * Remaining tropical moist forests in 2100
 
-#+begin_src R :results output :exports none
+#+begin_src R :results output org :exports none
 ## Import data
 df <- read.table(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"), header=TRUE, sep=",")
 ## All study areas
@@ -209,30 +218,31 @@ ctry <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
   dplyr::filter(for2020>=1e6 & loss21==100) %>%
   dplyr::arrange(area_cont, -for2020)
-ctry %>% dplyr::select(area_cont, area_ctry)
+ascii(ctry %>% dplyr::select(area_cont, area_ctry))
 #+end_src
 
 #+RESULTS:
-#+begin_example
-   area_cont    area_ctry
-1     Africa      Nigeria
-2     Africa       Angola
-3     Africa   Madagascar
-4     Africa  Ivory Coast
-5     Africa        Ghana
-6     Africa     Ethiopia
-7     Africa Sierra Leone
-8    America       Mexico
-9    America    Nicaragua
-10   America       Brazil
-11   America     Honduras
-12   America    Guatemala
-13   America     Paraguay
-14      Asia         Laos
-15      Asia      Vietnam
-16      Asia     Cambodia
-17      Asia        India
-#+end_example
+#+begin_src org
+|    | area_cont | area_ctry    |
+|----+-----------+--------------|
+|  1 | Africa    | Nigeria      |
+|  2 | Africa    | Angola       |
+|  3 | Africa    | Madagascar   |
+|  4 | Africa    | Ivory Coast  |
+|  5 | Africa    | Ghana        |
+|  6 | Africa    | Ethiopia     |
+|  7 | Africa    | Sierra Leone |
+|  8 | America   | Mexico       |
+|  9 | America   | Nicaragua    |
+| 10 | America   | Brazil       |
+| 11 | America   | Honduras     |
+| 12 | America   | Guatemala    |
+| 13 | America   | Paraguay     |
+| 14 | Asia      | Laos         |
+| 15 | Asia      | Vietnam      |
+| 16 | Asia      | Cambodia     |
+| 17 | Asia      | India        |
+#+end_src
 
 Using study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 7.6 Mha (5.8--9.5 Mha) of tropical moist forest have been disappearing each year over the last decade (2010--2020). This corresponds to an area of 76,000 km^{2}, about the size of Scotland or South Carolina, which is deforested each year. We show here that under a business-as-usual scenario of deforestation, 54% (46--61%) of the world's tropical moist forest will disappear over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}) but with marked differences in the percentage of forest cover loss at the continental (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}) and country (tables S14--S17) scales. In Southeast Asia, where the forest area remaining in 2020 was relatively low (247 Mha) and the area deforested each year is relatively large (2.5 Mha/yr) compared to the two other continents, the percentage of forest cover loss over the 21^{st} century will reach 78%. In Africa, where the annual deforested area is lower (2.2 Mha/yr), this percentage will be 58%. In Latin America, where the annual deforested area is higher (2.9 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage will be 41%. Under a business-as-usual scenario of deforestation, three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2100, 2150, and 2200 in Southeast Asia, Africa, and Latin America, respectively (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
 
@@ -321,7 +331,7 @@ latextab_2cols_text(kable_tab, txt)
 \hspace{1em}All cont. & 1,259,422 & 1,173,144 & 1,108,945 & 6,418 & 0.6 & 921,830 & 655,757 & 48 & 2192\\
 \bottomrule
 \end{tabular*}
-\justify \addtabletext{We provide past and predicted forest cover for the three continents and for the three countries with the highest forest cover in 2010 for each continent (Brazil in America, the DRC in Africa, and Indonesia in Asia). Past forest cover areas (in thousand hectares, Kha) refers to their status on January 1\textsuperscript{st} 2000, 2010, and 2020 (``fc2000'', ``fc2010'', and ``fc2020'', respectively). We provide the mean annual deforested area \(d\) (Kha/yr) for the last ten-year period from January 1\textsuperscript{st} 2009 to January 1\textsuperscript{st} 2019 (deforestation in 2019 is not included, see Methods), and the corresponding mean annual deforestation rate \(p\) (\%/yr). Projected forest cover areas are given for the years 2050 and 2100 (``fc2050'' and ``fc2100''). Projections are based on the forest cover in 2020 (``fc2020'') and the mean annual deforested area (\(d\)) assuming a business-as-usual scenario of deforestation. Column ``loss21'' indicates the projected percentage of forest cover loss during the 21\textsuperscript{st} century (2100 vs. 2000). We estimate the year (``yr75'') at which 75\% of the forest cover in 2000 will have disappeared.
+\justify \addtabletext{We provide past and predicted forest cover for the three continents and for the three countries with the highest forest cover in 2010 for each continent (Brazil in America, the DRC in Africa, and Indonesia in Asia). Past forest cover areas (in thousand hectares, Kha) refers to their status on January 1\textsuperscript{st} 2000, 2010, and 2020 (``fc2000'', ``fc2010'', and ``fc2020'', respectively). We provide the mean annual deforested area \(d\) (Kha/yr) for the last ten-year period from January 1\textsuperscript{st} 2010 to January 1\textsuperscript{st} 2020, and the corresponding mean annual deforestation rate \(p\) (\%/yr). Projected forest cover areas are given for the years 2050 and 2100 (``fc2050'' and ``fc2100''). Projections are based on the forest cover in 2020 (``fc2020'') and the mean annual deforested area (\(d\)) assuming a business-as-usual scenario of deforestation. Column ``loss21'' indicates the projected percentage of forest cover loss during the 21\textsuperscript{st} century (2100 vs. 2000). We estimate the year (``yr75'') at which 75\% of the forest cover in 2000 will have disappeared.
 }
 \end{table*}
 #+end_export
