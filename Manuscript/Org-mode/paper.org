@@ -122,6 +122,20 @@ ascii(df, include.rownames=FALSE)
 | All continents |  946311878.00 | 872607186.00 | 801515043.00 | 670561630.00 | 553755051.00 |  56.03 | 2157.00 | max  |
 #+end_src
 
+#+NAME: yr75-uncertainty
+#+begin_src R :results output org :exports none
+Mean <- df %>% filter(sim=="mean") %>% select(yr75dis)
+Min <- df %>% filter(sim=="min") %>% select(yr75dis)
+Max <- df %>% filter(sim=="max") %>% select(yr75dis)
+Uncertainty <- round(mean(unlist(cbind(Min-Mean, Mean-Max))))
+print(glue("yr-uncertainty: +/-{Uncertainty} yr"))
+#+end_src
+
+#+RESULTS: yr75-uncertainty
+#+begin_src org
+yr-uncertainty: +/-44 yr
+#+end_src
+
 
 #+NAME: val-C-summary
 #+begin_src R :results output org :exports none
@@ -173,9 +187,27 @@ biodiversity $|$ deforestation $|$ tropical forests $|$ CO_{2} emissions $|$ sce
 
 * Significance statement                                             :ignore:
 
+#+NAME: nctry_loss21
+#+begin_src R :results output org :exports none
+df <- read_csv(here("Analysis", "jrc2020", "nctry_loss21_bycont.csv"))
+ascii(df, include.rownames=FALSE)
+#+end_src
+
+#+RESULTS: nctry_loss21
+#+begin_src org
+| area_cont |     n |
+|-----------+-------|
+| Africa    | 21.00 |
+| America   | 16.00 |
+| Asia      |  4.00 |
+| Brazil    | 14.00 |
+| India     |  1.00 |
+| All       | 56.00 |
+#+end_src
+
 @@latex:\significancestatement{@@
 
-Under a "business-as-usual" scenario of deforestation (i.e. projecting the 2010--2020 deforestation rates at the country level in the future), three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2100, 2150, and 2200 in Southeast Asia, Africa, and Latin America, respectively. By 2100, 47 tropical countries, plus 18 states in Brazil and one region in India, will lose all their tropical forests. Remaining forests will be highly fragmented and concentrated in remote areas (far from roads and towns), preferentially in protected areas, and at high elevations. Future deforestation will concern forests with higher carbon stocks. In the absence of change in the deforestation rates, annual carbon emissions associated with tropical deforestation will increase from 0.467 Pg/yr in the 2010s to 0.628 Pg/yr in the 2090s (+35%), making tropical forests a major carbon source in the 21^{st} century.
+Under a "business-as-usual" scenario of deforestation (i.e. projecting the 2010--2020 deforestation rates at the country level in the future), three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2120, 2160, and 2220 in Southeast Asia, Africa, and Latin America, respectively. By 2100, 41 tropical countries, plus 14 states in Brazil and one region in India, will lose all their tropical forests. Remaining forests will be highly fragmented and concentrated in remote areas (far from roads and towns), preferentially in protected areas, and at high elevations. Future deforestation will concern forests with higher carbon stocks. In the absence of change in the deforestation rates, annual carbon emissions associated with tropical deforestation will increase from 0.467 Pg/yr in the 2010s to 0.628 Pg/yr in the 2090s (+35%), making tropical forests a major carbon source in the 21^{st} century.
 
 @@latex:}@@
 
@@ -186,13 +218,52 @@ Under a "business-as-usual" scenario of deforestation (i.e. projecting the 2010-
 Forecasting forest cover change is paramount as it allows us to foresee the consequences of deforestation (in terms of carbon emissions, biodiversity loss, or water supply) under various technological, political, and socio-economic scenarios, and to inform decision makers accordingly [cite:@Clark2001]. The "business-as-usual" scenario is of particular interest as it makes it possible to predict the likely future in the absence of change in deforestation rates, and if necessary, to alert decision-makers to an essential change of course to avoid any potential environmental disaster. While models and scenarios of carbon dioxide emission and climate change have been developed for several years by the Intergovernmental Panel on Climate Change [cite:@IPCC2014] and are now widely used by the scientific community and known to the general public, equivalent models and scenarios for land-use change and biodiversity at the global scale are still relatively scarce [cite:@Pereira2020]. Moreover, baseline scenarios of deforestation and associated carbon dioxide emission are necessary for implementing REDD+ (Reducing Emissions from Deforestation and forest Degradation) activities in the framework of the Paris Agreement on climate change [cite:@Goetz2015]. Spatialized forest cover change scenarios are crucial because both forest carbon stocks [cite:@Baccini2017; @Avitabile2016] and biodiversity [cite:@Kremen2008; @Mittermeier2011] vary considerably in space at fine scale. Non-spatial scenarios of forest cover change [cite:@FAO2015] cannot be used to forecast associated carbon emissions and change in biodiversity accurately, or for systematic conservation planning at the local scale. Spatial forecasts of forest cover change are based on spatial statistical models, which enable estimation of a probability of change in space as a function of a set of spatial predictors [cite:@Rosa2014a]. In addition to forecasts, statistical models can be used to identify the main drivers of deforestation and to quantify their relative effects. For example, models can be used to assess the impact of roads on the risk of deforestation [cite:@Laurance2014] and the effectiveness of protected areas at reducing deforestation [cite:@Andam2008; @Wolf2021].
 
 #+NAME: fig:fcc2100
-#+CAPTION: *Pantropical map of the predicted change in forest cover*. Maps show the predicted change in tropical moist forest cover in the three continents (America, Africa, and Asia) for the period 2020--2100 under a business-as-usual scenario of deforestation. The horizontal black line represents the Equator. The  boundaries of the study area are represented by dark grey lines. For the deforestation projections, we assumed no diffusion of the deforestation between countries. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are likely to still exist in 2100. Several countries on the three continents are expected to lose all their tropical moist forest by 2100 (including Nicaragua and Mexico in Central America, Madagascar and Ghana in Africa, and Laos and Vietnam in Asia). We predict progressive fragmentation of the remaining forest in the future, with an increasing number of isolated forest patches of smaller size (e.g., Pará state in Brazil, the Democratic Republic of the Congo, and Indonesia). These maps make it possible to identify both future hotspots of deforestation and forest refuge areas (e.g., concentrated in the heart of the Amazon, West Central Africa, and Papua New Guinea). An interactive map is available at [[FARmaps]], and a zoom of this map for the DRC is available in the [[SI][/SI Appendix/, Fig. S2]].
+#+CAPTION: *Pantropical map of the predicted change in forest cover*. Maps show the predicted change in tropical moist forest cover in the three continents (America, Africa, and Asia) for the period 2020--2100 under a business-as-usual scenario of deforestation. The horizontal black line represents the Equator. The  boundaries of the study area are represented by dark grey lines. For the deforestation projections, we assumed no diffusion of the deforestation between countries. Forest areas in \textcolor{red}{red} are predicted to be deforested in the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are likely to still exist in 2100. Several countries on the three continents are expected to lose all their tropical moist forest by 2100 (including Nicaragua and Mexico in Central America, Madagascar and Ghana in Africa, and Laos and Vietnam in Asia). We predict progressive fragmentation of the remaining forest in the future, with an increasing number of isolated forest patches of smaller size (e.g., Pará state in Brazil, the Democratic Republic of the Congo, and Indonesia). These maps make it possible to identify both future hotspots of deforestation and forest refuge areas (e.g., concentrated in the heart of the Amazon, West Central Africa, and Papua New Guinea). An interactive map is available at [[FARmaps]].
 #+ATTR_LATEX: :width \linewidth :float multicolumn :placement [tb!]
 [[file:figures/fcc2100.png]]
 
-Few authors have attempted to provide spatialized forest cover change scenarios in the tropics at large spatial scales. The largest studies to date have focused on modelling and forecasting forest cover change at the scale of the Amazonian basin [cite:@Aguiar2016; @Swann2015; @Soares-Filho2006]. In this paper, we model and forecast tropical deforestation at the pantropical scale using high-resolution spatial data. This was made possible by the recent availability of pantropical spatial datasets of forest cover change [cite:@Vancutsem2021] and of global spatial datasets of explanatory factors related to deforestation at the required resolution (World Database on Protected Areas, SRTM Digital Elevation Database, and OpenStreetMap). We combine these extensive datasets in a spatial statistical model to test the effectiveness of protected areas at reducing deforestation and to assess the impact of roads on the risk of deforestation. Assuming a business-as-usual scenario, we derive high-resolution maps of deforestation risk and future forest cover over the 21^{st} century in the humid tropics. We also estimate the carbon emissions associated with projected deforestation and conduct an uncertainty analysis.
+Few authors have attempted to provide spatialized forest cover change scenarios in the tropics at large spatial scales. The largest studies to date have focused on modelling and forecasting forest cover change at the scale of the Amazonian basin [cite:@Aguiar2016; @Swann2015; @Soares-Filho2006]. In this paper, we model and forecast tropical deforestation at the pantropical scale using high-resolution spatial data. This was made possible by the recent availability of pantropical spatial datasets of forest cover change [cite:@Vancutsem2021] and of global spatial datasets of explanatory factors related to deforestation at the required resolution (World Database on Protected Areas, SRTM Digital Elevation Database, and OpenStreetMap). We combine these extensive datasets in a spatial statistical model to test the effectiveness of protected areas at reducing deforestation and to assess the impact of roads on the risk of deforestation at the pantropical scale. Assuming a business-as-usual scenario, we derive high-resolution maps of deforestation risk and future forest cover over the 21^{st} century in the humid tropics. We also estimate the carbon emissions associated with projected deforestation and conduct an uncertainty analysis.
 
 * Remaining tropical moist forests in 2100
+
+#+NAME: fcc-hist
+#+begin_src R :results output org :exports none
+df_mean <- read_csv(here("Analysis", "jrc2020", "fcc_hist_region_mean.csv")) %>% mutate(sim="mean")
+df_min <- read_csv(here("Analysis", "jrc2020", "fcc_hist_region_min.csv")) %>% mutate(sim="min")
+df_max <- read_csv(here("Analysis", "jrc2020", "fcc_hist_region_max.csv")) %>% mutate(sim="max")
+df <- df_mean %>%
+  dplyr::bind_rows(df_min, df_max) %>%
+  dplyr::filter(area_cont %in% c("America", "Africa", "Asia", "All continents")) %>%
+  dplyr::arrange(factor(area_cont, levels=c("America", "Africa", "Asia", "All continents")),
+                 factor(sim, levels=c("min", "mean", "max"))) %>%
+  dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef, for2100, loss21, yrdis, sim)
+ascii(df, include.rownames=FALSE)
+#+end_src
+
+#+RESULTS: fcc-hist
+#+begin_src org
+| area_cont      |       for2000 |       for2010 |       for2020 |      andef | pdef |      for2100 | loss21 |   yrdis | sim  |
+|----------------+---------------+---------------+---------------+------------+------+--------------+--------+---------+------|
+| America        |  687338828.00 |  646684903.00 |  621229023.00 | 1836098.00 | 0.30 | 476194555.00 |  30.72 | 6215.00 | min  |
+| America        |  687338828.00 |  646684903.00 |  621229023.00 | 2545400.00 | 0.40 | 427790431.00 |  37.76 | 5394.00 | mean |
+| America        |  687338828.00 |  646684903.00 |  621229023.00 | 3254695.00 | 0.50 | 380806415.00 |  44.60 | 4842.00 | max  |
+| Africa         |  274993405.00 |  258401297.00 |  239681325.00 | 1315897.00 | 0.50 | 151415462.00 |  44.94 | 5069.00 | min  |
+| Africa         |  274993405.00 |  258401297.00 |  239681325.00 | 1871233.00 | 0.70 | 129045039.00 |  53.07 | 4088.00 | mean |
+| Africa         |  274993405.00 |  258401297.00 |  239681325.00 | 2426569.00 | 1.00 | 110050172.00 |  59.98 | 3585.00 | max  |
+| Asia           |  297089526.00 |  268058087.00 |  248035053.00 | 1371294.00 | 0.50 | 142358155.00 |  52.08 | 6520.00 | min  |
+| Asia           |  297089526.00 |  268058087.00 |  248035053.00 | 2001803.00 | 0.80 |  98921850.00 |  66.70 | 4062.00 | mean |
+| Asia           |  297089526.00 |  268058087.00 |  248035053.00 | 2632313.00 | 1.00 |  62898467.00 |  78.83 | 3339.00 | max  |
+| All continents | 1259421759.00 | 1173144287.00 | 1108945401.00 | 4523289.00 | 0.40 | 769968172.00 |  38.86 | 6520.00 | min  |
+| All continents | 1259421759.00 | 1173144287.00 | 1108945401.00 | 6418436.00 | 0.60 | 655757320.00 |  47.93 | 5394.00 | mean |
+| All continents | 1259421759.00 | 1173144287.00 | 1108945401.00 | 8313577.00 | 0.70 | 553755054.00 |  56.03 | 4842.00 | max  |
+#+end_src
+
+Using the study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 6.4 Mha (4.5--8.3 Mha) of tropical moist forest have been disappearing each year over the last decade (2010--2020). This corresponds to an area of 64,000 km^{2}, about the size of Greece or West Virginia, which is deforested each year. We show here that under a business-as-usual scenario of deforestation, 48% (39--56%) of the world's tropical moist forest will disappear over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}) but with marked differences in the percentage of forest cover loss at the continental (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}) and country (tables S14--S17) scales. In Southeast Asia, where the forest area remaining in 2020 was relatively low (248 Mha) and the area deforested each year is relatively large (2.0 Mha/yr) compared to the two other continents, the percentage of forest cover loss over the 21^{st} century will reach 67% (52--79%). In Africa, where the annual deforested area is lower (1.9 Mha/yr), this percentage will be 53% (45--60%). In Latin America, where the annual deforested area is higher (2.5 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage will be 38% (31--45%). Under a business-as-usual scenario of deforestation, three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2120, 2160, and 2220 in Southeast Asia, Africa, and Latin America, respectively, with an average uncertainty of $\pm$45 years (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
+
+#+NAME: fig:perc-loss
+#+CAPTION: *Projected percentage of forest cover loss per continent*. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for the years 2000 (0%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from year 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries. When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have no more forest (in 2264, 2181, and 2144, respectively, see table S16), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2117, 2163, and 2220 for Asia, Africa, and America, respectively. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas.
+#+ATTR_LATEX: :width \columnwidth
+[[file:figures/perc_loss_cont.png]]
 
 #+begin_src R :results output org :exports none
 ## Import data
@@ -243,13 +314,6 @@ ascii(ctry %>% dplyr::select(area_cont, area_ctry))
 | 16 | Asia      | Cambodia     |
 | 17 | Asia      | India        |
 #+end_src
-
-Using study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 7.6 Mha (5.8--9.5 Mha) of tropical moist forest have been disappearing each year over the last decade (2010--2020). This corresponds to an area of 76,000 km^{2}, about the size of Scotland or South Carolina, which is deforested each year. We show here that under a business-as-usual scenario of deforestation, 54% (46--61%) of the world's tropical moist forest will disappear over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}) but with marked differences in the percentage of forest cover loss at the continental (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}) and country (tables S14--S17) scales. In Southeast Asia, where the forest area remaining in 2020 was relatively low (247 Mha) and the area deforested each year is relatively large (2.5 Mha/yr) compared to the two other continents, the percentage of forest cover loss over the 21^{st} century will reach 78%. In Africa, where the annual deforested area is lower (2.2 Mha/yr), this percentage will be 58%. In Latin America, where the annual deforested area is higher (2.9 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage will be 41%. Under a business-as-usual scenario of deforestation, three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2100, 2150, and 2200 in Southeast Asia, Africa, and Latin America, respectively (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
-
-#+NAME: fig:perc-loss
-#+CAPTION: *Projected percentage of forest cover loss per continent*. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for the years 2000 (0%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from year 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries. When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have no more forest (in 2237, 2156, and 2115, respectively, see table S16), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2094, 2143, and 2197 for Asia, Africa, and America, respectively. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas.
-#+ATTR_LATEX: :width \columnwidth
-[[file:figures/perc_loss_cont.png]]
 
 At the country scale, we predict that 47 countries (18 in Latin America, 21 in Africa, and 8 in Southeast Asia) out of the 92 we studied, plus 18 states in Brazil and one region in India, will lose all their tropical forests by 2100 (Fig. [[fig:fcc2100]] and table S16). Among these countries or regions, 20 countries (six in America, eight in Africa, and six in Asia), five states in Brazil, and one region in India had more than one million hectares of forest in 2020. These 20 countries include most of the countries of Central America (Mexico, Guatemala, Honduras, Nicaragua), Western (Sierra Leone, Ivory Coast, Ghana, Nigeria) and Eastern (Ethiopia, Madagascar) Africa, and continental Southeast Asia (Myanmar, Laos, Vietnam, Cambodia, Malaysia, Indian Western Ghats). These regions include almost all tropical forests located within six biodiversity hotspots identified by [cite//bc:@Mittermeier2011]: Mesoamerica, Guinean Forests of West Africa, the Horn of Africa, Madagascar and Indian Ocean Islands, Indo-Burma, Western Ghats and Sri Lanka (Fig. [[fig:fcc2100]]).
 
@@ -349,7 +413,6 @@ Here we estimate the aboveground carbon emissions associated with deforestation 
 #+begin_src R :results none :exports none
 dataset <- "jrc2020"
 f <- here("Analysis", dataset, "C_trend_mean.csv")
-#f <- "/home/ghislain/Code/forestatrisk-tropics/Analysis/jrc2020/C_trend_mean.csv"
 C_trend <- read.table(f, header=TRUE, sep=",")
 C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 3)
 C_all <- C_trend[C_trend$area_cont=="All continents",-c(1)]
