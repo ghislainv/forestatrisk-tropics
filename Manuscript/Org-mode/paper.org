@@ -140,17 +140,17 @@ yr-uncertainty: +/-44 yr
 #+NAME: val-C-summary
 #+begin_src R :results output org :exports none
 df <- read_csv(here("Analysis", "jrc2020", "C_trend_mean.csv"))
-ascii(df, include.rownames=FALSE)
+ascii(df, include.rownames=FALSE, digits=3)
 #+end_src
 
 #+RESULTS: val-C-summary
 #+begin_src org
 | area_cont      | T10_20 | T20_30 | T30_40 | T40_50 | T50_60 | T60_70 | T70_80 | T80_90 | T90_100 | T100_110 |
 |----------------+--------+--------+--------+--------+--------+--------+--------+--------+---------+----------|
-| Africa         |   0.11 |   0.11 |   0.14 |   0.14 |   0.13 |   0.13 |   0.14 |   0.14 |    0.15 |     0.15 |
-| America        |   0.19 |   0.20 |   0.20 |   0.20 |   0.21 |   0.22 |   0.22 |   0.23 |    0.23 |     0.24 |
-| Asia           |   0.17 |   0.15 |   0.18 |   0.20 |   0.21 |   0.24 |   0.25 |   0.24 |    0.24 |     0.22 |
-| All continents |   0.47 |   0.47 |   0.51 |   0.54 |   0.56 |   0.59 |   0.61 |   0.61 |    0.63 |     0.61 |
+| Africa         |  0.105 |  0.114 |  0.136 |  0.136 |  0.134 |  0.134 |  0.139 |  0.144 |   0.151 |    0.151 |
+| America        |  0.194 |  0.202 |  0.197 |  0.203 |  0.214 |  0.221 |  0.223 |  0.225 |   0.233 |    0.239 |
+| Asia           |  0.167 |  0.154 |  0.179 |  0.198 |  0.214 |  0.235 |  0.251 |  0.243 |   0.244 |    0.223 |
+| All continents |  0.467 |  0.471 |  0.512 |  0.536 |  0.562 |  0.590 |  0.612 |  0.612 |   0.628 |    0.613 |
 #+end_src
 
 #+NAME: trend-C-summary
@@ -258,7 +258,7 @@ ascii(df, include.rownames=FALSE)
 | All continents | 1259421759.00 | 1173144287.00 | 1108945401.00 | 8313577.00 | 0.70 | 553755054.00 |  56.03 | 4842.00 | max  |
 #+end_src
 
-Using the study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 6.4 Mha (4.5--8.3 Mha) of tropical moist forest have been disappearing each year over the last decade (2010--2020). This corresponds to an area of 64,000 km^{2}, about the size of Greece or West Virginia, which is deforested each year. We show here that under a business-as-usual scenario of deforestation, 48% (39--56%) of the world's tropical moist forest will disappear over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}) but with marked differences in the percentage of forest cover loss at the continental (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}) and country (tables S14--S17) scales. In Southeast Asia, where the forest area remaining in 2020 was relatively low (248 Mha) and the area deforested each year is relatively large (2.0 Mha/yr) compared to the two other continents, the percentage of forest cover loss over the 21^{st} century will reach 67% (52--79%). In Africa, where the annual deforested area is lower (1.9 Mha/yr), this percentage will be 53% (45--60%). In Latin America, where the annual deforested area is higher (2.5 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage will be 38% (31--45%). Under a business-as-usual scenario of deforestation, three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2120, 2160, and 2220 in Southeast Asia, Africa, and Latin America, respectively, with an average uncertainty of $\pm$45 years (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
+Using the study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 6.4 Mha (4.5--8.3 Mha) of tropical moist forest have been disappearing each year over the last decade (2010--2020). This corresponds to an area of 64,000 km^{2}, about the size of Greece or West Virginia, which is deforested each year. We show here that under a business-as-usual scenario of deforestation, 48% (39--56%) of the world's tropical moist forest will disappear over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}) but with marked differences in the percentage of forest cover loss at the continental (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}) and country (tables S14--S17) scales. In Southeast Asia, where the forest area remaining in 2020 is estimated at 248 Mha and the area deforested each year is relatively large (2.0 Mha/yr) compared to the two other continents, the percentage of forest cover loss over the 21^{st} century will reach 67% (52--79%) under this scenario. In Africa, where the annual deforested area is lower (1.9 Mha/yr), this percentage will be 53% (45--60%). In Latin America, where the annual deforested area is higher (2.5 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage will be 38% (31--45%). Under a business-as-usual scenario of deforestation, three quarters of the tropical moist forests that existed in 2000 will have disappeared around years 2120, 2160, and 2220 in Southeast Asia, Africa, and Latin America, respectively, with an average uncertainty of \pm45 years (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
 
 #+NAME: fig:perc-loss
 #+CAPTION: *Projected percentage of forest cover loss per continent*. Points represent the observed percentage of forest cover loss (in comparison with the year 2000) for the years 2000 (0%), 2010, and 2020, for the three continents: America, Africa, and Asia. Lines represent the projected percentage of forest cover loss (in comparison with the year 2000) from year 2020 to 2400 per continent. For the deforestation projections, we assumed no diffusion of the deforestation between countries. When large countries with high annual deforested areas (Brazil for America, DRC for Africa, and Indonesia for Asia) have no more forest (in 2264, 2181, and 2144, respectively, see table S16), deforestation at the continent scale is rapidly decreasing. The horizontal black line indicates a loss of 75% of the forest cover in comparison with the year 2000. Under a "business-as-usual" scenario, this should happen in 2117, 2163, and 2220 for Asia, Africa, and America, respectively. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas.
@@ -266,56 +266,120 @@ Using the study by [cite/t:@Vancutsem2021] as a reference, we estimate that arou
 [[file:figures/perc_loss_cont.png]]
 
 #+begin_src R :results output org :exports none
-## Import data
-df <- read.table(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"), header=TRUE, sep=",")
-## All study areas
-nctry_loss <- df %>%
-  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
-  dplyr::group_by(area_cont) %>%
-  dplyr::summarize(nctry=n(),
-                   nctry_loss21_100=sum(loss21==100),
-                   nctry_loss21_75=sum(loss21>=75))
-## Study-areas with more than 1 Mha of forest in 2020
-nctry_loss_large <- df %>%
-  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
-  dplyr::filter(for2020>=1e6) %>%
-  dplyr::group_by(area_cont) %>%
-  dplyr::summarize(nctry=n(),
-                   nctry_loss21_100=sum(loss21==100),
-                   nctry_loss21_75=sum(loss21>=75))
-## List countries
-## Study-areas with more than 1 Mha of forest in 2020
+# Summary of fcc loss a the country level
+df <- read_csv(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"))
 ctry <- df %>%
   dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
-  dplyr::filter(for2020>=1e6 & loss21==100) %>%
-  dplyr::arrange(area_cont, -for2020)
-ascii(ctry %>% dplyr::select(area_cont, area_ctry))
+  dplyr::filter(loss21 == 100) %>%
+  dplyr::mutate(fc1M=ifelse(for2000 >= 1e6, "+", "-")) %>%
+  dplyr::arrange(area_cont, area_ctry)
+ascii(ctry %>% dplyr::select(area_cont, area_ctry, area_name, for2000, loss21, yrdis, fc1M))
 #+end_src
 
 #+RESULTS:
 #+begin_src org
-|    | area_cont | area_ctry    |
-|----+-----------+--------------|
-|  1 | Africa    | Nigeria      |
-|  2 | Africa    | Angola       |
-|  3 | Africa    | Madagascar   |
-|  4 | Africa    | Ivory Coast  |
-|  5 | Africa    | Ghana        |
-|  6 | Africa    | Ethiopia     |
-|  7 | Africa    | Sierra Leone |
-|  8 | America   | Mexico       |
-|  9 | America   | Nicaragua    |
-| 10 | America   | Brazil       |
-| 11 | America   | Honduras     |
-| 12 | America   | Guatemala    |
-| 13 | America   | Paraguay     |
-| 14 | Asia      | Laos         |
-| 15 | Asia      | Vietnam      |
-| 16 | Asia      | Cambodia     |
-| 17 | Asia      | India        |
+|    | area_cont | area_ctry      | area_name                    |     for2000 | loss21 |   yrdis | fc1M |
+|----+-----------+----------------+------------------------------+-------------+--------+---------+------|
+|  1 | Africa    | Angola         | Angola                       |  7064733.00 | 100.00 | 2095.00 | +    |
+|  2 | Africa    | Benin          | Benin                        |    76776.00 | 100.00 | 2041.00 | -    |
+|  3 | Africa    | Burundi        | Burundi                      |   104249.00 | 100.00 | 2084.00 | -    |
+|  4 | Africa    | Ethiopia       | Ethiopia                     |  3799018.00 | 100.00 | 2056.00 | +    |
+|  5 | Africa    | Gambia         | Gambia                       |    49362.00 | 100.00 | 2074.00 | -    |
+|  6 | Africa    | Ghana          | Ghana                        |  4931885.00 | 100.00 | 2050.00 | +    |
+|  7 | Africa    | Guinea         | Guinea                       |  1895309.00 | 100.00 | 2042.00 | +    |
+|  8 | Africa    | Guinea Bissau  | Guinea Bissau                |   398114.00 | 100.00 | 2073.00 | -    |
+|  9 | Africa    | Ivory Coast    | Ivory Coast                  |  7733912.00 | 100.00 | 2036.00 | +    |
+| 10 | Africa    | Kenya          | Kenya                        |  1199041.00 | 100.00 | 2082.00 | +    |
+| 11 | Africa    | Madagascar     | Madagascar                   |  7024045.00 | 100.00 | 2067.00 | +    |
+| 12 | Africa    | Malawi         | Malawi                       |   113422.00 | 100.00 | 2032.00 | -    |
+| 13 | Africa    | Mayotte        | Mayotte                      |    17931.00 | 100.00 | 2043.00 | -    |
+| 14 | Africa    | Nigeria        | Nigeria                      |  7770147.00 | 100.00 | 2080.00 | +    |
+| 15 | Africa    | Rwanda         | Rwanda                       |   283986.00 | 100.00 | 2066.00 | -    |
+| 16 | Africa    | Senegal        | Senegal                      |   136279.00 | 100.00 | 2082.00 | -    |
+| 17 | Africa    | Sierra Leone   | Sierra Leone                 |  3440270.00 | 100.00 | 2036.00 | +    |
+| 18 | Africa    | South Sudan    | South Sudan                  |   265213.00 | 100.00 | 2067.00 | -    |
+| 19 | Africa    | Togo           | Togo                         |   159791.00 | 100.00 | 2037.00 | -    |
+| 20 | Africa    | Uganda         | Uganda                       |  1878962.00 | 100.00 | 2043.00 | +    |
+| 21 | Africa    | Zambia         | Zambia                       |   177005.00 | 100.00 | 2044.00 | -    |
+| 22 | America   | Antigua and B. | Antigua and B.               |     4055.00 | 100.00 | 2078.00 | -    |
+| 23 | America   | Bahamas        | Bahamas                      |   152350.00 | 100.00 | 2079.00 | -    |
+| 24 | America   | Barbados       | Barbados                     |     4449.00 | 100.00 | 2072.00 | -    |
+| 25 | America   | Brazil         | Brazil – Alagoas             |   111761.00 | 100.00 | 2060.00 | -    |
+| 26 | America   | Brazil         | Brazil – Ceara               |    56712.00 | 100.00 | 2051.00 | -    |
+| 27 | America   | Brazil         | Brazil – Espirito Santo      |   487268.00 | 100.00 | 2079.00 | -    |
+| 28 | America   | Brazil         | Brazil – Goias               |   643704.00 | 100.00 | 2049.00 | -    |
+| 29 | America   | Brazil         | Brazil – Maranhao            |  5638128.00 | 100.00 | 2068.00 | +    |
+| 30 | America   | Brazil         | Brazil – Mato Grosso do Sul  |   871211.00 | 100.00 | 2077.00 | -    |
+| 31 | America   | Brazil         | Brazil – Minas Gerais        |  1824088.00 | 100.00 | 2050.00 | +    |
+| 32 | America   | Brazil         | Brazil – Paraiba             |    46097.00 | 100.00 | 2054.00 | -    |
+| 33 | America   | Brazil         | Brazil – Pernambouco         |   137903.00 | 100.00 | 2063.00 | -    |
+| 34 | America   | Brazil         | Brazil – Piaui               |   104472.00 | 100.00 | 2047.00 | -    |
+| 35 | America   | Brazil         | Brazil – Rio de Janeiro      |   819541.00 | 100.00 | 2093.00 | -    |
+| 36 | America   | Brazil         | Brazil – Rio Grande do Norte |    30540.00 | 100.00 | 2051.00 | -    |
+| 37 | America   | Brazil         | Brazil – Sergipe             |    73520.00 | 100.00 | 2055.00 | -    |
+| 38 | America   | Brazil         | Brazil – Tocantins           |  1730508.00 | 100.00 | 2045.00 | +    |
+| 39 | America   | Dominican Rep. | Dominican Rep.               |  1254328.00 | 100.00 | 2091.00 | +    |
+| 40 | America   | El Salvador    | El Salvador                  |   128663.00 | 100.00 | 2099.00 | -    |
+| 41 | America   | Grenada        | Grenada                      |    25671.00 | 100.00 | 2092.00 | -    |
+| 42 | America   | Guatemala      | Guatemala                    |  3449029.00 | 100.00 | 2073.00 | +    |
+| 43 | America   | Haiti          | Haiti                        |   247385.00 | 100.00 | 2050.00 | -    |
+| 44 | America   | Honduras       | Honduras                     |  3384398.00 | 100.00 | 2080.00 | +    |
+| 45 | America   | Mexico         | Mexico                       |  9098171.00 | 100.00 | 2075.00 | +    |
+| 46 | America   | Nicaragua      | Nicaragua                    |  4926475.00 | 100.00 | 2059.00 | +    |
+| 47 | America   | Paraguay       | Paraguay                     |  2358900.00 | 100.00 | 2051.00 | +    |
+| 48 | America   | Saint Martin   | Saint Martin                 |      728.00 | 100.00 | 2033.00 | -    |
+| 49 | America   | Sint Maarten   | Sint Maarten                 |      308.00 | 100.00 | 2031.00 | -    |
+| 50 | America   | Virgin Isl. UK | Virgin Isl. UK               |     4010.00 | 100.00 | 2039.00 | -    |
+| 51 | America   | Virgin Isl. US | Virgin Isl. US               |     9180.00 | 100.00 | 2068.00 | -    |
+| 52 | Asia      | Cambodia       | Cambodia                     |  4804127.00 | 100.00 | 2044.00 | +    |
+| 53 | Asia      | India          | India – West. Ghats          |  3144031.00 | 100.00 | 2067.00 | +    |
+| 54 | Asia      | Laos           | Laos                         | 11607486.00 | 100.00 | 2080.00 | +    |
+| 55 | Asia      | Timor-Leste    | Timor-Leste                  |   130695.00 | 100.00 | 2086.00 | -    |
+| 56 | Asia      | Vietnam        | Vietnam                      | 10691887.00 | 100.00 | 2093.00 | +    |
 #+end_src
 
-At the country scale, we predict that 47 countries (18 in Latin America, 21 in Africa, and 8 in Southeast Asia) out of the 92 we studied, plus 18 states in Brazil and one region in India, will lose all their tropical forests by 2100 (Fig. [[fig:fcc2100]] and table S16). Among these countries or regions, 20 countries (six in America, eight in Africa, and six in Asia), five states in Brazil, and one region in India had more than one million hectares of forest in 2020. These 20 countries include most of the countries of Central America (Mexico, Guatemala, Honduras, Nicaragua), Western (Sierra Leone, Ivory Coast, Ghana, Nigeria) and Eastern (Ethiopia, Madagascar) Africa, and continental Southeast Asia (Myanmar, Laos, Vietnam, Cambodia, Malaysia, Indian Western Ghats). These regions include almost all tropical forests located within six biodiversity hotspots identified by [cite//bc:@Mittermeier2011]: Mesoamerica, Guinean Forests of West Africa, the Horn of Africa, Madagascar and Indian Ocean Islands, Indo-Burma, Western Ghats and Sri Lanka (Fig. [[fig:fcc2100]]).
+#+begin_src R :results output org :exports none
+# Summary of fcc loss for countries with high forest cover in 2000
+df <- read_csv(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"))
+ctry <- df %>%
+  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
+  dplyr::filter(loss21 == 100) %>%
+  dplyr::mutate(fc1M=ifelse(for2000 >= 1e6, "+", "-")) %>%
+  dplyr::filter(fc1M == "+") %>%
+  dplyr::arrange(area_cont, area_ctry)
+ascii(ctry %>% dplyr::select(area_cont, area_ctry, area_name, for2000, loss21, yrdis, fc1M))
+#+end_src
+
+#+RESULTS:
+#+begin_src org
+|    | area_cont | area_ctry      | area_name             |     for2000 | loss21 |   yrdis | fc1M |
+|----+-----------+----------------+-----------------------+-------------+--------+---------+------|
+|  1 | Africa    | Angola         | Angola                |  7064733.00 | 100.00 | 2095.00 | +    |
+|  2 | Africa    | Ethiopia       | Ethiopia              |  3799018.00 | 100.00 | 2056.00 | +    |
+|  3 | Africa    | Ghana          | Ghana                 |  4931885.00 | 100.00 | 2050.00 | +    |
+|  4 | Africa    | Guinea         | Guinea                |  1895309.00 | 100.00 | 2042.00 | +    |
+|  5 | Africa    | Ivory Coast    | Ivory Coast           |  7733912.00 | 100.00 | 2036.00 | +    |
+|  6 | Africa    | Kenya          | Kenya                 |  1199041.00 | 100.00 | 2082.00 | +    |
+|  7 | Africa    | Madagascar     | Madagascar            |  7024045.00 | 100.00 | 2067.00 | +    |
+|  8 | Africa    | Nigeria        | Nigeria               |  7770147.00 | 100.00 | 2080.00 | +    |
+|  9 | Africa    | Sierra Leone   | Sierra Leone          |  3440270.00 | 100.00 | 2036.00 | +    |
+| 10 | Africa    | Uganda         | Uganda                |  1878962.00 | 100.00 | 2043.00 | +    |
+| 11 | America   | Brazil         | Brazil – Maranhao     |  5638128.00 | 100.00 | 2068.00 | +    |
+| 12 | America   | Brazil         | Brazil – Minas Gerais |  1824088.00 | 100.00 | 2050.00 | +    |
+| 13 | America   | Brazil         | Brazil – Tocantins    |  1730508.00 | 100.00 | 2045.00 | +    |
+| 14 | America   | Dominican Rep. | Dominican Rep.        |  1254328.00 | 100.00 | 2091.00 | +    |
+| 15 | America   | Guatemala      | Guatemala             |  3449029.00 | 100.00 | 2073.00 | +    |
+| 16 | America   | Honduras       | Honduras              |  3384398.00 | 100.00 | 2080.00 | +    |
+| 17 | America   | Mexico         | Mexico                |  9098171.00 | 100.00 | 2075.00 | +    |
+| 18 | America   | Nicaragua      | Nicaragua             |  4926475.00 | 100.00 | 2059.00 | +    |
+| 19 | America   | Paraguay       | Paraguay              |  2358900.00 | 100.00 | 2051.00 | +    |
+| 20 | Asia      | Cambodia       | Cambodia              |  4804127.00 | 100.00 | 2044.00 | +    |
+| 21 | Asia      | India          | India – West. Ghats   |  3144031.00 | 100.00 | 2067.00 | +    |
+| 22 | Asia      | Laos           | Laos                  | 11607486.00 | 100.00 | 2080.00 | +    |
+| 23 | Asia      | Vietnam        | Vietnam               | 10691887.00 | 100.00 | 2093.00 | +    |
+#+end_src
+
+At the country scale, we predict that 41 countries (16 in Latin America, 21 in Africa, and four in Southeast Asia) out of the 92 we studied, plus 14 states in Brazil and one region in India, will lose all their tropical forests by 2100 (Fig. [[fig:fcc2100]] and table S16). Among these countries or regions, 19 countries (six in America, ten in Africa, and three in Asia), three states in Brazil, and one region in India had more than one million hectares of forest in 2000, thus underlining the fact that the complete loss of moist tropical forest before 2100 will not only occur in countries with a low forest cover at the beginning of the century. It can also be noticed that these 19 countries include most of the countries of Central America (Guatemala, Honduras, Mexico, Nicaragua), Western (Ghana, Guinea, Ivory Coast, Nigeria, Sierra Leone) and Eastern (Ethiopia, Kenya, Madagascar) Africa, and continental Southeast Asia (Cambodia, Laos, Vietnam, Indian Western Ghats). These regions include almost all tropical forests located within six biodiversity hotspots identified by [cite//bc:@Mittermeier2011]: Mesoamerica, Guinean Forests of West Africa, the Horn of Africa, Madagascar and Indian Ocean Islands, Indo-Burma, Western Ghats and Sri Lanka (Fig. [[fig:fcc2100]]).
 
 #+NAME: cap-fcc
 #+begin_src org :results output latex :exports none
@@ -330,8 +394,8 @@ We provide past and predicted forest cover for the three continents and for the 
 #+NAME: tab:fcc
 #+begin_src R :results output latex :exports results :var cap=cap-fcc txt=txt-fcc
 ## Import data
-df1 <- read.table(here("Manuscript/Org-mode/tables/fcc_hist_region_mean.csv"), header=TRUE, sep=",")
-df2 <- read.table(here("Manuscript/Org-mode/tables/fcc_proj_region_mean.csv"), header=TRUE, sep=",")
+df1 <- read_csv(here("Manuscript/Org-mode/tables/fcc_hist_region_mean.csv"))
+df2 <- read_csv(here("Manuscript/Org-mode/tables/fcc_proj_region_mean.csv"))
 ## Arrange data
 df <- df1 %>%
   dplyr::select(area_cont, for2000, for2010, for2020, andef, pdef) %>%
@@ -408,27 +472,50 @@ As tropical forests shelter a large proportion of terrestrial biodiversity and c
 
 * Carbon emissions under a business-as-usual scenario of deforestation
 
-Here we estimate the aboveground carbon emissions associated with deforestation projected for the period 2020--2100 under a business-as-usual scenario of deforestation. When computing carbon emissions associated with projected deforestation, we assume that the carbon stocks of existing forests will remain stable in the future. Under a business-as-usual scenario of deforestation (i.e., constant annual deforested area), the change in predicted annual carbon emissions is only attributable to the location of the future deforestation (Fig. [[fig:fcc2100]] and [[SI][/SI Appendix/, Fig. S11]]) and to the spatial distribution of forest carbon stocks ([[SI][/SI Appendix/, Fig. S12]]). We find that annual carbon emissions associated with deforestation of tropical moist forests will increase from 0.525 Pg/yr in 2010--2020 to 0.746 Pg/yr in 2070--2080, which corresponds to a 42% increase (Fig. [[fig:c-em]]). This increase in annual carbon emissions is predicted for all three continents (Fig. [[fig:c-em]]). A decrease in carbon emissions is then predicted starting from the period 2070--2080 for Southeast Asia and the period 2080--2090 at pantropical scale (Fig. [[fig:c-em]]).
-
-#+begin_src R :results none :exports none
-dataset <- "jrc2020"
-f <- here("Analysis", dataset, "C_trend_mean.csv")
-C_trend <- read.table(f, header=TRUE, sep=",")
-C_10_20 <- round(C_trend$T10_20[C_trend$area_cont=="All continents"], 3)
-C_all <- C_trend[C_trend$area_cont=="All continents",-c(1)]
-C_max <- round(max(C_all), 3)
-#+end_src
+Here we estimate the aboveground carbon emissions associated with deforestation projected for the period 2020--2100 under a business-as-usual scenario of deforestation. When computing carbon emissions associated with projected deforestation, we assume that the carbon stocks of existing forests will remain stable in the future. Under a business-as-usual scenario of deforestation (i.e., constant annual deforested area), the change in predicted annual carbon emissions is only attributable to the location of the future deforestation (Fig. [[fig:fcc2100]] and [[SI][/SI Appendix/, Fig. S11]]) and to the spatial distribution of forest carbon stocks ([[SI][/SI Appendix/, Fig. S12]]). We find that annual carbon emissions associated with deforestation of tropical moist forests will increase from 0.467 Pg/yr in 2010--2020 to 0.628 Pg/yr in 2090--2100, which corresponds to a 35% increase (Fig. [[fig:c-em]]). This increase in annual carbon emissions is predicted for all three continents (Fig. [[fig:c-em]]). A decrease in carbon emissions is then predicted starting from the period 2070--2080 for Southeast Asia and the period 2090--2100 at pantropical scale (Fig. [[fig:c-em]]).
 
 #+NAME: fig:c-em
-#+CAPTION: *Aboveground carbon emissions associated with projected deforestation*. This figure shows the changes in annual carbon emissions (Pg/yr) associated with the predicted deforestation of moist tropical forests. Mean annual carbon emissions are computed for ten-year intervals from 2010--2020 to 2090--2100. The dots represent the observed mean annual carbon emissions (based on past deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for the three continents combined. Lines represent the projected mean annual carbon emissions based on projected forest cover change maps from 2020--2030 to 2090--2100 per continent, and for all continents together. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas. Annual carbon emissions at the pantropical scale are predicted to increase from src_R[:results value raw]{C_10_20} Pg/yr in 2010--2020 to src_R[:results value raw]{C_max} Pg/yr in 2070--2080, representing a 42% increase (+0.221 Pg/yr).
+#+CAPTION: *Aboveground carbon emissions associated with projected deforestation*. This figure shows the changes in annual carbon emissions (Pg/yr) associated with the predicted deforestation of moist tropical forests. Mean annual carbon emissions are computed for ten-year intervals from 2010--2020 to 2100--2110. The dots represent the observed mean annual carbon emissions (based on past deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for the three continents combined. Lines represent the projected mean annual carbon emissions based on projected forest cover change maps from 2020--2030 to 2100--2110 per continent, and for all continents together. The confidence envelopes around the mean are obtained using the lower and upper limits of the confidence intervals of the mean annual deforested areas for all study areas. Annual carbon emissions at the pantropical scale are predicted to increase from 0.467 Pg/yr in 2010--2020 to 0.628 Pg/yr in 2090--2100, representing a 35% increase (+0.161 Pg/yr).
 #+ATTR_LATEX: :width \columnwidth :placement [tb!]
 [[file:figures/C_trend.png]]
 
-The predicted increase in annual carbon emissions is explained by the fact that the forests which will be deforested in the future have higher carbon stocks. Several studies have shown that elevation is an important variable in determining forest carbon stocks [cite:@Vieilledent2016; @Saatchi2011]. Forest carbon stocks are expected to be optimal at mid-elevation [cite:@Vieilledent2016] due to higher orographic precipitation at this elevation and because the climatic stress associated with winds and temperature is lower at mid-elevation than at high elevation. Here, we show that low-elevation areas are more deforested than high-elevation areas (tables S4, S5). This is explained by the fact that low-elevation areas are more accessible to human populations and by the fact that arable lands are concentrated at low elevation, where the terrain slope is usually lower and the soil is more productive [cite:@Geist2002]. Consequently, the predicted increase in carbon emissions can be explained by the fact that deforestation will move towards higher elevation areas where forest carbon stocks are higher. Moreover, remote forest areas that have been less disturbed by human activities in the past have accumulated large quantities of carbon [cite:@Dargie2017; @Brinck2017]. The progressive deforestation of more intact forests also explains the predicted increase in carbon emissions.
+The predicted increase in annual carbon emissions is explained by the fact that the forests which will be deforested in the future have higher carbon stocks. Several studies have shown that elevation is an important variable in determining forest carbon stocks [cite:@CuniSanchez2021; @Vieilledent2016; @Saatchi2011]. Forest carbon stocks are expected to be optimal at mid-elevation [cite:@Vieilledent2016] due to higher orographic precipitation at this elevation and because the climatic stress associated with winds and temperature is lower at mid-elevation than at high elevation. Here, we show that low-elevation areas are more deforested than high-elevation areas (tables S4, S5). This is explained by the fact that low-elevation areas are more accessible to human populations and by the fact that arable lands are concentrated at low elevation, where the terrain slope is usually lower and the soil is more productive [cite:@Geist2002]. Consequently, the predicted increase in carbon emissions can be explained by the fact that deforestation will move towards higher elevation areas where forest carbon stocks are higher. Moreover, remote forest areas that have been less disturbed by human activities in the past have accumulated large quantities of carbon [cite:@Dargie2017; @Brinck2017]. The progressive deforestation of more intact forests also explains the predicted increase in carbon emissions.
 
-The decrease in carbon emissions predicted from the period 2070--2080 for Southeast Asia, and from the period 2080--2090 at pantropical scale, can be associated with a decrease in carbon stocks of deforested areas (in association with environmental factors, such as lower carbon stocks at very high elevation) or a decrease in the total deforested area at the continental and global scale, as countries progressively lose all their forest. In Southeast Asia, six countries will lose all their forest between 2070 and 2100 (table S16). These countries (which include Laos, Malaysia, Myanmar, and Vietnam) account for a significant proportion (32%) of the annual deforested area in Southeast Asia (808,363 ha/yr out of 2,532,985 ha/yr, see tables S14, S15). This largely explains the predicted decrease in carbon emissions in Southeast Asia from 2070 on.
+#+begin_src R :results output org :exports none
+# Summary of fcc loss a the country level
+df <- read_csv(here("Manuscript/Supplementary_Materials/tables/forest_cover_change_mean.csv"))
+# Asia
+asia <- df %>%
+  dplyr::mutate(loss21=round(100*(for2000-for2100)/for2000)) %>%
+  dplyr::filter(area_cont == "Asia") %>%
+  dplyr::select(area_ctry, area_name, d_mean, yrdis, loss21)
+# Selected countries in Asia
+ctry <- asia %>%
+  dplyr::filter(yrdis >= 2070 & yrdis <=2110)
+ascii(ctry)
+# Deforestation
+d_asia <- sum(asia$d_mean)
+d_ctry <- sum(ctry$d_mean)
+perc <- round(100 * d_ctry / d_asia, 2)
+cat("\n")
+print(glue("d_asia: {d_asia} ha/yr, d_ctry: {d_ctry} ha/yr, perc: {perc}%"))
+#+end_src
 
-Our estimates of 0.525 Pg/yr (0.208, 0.199, and 0.118 Pg/yr for Latin America, Southeast Asia, and Africa, respectively) of aboveground carbon emissions due to tropical deforestation for the period 2010--2020 are consistent with those of previous studies [cite:@Baccini2017; @Achard2014; @Harris2012]. For the period 2000--2014, previous studies estimated 0.81--0.88 Pg/yr of carbon emissions associated with deforestation considering both moist and dry tropical forests, while our study only focuses on tropical /moist/ forests. Because of the projected 42% increase in carbon emissions associated with tropical deforestation under a business-as-usual scenario, tropical forests will act as an increasing net carbon source [cite:@Baccini2017], thus reinforcing climate change in the future.
+#+RESULTS:
+#+begin_src org
+|   | area_ctry   | area_name   |    d_mean |   yrdis | loss21 |
+|---+-------------+-------------+-----------+---------+--------|
+| 1 | Laos        | Laos        | 138221.00 | 2080.00 | 100.00 |
+| 2 | Myanmar     | Myanmar     | 165195.00 | 2103.00 |  97.00 |
+| 3 | Timor-Leste | Timor-Leste |   1173.00 | 2086.00 | 100.00 |
+| 4 | Vietnam     | Vietnam     | 102909.00 | 2093.00 | 100.00 |
+
+d_asia: 2001803 ha/yr, d_ctry: 407498 ha/yr, perc: 20.36%
+#+end_src
+
+The decrease in carbon emissions predicted from the period 2070--2080 for Southeast Asia, and from the period 2090--2100 at pantropical scale, can be associated with a decrease in carbon stocks of deforested areas (in association with environmental factors, such as lower carbon stocks at very high elevation) or a decrease in the total deforested area at the continental and global scale, as countries progressively lose all their forest. In Southeast Asia, four countries will lose all their forest between 2070 and 2110 (table S16). These countries (which include Laos, Myanmar, and Vietnam) account for a significant proportion (20%) of the annual deforested area in Southeast Asia (407,498 ha/yr out of 2,001,803 ha/yr, see tables S14, S15). This largely explains the predicted decrease in carbon emissions in Southeast Asia from 2070 on.
+
+Our estimates of 0.467 Pg/yr (0.194, 0.167, and 0.105 Pg/yr for Latin America, Southeast Asia, and Africa, respectively) of aboveground carbon emissions due to tropical deforestation for the period 2010--2020 are consistent with those of previous studies [cite:@Baccini2017; @Achard2014; @Harris2012]. For the period 2000--2014, previous studies estimated 0.81--0.88 Pg/yr of carbon emissions associated with deforestation considering both moist and dry tropical forests, while our study only focuses on tropical /moist/ forests. Because of the projected 35% increase in carbon emissions associated with tropical deforestation under a business-as-usual scenario, tropical forests will act as an increasing net carbon source [cite:@Baccini2017], thus reinforcing climate change in the future.
 
 These results demonstrate the importance of spatial predictions of deforestation to forecast carbon emissions associated with future deforestation. Using mean annual forest cover change estimates per country and forest type (such as those provided by the Forest Resource Assessment report, [cite//bc:@FAO2015]) and mean forest carbon stocks per continent and forest type (such as the emission factors provided by the Intergovernmental Panel on Climate Change, [cite//bc:@IPCC2019]), it is not possible to predict future trends in carbon emissions associated with deforestation. Under a business-as-usual scenario of deforestation, projected carbon emissions will result from the combination of the spatial variation in forest carbon stocks and the location of the future deforestation.
 

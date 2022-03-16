@@ -10,6 +10,9 @@ knocking
 # Data for Manuscript
 Data
 
+# biblio
+*.bib.sav
+
 # Intensity
 grassdata
 Intensity/output/*
