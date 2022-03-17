@@ -75,12 +75,14 @@ pdf_format <- bookdown::pdf_document2(#citation_package="natbib",
 params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
+system("cp doc/sm.pdf ../../Website/article/Vieilledent2022-preprint-SI.pdf")
+
 # # params
 # title_html <- "SUPPLEMENTARY MATERIALS\nForest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
 # author_html <- "Ghislain VIEILLEDENT, Christelle VANCUTSEM, and Frédéric ACHARD"
 # date_html <- format(Sys.time(), "%d %B, %Y")
 # params <- list(title=title_html,author=author_html, date=date_html)
-
+# 
 # # html
 # # Don't indicate output_format to take into account YAML options
 # options(knitr.table.format="html")

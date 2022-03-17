@@ -10,33 +10,7 @@ biblio-style: bib/naturemag.bst
 link-citations: yes
 csl: bib/ecology.csl
 output:
-  bookdown::gitbook:
-    number_sections: yes
-    split_by: chapter  
-    config:
-      toc:
-        collapse: section
-        scroll_highlight: yes
-        before: null
-        after: null
-      toolbar:
-        position: fixed
-      edit: null
-      download: ["pdf"]
-      search: yes
-      fontsettings:
-        theme: white
-        family: sans
-        size: 2
-      sharing:
-        facebook: yes
-        twitter: yes
-        google: no
-        linkedin: no
-        weibo: no
-        instapper: no
-        vk: no
-        all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
+  bookdown::bs4_book
 ---
 
 ```{r options, include=FALSE, results="hide"}
