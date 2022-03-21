@@ -386,16 +386,23 @@ for (i in 1:nsim) {
 ## =================
 
 ## Create table to store model performance results
-ind_tab <- data.frame(matrix(NA, nrow=3*nctry, ncol=14))
-names(ind_tab) <- c("cont", "iso3", "mod", "D", "AUC", "OA",
+ind_tab <- data.frame(matrix(NA, nrow=3*nctry, ncol=16))
+names(ind_tab) <- c("area_cont", "area_ctry", "area_name", "area_code",
+                    "mod", "D", "AUC", "OA",
                     "EA", "FOM", "Sen", "Spe", "TSS", "K",
                     "nfor", "ndefor")
 
 ## Loop on countries
 for (i in 1:nctry) {
+    ## File path
     iso <- iso3[i]
     continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
     dir <- file.path(dir_fdb, dataset, continent)
+    ## Area info
+    area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+    area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+    area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+    area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
     ## Deviance
     f_name <- file.path(dir, iso, "output/model_deviance.csv")
     dev_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
@@ -421,16 +428,22 @@ for (i in 1:nctry) {
     nfor <- samp_size_df$n[samp_size_df$var=="nfor"]
     ndefor <- samp_size_df$n[samp_size_df$var=="ndefor"]
     ## Fill in the table
-    ind_tab[3*(i-1)+1, 1:3] <- c(continent, iso, "icar")
-    ind_tab[3*(i-1)+1, 4:12] <- c(dev_icar, CV_icar)
-    ind_tab[3*(i-1)+1, 13:14] <- c(nfor, ndefor)
-    ind_tab[3*(i-1)+2, 1:3] <- c(continent, iso, "glm")
-    ind_tab[3*(i-1)+2, 4:12] <- c(dev_glm, CV_glm)
-    ind_tab[3*(i-1)+2, 13:14] <- c(nfor, ndefor)
-    ind_tab[3*(i-1)+3, 1:3] <- c(continent, iso, "rf")
-    ind_tab[3*(i-1)+3, 4:12] <- c(dev_rf, CV_rf)
-    ind_tab[3*(i-1)+3, 13:14] <- c(nfor, ndefor)
+    ind_tab[3*(i-1)+1, 1:5] <- c(area_cont, area_ctry, area_name, area_code, "icar")
+    ind_tab[3*(i-1)+1, 6:14] <- c(dev_icar, CV_icar)
+    ind_tab[3*(i-1)+1, 15:16] <- c(nfor, ndefor)
+    ind_tab[3*(i-1)+2, 1:5] <- c(area_cont, area_ctry, area_name, area_code, "glm")
+    ind_tab[3*(i-1)+2, 6:14] <- c(dev_glm, CV_glm)
+    ind_tab[3*(i-1)+2, 15:16] <- c(nfor, ndefor)
+    ind_tab[3*(i-1)+3, 1:5] <- c(area_cont, area_ctry, area_name, area_code, "rf")
+    ind_tab[3*(i-1)+3, 6:14] <- c(dev_rf, CV_rf)
+    ind_tab[3*(i-1)+3, 15:16] <- c(nfor, ndefor)
 }
+
+## !! Arrange data in the same order as forest cover change
+ind_tab2 <- ind_tab %>%
+    mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+    arrange(id, area_name) %>%
+    select(-id)
 
 ## Performance per continent
 ## 1. Weighted percentage with forest size in 2010
@@ -438,29 +451,26 @@ fcc_tab <- read.table(here("Analysis", dataset, "forest_cover_change_mean.csv"),
                       header=TRUE, sep=",")
 weights <- rep(fcc_tab$for2010, each=3)
 ## 2. Summarize per mod
-perf_mod <- ind_tab %>% 
+perf_mod <- ind_tab2 %>% 
     mutate(w=weights) %>%
     group_by(mod) %>%
     summarize(D=weighted.mean(D, w), AUC=weighted.mean(AUC,w),
               OA=weighted.mean(OA,w), FOM=weighted.mean(FOM,w),
               TSS=weighted.mean(TSS,w))
 ## 3. Summarize per cont and mod
-perf_cont_mod <- ind_tab %>% 
+perf_cont_mod <- ind_tab2 %>% 
     mutate(w=weights) %>%
-    mutate(cont=ifelse(cont=="Brazil", "America", cont)) %>%
-    group_by(cont, mod) %>%
+    group_by(area_cont, mod) %>%
     summarize(D=weighted.mean(D, w), AUC=weighted.mean(AUC,w),
               OA=weighted.mean(OA,w), FOM=weighted.mean(FOM,w),
               TSS=weighted.mean(TSS,w)) %>%
-    mutate(cont_id=ifelse(cont=="America", 1, ifelse(cont=="Africa", 2, 3))) %>%
-    arrange(cont_id) %>%
-    dplyr::select(-cont_id)
+    arrange(factor(area_cont, levels=c("America", "Africa", "Asia")))
 
 ## Save results
 f1 <- here("Analysis", dataset, "performance_index.csv")
 f2 <- here("Analysis", dataset, "perf_mod.csv")
 f3 <- here("Analysis", dataset, "perf_cont_mod.csv")
-write.table(ind_tab, file=f1, sep=",", row.names=FALSE)
+write.table(ind_tab2, file=f1, sep=",", row.names=FALSE)
 write.table(perf_mod, file=f2, sep=",", row.names=FALSE)
 write.table(perf_cont_mod, file=f3, sep=",", row.names=FALSE)
 ## Copy for manuscript
