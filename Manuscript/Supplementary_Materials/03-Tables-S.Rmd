@@ -10,7 +10,7 @@ library(dplyr)
 
 ## Table S1 -- Pixel categories of the forest cover annual product {-}
 
-(ref:cap-cat-annual-product) **Pixel categories of the forest cover annual product by @Vancutsem2021**. The forest cover annual product classifies Landsat image pixels in 6 categories for each year (on the 31$^{\text{st}}$ of December) between 1990 and 2019 and allows identifying moist tropical forest pixels at each date.\vspace{0.5cm}
+(ref:cap-cat-annual-product) **Pixel categories of the forest cover annual product by @Vancutsem2021**. The forest cover annual product v1_2020 classifies Landsat image pixels in 6 categories for each year (on the 1$^{\text{st}}$ of January) between 1990 and 2021 and allows identifying tropical moist forest pixels at each date.\vspace{0.5cm}
 
 ```{r cat-annual-product, results="asis", echo=FALSE}
 df.cat <- read.table("tables/cat-annual-product.txt", header=TRUE, sep=";")
@@ -594,7 +594,7 @@ knitr::kable(df, caption="(ref:cap-c-em-sm)", booktabs=TRUE, longtable=TRUE,
 
 ## Table S20 -- Confidence interval of the annual deforested area {-}
 
-(ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study area. We used the deforestation observations $d_t$ for the ten years $t$ from 2010 to 2019. The lower and upper bounds of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
+(ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study area. We used the deforestation observations $d_t$ for the ten years $t$ from 2010 to 2020. The lower and upper bounds of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
 
 ```{r ci-d, results="asis", echo=FALSE}
 ## Import data
