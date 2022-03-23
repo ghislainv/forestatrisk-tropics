@@ -2,3 +2,5 @@
 *.html linguist-vendored
 *.ipynb linguist-vendored
 *.tex linguist-vendored
+*.cls linguist-vendored
+*.bib linguist-vendored
