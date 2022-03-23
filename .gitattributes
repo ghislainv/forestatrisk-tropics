@@ -1,3 +1,4 @@
 # Preventing Linguist from counting Jupyter notebooks
 *.html linguist-vendored
 *.ipynb linguist-vendored
+*.tex linguist-vendored
