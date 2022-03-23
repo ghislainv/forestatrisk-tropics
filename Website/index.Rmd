@@ -25,9 +25,13 @@ This website is accompanying the following scientific article:
 <a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
 <a href="https://ecology.ghislainv.fr" style="color:#2C3E50;">**Vieilledent G.,**</a>
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
-<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem, and**</a>
+<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem**</a>**, and**
 <a href="https://www.researchgate.net/profile/Achard_Frederic" style="color:#2C3E50;">**F. Achard.**</a>
-Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century.
+2022.
+Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century. _preprint_.
+doi: [10.1101/XXXX.XX.XX.XXXXXX](https://doi.org/10.1101/XXXX.XX.XX.XXXXXX).
+[![manuscript in pdf](images/logo-pdf.png "manuscript in pdf")](article/Vieilledent2022-preprint.pdf)
+Supplementary Information [![SI](images/logo-zip.png "supplementary information")](article/Vieilledent2022-preprint-SI.pdf)
 
 
 ### Interactive maps
