@@ -12,12 +12,12 @@ This repository includes the code used to produce the results of the
 following scientific article:
 
 <a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-<a href="https://ecology.ghislainv.fr" style="text-decorations:none; color:#2C3E50;">**Vieilledent
+<a href="https://ecology.ghislainv.fr" style="text-decoration:none; color:#2C3E50;">**Vieilledent
 G.,**</a>
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="text-decorations:none; color:#2C3E50;">**C.
+<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="text-decoration:none; color:#2C3E50;">**C.
 Vancutsem**</a>**, and**
-<a href="https://www.researchgate.net/profile/Achard_Frederic" style="text-decorations:none; color:#2C3E50;">**F.
+<a href="https://www.researchgate.net/profile/Achard_Frederic" style="text-decoration:none; color:#2C3E50;">**F.
 Achard.**</a> 2022. Forest refuge areas and carbon emissions from
 tropical deforestation in the 21<sup>st</sup> century. *preprint*. doi:
 [10.1101/XXXX.XX.XX.XXXXXX](https://doi.org/10.1101/XXXX.XX.XX.XXXXXX).
