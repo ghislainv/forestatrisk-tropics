@@ -42,7 +42,7 @@
 #+LATEX_HEADER: \correspondingauthor{\textsuperscript{1}To whom correspondence should be addressed. E-mail: ghislain.vieilledent@cirad.fr}
 # Dates and doi
 #+LATEX_HEADER: \dates{This manuscript was compiled on \today}
-#+LATEX_HEADER: \doifooter{\doi{10.1101/XXXX.XX.XX.XXXXXX}}
+#+LATEX_HEADER: \doifooter{\doi{10.1101/2022.03.22.485306}}
 #+LATEX_HEADER: \pinpfootercontents{Preprint}
 # #+LATEX_HEADER: \usepackage[numbers,sort&compress,merge,round]{natbib}
 
