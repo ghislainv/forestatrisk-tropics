@@ -25,7 +25,7 @@ Supplementary Information
 
 <img alt="ORCID logo" src="Manuscript/Article/figures/prob_zoom.png" />
 
-Figure 2: **Pantropical map of the risk of deforestation.**
+Figure: **Pantropical map of the risk of deforestation.**
 
 ## Minimal reproducible example using the `forestatrisk` Python package
 
