@@ -700,6 +700,17 @@ df_proj_ci <- df_proj %>%
   mutate(perc_min=df_proj_min[["perc"]],
          perc_max=df_proj_max[["perc"]])
 
+## Dashed lines after complete loss in BRA, COG, and IDN
+df_proj_dash <- df_proj_ci %>%
+    dplyr::filter(!(year <= 2144 & cont == "Asia")) %>%
+    dplyr::filter(!(year <= 2181 & cont == "Africa")) %>%
+    dplyr::filter(!(year <= 2264 & cont == "America"))
+
+df_proj_nodash <- df_proj_ci %>%
+    dplyr::filter(!(year > 2144 & cont == "Asia")) %>%
+    dplyr::filter(!(year > 2181 & cont == "Africa")) %>%
+    dplyr::filter(!(year > 2264 & cont == "America"))
+
 ## mytheme
 mytheme <- theme(
     axis.title=element_text(size=12),
@@ -715,7 +726,8 @@ p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
     geom_point(size=1) +
     geom_ribbon(aes(ymin=perc_min, ymax=perc_max, group=cont, fill=cont),
                 alpha=0.2, data=df_proj_ci, linetype=0) + 
-    geom_line(data=df_proj_ci, size=0.8) +
+    geom_line(data=df_proj_nodash, size=0.8) +
+    geom_line(data=df_proj_dash, size=0.8, linetype="dashed") +
     xlab("Year") + ylab("Percentage of forest cover loss\n(in comparison with year 2000)") +
     scale_color_manual(values=wes_palette("Moonrise2")[c(3, 2, 1)],
                        name="Continents",
@@ -725,6 +737,7 @@ p <- ggplot(aes(x=year, y=perc, group=cont, col=cont), data=df_hist) +
                       name="Continents",
                       breaks=c("America", "Africa", "Asia"),
                       labels=c("America", "Africa", "Asia")) +
+    xlim(2000, 2275) +
     ylim(0,100) +
     geom_hline(yintercept=75) +
     theme_bw() + mytheme

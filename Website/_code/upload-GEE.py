@@ -54,4 +54,10 @@ for i in name:
 #            f"projects/forestatrisk/assets/v1_2020/{i}")
 #     subprocess.call(cmd, shell=True)
 
+# Copy biomass WHRC map
+inf = "users/mfarina/Biomass_Data_MapV1/Pantropical_Biomass_30m_MapV1"
+outf = "projects/forestatrisk/assets/biomass/biomass_whrc_v1_2016"
+cmd = f"earthengine cp {inf} {outf}"
+subprocess.call(cmd, shell=True)
+
 # EOF
