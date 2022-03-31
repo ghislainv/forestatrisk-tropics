@@ -42,12 +42,11 @@ iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
 # Temporary
-import os
-import forestatrisk as far
 iso3 = "COD"
 cont = "Africa"
 os.chdir("/home/ghislain/Bureau/fartest/COD")
 # End temporary
+
 
 # Function for multiprocessing
 def run_country(iso3):
@@ -94,8 +93,16 @@ def run_country(iso3):
     far.data.country_biomass_compute(
         iso3=iso3,
         input_dir="data_raw",
-        output_dir="data",
+        output_dir="data/emissions",
         proj=proj)
+
+    # Carbon emissions
+    carbon = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
+                           input_forest="data/fcc23.tif")  # 745223502
+    carbon_2050 = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
+                                input_forest="data/fcc_2050.tif")  # 2521508823
+    carbon_2100 = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
+                                input_forest="data/fcc_2100.tif")  # 7413733535
 
     # Remove GDAL temp directory
     shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
