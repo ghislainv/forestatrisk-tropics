@@ -42,7 +42,7 @@ iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
 # Cluster (can be fdb, mbb, meso)
-cluster = "meso"
+cluster = "fdb"
 
 # Directories
 if cluster == "meso":
@@ -136,7 +136,7 @@ def run_country(iso3):
     # Extract data for country on GEE
     far.data.country_biomass_run(
         iso3=iso3,
-        proj=proj_wkt,
+        proj=ee.Projection(proj_wkt),
         output_dir="data_raw",
         keep_dir=True,
         gdrive_remote_rclone="gdrive_gv",
