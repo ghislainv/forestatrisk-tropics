@@ -16,15 +16,15 @@
 # Standard library imports
 import os
 import pkg_resources
-# import shutil  # for rmtree
-# import sys
+import shutil  # for rmtree
+import sys
 
 # Third party imports
 import ee
 import forestatrisk as far
 import pandas as pd
 
-# index_ctry = int(sys.argv[1])-1
+index_ctry = int(sys.argv[1])-1
 
 # ==================
 # Settings
@@ -42,7 +42,7 @@ iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
 # Cluster (can be fdb, mbb, meso)
-cluster = "fdb"
+cluster = "meso"
 
 # Directories
 if cluster == "meso":
@@ -111,9 +111,9 @@ proj_aea_Ame_wkt = ('PROJCS["South_America_Albers_Equal_Area_Conic",'
 # Function for multiprocessing
 def run_country(iso3):
 
-    # # GDAL temp directory
-    # far.make_dir(temp_dir + "tmp_" + iso3)
-    # os.environ["CPL_TMPDIR"] = temp_dir + "tmp_" + iso3
+    # GDAL temp directory
+    far.make_dir(temp_dir + "tmp_" + iso3)
+    os.environ["CPL_TMPDIR"] = temp_dir + "tmp_" + iso3
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
@@ -133,40 +133,40 @@ def run_country(iso3):
         proj_aea = proj_aea_Ame
         proj_wkt = proj_aea_Afr_wkt
 
-    # Extract data for country on GEE
-    far.data.country_biomass_run(
-        iso3=iso3,
-        proj=ee.Projection(proj_wkt),
-        output_dir="data_raw",
-        keep_dir=True,
-        gdrive_remote_rclone="gdrive_gv",
-        gdrive_folder="GEE_biomass_whrc")
-
-    # # Download data locally from Google Drive
-    # far.data.country_biomass_download(
+    # # Extract data for country on GEE
+    # far.data.country_biomass_run(
     #     iso3=iso3,
+    #     proj=ee.Projection(proj_wkt),
+    #     output_dir="data_raw",
+    #     keep_dir=True,
     #     gdrive_remote_rclone="gdrive_gv",
-    #     gdrive_folder="GEE_biomass_whrc",
-    #     output_dir="data_raw")
+    #     gdrive_folder="GEE_biomass_whrc")
 
-    # # Mosaic and resample
-    # far.data.country_biomass_compute(
-    #     iso3=iso3,
-    #     input_dir="data_raw",
-    #     output_dir="data/emissions",
-    #     proj=proj_aea)
+    # Download data locally from Google Drive
+    far.data.country_biomass_download(
+        iso3=iso3,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE_biomass_whrc",
+        output_dir="data_raw")
 
-    # # Remove GDAL temp directory
-    # shutil.rmtree(temp_dir + "tmp_" + iso3)
+    # Mosaic
+    far.data.country_biomass_mosaic(
+        iso3=iso3,
+        input_dir="data_raw",
+        output_dir="data/emissions",
+        proj=proj_aea)
+
+    # Remove GDAL temp directory
+    shutil.rmtree(temp_dir + "tmp_" + iso3)
 
     # Print country iso code
     print(iso3)
 
 
-# Run country
-for i in range(nctry):
-    run_country(iso3[i])
+# # Run country
+# for i in range(nctry):
+#     run_country(iso3[i])
 
-# run_country(iso3[index_ctry])
+run_country(iso3[index_ctry])
 
 # End
