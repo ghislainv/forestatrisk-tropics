@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=getBiomass
+#SBATCH --job-name=FARforecast
 #SBATCH --account=agap
 #SBATCH --partition=agap_normal
 #SBATCH --output=/lustre/vieilledentg/getBiomass_log.%A_%a.txt
