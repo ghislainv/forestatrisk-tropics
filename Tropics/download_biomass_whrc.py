@@ -34,25 +34,24 @@ ee.Initialize()
 os.environ["GDAL_CACHEMAX"] = "1024"
 # ==================
 
+# Directories
+cluster = "meso"  # (can be fdb, mbb, meso)
+if cluster == "meso":
+    work_dir = "/storage/replicated/cirad/projects/AMAP/vieilledentg/jrc2020/"
+    temp_dir = "/lustre/vieilledentg/tmp/"
+if cluster == "mbb":
+    work_dir = "/share/nas2-amap/gvieilledent/jrc2020/"
+    temp_dir = "/share/nas2-amap/gvieilledent/tmp/"
+if cluster == "fdb":
+    work_dir = "/home/forestatrisk-tropics/jrc2020/"
+    temp_dir = "/home/forestatrisk-tropics/tmp/"
+
 # Country isocode
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
                                                 "data/ctry_run.csv")
 data_ctry_run = pd.read_csv(file_ctry_run, sep=";", header=0)
 iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
-
-# Cluster (can be fdb, mbb, meso)
-cluster = "meso"
-
-# Directories
-if cluster == "meso":
-    work_dir = "~/projects/AMAP/vieilledentg/jrc2020/"
-    temp_dir = "~/scratch/tmp/"
-if cluster == "mbb":
-    work_dir = "/share/nas2-amap/gvieilledent/jrc2020/"
-    temp_dir = "/share/nas2-amap/gvieilledent/tmp/"
-if cluster == "fdb":
-    work_dir = "/home/forestatrisk-tropics/jrc2020/"
 
 # Projections
 proj_aea_Afr = ("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 "

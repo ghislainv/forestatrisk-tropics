@@ -9,12 +9,12 @@
 #SBATCH --array=1-120
 
 # Environmental variable
-export MPLCONFIGDIR="/lustre/vieilledentg/config/matplotlib"
+export MPLCONFIGDIR="/storage/replicated/cirad_users/vieilledentg/config/matplotlib"
 
 # Loading singularity module
 module load singularity
 
 # run python script inside container
-singularity exec --bind /storage/replicated/cirad/projects/AMAP/vieilledentg ~/replicated/singularity_images/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Tropics/download_biomass_whrc.py $SLURM_ARRAY_TASK_ID
+singularity exec --bind /storage/replicated/cirad/projects/AMAP/vieilledentg ~/replicated/singularity_images/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Tropics/forecast.py $SLURM_ARRAY_TASK_ID
 
 # End

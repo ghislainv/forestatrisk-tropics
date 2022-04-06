@@ -14,33 +14,39 @@
 # 2. rclone with Google Drive: https://rclone.org/drive/
 # 3. WDPA: https://www.protectedplanet.net/
 
+# Standard library imports
 import os
 import pkg_resources
-# import re  # regular expressions
 import shutil  # for rmtree
 import sys
 
-from dotenv import load_dotenv
-import ee
+# Third party imports
 import forestatrisk as far
 import pandas as pd
-from pywdpa import get_token
 
+# Local imports
 from run_forecast import run_forecast
 
-
+# Arguments
 index_ctry = int(sys.argv[1]) - 1
 
 # ==================
 # Settings
-# Earth engine
-ee.Initialize()
-# WDPA API
-load_dotenv("/home/gvieilledent/Code/forestatrisk-tropics/.env")
-get_token()
 # GDAL
 os.environ["GDAL_CACHEMAX"] = "1024"
 # ==================
+
+# Directories
+cluster = "meso"  # (can be fdb, mbb, meso)
+if cluster == "meso":
+    work_dir = "/storage/replicated/cirad/projects/AMAP/vieilledentg/jrc2020/"
+    temp_dir = "/lustre/vieilledentg/tmp/"
+if cluster == "mbb":
+    work_dir = "/share/nas2-amap/gvieilledent/jrc2020/"
+    temp_dir = "/share/nas2-amap/gvieilledent/tmp/"
+if cluster == "fdb":
+    work_dir = "/home/forestatrisk-tropics/jrc2020/"
+    temp_dir = "/home/forestatrisk-tropics/tmp/"
 
 # Country isocode
 file_ctry_run = pkg_resources.resource_filename("forestatrisk",
@@ -54,12 +60,12 @@ nctry = len(iso3)  # 120
 def run_country(iso3):
 
     # GDAL temp directory
-    far.make_dir("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
-    os.environ["CPL_TMPDIR"] = "/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3
+    far.make_dir(temp_dir + "tmp_" + iso3)
+    os.environ["CPL_TMPDIR"] = temp_dir + "tmp_" + iso3
 
     # Set original working directory
     cont = data_ctry_run.cont_run[data_ctry_run["iso3"] == iso3].iloc[0]
-    owd = "/share/nas2-amap/gvieilledent/jrc2020/" + cont
+    owd = work_dir + cont
     os.chdir(owd)
     far.make_dir(iso3)
     os.chdir(os.path.join(owd, iso3))
@@ -68,7 +74,7 @@ def run_country(iso3):
     run_forecast(iso3, fcc_source="jrc")
 
     # Remove GDAL temp directory
-    shutil.rmtree("/share/nas2-amap/gvieilledent/tmp/tmp_" + iso3)
+    shutil.rmtree(temp_dir + "tmp_" + iso3)
 
     # Return country iso code
     return iso3

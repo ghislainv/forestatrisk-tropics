@@ -89,21 +89,21 @@ def run_forecast(iso3, fcc_source="jrc"):
         # Predicting forest cover change
         # --------------------------------------------------------
 
-        # Loop on dates
-        for i in range(ndates_fut):
-            # Amount of deforestation (ha)
-            if m is not None:  # For Brazil
-                defor = fcc_BRA.loc[fcc_BRA["iso3"] == iso3,
-                                    "defor" + dates_fut[i]].values[0]
-            else:
-                defor = np.rint(annual_defor * ti[i])
-            # Compute future forest cover
-            ofile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
-            far.deforest(
-                input_raster="output/prob.tif",
-                hectares=defor,
-                output_file=ofile,
-                blk_rows=128)
+        # # Loop on dates
+        # for i in range(ndates_fut):
+        #     # Amount of deforestation (ha)
+        #     if m is not None:  # For Brazil
+        #         defor = fcc_BRA.loc[fcc_BRA["iso3"] == iso3,
+        #                             "defor" + dates_fut[i]].values[0]
+        #     else:
+        #         defor = np.rint(annual_defor * ti[i])
+        #     # Compute future forest cover
+        #     ofile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
+        #     far.deforest(
+        #         input_raster="output/prob.tif",
+        #         hectares=defor,
+        #         output_file=ofile,
+        #         blk_rows=128)
 
         # --------------------------------------------------------
         # Carbon emissions
@@ -119,30 +119,30 @@ def run_forecast(iso3, fcc_source="jrc"):
         for i in range(ndates_fut):
             ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
             carbon = far.emissions(
-                input_stocks="data/emissions/AGB.tif",
+                input_stocks="data/emissions/biomass_whrc.tif",
                 input_forest=ifile)
             C_df.loc[C_df["date"] == dates_fut[i], ["C"]] = carbon
         # Past emissions
-        carbon = far.emissions(input_stocks="data/emissions/AGB.tif",
+        carbon = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
                                input_forest="data/fcc23.tif")
         C_df.loc[C_df["date"] == dpast[0], ["C"]] = carbon
         # Save dataframe
-        ofile = "output/{}/C_emissions.csv".format(scen)
+        ofile = "output/{}/C_emissions_whrc.csv".format(scen)
         C_df.to_csv(ofile, header=True, index=False)
 
         # --------------------------------------------------------
         # Figures
         # --------------------------------------------------------
 
-        # Projected future forest-cover change
-        for i in range(ndates_fut):
-            ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
-            ofile = "output/{}/fcc_{}.png".format(scen, dates_fut[i])
-            fig_fcc = far.plot.fcc(
-                ifile,
-                maxpixels=1e8,
-                borders="data/ctry_PROJ.shp",
-                output_file=ofile)
-            plt.close(fig_fcc)
+        # # Projected future forest-cover change
+        # for i in range(ndates_fut):
+        #     ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
+        #     ofile = "output/{}/fcc_{}.png".format(scen, dates_fut[i])
+        #     fig_fcc = far.plot.fcc(
+        #         ifile,
+        #         maxpixels=1e8,
+        #         borders="data/ctry_PROJ.shp",
+        #         output_file=ofile)
+        #     plt.close(fig_fcc)
 
 # End
