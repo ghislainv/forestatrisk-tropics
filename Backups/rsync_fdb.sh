@@ -14,15 +14,14 @@
 # rsync -e "ssh -i /home/ghislain/.ssh/id_rsa" -av --exclude $data_raw --delete-after --stats --progress $source_path $dest_path
 
 # jrc2020
-# source_path="mbb:/share/nas2-amap/gvieilledent/jrc2020/"
 source_path="meso:/storage/replicated/cirad/projects/AMAP/vieilledentg/jrc2020/"
 dest_path="/home/forestatrisk-tropics/jrc2020/"
 data_raw="*/data_raw/*"
-rsync -e "ssh -i /home/ghislain/.ssh/id_rsa" -av --exclude $data_raw --delete-after --stats --progress $source_path $dest_path
+rsync -e "ssh -i /home/ghislain/.ssh/id_rsa_ghvi" -av --exclude $data_raw --delete-after --stats --progress $source_path $dest_path
 
-# # home mbb
-# source_path="mbb:/home/gvieilledent/"
-# dest_path="/home/forestatrisk-tropics/home_mbb/"
-# rsync -e "ssh -i /home/ghislain/.ssh/id_rsa" -av --exclude=".singularity" --exclude="Code/forestatrisk-tropics/forestatrisk-tropics.simg" --delete-after --stats --progress $source_path $dest_path
+# home meso
+source_path="meso:/home/vieilledentg/"
+dest_path="/home/forestatrisk-tropics/home_meso/"
+rsync -e "ssh -i /home/ghislain/.ssh/id_rsa_ghvi" -av --exclude=".singularity" --exclude=".cache" --delete-after --stats --progress $source_path $dest_path
 
 # EOF
