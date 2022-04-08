@@ -16,7 +16,7 @@ module load singularity
 
 # Paths
 storage="/storage/replicated/cirad/projects/AMAP/vieilledentg"
-image="/storage/replicated/cirad_users/vieilledentg/singularity_images/forestatrisk-tropics.simg"
+image="/lustre/vieilledentg/singularity_images/forestatrisk-tropics.simg"
 script="/home/vieilledentg/Code/forestatrisk-tropics/Tropics/download_biomass_whrc.py"
 
 # run python script inside container

@@ -9,14 +9,14 @@
 #SBATCH --array=1-120
 
 # Environmental variable
-export MPLCONFIGDIR="/storage/replicated/cirad_users/vieilledentg/config/matplotlib"
+export MPLCONFIGDIR="/lustre/vieilledentg/config/matplotlib"
 
 # Loading singularity module
 module load singularity
 
 # Paths
 storage="/storage/replicated/cirad/projects/AMAP/vieilledentg"
-image="/storage/replicated/cirad_users/vieilledentg/singularity_images/forestatrisk-tropics.simg"
+image="/lustre/vieilledentg/singularity_images/forestatrisk-tropics.simg"
 script="/home/vieilledentg/Code/forestatrisk-tropics/Tropics/forecast.py"
 
 # run python script inside container

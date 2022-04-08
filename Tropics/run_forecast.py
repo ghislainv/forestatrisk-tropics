@@ -109,26 +109,28 @@ def run_forecast(iso3, fcc_source="jrc"):
         # Carbon emissions
         # --------------------------------------------------------
 
-        # Create dataframe
-        dpast = ["2020"]
-        dpast.extend(dates_fut)
-        C_df = pd.DataFrame(
-            {"date": dpast, "C": np.repeat(-99, ndates_fut + 1)},
-            columns=["date", "C"])
-        # Loop on date
-        for i in range(ndates_fut):
-            ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
-            carbon = far.emissions(
-                input_stocks="data/emissions/biomass_whrc.tif",
-                input_forest=ifile)
-            C_df.loc[C_df["date"] == dates_fut[i], ["C"]] = carbon
-        # Past emissions
-        carbon = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
-                               input_forest="data/fcc23.tif")
-        C_df.loc[C_df["date"] == dpast[0], ["C"]] = carbon
-        # Save dataframe
         ofile = "output/{}/C_emissions_whrc.csv".format(scen)
-        C_df.to_csv(ofile, header=True, index=False)
+        if not os.path.isfile(ofile):
+            # Create dataframe
+            dpast = ["2020"]
+            dpast.extend(dates_fut)
+            C_df = pd.DataFrame(
+                {"date": dpast, "C": np.repeat(-99, ndates_fut + 1)},
+                columns=["date", "C"])
+            # Loop on date
+            for i in range(ndates_fut):
+                ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
+                carbon = far.emissions(
+                    input_stocks="data/emissions/biomass_whrc.tif",
+                    input_forest=ifile)
+                C_df.loc[C_df["date"] == dates_fut[i], ["C"]] = carbon
+            # Past emissions
+            carbon = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
+                                   input_forest="data/fcc23.tif")
+            C_df.loc[C_df["date"] == dpast[0], ["C"]] = carbon
+            # Save dataframe
+            ofile = "output/{}/C_emissions_whrc.csv".format(scen)
+            C_df.to_csv(ofile, header=True, index=False)
 
         # --------------------------------------------------------
         # Figures
