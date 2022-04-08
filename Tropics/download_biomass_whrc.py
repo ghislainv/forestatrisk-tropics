@@ -132,14 +132,14 @@ def run_country(iso3):
         proj_proj4 = proj_Ame_proj4
         proj_wkt = proj_Ame_wkt
 
-    # # Extract data for country on GEE
-    # far.data.country_biomass_run(
-    #     iso3=iso3,
-    #     proj=ee.Projection(proj_wkt),
-    #     output_dir="data_raw",
-    #     keep_dir=True,
-    #     gdrive_remote_rclone="gdrive_gv",
-    #     gdrive_folder="GEE_biomass_whrc")
+    # Extract data for country on GEE
+    far.data.country_biomass_run(
+        iso3=iso3,
+        proj=ee.Projection(proj_wkt),
+        output_dir="data_raw",
+        keep_dir=True,
+        gdrive_remote_rclone="gdrive_gv",
+        gdrive_folder="GEE_biomass_whrc")
 
     # Download data locally from Google Drive
     far.data.country_biomass_download(

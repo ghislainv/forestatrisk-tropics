@@ -76,8 +76,8 @@ def run_country(iso3):
     # Remove GDAL temp directory
     shutil.rmtree(temp_dir + "tmp_" + iso3)
 
-    # Return country iso code
-    return iso3
+    # Print country iso code
+    print(iso3)
 
 
 # Run country
