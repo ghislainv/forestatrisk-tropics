@@ -1508,49 +1508,64 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 sim <- c("mean", "min", "max")
 nsim <- length(sim)
 
-## Loop on simulations
-for (j in 1:nsim) {
-    
-    ## Simulation id
-    s <- sim[j]
+## Biomass map
+bmap <- c("avitabile", "whrc")
+nmap <- length(bmap)
 
-    ## Create table to store results
-    Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=4+13), stringsAsFactors=FALSE)
-    C_var <- paste0("C", 2020 + c(0, 10, 15, 20, 30, 35, 40, 50, 60, 65, 70,
-                                  80, 90))
-    names(Cem_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", C_var)
-    
-    ## Loop on countries
-    for (i in 1:nctry) {
-        iso <- iso3[i]
-        continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
-        dir <- file.path(dir_fdb, dataset, continent)
-        ## Area info
-        area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
-        area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
-        area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
-        area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
-        ## Carbon emissions
-        f_name <- file.path(dir, iso, glue("output/{s}/C_emissions.csv"))
-        Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
-        ## Fill in the table
-        Cem_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
-        Cem_tab[i, 5:17] <- Cem_df$C
+## Loop on maps
+for (k in 1:nmap) {
+
+    ## Map id
+    m <- bmap[k]
+
+    ## Loop on simulations
+    for (j in 1:nsim) {
+
+        ## Simulation id
+        s <- sim[j]
+
+        ## Create table to store results
+        Cem_tab <- data.frame(matrix(NA, nrow=nctry, ncol=4+13), stringsAsFactors=FALSE)
+        C_var <- paste0("C", 2020 + c(0, 10, 15, 20, 30, 35, 40, 50, 60, 65, 70,
+                                      80, 90))
+        names(Cem_tab) <- c("area_cont", "area_ctry", "area_name", "area_code", C_var)
+
+        ## Loop on countries
+        for (i in 1:nctry) {
+            iso <- iso3[i]
+            continent <- as.character(ctry_df$cont_run[ctry_df$iso3==iso])
+            dir <- file.path(dir_fdb, dataset, continent)
+            ## Area info
+            area_cont <- as.character(ctry_df$area_cont[ctry_df$iso3==iso])
+            area_ctry <- as.character(ctry_df$area_ctry[ctry_df$iso3==iso])
+            area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
+            area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
+            ## Carbon emissions
+            if (m == "avitabile") {
+                f_name <- file.path(dir, iso, glue("output/{s}/C_emissions.csv"))
+            } else if (m == "whrc") {
+                f_name <- file.path(dir, iso, glue("output/{s}/C_emissions_{m}.csv"))
+            }
+            Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
+            ## Fill in the table
+            Cem_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
+            Cem_tab[i, 5:17] <- Cem_df$C
+        }
+
+        ## Rearrange study areas per continent
+        Cem_tab <- Cem_tab %>%
+            dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+            dplyr::arrange(id, area_name) %>%
+            dplyr::select(-id)
+
+        ## Save results
+        f <- here("Analysis", dataset, glue("C_emissions_{s}_{m}.csv"))
+        write.table(Cem_tab, file=f, sep=",", row.names=FALSE)
+        ## Copy for manuscript
+        f_doc <- here("Manuscript", "Supplementary_Materials", "tables", glue("C_emissions_{s}_{m}.csv"))
+        file.copy(from=f, to=f_doc, overwrite=TRUE)
+
     }
-    
-    ## Rearrange study areas per continent
-    Cem_tab <- Cem_tab %>%
-        dplyr::mutate(id=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
-        dplyr::arrange(id, area_name) %>%
-        dplyr::select(-id)
-    
-    ## Save results
-    f <- here("Analysis", dataset, glue("C_emissions_{s}.csv"))
-    write.table(Cem_tab, file=f, sep=",", row.names=FALSE)
-    ## Copy for manuscript
-    f_doc <- here("Manuscript", "Supplementary_Materials", "tables", glue("C_emissions_{s}.csv"))
-    file.copy(from=f, to=f_doc, overwrite=TRUE)
-
 }
 
 ## ========================
@@ -1561,33 +1576,44 @@ for (j in 1:nsim) {
 sim <- c("mean", "min", "max")
 nsim <- length(sim)
 
-## Loop on simulations
-for (j in 1:nsim) {
-    
-    ## Simulation id
-    s <- sim[j]
+## Biomass map
+bmap <- c("avitabile", "whrc")
+nmap <- length(bmap)
 
-    ## Load data
-    f <- here("Analysis", dataset, glue("C_emissions_{s}.csv"))
-    Cem_tab <- read.table(f, header=TRUE, sep=",")
-    
-    ## Summarize results
-    Cem_tab2 <- Cem_tab %>%
-        group_by(area_cont) %>%
-        summarize(across(starts_with("C"), sum)) %>%
-        bind_rows(data.frame(area_cont="All continents",
-                             summarize(Cem_tab, across(starts_with("C"), sum)),
-                             stringsAsFactors=FALSE)) %>%
-        mutate(across(C2020:C2110, function(x){x*1e-9}))  # Results in PgC
-    
-    ## Save results
-    f_name <- glue("C_emissions_summary_{s}.csv")
-    f <- here("Analysis", dataset, f_name)
-    write.table(Cem_tab2, file=f, sep=",", row.names=FALSE)
-    ## Copy for manuscript
-    f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
-    file.copy(from=f, to=f_doc, overwrite=TRUE)
+## Loop on maps
+for (k in 1:nmap) {
 
+    ## Map id
+    m <- bmap[k]
+
+    ## Loop on simulations
+    for (j in 1:nsim) {
+        
+        ## Simulation id
+        s <- sim[j]
+
+        ## Load data
+        f <- here("Analysis", dataset, glue("C_emissions_{s}_{m}.csv"))
+        Cem_tab <- read.table(f, header=TRUE, sep=",")
+        
+        ## Summarize results
+        Cem_tab2 <- Cem_tab %>%
+            group_by(area_cont) %>%
+            summarize(across(starts_with("C"), sum)) %>%
+            bind_rows(data.frame(area_cont="All continents",
+                                 summarize(Cem_tab, across(starts_with("C"), sum)),
+                                 stringsAsFactors=FALSE)) %>%
+            mutate(across(C2020:C2110, function(x){x*1e-9}))  # Results in PgC
+        
+        ## Save results
+        f_name <- glue("C_emissions_summary_{s}_{m}.csv")
+        f <- here("Analysis", dataset, f_name)
+        write.table(Cem_tab2, file=f, sep=",", row.names=FALSE)
+        ## Copy for manuscript
+        f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
+        file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+    }
 }
 
 ## In 2020-2050, 18.4 billions of tonnes of C emmitted = 18.1 PgC (0.60 PgC/year on 2020-2050)
@@ -1608,121 +1634,144 @@ for (j in 1:nsim) {
 sim <- c("mean", "min", "max")
 nsim <- length(sim)
 
-## Loop on simulations
-for (j in 1:nsim) {
-    
-    ## Simulation id
-    s <- sim[j]
-    
-    ## Load data
-    f <- here("Analysis", dataset, glue("C_emissions_summary_{s}.csv"))
-    Cem_tab2 <- read.table(f, header=TRUE, sep=",")
-    
-    ## Simulation id
-    s <- sim[j]
+## Biomass map
+bmap <- c("avitabile", "whrc")
+nmap <- length(bmap)
 
-    ## Compute carbon emission trends in the future
-    C_trend <- Cem_tab2 %>%
-        dplyr::mutate(T10_20=C2020/10,
-                      T20_30=C2030/10,
-                      T30_40=(C2040-C2030)/10,
-                      T40_50=(C2050-C2040)/10,
-                      T50_60=(C2060-C2050)/10,
-                      T60_70=(C2070-C2060)/10,
-                      T70_80=(C2080-C2070)/10,
-                      T80_90=(C2090-C2080)/10,
-                      T90_100=(C2100-C2090)/10,
-                      T100_110=(C2110-C2100)/10) %>%
-        dplyr::select(area_cont, T10_20:T100_110)
-    
-    ## Deforestation => increase in C source with time (deforestation of forest with higher carbon stocks).
-    ## Climate change => decrease in C sink with time (higher mortality), see Hubau2020.
-    ## The result is that forests will likely become a major C source in the future. 
-    
-    ## Save results
-    f_name <- glue("C_trend_{s}.csv")
-    f <- here("Analysis", dataset, f_name)
-    write.table(C_trend, file=f, sep=",", row.names=FALSE)
-    ## Copy for manuscript
-    f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
-    file.copy(from=f, to=f_doc, overwrite=TRUE)
+## Loop on maps
+for (k in 1:nmap) {
 
+    ## Map id
+    m <- bmap[k]
+
+    ## Loop on simulations
+    for (j in 1:nsim) {
+        
+        ## Simulation id
+        s <- sim[j]
+        
+        ## Load data
+        f <- here("Analysis", dataset, glue("C_emissions_summary_{s}_{m}.csv"))
+        Cem_tab2 <- read.table(f, header=TRUE, sep=",")
+        
+        ## Simulation id
+        s <- sim[j]
+
+        ## Compute carbon emission trends in the future
+        C_trend <- Cem_tab2 %>%
+            dplyr::mutate(T10_20=C2020/10,
+                          T20_30=C2030/10,
+                          T30_40=(C2040-C2030)/10,
+                          T40_50=(C2050-C2040)/10,
+                          T50_60=(C2060-C2050)/10,
+                          T60_70=(C2070-C2060)/10,
+                          T70_80=(C2080-C2070)/10,
+                          T80_90=(C2090-C2080)/10,
+                          T90_100=(C2100-C2090)/10,
+                          T100_110=(C2110-C2100)/10) %>%
+            dplyr::select(area_cont, T10_20:T100_110)
+        
+        ## Deforestation => increase in C source with time (deforestation of forest with higher carbon stocks).
+        ## Climate change => decrease in C sink with time (higher mortality), see Hubau2020.
+        ## The result is that forests will likely become a major C source in the future. 
+        
+        ## Save results
+        f_name <- glue("C_trend_{s}_{m}.csv")
+        f <- here("Analysis", dataset, f_name)
+        write.table(C_trend, file=f, sep=",", row.names=FALSE)
+        ## Copy for manuscript
+        f_doc <- here("Manuscript", "Supplementary_Materials", "tables", f_name)
+        file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+    }
 }
 
 ## ==============================
 ## Figure: carbon emission trends
 ## ==============================
 
-## Load data
-# Mean
-f <- here("Analysis", dataset, glue("C_trend_mean.csv"))
-C_trend_mean <- read.table(f, header=TRUE, sep=",")
-## Transform dataset in long format
-C_long_mean <- C_trend_mean %>%
-  tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
-                      values_to="C_em") %>%
-  dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
-# Min
-f <- here("Analysis", dataset, glue("C_trend_min.csv"))
-C_trend_min <- read.table(f, header=TRUE, sep=",")
-## Transform dataset in long format
-C_long_min <- C_trend_min %>%
-  tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
-                      values_to="C_em") %>%
-  dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
-# Max
-f <- here("Analysis", dataset, glue("C_trend_max.csv"))
-C_trend_max <- read.table(f, header=TRUE, sep=",")
-## Transform dataset in long format
-C_long_max <- C_trend_max %>%
-  tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
-                      values_to="C_em") %>%
-  dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
+## Biomass map
+bmap <- c("avitabile", "whrc")
+nmap <- length(bmap)
 
-## Historical data
-C_hist <- C_long_mean %>% dplyr::filter(year==2015)
+## Loop on maps
+for (k in 1:nmap) {
 
-## Projected data
-C_proj <- C_long_mean %>%
-  mutate(C_em_min=C_long_min[["C_em"]],
-         C_em_max=C_long_max[["C_em"]])
+    ## Map id
+    m <- bmap[k]
 
-## mytheme
-mytheme <- theme(
-  axis.title=element_text(size=12),
-  axis.text=element_text(size=10),
-  legend.title=element_text(size=12),
-  legend.text=element_text(size=10),
-  legend.position=c(0.01, 0.99),
-  legend.justification=c(0, 1),
-  legend.background=element_rect(fill="transparent"))
+    ## Load data
+    ## Mean
+    f <- here("Analysis", dataset, glue("C_trend_mean_{m}.csv"))
+    C_trend_mean <- read.table(f, header=TRUE, sep=",")
+    ## Transform dataset in long format
+    C_long_mean <- C_trend_mean %>%
+        tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
+                            values_to="C_em") %>%
+        dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
+                                        # Min
+    f <- here("Analysis", dataset, glue("C_trend_min_{m}.csv"))
+    C_trend_min <- read.table(f, header=TRUE, sep=",")
+    ## Transform dataset in long format
+    C_long_min <- C_trend_min %>%
+        tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
+                            values_to="C_em") %>%
+        dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
+                                        # Max
+    f <- here("Analysis", dataset, glue("C_trend_max_{m}.csv"))
+    C_trend_max <- read.table(f, header=TRUE, sep=",")
+    ## Transform dataset in long format
+    C_long_max <- C_trend_max %>%
+        tidyr::pivot_longer(cols=T10_20:T100_110, names_to="T_int",
+                            values_to="C_em") %>%
+        dplyr::mutate(year=rep(seq(2015, 2105, by=10), 4))
 
-## Plot
-p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont, fill=area_cont), data=C_proj) +
-  geom_ribbon(aes(ymin=C_em_min, ymax=C_em_max, group=area_cont, fill=area_cont),
-              alpha=0.2, data=C_proj, linetype=0) + 
-  geom_line(aes(group=area_cont, col=area_cont), data=C_proj, size=0.8) +
-  geom_point(aes(group=area_cont, col=area_cont), data=C_hist, size=1) +
-  xlab("Year") + ylab("Annual carbon emissions (Pg/yr) due to \ndeforestation of tropical moist forests") +
-  scale_color_manual(values=wes_palette("Moonrise2")[c(4, 3, 2, 1)],
-                     name="Continents",
-                     breaks=c("All continents", "America", "Africa", "Asia"),
-                     labels=c("All continents", "America", "Africa", "Asia")) +
-  scale_fill_manual(values=wes_palette("Moonrise2")[c(4, 3, 2, 1)],
-                    name="Continents",
-                    breaks=c("All continents", "America", "Africa", "Asia"),
-                    labels=c("All continents", "America", "Africa", "Asia")) +
-  scale_y_continuous(limits=c(0,1), breaks=seq(0,1,0.25)) +
-  scale_x_continuous(limits=c(2010, 2110), breaks=seq(2010,2110,by=10)) +
-  theme_bw() + mytheme
+    ## Historical data
+    C_hist <- C_long_mean %>% dplyr::filter(year==2015)
 
-## Save results
-f <- here("Analysis", dataset, "C_trend.png")
-ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
-## Copy for manuscript
-f_doc <- here("Manuscript", "Article", "figures",
-              "C_trend.png")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
+    ## Projected data
+    C_proj <- C_long_mean %>%
+        mutate(C_em_min=C_long_min[["C_em"]],
+               C_em_max=C_long_max[["C_em"]])
+
+    ## mytheme
+    mytheme <- theme(
+        axis.title=element_text(size=12),
+        axis.text=element_text(size=10),
+        legend.title=element_text(size=12),
+        legend.text=element_text(size=10),
+        legend.position=c(0.01, 0.99),
+        legend.justification=c(0, 1),
+        legend.background=element_rect(fill="transparent"))
+
+    ## Plot
+    p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont, fill=area_cont), data=C_proj) +
+        geom_ribbon(aes(ymin=C_em_min, ymax=C_em_max, group=area_cont, fill=area_cont),
+                    alpha=0.2, data=C_proj, linetype=0) + 
+        geom_line(aes(group=area_cont, col=area_cont), data=C_proj, size=0.8) +
+        geom_point(aes(group=area_cont, col=area_cont), data=C_hist, size=1) +
+        xlab("Year") + ylab("Annual carbon emissions (Pg/yr) due to \ndeforestation of tropical moist forests") +
+        scale_color_manual(values=wes_palette("Moonrise2")[c(4, 3, 2, 1)],
+                           name="Continents",
+                           breaks=c("All continents", "America", "Africa", "Asia"),
+                           labels=c("All continents", "America", "Africa", "Asia")) +
+        scale_fill_manual(values=wes_palette("Moonrise2")[c(4, 3, 2, 1)],
+                          name="Continents",
+                          breaks=c("All continents", "America", "Africa", "Asia"),
+                          labels=c("All continents", "America", "Africa", "Asia")) +
+        scale_y_continuous(limits=c(0,1), breaks=seq(0,1,0.25)) +
+        scale_x_continuous(limits=c(2010, 2110), breaks=seq(2010,2110,by=10)) +
+        theme_bw() + mytheme
+
+    ## Save results
+    f <- here("Analysis", dataset, glue("C_trend_{m}.png"))
+    ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
+    ## Copy for manuscript
+    f_doc <- here("Manuscript", "Article", "figures",
+                  glue("C_trend_{m}.png"))
+    file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+}
 
 ## =======================================
 ## Table: species in biodiversity hotspots
