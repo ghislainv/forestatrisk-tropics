@@ -1850,31 +1850,49 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Carbon emissions
 ## ---------------------------------------
 
-# Data
-f_mean <- here("Analysis", dataset, "C_emissions_mean.csv")
-f_min <- here("Analysis", dataset, "C_emissions_min.csv")
-f_max <- here("Analysis", dataset, "C_emissions_max.csv")
-df_mean <- read_delim(f_mean, delim=",") %>% mutate(proj="mean")
-df_min <- read_delim(f_min, delim=",") %>% mutate(proj="low")
-df_max <- read_delim(f_max, delim=",") %>% mutate(proj="high")
+## Biomass map
+bmap <- c("avitabile", "whrc")
+nmap <- length(bmap)
 
-# Combine datasets
-df <- df_min %>%
-  bind_rows(df_mean) %>%
-  bind_rows(df_max) %>%
-  # Id
-  mutate(id_cont=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
-  mutate(id_d=ifelse(proj=="low", 1, ifelse(proj=="mean", 2, 3))) %>%
-  # Arrange
-  arrange(id_cont, area_name, id_d) %>%
-  relocate(proj, .after=area_code)
+## Loop on maps
+for (k in 1:nmap) {
 
-## Save results
-f <- here("Analysis", dataset, "C_emissions_ci.csv")
-write_delim(df, f, delim=",")
-## Copy for website
-f_doc <- here("Website", "_tables", "C_emissions_ci.csv")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
+    ## Map id
+    m <- bmap[k]
+
+    ## Data
+    f_mean <- here("Analysis", dataset, glue("C_emissions_mean_{m}.csv"))
+    f_min <- here("Analysis", dataset, glue("C_emissions_min_{m}.csv"))
+    f_max <- here("Analysis", dataset, glue("C_emissions_max_{m}.csv"))
+    df_mean <- read_delim(f_mean, delim=",") %>% mutate(proj="mean")
+    df_min <- read_delim(f_min, delim=",") %>% mutate(proj="low")
+    df_max <- read_delim(f_max, delim=",") %>% mutate(proj="high")
+
+    ## Combine datasets
+    df <- df_min %>%
+        bind_rows(df_mean) %>%
+        bind_rows(df_max) %>%
+        ## Id
+        mutate(id_cont=ifelse(area_cont=="America", 1, ifelse(area_cont=="Africa", 2, 3))) %>%
+        mutate(id_d=ifelse(proj=="low", 1, ifelse(proj=="mean", 2, 3))) %>%
+        ## Arrange
+        arrange(id_cont, area_name, id_d) %>%
+        relocate(proj, .after=area_code)
+
+    ## Corrections for Vanuatu and Queensland with WHRC map
+    if (m == "whrc") {
+        df <- df %>%
+            mutate(across(C2020:C2110, function (x) {replace(x, area_code %in% c("VUT", "QLD"), 0)}))
+    }
+    
+    ## Save results
+    f <- here("Analysis", dataset, glue("C_emissions_ci_{m}.csv"))
+    write_delim(df, f, delim=",")
+    ## Copy for website
+    f_doc <- here("Website", "_tables", glue("C_emissions_ci_{m}.csv"))
+    file.copy(from=f, to=f_doc, overwrite=TRUE)
+
+}
 
 ## ==================================
 ## End Of File
