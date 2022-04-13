@@ -57,8 +57,9 @@ Manuscript/Cover_Letter
 *.svg
 
 # Data
-AGB/*
-!AGB/globbiomass
+AGB/AGB.tif
+AGB/globbiomass/*
+!AGB/globbiomass/globbiomass_download.py
 data_allctry.csv
 data_allctry_prop.csv
 Maps/*/Africa
