@@ -58,6 +58,7 @@ Manuscript/Cover_Letter
 
 # Data
 AGB/*
+!AGB/globbiomass
 data_allctry.csv
 data_allctry_prop.csv
 Maps/*/Africa
