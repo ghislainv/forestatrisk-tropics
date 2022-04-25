@@ -1603,7 +1603,7 @@ for (k in 1:nmap) {
             bind_rows(data.frame(area_cont="All continents",
                                  summarize(Cem_tab, across(starts_with("C"), sum)),
                                  stringsAsFactors=FALSE)) %>%
-            mutate(across(C2020:C2110, function(x){x*1e-9}))  # Results in PgC
+            mutate(across(C2020:C2110, function(x){x * 1e-9}))  # Results in PgC
         
         ## Save results
         f_name <- glue("C_emissions_summary_{s}_{m}.csv")
