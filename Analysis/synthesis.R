@@ -1558,6 +1558,12 @@ for (k in 1:nmap) {
             dplyr::arrange(id, area_name) %>%
             dplyr::select(-id)
 
+        ## Corrections for Vanuatu and Queensland with WHRC map
+        if (m == "whrc") {
+            Cem_tab <- Cem_tab %>%
+                mutate(across(C2020:C2110, function (x) {replace(x, area_code %in% c("VUT", "QLD"), 0)}))
+        }
+
         ## Save results
         f <- here("Analysis", dataset, glue("C_emissions_{s}_{m}.csv"))
         write.table(Cem_tab, file=f, sep=",", row.names=FALSE)
@@ -1878,13 +1884,7 @@ for (k in 1:nmap) {
         ## Arrange
         arrange(id_cont, area_name, id_d) %>%
         relocate(proj, .after=area_code)
-
-    ## Corrections for Vanuatu and Queensland with WHRC map
-    if (m == "whrc") {
-        df <- df %>%
-            mutate(across(C2020:C2110, function (x) {replace(x, area_code %in% c("VUT", "QLD"), 0)}))
-    }
-    
+   
     ## Save results
     f <- here("Analysis", dataset, glue("C_emissions_ci_{m}.csv"))
     write_delim(df, f, delim=",")
