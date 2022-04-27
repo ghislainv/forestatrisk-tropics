@@ -19,6 +19,7 @@ import os
 import pkg_resources
 import shutil  # for rmtree
 import sys
+import subprocess
 
 # Third party imports
 import forestatrisk as far
@@ -27,6 +28,8 @@ from osgeo import gdal
 
 # Arguments
 index_ctry = int(sys.argv[1]) - 1
+
+os.environ["PROJ_LIB"] = "/home/ghislain/.pyenv/versions/miniconda3-latest/envs/conda-far/share/proj"
 
 # ==================
 # Settings
@@ -92,35 +95,46 @@ def run_country(iso3):
                 "+x_0=0 +y_0=0 +ellps=aust_SA +units=m no_defs")
 
     # Extent
-    extent = far.data.extent_shp("data/ctry_PROJ.shp")
+    extent_proj = far.data.extent_shp("data/ctry_PROJ.shp")
+    xmin_reg = np.floor(extent_proj[0] - 5000)
+    ymin_reg = np.floor(extent_proj[1] - 5000)
+    xmax_reg = np.ceil(extent_proj[2] + 5000)
+    ymax_reg = np.ceil(extent_proj[3] + 5000)
+    extent_reg = [xmin_reg, ymin_reg, xmax_reg, ymax_reg]
+    # extent_reg_str = " ".join(map(str, extent_reg))
 
     # Resampling CCI data without compression using .vrt file
     input_file = home_dir + ("Code/forestatrisk-tropics/AGB/"
                              "CCI_v3/biomass_cci.tif")
     output_file = "data/emissions/biomass_cci_wrap.vrt"
+    # gdal_cmd = ["gdalwarp",
+    #             "-overwrite -tap -multi",
+    #             "-tr 100 100",
+    #             "-r bilinear",
+    #             "-of VRT",
+    #             "-wo NUM_THREADS=ALL_CPUS",
+    #             "-te", extent_reg_str,
+    #             "-t_srs", "'" + proj + "'",
+    #             input_file, output_file]
+    # subprocess.call(" ".join(gdal_cmd), shell=True)
+
     param = gdal.WarpOptions(options=["overwrite", "tap"],
                              format="VRT",
                              xRes=100, yRes=100,
                              outputBounds=extent,
-                             srcNodata=0, dstNodata=-9999,
-                             srcSRS="ESPG:4326", dstSRS=proj,
+                             srcSRS="EPSG:4326", dstSRS=proj,
                              resampleAlg=gdal.GRA_Bilinear,
-                             outputType=gdal.GDT_Int16,
                              multithread=True,
-                             warpMemoryLimit=512,
                              warpOptions=["NUM_THREADS=ALL_CPUS"])
     gdal.Warp(output_file, input_file, options=param)
 
     # Compressing
     input_file = "data/emissions/biomass_cci_wrap.vrt"
     output_file = "data/emissions/biomass_cci.tif"
-    param = gdal.TranslateOptions(options=["overwrite", "tap"],
+    param = gdal.TranslateOptions(options=["overwrite"],
                                   format="GTiff",
-                                  creationOptions=["TILED=YES",
-                                                   "BLOCKXSIZE=256",
-                                                   "BLOCKYSIZE=256",
-                                                   "COMPRESS=LZW",
-                                                   "PREDICTOR=YES",
+                                  creationOptions=["COMPRESS=LZW",
+                                                   "PREDICTOR=2",
                                                    "BIGTIFF=YES"],
                                   callback=progress_callback,
                                   callback_data=".")
