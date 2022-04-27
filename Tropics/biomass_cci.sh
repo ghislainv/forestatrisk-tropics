@@ -17,7 +17,7 @@ module load singularity
 # Paths
 storage="/storage/replicated/cirad/projects/AMAP/vieilledentg"
 image="/lustre/vieilledentg/singularity_images/forestatrisk-tropics.simg"
-script="/home/vieilledentg/Code/forestatrisk-tropics/Tropics/biomass_whrc.py"
+script="/home/vieilledentg/Code/forestatrisk-tropics/Tropics/biomass_cci.py"
 
 # run python script inside container
 singularity exec --bind $storage $image python3 -u $script $SLURM_ARRAY_TASK_ID
