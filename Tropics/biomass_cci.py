@@ -23,13 +23,14 @@ import subprocess
 
 # Third party imports
 import forestatrisk as far
+import numpy as np
 import pandas as pd
-from osgeo import gdal
+# from osgeo import gdal
 
 # Arguments
 index_ctry = int(sys.argv[1]) - 1
 
-os.environ["PROJ_LIB"] = "/home/ghislain/.pyenv/versions/miniconda3-latest/envs/conda-far/share/proj"
+# os.environ["PROJ_LIB"] = "/home/ghislain/.pyenv/versions/miniconda3-latest/envs/conda-far/share/proj"
 
 # ==================
 # Settings
@@ -60,13 +61,13 @@ iso3 = list(data_ctry_run.iso3)
 nctry = len(iso3)  # 120
 
 
-# progress bar
-def progress_callback(complete, message, callback_data):
-    '''Emit progress report in numbers for 10% intervals and dots for 3%'''
-    if int(complete*100) % 10 == 0:
-        print(f'{complete*100:.0f}', end='', flush=True)
-    elif int(complete*100) % 3 == 0:
-        print(f'{callback_data}', end='', flush=True)
+# # progress bar
+# def progress_callback(complete, message, callback_data):
+#     '''Emit progress report in numbers for 10% intervals and dots for 3%'''
+#     if int(complete*100) % 10 == 0:
+#         print(f'{complete*100:.0f}', end='', flush=True)
+#     elif int(complete*100) % 3 == 0:
+#         print(f'{callback_data}', end='', flush=True)
 
 
 # Function for multiprocessing
@@ -101,44 +102,58 @@ def run_country(iso3):
     xmax_reg = np.ceil(extent_proj[2] + 5000)
     ymax_reg = np.ceil(extent_proj[3] + 5000)
     extent_reg = [xmin_reg, ymin_reg, xmax_reg, ymax_reg]
-    # extent_reg_str = " ".join(map(str, extent_reg))
+    extent_reg_str = " ".join(map(str, extent_reg))
 
     # Resampling CCI data without compression using .vrt file
     input_file = home_dir + ("Code/forestatrisk-tropics/AGB/"
                              "CCI_v3/biomass_cci.tif")
     output_file = "data/emissions/biomass_cci_wrap.vrt"
-    # gdal_cmd = ["gdalwarp",
-    #             "-overwrite -tap -multi",
-    #             "-tr 100 100",
-    #             "-r bilinear",
-    #             "-of VRT",
-    #             "-wo NUM_THREADS=ALL_CPUS",
-    #             "-te", extent_reg_str,
-    #             "-t_srs", "'" + proj + "'",
-    #             input_file, output_file]
-    # subprocess.call(" ".join(gdal_cmd), shell=True)
 
-    param = gdal.WarpOptions(options=["overwrite", "tap"],
-                             format="VRT",
-                             xRes=100, yRes=100,
-                             outputBounds=extent,
-                             srcSRS="EPSG:4326", dstSRS=proj,
-                             resampleAlg=gdal.GRA_Bilinear,
-                             multithread=True,
-                             warpOptions=["NUM_THREADS=ALL_CPUS"])
-    gdal.Warp(output_file, input_file, options=param)
+    # GDAL
+    gdal_cmd = ["gdalwarp",
+                "-overwrite -tap -multi",
+                "-of VRT",
+                "-tr 100 100",
+                "-te", extent_reg_str,
+                "-s_srs EPSG:4326",
+                "-t_srs", "'" + proj + "'",
+                "-r bilinear",
+                "-wo NUM_THREADS=ALL_CPUS",
+                input_file, output_file]
+    subprocess.call(" ".join(gdal_cmd), shell=True)
+
+    # # GDAL/Python bindings
+    # param = gdal.WarpOptions(options=["overwrite", "tap"],
+    #                          format="VRT",
+    #                          xRes=100, yRes=100,
+    #                          outputBounds=extent_reg,
+    #                          srcSRS="EPSG:4326", dstSRS=proj,
+    #                          resampleAlg=gdal.GRA_Bilinear,
+    #                          multithread=True,
+    #                          warpOptions=["NUM_THREADS=ALL_CPUS"])
+    # gdal.Warp(output_file, input_file, options=param)
 
     # Compressing
     input_file = "data/emissions/biomass_cci_wrap.vrt"
     output_file = "data/emissions/biomass_cci.tif"
-    param = gdal.TranslateOptions(options=["overwrite"],
-                                  format="GTiff",
-                                  creationOptions=["COMPRESS=LZW",
-                                                   "PREDICTOR=2",
-                                                   "BIGTIFF=YES"],
-                                  callback=progress_callback,
-                                  callback_data=".")
-    gdal.Translate(output_file, input_file, options=param)
+
+    # GDAL
+    gdal_cmd = ["gdal_translate",
+                "-of GTiff",
+                "-co COMPRESS=LZW",
+                "-co PREDICTOR=2",
+                "-co BIGTIFF=YES",
+                input_file, output_file]
+    subprocess.call(" ".join(gdal_cmd), shell=True)
+    
+    # # GDAL/Python bindings
+    # param = gdal.TranslateOptions(format="GTiff",
+    #                               creationOptions=["COMPRESS=LZW",
+    #                                                "PREDICTOR=2",
+    #                                                "BIGTIFF=YES"],
+    #                               callback=progress_callback,
+    #                               callback_data=".")
+    # gdal.Translate(output_file, input_file_2, options=param)
 
     # Remove GDAL temp directory
     shutil.rmtree(temp_dir + "tmp_" + iso3)
