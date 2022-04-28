@@ -12,7 +12,7 @@ import os
 import re
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import pandas as pd
 
 import forestatrisk as far
@@ -109,7 +109,7 @@ def run_forecast(iso3, fcc_source="jrc"):
         # Carbon emissions
         # --------------------------------------------------------
 
-        ofile = "output/{}/C_emissions_whrc.csv".format(scen)
+        ofile = "output/{}/C_emissions_cci.csv".format(scen)
         if not os.path.isfile(ofile):
             # Create dataframe
             dpast = ["2020"]
@@ -121,15 +121,15 @@ def run_forecast(iso3, fcc_source="jrc"):
             for i in range(ndates_fut):
                 ifile = "output/{}/fcc_{}.tif".format(scen, dates_fut[i])
                 carbon = far.emissions(
-                    input_stocks="data/emissions/biomass_whrc.tif",
+                    input_stocks="data/emissions/biomass_cci.tif",
                     input_forest=ifile)
                 C_df.loc[C_df["date"] == dates_fut[i], ["C"]] = carbon
             # Past emissions
-            carbon = far.emissions(input_stocks="data/emissions/biomass_whrc.tif",
+            carbon = far.emissions(input_stocks="data/emissions/biomass_cci.tif",
                                    input_forest="data/fcc23.tif")
             C_df.loc[C_df["date"] == dpast[0], ["C"]] = carbon
             # Save dataframe
-            ofile = "output/{}/C_emissions_whrc.csv".format(scen)
+            ofile = "output/{}/C_emissions_cci.csv".format(scen)
             C_df.to_csv(ofile, header=True, index=False)
 
         # --------------------------------------------------------
