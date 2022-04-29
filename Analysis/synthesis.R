@@ -1509,7 +1509,7 @@ sim <- c("mean", "min", "max")
 nsim <- length(sim)
 
 ## Biomass map
-bmap <- c("avitabile", "whrc")
+bmap <- c("avitabile", "whrc", "cci")
 nmap <- length(bmap)
 
 ## Loop on maps
@@ -1543,7 +1543,7 @@ for (k in 1:nmap) {
             ## Carbon emissions
             if (m == "avitabile") {
                 f_name <- file.path(dir, iso, glue("output/{s}/C_emissions.csv"))
-            } else if (m == "whrc") {
+            } else {
                 f_name <- file.path(dir, iso, glue("output/{s}/C_emissions_{m}.csv"))
             }
             Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
@@ -1583,7 +1583,7 @@ sim <- c("mean", "min", "max")
 nsim <- length(sim)
 
 ## Biomass map
-bmap <- c("avitabile", "whrc")
+bmap <- c("avitabile", "whrc", "cci")
 nmap <- length(bmap)
 
 ## Loop on maps
@@ -1641,7 +1641,7 @@ sim <- c("mean", "min", "max")
 nsim <- length(sim)
 
 ## Biomass map
-bmap <- c("avitabile", "whrc")
+bmap <- c("avitabile", "whrc", "cci")
 nmap <- length(bmap)
 
 ## Loop on maps
@@ -1697,7 +1697,8 @@ for (k in 1:nmap) {
 ## ==============================
 
 ## Biomass map
-bmap <- c("avitabile", "whrc")
+bmap <- c("avitabile", "whrc", "cci")
+title_map <- c("WUR (Avitabile et al. 2016)", "WHRC (Zarin et al. 2016)", "ESA CCI v3 (Santoro et al. 2021)") 
 nmap <- length(bmap)
 
 ## Loop on maps
@@ -1756,6 +1757,7 @@ for (k in 1:nmap) {
                     alpha=0.2, data=C_proj, linetype=0) + 
         geom_line(aes(group=area_cont, col=area_cont), data=C_proj, size=0.8) +
         geom_point(aes(group=area_cont, col=area_cont), data=C_hist, size=1) +
+        ggtitle(glue("Biomass map: {title_map[k]}")) +
         xlab("Year") + ylab("Annual carbon emissions (Pg/yr) due to \ndeforestation of tropical moist forests") +
         scale_color_manual(values=wes_palette("Moonrise2")[c(4, 3, 2, 1)],
                            name="Continents",
@@ -1773,9 +1775,17 @@ for (k in 1:nmap) {
     f <- here("Analysis", dataset, glue("C_trend_{m}.png"))
     ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
     ## Copy for manuscript
-    f_doc <- here("Manuscript", "Article", "figures",
-                  glue("C_trend_{m}.png"))
-    file.copy(from=f, to=f_doc, overwrite=TRUE)
+    if (m == "cci") {
+        f_doc <- here("Manuscript", "Article", "figures",
+                      glue("C_trend_{m}.png"))
+        file.copy(from=f, to=f_doc, overwrite=TRUE)
+    }
+    ## Copy for SM
+    else {
+        f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
+                      glue("C_trend_{m}.png"))
+        file.copy(from=f, to=f_doc, overwrite=TRUE)
+    }
 
 }
 
@@ -1857,7 +1867,7 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## ---------------------------------------
 
 ## Biomass map
-bmap <- c("avitabile", "whrc")
+bmap <- c("avitabile", "whrc", "cci")
 nmap <- length(bmap)
 
 ## Loop on maps
