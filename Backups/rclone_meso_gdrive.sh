@@ -10,7 +10,12 @@
 # Loading modules
 module load singularity
 
+# Paths
+storage="/storage/replicated/cirad/projects/AMAP/vieilledentg"
+image="/lustre/vieilledentg/singularity_images/forestatrisk-tropics.simg"
+script="/home/vieilledentg/Code/forestatrisk-tropics/Backups/rclone_meso_gdrive.py"
+
 # Run python script inside container
-singularity exec --bind /storage/replicated/cirad/projects/AMAP/vieilledentg ~/replicated/singularity_images/forestatrisk-tropics.simg python3 -u ~/Code/forestatrisk-tropics/Backups/rclone_gdrive_meso.py
+singularity exec --bind $storage $image python3 -u $script
 
 # EOF

@@ -16,8 +16,8 @@
 
 import subprocess
 
-source_path = "gdrive_gv:Work/forestatrisk-tropics/jrc2020"
-dest_path = "/storage/replicated/cirad/projects/AMAP/vieilledentg/jrc2020"
+source_path = "/storage/replicated/cirad/projects/AMAP/vieilledentg/jrc2020"
+dest_path = "gdrive_gv:Work/forestatrisk-tropics/jrc2020"
 
 data_raw = "**/data_raw/**"
 data = "**/data/**"
