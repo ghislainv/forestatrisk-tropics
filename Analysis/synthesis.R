@@ -1541,11 +1541,7 @@ for (k in 1:nmap) {
             area_name <- as.character(ctry_df$area_name[ctry_df$iso3==iso])
             area_code <- as.character(ctry_df$area_code[ctry_df$iso3==iso])
             ## Carbon emissions
-            if (m == "avitabile") {
-                f_name <- file.path(dir, iso, glue("output/{s}/C_emissions.csv"))
-            } else {
-                f_name <- file.path(dir, iso, glue("output/{s}/C_emissions_{m}.csv"))
-            }
+            f_name <- file.path(dir, iso, glue("output/{s}/C_emissions_{m}.csv"))
             Cem_df <- read.table(f_name, header=TRUE, sep=",", stringsAsFactors=FALSE)
             ## Fill in the table
             Cem_tab[i, 1:4] <- cbind(area_cont, area_ctry, area_name, area_code)
