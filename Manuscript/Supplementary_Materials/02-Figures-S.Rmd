@@ -128,17 +128,25 @@ knitr::include_graphics("figures/fcc2050_2100.png")
 
 ## Fig. S12 -- Aboveground biomass map {-}
 
-(ref:cap-agb) **Aboveground biomass map**. _Main figure_: Aboveground biomass (AGB in Mg/ha) map for the Democratic Republic of the Congo (DRC) at 1 km resolution produced by @Avitabile2016. This map is a combination of two pantropical aboveground biomass maps by @Saatchi2011 and @Baccini2012. While the RMSE of the fused map by @Avitabile2016 is still substantial (87--98 Mg/ha), the fused map achieved a lower RMSE (a decrease of 5--74%) and bias (a decrease of 90--153%) than the two input maps for all continents. The fusion map is representative of the aboveground biomass for the years 2000--2010. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
+(ref:cap-agb) **Aboveground biomass map**. _Main figure_: Aboveground biomass (AGB in Mg/ha) map for the Democratic Republic of the Congo (DRC) at 1 km resolution produced by @Avitabile2016. This map is a combination of two pantropical aboveground biomass maps by @Saatchi2011 and @Baccini2012. The fusion map is representative of the aboveground biomass for the years 2000--2010. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
 
 ```{r agb, out.width="\\textwidth", fig.cap="(ref:cap-agb)"}
 knitr::include_graphics("figures/AGB.png")
+```
+
+## Fig. S13 -- Change in annual carbon emissions {-}
+
+(ref:cap-ctrend) **Change in annual carbon emissions associated with projected deforestation**. Mean annual carbon emissions (Pg/yr) are computed for ten-year intervals from 2010--2020 to 2100--2110. The dots represent the observed mean annual carbon emissions (based on past deforestation maps) for the period 2010--2020, for the three continents (America, Africa, and Asia), and for the three continents combined. Lines represent the projected mean annual carbon emissions based on projected forest cover change maps from 2020--2030 to 2100--2110 per continent, and for all continents together. The confidence envelopes around the mean are obtained using the lower and upper bounds of the confidence intervals of the mean annual deforested areas for all study areas. _Top_: Carbon emissions obtained from the WUR aboveground biomass map by @Avitabile2016 showing an increase of the annual carbon emissions from 0.467 Pg/yr in 2010--2020 to 0.628 Pg/yr (+35%) in 2090--2100 associated with the deforestation of forests with higher carbon stocks in the future. _Bottom_: Carbon emissions obtained from the WHRC aboveground biomass map by @Zarin2016 showing constant annual carbon emissions of about 0.600 Pg/yr for the period 2010--2070, followed by a slight decrease of the emissions to 0.583 Pg/yr (-3%) in 2090--2100 associated with the complete loss of forest in some Asian countries. 
+
+```{r ctrend, out.width="0.7\\textwidth", fig.cap="(ref:cap-ctrend)"}
+knitr::include_graphics("figures/C_trend_avitabile_whrc.png")
 ```
 
 <!--------------------------------------------->
 <!-- Uncertainty -->
 <!--------------------------------------------->
 
-## Figs. S13--S14 -- Uncertainty map of the future change in forest cover {-}
+## Figs. S14--S15 -- Uncertainty map of the future change in forest cover {-}
 
 (ref:cap-fcc2100-low) **Projected forest cover change map assuming a low annual deforestation**. This map was derived using $d'$, the _lower_ bound of the confidence interval for the annual deforested area (in ha/yr) for each study area. This map must be compared with Fig. 1 in the main text and Fig. \@ref(fig:fcc2100-high) below, which consider average and high annual deforested areas, respectively. The horizontal black line indicates the position of the Equator. The boundaries of the study areas are represented by dark grey lines. Forest areas in \textcolor{red}{red} are predicted to be deforested during the period 2020--2100, while forest areas in \textcolor{darkgreen}{green} are predicted to remain in 2100.
 

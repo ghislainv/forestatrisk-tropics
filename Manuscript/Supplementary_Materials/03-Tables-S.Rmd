@@ -556,12 +556,12 @@ knitr::kable(df, caption="(ref:cap-hotspots)", booktabs=TRUE, longtable=FALSE,
 
 ## Table S19 -- Cumulative carbon emissions associated with deforestation {-}
 
-(ref:cap-c-em-sm) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016. The aboveground biomass map was not covering some islands in the tropics (Reunion island or Fiji for example).\vspace{0.5cm}
+(ref:cap-c-em-sm) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with available global or pantropical maps of aboveground biomass (either the WUR, WHRC or CCI map). We present here the results obtained with the ESA CCI aboveground biomass map by @Santoro2021.\vspace{0.5cm}
 
 ```{r c-em-sm, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
 ## Import data
-df <- read.table("tables/C_emissions_mean.csv", header=TRUE, sep=",")
+df <- read.table("tables/C_emissions_mean_cci.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::select(area_name, C2040, C2060, C2080, C2100) %>%

@@ -60,6 +60,7 @@
 # Libraries
 require(bookdown)
 require(knitr)
+require(kableExtra)
 require(here)
 
 # Working directory

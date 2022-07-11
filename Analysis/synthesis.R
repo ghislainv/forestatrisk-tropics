@@ -16,6 +16,7 @@ require(ggplot2)
 require(wesanderson)
 require(readr)
 require(glue)
+require(gridExtra)
 
 ## Set working directory
 setwd(here())
@@ -1696,6 +1697,7 @@ for (k in 1:nmap) {
 bmap <- c("avitabile", "whrc", "cci")
 title_map <- c("WUR (Avitabile et al. 2016)", "WHRC (Zarin et al. 2016)", "ESA CCI v3 (Santoro et al. 2021)") 
 nmap <- length(bmap)
+p <- list()  # List of plots
 
 ## Loop on maps
 for (k in 1:nmap) {
@@ -1748,7 +1750,7 @@ for (k in 1:nmap) {
         legend.background=element_rect(fill="transparent"))
 
     ## Plot
-    p <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont, fill=area_cont), data=C_proj) +
+    p[[k]] <- ggplot(aes(x=year, y=C_em, group=area_cont, col=area_cont, fill=area_cont), data=C_proj) +
         geom_ribbon(aes(ymin=C_em_min, ymax=C_em_max, group=area_cont, fill=area_cont),
                     alpha=0.2, data=C_proj, linetype=0) + 
         geom_line(aes(group=area_cont, col=area_cont), data=C_proj, size=0.8) +
@@ -1766,24 +1768,30 @@ for (k in 1:nmap) {
         scale_y_continuous(limits=c(0,1), breaks=seq(0,1,0.25)) +
         scale_x_continuous(limits=c(2010, 2110), breaks=seq(2010,2110,by=10)) +
         theme_bw() + mytheme
-
-    ## Save results
+    
+    ## Remove legend for WHRC
+    if (m == "whrc") {
+      p[[k]] <- p[[k]]+ theme(legend.position="none")
+    }
+    
+    ## Save
     f <- here("Analysis", dataset, glue("C_trend_{m}.png"))
-    ggsave(f, p, width=16.6, height=10, units="cm", dpi=300)
-    ## Copy for manuscript
+    ggsave(f, p[[k]], width=16.6, height=12, units="cm", dpi=300)
+    # Copy for manuscript
     if (m == "cci") {
-        f_doc <- here("Manuscript", "Article", "figures",
-                      glue("C_trend_{m}.png"))
-        file.copy(from=f, to=f_doc, overwrite=TRUE)
+      f_doc <- here("Manuscript", "Article", "figures", glue("C_trend_{m}.png"))
+      file.copy(from=f, to=f_doc, overwrite=TRUE)
     }
-    ## Copy for SM
-    else {
-        f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
-                      glue("C_trend_{m}.png"))
-        file.copy(from=f, to=f_doc, overwrite=TRUE)
-    }
-
 }
+
+## Combine WHRC and Avitabile
+f <- here("Analysis", dataset, "C_trend_avitabile_whrc.png")
+pp <- grid.arrange(p[[1]], p[[2]], nrow = 2)
+ggsave(f, pp, width=16.6, height=24, units="cm", dpi=300)
+# Copy for SM
+f_doc <- here("Manuscript", "Supplementary_Materials", "figures",
+              "C_trend_avitabile_whrc.png")
+file.copy(from=f, to=f_doc, overwrite=TRUE)
 
 ## =======================================
 ## Table: species in biodiversity hotspots
