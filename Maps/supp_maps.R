@@ -102,11 +102,33 @@ for (i in 1:length(rast_in)) {
 ## Carbon
 ## ---------------------------------------
 
+# WUR -- Avitabile
 in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "AGB.tif")
-out_f <- here("Maps", dataset, ctry_iso, "AGB.tif")
+out_f <- here("Maps", dataset, ctry_iso, "biomass_wur.tif")
 if (!file.exists(out_f)) {
   cmd <- glue('gdalwarp -overwrite -t_srs EPSG:3395 -tr 1000 1000 -tap \\
-             -r near -cutline {ctry_merc} -crop_to_cutline \\
+              -r near -cutline {ctry_merc} -crop_to_cutline \\
+              -co "COMPRESS=LZW" -co "PREDICTOR=2" {in_f} {out_f}')
+  system(cmd)
+}
+
+# CCI -- Santoro
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "biomass_cci.tif")
+out_f <- here("Maps", dataset, ctry_iso, "biomass_cci.tif")
+if (!file.exists(out_f)) {
+  cmd <- glue('gdalwarp -overwrite -t_srs EPSG:3395 -tr 1000 1000 -tap \\
+              -r near -cutline {ctry_merc} -crop_to_cutline \\
+              -dstnodata 9999 \\
+              -co "COMPRESS=LZW" -co "PREDICTOR=2" {in_f} {out_f}')
+  system(cmd)
+}
+
+# WHRC -- Zarin
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "biomass_whrc.tif")
+out_f <- here("Maps", dataset, ctry_iso, "biomass_whrc.tif")
+if (!file.exists(out_f)) {
+  cmd <- glue('gdalwarp -overwrite -t_srs EPSG:3395 -tr 1000 1000 -tap \\
+              -r near -cutline {ctry_merc} -crop_to_cutline \\
               -co "COMPRESS=LZW" -co "PREDICTOR=2" {in_f} {out_f}')
   system(cmd)
 }
@@ -1034,51 +1056,130 @@ file.copy(from=f, to=f_doc, overwrite=TRUE)
 ## Carbon map
 ## ======================
 
-## Load raster
-in_f <- here("Maps", dataset, ctry_iso, "AGB.tif")
-r_AGB <- read_stars(in_f)
+## ---------------------------------------
+## Carbon zoom
+## ---------------------------------------
 
-## Aspect
-bbox_r <- st_bbox(r_AGB)
-asp_AGB <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+# WUR -- Avitabile
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "AGB.tif")
+out_f <- here("Maps", dataset, ctry_iso, "biomass_zoom_wur.tif")
+if (!file.exists(out_f)) {
+    system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+	          -t_srs EPSG:3395 \\
+                  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
 
-## Prob raster for bbox
-in_f_prob <- here("Maps", dataset, ctry_iso, "prob_500m.tif")
-r_prob <- read_stars(in_f_prob)
+# CCI -- Santoro
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "biomass_cci.tif")
+out_f <- here("Maps", dataset, ctry_iso, "biomass_zoom_cci.tif")
+if (!file.exists(out_f)) {
+    system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+	          -t_srs EPSG:3395 \\
+                  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
 
-## Palette
-pal <- c("#e3d5c6", "#a59e5f", "#64701d", "#4d5c20", "#23390b", "#000900")
+# WHRC -- Zarin
+in_f <- file.path(dir_fdb, dataset, cont, ctry_iso, "data", "emissions", "biomass_whrc.tif")
+out_f <- here("Maps", dataset, ctry_iso, "biomass_zoom_whrc.tif")
+if (!file.exists(out_f)) {
+    system(paste0('gdalwarp -te ', z_ext_gdal,' -overwrite \\
+	          -t_srs EPSG:3395 \\
+                  -co "COMPRESS=LZW" -co "PREDICTOR=2" ', in_f, ' ', out_f))
+}
 
-## Plot with tmap
-tm_AGB <- 
-    tm_shape(r_AGB, bbox=st_bbox(r_prob)) +
-    tm_raster(palette=pal, title="AGB (Mg/ha)",
-              style="cont", legend.show=TRUE, legend.reverse=TRUE) +
-    tm_shape(ctry_merc) +
-    tm_borders(col="black") +
-    tm_shape(rect) +
-    tm_borders(col="black", lwd=2) +
-    tm_scale_bar(c(0,250,500), text.size=1,
-                 position=c(0.5,0), just=c("center", "bottom")) +
-    tm_legend(position=c("left","bottom"), just=c("left","bottom")) +
-    tm_layout(legend.text.size=1.2, legend.title.size=1.5)
+## ---------------------------------------
+## Carbon map
+## ---------------------------------------
 
-## Zoom
-tm_AGB_zoom <- 
-    tm_shape(r_AGB, bbox=st_bbox(rect)) +
-    tm_raster(palette=pal, style="cont", legend.show=FALSE) +
-    tm_scale_bar(c(0,5,10), text.size=1,
-	             position=c(0.5,0), just=c("center", "bottom"))
-## Viewport for inset
-vp_AGB_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275, just=c("left", "top"))
+## Variables
+map_src <- c("Biomass map: WUR (Avitabile et al. 2016)",
+             "Biomass map: ESA CCI (Santoro et al. 2021)",
+             "Biomass map: WHRC (Zarin et al. 2016)")
 
-## Save plot
-tmap_opt(1e8, outer.margins=c(0,0,0,0))
-f <- here("Maps", dataset, ctry_iso, "AGB.png")
-tmap_save(tm_AGB, file=f, width=textwidth, height=textwidth/asp_AGB, units="cm", dpi=300,
-          insets_tm=tm_AGB_zoom, insets_vp=vp_AGB_zoom)
+map_res <- c("1 km resolution",
+             "100 m resolution",
+             "30 m resolution")
+
+maps <- c("wur", "cci", "whrc")
+
+## Loop on maps
+for (k in 1:length(maps)) {
+
+    ## Maps
+    m <- maps[k]
+    
+    ## Load raster
+    in_f <- here("Maps", dataset, ctry_iso, glue("biomass_{m}.tif"))
+    r_AGB <- read_stars(in_f)
+
+    ## Load zoom
+    in_f <- here("Maps", dataset, ctry_iso, glue("biomass_zoom_{m}.tif"))
+    r_AGB_zoom <- read_stars(in_f)
+
+    ## Aspect
+    bbox_r <- st_bbox(r_AGB)
+    asp_AGB <- (bbox_r$xmax - bbox_r$xmin)/(bbox_r$ymax - bbox_r$ymin)
+
+    ## Prob raster for bbox
+    in_f_prob <- here("Maps", dataset, ctry_iso, "prob_500m.tif")
+    r_prob <- read_stars(in_f_prob)
+
+    ## Palette
+    pal <- c("#e3d5c6", "#a59e5f", "#64701d", "#4d5c20", "#23390b", "#000900")
+
+    ## Plot with tmap
+    tm_AGB <- 
+        tm_shape(r_AGB, bbox=st_bbox(r_prob)) +
+        tm_raster(palette=pal, title="AGB (Mg/ha)",
+                  style="cont",
+                  breaks=seq(0, 600, length.out=7),
+                  legend.show=TRUE, legend.reverse=TRUE,
+                  legend.format = list(fun = function(x) {
+                      ifelse(x %in% c(0, 200, 400, 600), x, "")
+                  })) +
+        tm_shape(ctry_merc) +
+        tm_borders(col="black") +
+        tm_shape(rect) +
+        tm_borders(col="black", lwd=2) +
+        tm_scale_bar(c(0,250,500), text.size=1,
+                     position=c(0.15, 0.04), just=c(0, 0)) +
+        tm_legend(position=c(0.01, 0.04), just=c(0, 0)) +
+        tm_layout(legend.text.size=1.2, legend.title.size=1.5) +
+        tm_credits(text=map_src[k],
+                   size=1.2,
+                   position=c(0.01, 0), just=c(0, 0)) +
+        tm_credits(text=map_res[k],
+                   size=0.85,
+                   position=c(0.01, 0.720), just=c(0, 1))
+
+    ## Zoom
+    tm_AGB_zoom <- 
+        tm_shape(r_AGB_zoom, bbox=st_bbox(rect)) +
+        tm_raster(palette=pal, style="cont", legend.show=FALSE) +
+        tm_scale_bar(c(0,5,10), text.size=1,
+                     position=c(0.5,0), just=c("center", "bottom"))
+    ## Viewport for inset
+    vp_AGB_zoom <- viewport(x=0.01, y=0.99, width=0.275, height=0.275, just=c("left", "top"))
+
+    ## Save plot
+    tmap_opt(1e8, outer.margins=c(0,0,0,0))
+    f <- here("Maps", dataset, ctry_iso, glue("biomass_{m}.png"))
+    tmap_save(tm_AGB, file=f, width=textwidth, height=textwidth/asp_AGB, units="cm", dpi=300,
+              insets_tm=tm_AGB_zoom, insets_vp=vp_AGB_zoom)
+
+}
+
+## Montage with ImageMagick
+f1 <- here("Maps", dataset, ctry_iso, "biomass_wur.png")
+f2 <- here("Maps", dataset, ctry_iso, "biomass_cci.png")
+f3 <- here("Maps", dataset, ctry_iso, "biomass_whrc.png")
+f_out <- here("Maps", dataset, ctry_iso, "AGB.png")
+system(paste0("montage ",f1," ",f3," ",f2," -tile 2x2 -geometry +25+25 ",f_out))
+system(paste0("convert ",f_out," -crop +25+0 +repage ",f_out))
+system(paste0("convert ",f_out," -crop -25+0 +repage ",f_out))
+
 ## Copy for manuscript
 f_doc <- here("Manuscript", "Supplementary_Materials", "figures", "AGB.png")
-file.copy(from=f, to=f_doc, overwrite=TRUE)
+file.copy(from=f_out, to=f_doc, overwrite=TRUE)
 
 ## EOF

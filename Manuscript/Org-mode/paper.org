@@ -8,7 +8,7 @@
 # license         :GPLv3
 # ==============================================================================
 
-#+TITLE: Forest refuge areas and carbon emissions from tropical deforestation in the 21^{st} century
+#+TITLE: Spatial scenario of tropical deforestation and carbon emissions for the 21^{st} century
 
 #+OPTIONS: toc:nil title:t author:nil ^:{} num:nil
 #+EXPORT_SELECT_TAGS: export
@@ -26,6 +26,9 @@
 # Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
 #+LATEX_HEADER: \author[a,b,c,d,1]{Ghislain Vieilledent}
 #+LATEX_HEADER: \author[a]{Christelle Vancutsem}
+#+LATEX_HEADER: \author[a]{Clément Bourgoin}
+#+LATEX_HEADER: \author[d]{Pierre Ploton}
+#+LATEX_HEADER: \author[d]{Philippe Verley}
 #+LATEX_HEADER: \author[a]{Frédéric Achard}
 # Affiliations
 #+LATEX_HEADER: \affil[a]{European Commission, JRC, Bio-economy Unit, I-21027 Ispra (VA), ITALY}
@@ -34,7 +37,7 @@
 #+LATEX_HEADER: \affil[d]{AMAP, Univ Montpellier, CIRAD, CNRS, INRAE, IRD, Montpellier, FRANCE}
 # Additional infos on authors
 #+LATEX_HEADER: \leadauthor{Vieilledent}
-#+LATEX_HEADER: \authorcontributions{Author contributions: GV and FA conceived the study; CV provided the forest cover change data; GV performed analysis and wrote the original draft; all authors reviewed and edited the final manuscript.}
+#+LATEX_HEADER: \authorcontributions{Author contributions: GV and FA conceived the study; CV provided the forest cover change data; CB and PP helped to compute the carbon emissions; PV helped to write scripts for the high performance computing cluster; GV performed analysis and wrote the original draft; all authors reviewed and edited the final manuscript.}
 #+LATEX_HEADER: \authordeclaration{The authors declare no conflicts of interest.}
 #+LATEX_HEADER: \datarepo{Data deposition: Raw data and products of the study are available on the \href{https://forestatrisk.cirad.fr}{ForestAtRisk} website accompanying the present publication. Code is available on \href{https://github.com/ghislainv/forestatrisk-tropics}{GitHub} and is permanently archived in the \href{https://doi.org/10.18167/DVN1/7N2BTU}{Cirad Dataverse}.}
 #+LATEX_HEADER: \suppinfo{Supporting Information available on the \href{https://forestatrisk.cirad.fr/article/Vieilledent2022-preprint-SI.pdf}{ForestAtRisk} website.}
@@ -697,7 +700,7 @@ Using rasters of explanatory variables at their original resolution, and the fit
 
 @@latex:\subsection*{Impacts on biodiversity loss and carbon emissions}@@
 
-We estimated the number of endemic plant and vertebrate species committed to extinction because of the complete loss of tropical forest by 2100 in 6 biodiversity hotspots ([[SI:][/SI Appendix/, Table S18]]). We estimated the carbon emissions associated with past deforestation (2010--2020) and projected deforestation (2030--2110) using Avitabile's [cite/na:@Avitabile2016] pantropical 1 km resolution aboveground dry biomass map ([[SI:][/SI Appendix/, Fig. S12 and Table S19]]). We used the IPCC default carbon fraction of 0.47 [cite:@McGroddy2004] to convert biomass to carbon stocks. We assumed no change of the forest carbon stocks in the future. We estimated average annual carbon emissions for ten-year periods from 2010 to 2110. Under a "business-as-usual" scenario of deforestation, the change in mean annual carbon emissions in the future is only attributable to the spatial variation of the forest carbon stocks and to the location of future deforestation.
+We estimated the number of endemic plant and vertebrate species committed to extinction because of the complete loss of tropical forest by 2100 in 6 biodiversity hotspots ([[SI:][/SI Appendix/, Table S18]]). We estimated the carbon emissions associated with past deforestation (2010--2020) and projected deforestation (2030--2110) using three different global or pantropical aboveground dry biomass maps at either 1 km [cite:@Avitabile2016], 100 m [cite:@Santoro2021], or 30 m [cite:@Zarin2016] resolution ([[SI:][/SI Appendix/, Figs. S12--S13 and Table S19]]). We used the IPCC default carbon fraction of 0.47 [cite:@McGroddy2004] to convert biomass to carbon stocks. We assumed no change of the forest carbon stocks in the future. We estimated average annual carbon emissions for ten-year periods from 2010 to 2110. Under a "business-as-usual" scenario of deforestation, the change in mean annual carbon emissions in the future is only attributable to the spatial variation of the forest carbon stocks and to the location of future deforestation.
 
 @@latex:\subsection*{Uncertainty and alternative scenarios}@@
 
@@ -713,7 +716,7 @@ To perform the analyses, we used the =forestatrisk= Python package [cite:@Vieill
 
 * Acknowledgments                                                    :ignore:
 
-@@latex:\acknow{@@Our warm thanks to Rémy Dernat and Philippe Verley for help using the computing cluster of the Montpellier Bioinformatics Biodiversity (MBB) platform. We are also grateful to all the members of the Bioeconomy Unit at the JRC in Ispra for their kind support during this work. This research received fundings from the BioSceneMada project funded by FRB-FFEM (AAP-SCEN-2013 I), the Roadless Forest project funded by the European Commission, the RELIQUES project funded by CNRT, and the LabEx CeMEB funded by ANR "Investissements d'avenir" programme (ANR-10-LABX-04-01).@@latex:}@@
+@@latex:\acknow{@@Our warm thanks to Rémy Dernat for help using the computing cluster of the Montpellier Bioinformatics Biodiversity (MBB) platform. We are also grateful to all the members of the Bioeconomy Unit at the JRC in Ispra for their kind support during this work. This research received fundings from the BioSceneMada project funded by FRB-FFEM (AAP-SCEN-2013 I), the Roadless Forest project funded by the European Commission, the RELIQUES project funded by CNRT, and the LabEx CeMEB funded by ANR "Investissements d'avenir" programme (ANR-10-LABX-04-01).@@latex:}@@
 
 #+LATEX: \showacknow{}
 

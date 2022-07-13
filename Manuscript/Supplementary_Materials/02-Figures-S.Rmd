@@ -126,9 +126,9 @@ knitr::include_graphics("figures/fcc2050_2100.png")
 <!-- Aboveground biomass map -->
 <!--------------------------------------------->
 
-## Fig. S12 -- Aboveground biomass map {-}
+## Fig. S12 -- Aboveground biomass maps {-}
 
-(ref:cap-agb) **Aboveground biomass map**. _Main figure_: Aboveground biomass (AGB in Mg/ha) map for the Democratic Republic of the Congo (DRC) at 1 km resolution produced by @Avitabile2016. This map is a combination of two pantropical aboveground biomass maps by @Saatchi2011 and @Baccini2012. The fusion map is representative of the aboveground biomass for the years 2000--2010. _Inset_: Zoom of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
+(ref:cap-agb) **Aboveground biomass maps**. This figure presents an extract of the three global or pantropical aboveground biomass (AGB in Mg/ha) maps which have been used for computing carbon emissions associated with deforestation: WUR map by @Avitabile2016 for the years 2000--2010 (top left), WHRC map by @Zarin2016 for the year 2000 (top right), and ESA CCI map by @Santoro2021 for the year 2010 (bottom left). Extracts show biomass estimates for the Democratic Republic of the Congo (DRC). The three maps have different resolutions (1 km, 30 m, and 100 m, respectively). Insets represent zooms of the map for an area at the North-East of the country which is close to the city of Beni and the Virunga national park.
 
 ```{r agb, out.width="\\textwidth", fig.cap="(ref:cap-agb)"}
 knitr::include_graphics("figures/AGB.png")

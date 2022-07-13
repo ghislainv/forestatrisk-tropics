@@ -1695,7 +1695,7 @@ for (k in 1:nmap) {
 
 ## Biomass map
 bmap <- c("avitabile", "whrc", "cci")
-title_map <- c("WUR (Avitabile et al. 2016)", "WHRC (Zarin et al. 2016)", "ESA CCI v3 (Santoro et al. 2021)") 
+title_map <- c("WUR (Avitabile et al. 2016)", "WHRC (Zarin et al. 2016)", "ESA CCI (Santoro et al. 2021)") 
 nmap <- length(bmap)
 p <- list()  # List of plots
 
