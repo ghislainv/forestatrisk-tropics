@@ -6,6 +6,7 @@ output: github_document
 [![Cirad Dataverse](https://img.shields.io/badge/DOI-10.18167/DVN1/7N2BTU-green)](https://doi.org/10.18167/DVN1/7N2BTU)
 [![Website ForestAtRisk](https://img.shields.io/badge/web-ForestAtRisk-blue)](https://forestatrisk.cirad.fr)
 [![forestatrisk Python package](https://img.shields.io/badge/python-forestatrisk-306998?logo=python&logoColor=ffd43b&color=306998)](https://ecology.ghislainv.fr/forestatrisk)
+[![bioRxiv](http://img.shields.io/badge/bioRxiv-10.1101/2022.03.22.485306-B31B1B.svg)](https://doi.org/10.1101/2022.03.22.485306)
 
 This repository includes the code used to produce the results of the following scientific article:
 
