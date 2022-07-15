@@ -1908,6 +1908,49 @@ for (k in 1:nmap) {
 
 }
 
+## =============================================
+## Decrease of carbon utpake from the atmosphere
+## =============================================
+
+## Annual rates of aboveground net biomass change (Requena-Suarez 2019)
+deltaAGB <- c(1, 1.3, 0.7)
+deltaC <- deltaAGB * 0.47
+
+## Forest cover change
+df_mean <- read_csv(here("Analysis", "jrc2020", "fcc_hist_region_mean.csv")) %>% mutate(sim="mean")
+df_min <- read_csv(here("Analysis", "jrc2020", "fcc_hist_region_min.csv")) %>% mutate(sim="min")
+df_max <- read_csv(here("Analysis", "jrc2020", "fcc_hist_region_max.csv")) %>% mutate(sim="max")
+df <- df_mean %>%
+  dplyr::bind_rows(df_min, df_max) %>%
+  dplyr::filter(area_cont %in% c("America", "Africa", "Asia")) %>%
+  dplyr::arrange(factor(area_cont, levels=c("America", "Africa", "Asia", "All continents")),
+                 factor(sim, levels=c("min", "mean", "max"))) %>%
+  dplyr::select(area_cont, for2000, for2100, sim)
+
+## Carbon uptake
+df <- df %>%
+    dplyr::mutate(deltaC=rep(deltaC, each=3)) %>%
+    dplyr::relocate(deltaC, .before=sim) %>%
+    dplyr::mutate(C_uptk_2000=for2000 * deltaC, C_uptk_2100=for2100 * deltaC)
+
+## All continents
+df_allcont <- df %>%
+    dplyr::group_by(sim) %>%
+    dplyr::summarise(across(where(is.numeric), sum)) %>%
+    dplyr::mutate(area_cont="All continents") %>%
+    dplyr::relocate(sim, .before=C_uptk_2000) %>%
+    dplyr::relocate(area_cont, .before=for2000) %>%
+    dplyr::mutate(deltaC=NA)
+
+## Combine
+df <- df %>%
+    dplyr::bind_rows(df_allcont) %>%
+    dplyr::mutate(C_uptk_loss=(C_uptk_2000 - C_uptk_2100) / C_uptk_2000)
+
+## Save results
+f <- here("Analysis", dataset, "C_uptk.csv")
+write_delim(df, f, delim=",")
+
 ## ==================================
 ## End Of File
 ## ==================================
