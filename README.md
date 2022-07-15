@@ -14,9 +14,15 @@ following scientific article:
 <a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
 **Vieilledent G.,**
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-**C. Vancutsem, and** **F. Achard.** 2022. Forest refuge areas and
-carbon emissions from tropical deforestation in the 21<sup>st</sup>
-century. *bioRxiv*. doi:
+**C. Vancutsem,**
+<a href="https://orcid.org/0000-0003-4923-3035"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
+**C. Bourgoin,**
+<a href="https://orcid.org/0000-0002-8800-3593"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
+**P. Ploton,**
+<a href="https://orcid.org/0000-0002-5686-2764"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
+**P. Verley,** **and** **F. Achard.** 2022. Spatial scenario of tropical
+deforestation and carbon emissions for the 21<sup>st</sup> century.
+*bioRxiv*. doi:
 [10.1101/2022.03.22.485306](https://doi.org/10.1101/2022.03.22.485306).
 [![manuscript in
 pdf](Website/images/logo-pdf.png "manuscript in pdf")](https://www.biorxiv.org/content/10.1101/2022.03.22.485306v1.full.pdf)

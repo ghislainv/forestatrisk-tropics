@@ -25,10 +25,18 @@ This website is accompanying the following scientific article:
 <a href="https://orcid.org/0000-0002-1685-4997"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
 <a href="https://ecology.ghislainv.fr" style="color:#2C3E50;">**Vieilledent G.,**</a>
 <a href="https://orcid.org/0000-0003-3851-8588"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
-<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem**</a>**, and**
+<a href="https://www.researchgate.net/profile/Christelle_Vancutsem" style="color:#2C3E50;">**C. Vancutsem,**</a>
+<a href="https://orcid.org/0000-0003-4923-3035"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://www.researchgate.net/profile/Clement-Bourgoin" style="color:#2C3E50;">**C. Bourgoin,**</a>
+<a href="https://orcid.org/0000-0002-8800-3593"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://www.researchgate.net/profile/Pierre-Ploton" style="color:#2C3E50;">**P. Ploton,**</a>
+<a href="https://orcid.org/0000-0002-5686-2764"><img alt="ORCID logo" src="images/Logo_ORCID.png" width="16" height="16" /></a>
+<a href="https://www.researchgate.net/profile/Philippe-Verley" style="color:#2C3E50;">**P. Verley,**</a>
+**and**
 <a href="https://www.researchgate.net/profile/Achard_Frederic" style="color:#2C3E50;">**F. Achard.**</a>
 2022.
-Forest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century. _bioRxiv_.
+Spatial scenario of tropical deforestation and carbon emissions for the 21^st^ century.
+_bioRxiv_.
 doi: [10.1101/2022.03.22.485306](https://doi.org/10.1101/2022.03.22.485306).
 [![manuscript in pdf](images/logo-pdf.png "manuscript in pdf")](https://www.biorxiv.org/content/10.1101/2022.03.22.485306v1.full.pdf)
 Supplementary Information [![SI](images/logo-zip.png "supplementary information")](https://www.biorxiv.org/content/biorxiv/early/2022/03/25/2022.03.22.485306/DC1/embed/media-1.pdf)
