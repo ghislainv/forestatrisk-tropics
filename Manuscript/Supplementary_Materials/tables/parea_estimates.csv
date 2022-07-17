@@ -1,120 +1,120 @@
-"area_cont","area_ctry","area_name","area_code","for2010","Mean","Sd","CI_low","CI_high"
-"America","Antigua and B.","Antigua and B.","ATG",3552,-0.71,0.232,-1.18,-0.257
-"America","Bahamas","Bahamas","BHS",114614,NA,NA,NA,NA
-"America","Barbados","Barbados","BRB",4023,-0.323,0.172,-0.667,0.0327
-"America","Belize","Belize","BLZ",1328061,-0.653,0.116,-0.876,-0.425
-"America","Bolivia","Bolivia","BOL",30484770,-0.163,0.0653,-0.296,-0.033
-"America","Brazil","Brazil – Acre","AC",13307205,-0.631,0.0988,-0.834,-0.432
-"America","Brazil","Brazil – Alagoas","AL",97777,-0.192,0.103,-0.401,0.00841
-"America","Brazil","Brazil – Amapa","AP",11564911,-0.126,0.105,-0.347,0.0732
-"America","Brazil","Brazil – Amazonas","AM",146852228,-0.806,0.0596,-0.925,-0.692
-"America","Brazil","Brazil – Bahia","BA",2097105,-0.213,0.075,-0.36,-0.0724
-"America","Brazil","Brazil – Ceara","CE",48194,-0.551,0.117,-0.785,-0.334
-"America","Brazil","Brazil – Espirito Santo","ES",416514,-0.193,0.083,-0.36,-0.0306
-"America","Brazil","Brazil – Goias","GO",480568,NA,NA,NA,NA
-"America","Brazil","Brazil – Maranhao","MA",3929775,-0.202,0.0961,-0.39,-0.0241
-"America","Brazil","Brazil – Mato Grosso","MT",33282507,-0.427,0.0701,-0.56,-0.295
-"America","Brazil","Brazil – Mato Grosso do Sul","MS",735575,NA,NA,NA,NA
-"America","Brazil","Brazil – Minas Gerais","MG",1277155,-0.153,0.087,-0.318,0.0329
-"America","Brazil","Brazil – Para","PA",91982099,-1.18,0.0588,-1.28,-1.05
-"America","Brazil","Brazil – Paraiba","PB",40834,-0.693,0.113,-0.936,-0.477
-"America","Brazil","Brazil – Parana","PR",2673110,-0.339,0.0819,-0.506,-0.186
-"America","Brazil","Brazil – Pernambouco","PE",118577,-0.558,0.0931,-0.733,-0.378
-"America","Brazil","Brazil – Piaui","PI",74304,NA,NA,NA,NA
-"America","Brazil","Brazil – Rio de Janeiro","RJ",735882,-0.22,0.0675,-0.369,-0.0933
-"America","Brazil","Brazil – Rio Grande do Norte","RN",24750,NA,NA,NA,NA
-"America","Brazil","Brazil – Rio Grande do Sul","RS",2213848,-0.343,0.133,-0.588,-0.0681
-"America","Brazil","Brazil – Rondonia","RO",13800306,-1.63,0.0758,-1.78,-1.48
-"America","Brazil","Brazil – Roraima","RR",16228110,-0.841,0.115,-1.09,-0.633
-"America","Brazil","Brazil – Santa Catarina","SC",2484865,-0.303,0.104,-0.505,-0.0955
-"America","Brazil","Brazil – Sao Paulo","SP",2781321,-0.184,0.0706,-0.312,-0.0397
-"America","Brazil","Brazil – Sergipe","SE",60986,NA,NA,NA,NA
-"America","Brazil","Brazil – Tocantins","TO",1341400,-0.0354,0.0901,-0.193,0.152
-"America","Colombia","Colombia","COL",66802262,-0.449,0.0484,-0.542,-0.357
-"America","Costa Rica","Costa Rica","CRI",2276723,NA,NA,NA,NA
-"America","Cuba","Cuba","CUB",1297060,NA,NA,NA,NA
-"America","Dominica","Dominica","DMA",69931,NA,NA,NA,NA
-"America","Dominican Rep.","Dominican Rep.","DOM",992770,-0.331,0.0722,-0.482,-0.195
-"America","Ecuador","Ecuador","ECU",14902851,-0.52,0.0918,-0.696,-0.342
-"America","El Salvador","El Salvador","SLV",108855,-0.476,0.107,-0.698,-0.286
-"America","French Guiana","French Guiana","GUF",8088397,-0.835,0.162,-1.15,-0.524
-"America","Grenada","Grenada","GRD",21792,-0.396,0.323,-1.02,0.245
-"America","Guadeloupe","Guadeloupe","GLP",77168,NA,NA,NA,NA
-"America","Guatemala","Guatemala","GTM",2701746,-0.229,0.0893,-0.401,-0.0512
-"America","Guyana","Guyana","GUY",18489142,-0.708,0.234,-1.19,-0.285
-"America","Haiti","Haiti","HTI",162190,-0.038,0.0862,-0.2,0.138
-"America","Honduras","Honduras","HND",2992667,-0.364,0.0783,-0.527,-0.215
-"America","Jamaica","Jamaica","JAM",421123,-0.00284,0.0983,-0.189,0.202
-"America","Martinique","Martinique","MTQ",70074,-0.0746,0.155,-0.386,0.209
-"America","Mexico","Mexico","MEX",7390063,-0.228,0.0676,-0.355,-0.0874
-"America","Montserrat","Montserrat","MSR",3366,NA,NA,NA,NA
-"America","Nicaragua","Nicaragua","NIC",4262376,NA,NA,NA,NA
-"America","Panama","Panama","PAN",4203937,-0.455,0.0791,-0.613,-0.308
-"America","Paraguay","Paraguay","PRY",1439852,NA,NA,NA,NA
-"America","Peru","Peru","PER",71901480,-0.617,0.0627,-0.742,-0.503
-"America","Puerto Rico","Puerto Rico","PRI",358047,NA,NA,NA,NA
-"America","Saint Kitts and N.","Saint Kitts and N.","KNA",8973,NA,NA,NA,NA
-"America","Saint Lucia","Saint Lucia","LCA",46687,NA,NA,NA,NA
-"America","Saint Martin","Saint Martin","MAF",560,NA,NA,NA,NA
-"America","Saint Vincent","Saint Vincent","VCT",28494,-0.159,0.219,-0.591,0.26
-"America","Sint Maarten","Sint Maarten","SXM",216,NA,NA,NA,NA
-"America","Suriname","Suriname","SUR",13727213,-0.046,0.134,-0.312,0.219
-"America","Trinidad and Tobago","Trinidad and Tobago","TTO",330091,-0.265,0.0847,-0.433,-0.0974
-"America","Venezuela","Venezuela","VEN",42912934,-0.12,0.0589,-0.234,-0.000255
-"America","Virgin Isl. UK","Virgin Isl. UK","VGB",2840,NA,NA,NA,NA
-"America","Virgin Isl. US","Virgin Isl. US","VIR",8097,-0.35,0.325,-0.969,0.31
-"Africa","Angola","Angola","AGO",6044153,NA,NA,NA,NA
-"Africa","Benin","Benin","BEN",46640,NA,NA,NA,NA
-"Africa","Burundi","Burundi","BDI",63638,-1.17,0.128,-1.42,-0.918
-"Africa","Cameroon","Cameroon","CMR",23545984,-0.891,0.109,-1.12,-0.684
-"Africa","CAR","CAR","CAF",9324998,-0.0942,0.113,-0.327,0.125
-"Africa","Comoros","Comoros","COM",86551,NA,NA,NA,NA
-"Africa","Congo","Congo","COG",23945320,-0.402,0.0876,-0.568,-0.233
-"Africa","DRC","DRC","COD",125604601,-0.16,0.0699,-0.289,-0.0151
-"Africa","Eq. Guinea","Eq. Guinea","GNQ",2641579,-0.136,0.136,-0.385,0.146
-"Africa","Ethiopia","Ethiopia","ETH",2824446,-0.0816,0.0812,-0.241,0.0753
-"Africa","Gabon","Gabon","GAB",24101266,-0.16,0.131,-0.407,0.0868
-"Africa","Gambia","Gambia","GMB",42221,-0.222,0.149,-0.491,0.0961
-"Africa","Ghana","Ghana","GHA",4443182,-0.378,0.0696,-0.522,-0.252
-"Africa","Guinea","Guinea","GIN",1213061,-0.224,0.0778,-0.385,-0.0769
-"Africa","Guinea Bissau","Guinea Bissau","GNB",322875,-0.688,0.14,-0.999,-0.436
-"Africa","Ivory Coast","Ivory Coast","CIV",6299445,NA,NA,NA,NA
-"Africa","Kenya","Kenya","KEN",891040,-0.186,0.0694,-0.322,-0.0579
-"Africa","Liberia","Liberia","LBR",8653013,-0.491,0.117,-0.725,-0.259
-"Africa","Madagascar","Madagascar","MDG",5540745,-0.285,0.0669,-0.414,-0.15
-"Africa","Malawi","Malawi","MWI",70190,-0.363,0.182,-0.783,-0.04
-"Africa","Mauritius","Mauritius","MUS",46948,-0.45,0.103,-0.65,-0.247
-"Africa","Mayotte","Mayotte","MYT",17212,-1.34,0.156,-1.64,-1.01
-"Africa","Nigeria","Nigeria","NGA",7213732,NA,NA,NA,NA
-"Africa","Reunion","Reunion","REU",141653,-0.385,0.116,-0.635,-0.156
-"Africa","Rwanda","Rwanda","RWA",194514,-1.3,0.12,-1.54,-1.07
-"Africa","Senegal","Senegal","SEN",126391,-0.199,0.0991,-0.381,0.00278
-"Africa","Sierra Leone","Sierra Leone","SLE",2259942,-0.247,0.0957,-0.435,-0.064
-"Africa","South Sudan","South Sudan","SSD",201434,-0.135,0.0987,-0.324,0.0407
-"Africa","Tanzania","Tanzania","TZA",1191090,-0.239,0.0677,-0.372,-0.109
-"Africa","Togo","Togo","TGO",103124,-0.537,0.106,-0.729,-0.313
-"Africa","Uganda","Uganda","UGA",1086505,-1.19,0.0738,-1.33,-1.04
-"Africa","Zambia","Zambia","ZMB",113804,-0.401,0.073,-0.545,-0.264
-"Asia","Australia","Australia – Queensland","QLD",1875949,-0.349,0.0684,-0.481,-0.213
-"Asia","Bangladesh","Bangladesh","BGD",815821,-0.544,0.131,-0.79,-0.284
-"Asia","Bhutan","Bhutan","BTN",1872066,NA,NA,NA,NA
-"Asia","Brunei","Brunei","BRN",500991,-1.1,0.237,-1.55,-0.617
-"Asia","Cambodia","Cambodia","KHM",3863668,-1.46,0.138,-1.72,-1.17
-"Asia","Fiji","Fiji","FJI",957543,-0.306,0.13,-0.546,-0.045
-"Asia","India","India – Andaman and N.","AN",590589,NA,NA,NA,NA
-"Asia","India","India – North-East","NE",5941225,-0.585,0.276,-1.11,-0.0644
-"Asia","India","India – West. Ghats","WG",2703914,-0.369,0.102,-0.575,-0.166
-"Asia","Indonesia","Indonesia","IDN",126473252,-0.736,0.0619,-0.853,-0.609
-"Asia","Laos","Laos","LAO",9689918,-0.442,0.0764,-0.578,-0.273
-"Asia","Malaysia","Malaysia","MYS",22314895,-2.08,0.0924,-2.27,-1.9
-"Asia","Myanmar","Myanmar","MMR",15380127,-0.167,0.0807,-0.321,-0.0165
-"Asia","New Caledonia","New Caledonia","NCL",879083,NA,NA,NA,NA
-"Asia","Papua New Guinea","Papua New Guinea","PNG",39791231,NA,NA,NA,NA
-"Asia","Philippines","Philippines","PHL",13684111,-0.153,0.0777,-0.309,-0.00586
-"Asia","Singapore","Singapore","SGP",15219,-1.35,0.263,-1.89,-0.815
-"Asia","Solomon Isl.","Solomon Isl.","SLB",2757047,NA,NA,NA,NA
-"Asia","Sri Lanka","Sri Lanka","LKA",1734951,-0.516,0.0616,-0.653,-0.404
-"Asia","Thailand","Thailand","THA",6341227,-0.159,0.0544,-0.258,-0.0524
-"Asia","Timor-Leste","Timor-Leste","TLS",89349,-0.12,0.0724,-0.261,0.0166
-"Asia","Vanuatu","Vanuatu","VUT",1157826,-0.505,0.176,-0.848,-0.153
-"Asia","Vietnam","Vietnam","VNM",8628085,-0.536,0.0729,-0.685,-0.396
+"area_cont","area_ctry","area_name","area_code","for2010","Mean","Sd","CI_low","CI_high","P"
+"America","Antigua and B.","Antigua and B.","ATG",3552,-0.71,0.232,-1.18,-0.257,33
+"America","Bahamas","Bahamas","BHS",114614,NA,NA,NA,NA,NA
+"America","Barbados","Barbados","BRB",4023,-0.323,0.172,-0.667,0.0327,19
+"America","Belize","Belize","BLZ",1328061,-0.653,0.116,-0.876,-0.425,40
+"America","Bolivia","Bolivia","BOL",30484770,-0.163,0.0653,-0.296,-0.033,11
+"America","Brazil","Brazil – Acre","AC",13307205,-0.631,0.0988,-0.834,-0.432,47
+"America","Brazil","Brazil – Alagoas","AL",97777,-0.192,0.103,-0.401,0.00841,6
+"America","Brazil","Brazil – Amapa","AP",11564911,-0.126,0.105,-0.347,0.0732,12
+"America","Brazil","Brazil – Amazonas","AM",146852228,-0.806,0.0596,-0.925,-0.692,55
+"America","Brazil","Brazil – Bahia","BA",2097105,-0.213,0.075,-0.36,-0.0724,5
+"America","Brazil","Brazil – Ceara","CE",48194,-0.551,0.117,-0.785,-0.334,15
+"America","Brazil","Brazil – Espirito Santo","ES",416514,-0.193,0.083,-0.36,-0.0306,11
+"America","Brazil","Brazil – Goias","GO",480568,NA,NA,NA,NA,NA
+"America","Brazil","Brazil – Maranhao","MA",3929775,-0.202,0.0961,-0.39,-0.0241,15
+"America","Brazil","Brazil – Mato Grosso","MT",33282507,-0.427,0.0701,-0.56,-0.295,25
+"America","Brazil","Brazil – Mato Grosso do Sul","MS",735575,NA,NA,NA,NA,NA
+"America","Brazil","Brazil – Minas Gerais","MG",1277155,-0.153,0.087,-0.318,0.0329,7
+"America","Brazil","Brazil – Para","PA",91982099,-1.18,0.0588,-1.28,-1.05,64
+"America","Brazil","Brazil – Paraiba","PB",40834,-0.693,0.113,-0.936,-0.477,4
+"America","Brazil","Brazil – Parana","PR",2673110,-0.339,0.0819,-0.506,-0.186,21
+"America","Brazil","Brazil – Pernambouco","PE",118577,-0.558,0.0931,-0.733,-0.378,0
+"America","Brazil","Brazil – Piaui","PI",74304,NA,NA,NA,NA,NA
+"America","Brazil","Brazil – Rio de Janeiro","RJ",735882,-0.22,0.0675,-0.369,-0.0933,14
+"America","Brazil","Brazil – Rio Grande do Norte","RN",24750,NA,NA,NA,NA,NA
+"America","Brazil","Brazil – Rio Grande do Sul","RS",2213848,-0.343,0.133,-0.588,-0.0681,18
+"America","Brazil","Brazil – Rondonia","RO",13800306,-1.63,0.0758,-1.78,-1.48,73
+"America","Brazil","Brazil – Roraima","RR",16228110,-0.841,0.115,-1.09,-0.633,53
+"America","Brazil","Brazil – Santa Catarina","SC",2484865,-0.303,0.104,-0.505,-0.0955,19
+"America","Brazil","Brazil – Sao Paulo","SP",2781321,-0.184,0.0706,-0.312,-0.0397,12
+"America","Brazil","Brazil – Sergipe","SE",60986,NA,NA,NA,NA,NA
+"America","Brazil","Brazil – Tocantins","TO",1341400,-0.0354,0.0901,-0.193,0.152,2
+"America","Colombia","Colombia","COL",66802262,-0.449,0.0484,-0.542,-0.357,34
+"America","Costa Rica","Costa Rica","CRI",2276723,NA,NA,NA,NA,NA
+"America","Cuba","Cuba","CUB",1297060,NA,NA,NA,NA,NA
+"America","Dominica","Dominica","DMA",69931,NA,NA,NA,NA,NA
+"America","Dominican Rep.","Dominican Rep.","DOM",992770,-0.331,0.0722,-0.482,-0.195,17
+"America","Ecuador","Ecuador","ECU",14902851,-0.52,0.0918,-0.696,-0.342,40
+"America","El Salvador","El Salvador","SLV",108855,-0.476,0.107,-0.698,-0.286,24
+"America","French Guiana","French Guiana","GUF",8088397,-0.835,0.162,-1.15,-0.524,50
+"America","Grenada","Grenada","GRD",21792,-0.396,0.323,-1.02,0.245,25
+"America","Guadeloupe","Guadeloupe","GLP",77168,NA,NA,NA,NA,NA
+"America","Guatemala","Guatemala","GTM",2701746,-0.229,0.0893,-0.401,-0.0512,11
+"America","Guyana","Guyana","GUY",18489142,-0.708,0.234,-1.19,-0.285,47
+"America","Haiti","Haiti","HTI",162190,-0.038,0.0862,-0.2,0.138,2
+"America","Honduras","Honduras","HND",2992667,-0.364,0.0783,-0.527,-0.215,24
+"America","Jamaica","Jamaica","JAM",421123,-0.00284,0.0983,-0.189,0.202,0
+"America","Martinique","Martinique","MTQ",70074,-0.0746,0.155,-0.386,0.209,6
+"America","Mexico","Mexico","MEX",7390063,-0.228,0.0676,-0.355,-0.0874,15
+"America","Montserrat","Montserrat","MSR",3366,NA,NA,NA,NA,NA
+"America","Nicaragua","Nicaragua","NIC",4262376,NA,NA,NA,NA,NA
+"America","Panama","Panama","PAN",4203937,-0.455,0.0791,-0.613,-0.308,35
+"America","Paraguay","Paraguay","PRY",1439852,NA,NA,NA,NA,NA
+"America","Peru","Peru","PER",71901480,-0.617,0.0627,-0.742,-0.503,42
+"America","Puerto Rico","Puerto Rico","PRI",358047,NA,NA,NA,NA,NA
+"America","Saint Kitts and N.","Saint Kitts and N.","KNA",8973,NA,NA,NA,NA,NA
+"America","Saint Lucia","Saint Lucia","LCA",46687,NA,NA,NA,NA,NA
+"America","Saint Martin","Saint Martin","MAF",560,NA,NA,NA,NA,NA
+"America","Saint Vincent","Saint Vincent","VCT",28494,-0.159,0.219,-0.591,0.26,10
+"America","Sint Maarten","Sint Maarten","SXM",216,NA,NA,NA,NA,NA
+"America","Suriname","Suriname","SUR",13727213,-0.046,0.134,-0.312,0.219,3
+"America","Trinidad and Tobago","Trinidad and Tobago","TTO",330091,-0.265,0.0847,-0.433,-0.0974,22
+"America","Venezuela","Venezuela","VEN",42912934,-0.12,0.0589,-0.234,-0.000255,11
+"America","Virgin Isl. UK","Virgin Isl. UK","VGB",2840,NA,NA,NA,NA,NA
+"America","Virgin Isl. US","Virgin Isl. US","VIR",8097,-0.35,0.325,-0.969,0.31,17
+"Africa","Angola","Angola","AGO",6044153,NA,NA,NA,NA,NA
+"Africa","Benin","Benin","BEN",46640,NA,NA,NA,NA,NA
+"Africa","Burundi","Burundi","BDI",63638,-1.17,0.128,-1.42,-0.918,60
+"Africa","Cameroon","Cameroon","CMR",23545984,-0.891,0.109,-1.12,-0.684,43
+"Africa","CAR","CAR","CAF",9324998,-0.0942,0.113,-0.327,0.125,5
+"Africa","Comoros","Comoros","COM",86551,NA,NA,NA,NA,NA
+"Africa","Congo","Congo","COG",23945320,-0.402,0.0876,-0.568,-0.233,31
+"Africa","DRC","DRC","COD",125604601,-0.16,0.0699,-0.289,-0.0151,15
+"Africa","Eq. Guinea","Eq. Guinea","GNQ",2641579,-0.136,0.136,-0.385,0.146,10
+"Africa","Ethiopia","Ethiopia","ETH",2824446,-0.0816,0.0812,-0.241,0.0753,5
+"Africa","Gabon","Gabon","GAB",24101266,-0.16,0.131,-0.407,0.0868,14
+"Africa","Gambia","Gambia","GMB",42221,-0.222,0.149,-0.491,0.0961,11
+"Africa","Ghana","Ghana","GHA",4443182,-0.378,0.0696,-0.522,-0.252,15
+"Africa","Guinea","Guinea","GIN",1213061,-0.224,0.0778,-0.385,-0.0769,14
+"Africa","Guinea Bissau","Guinea Bissau","GNB",322875,-0.688,0.14,-0.999,-0.436,25
+"Africa","Ivory Coast","Ivory Coast","CIV",6299445,NA,NA,NA,NA,NA
+"Africa","Kenya","Kenya","KEN",891040,-0.186,0.0694,-0.322,-0.0579,14
+"Africa","Liberia","Liberia","LBR",8653013,-0.491,0.117,-0.725,-0.259,34
+"Africa","Madagascar","Madagascar","MDG",5540745,-0.285,0.0669,-0.414,-0.15,20
+"Africa","Malawi","Malawi","MWI",70190,-0.363,0.182,-0.783,-0.04,19
+"Africa","Mauritius","Mauritius","MUS",46948,-0.45,0.103,-0.65,-0.247,33
+"Africa","Mayotte","Mayotte","MYT",17212,-1.34,0.156,-1.64,-1.01,61
+"Africa","Nigeria","Nigeria","NGA",7213732,NA,NA,NA,NA,NA
+"Africa","Reunion","Reunion","REU",141653,-0.385,0.116,-0.635,-0.156,25
+"Africa","Rwanda","Rwanda","RWA",194514,-1.3,0.12,-1.54,-1.07,71
+"Africa","Senegal","Senegal","SEN",126391,-0.199,0.0991,-0.381,0.00278,3
+"Africa","Sierra Leone","Sierra Leone","SLE",2259942,-0.247,0.0957,-0.435,-0.064,14
+"Africa","South Sudan","South Sudan","SSD",201434,-0.135,0.0987,-0.324,0.0407,4
+"Africa","Tanzania","Tanzania","TZA",1191090,-0.239,0.0677,-0.372,-0.109,13
+"Africa","Togo","Togo","TGO",103124,-0.537,0.106,-0.729,-0.313,8
+"Africa","Uganda","Uganda","UGA",1086505,-1.19,0.0738,-1.33,-1.04,64
+"Africa","Zambia","Zambia","ZMB",113804,-0.401,0.073,-0.545,-0.264,22
+"Asia","Australia","Australia – Queensland","QLD",1875949,-0.349,0.0684,-0.481,-0.213,18
+"Asia","Bangladesh","Bangladesh","BGD",815821,-0.544,0.131,-0.79,-0.284,26
+"Asia","Bhutan","Bhutan","BTN",1872066,NA,NA,NA,NA,NA
+"Asia","Brunei","Brunei","BRN",500991,-1.1,0.237,-1.55,-0.617,55
+"Asia","Cambodia","Cambodia","KHM",3863668,-1.46,0.138,-1.72,-1.17,54
+"Asia","Fiji","Fiji","FJI",957543,-0.306,0.13,-0.546,-0.045,23
+"Asia","India","India – Andaman and N.","AN",590589,NA,NA,NA,NA,NA
+"Asia","India","India – North-East","NE",5941225,-0.585,0.276,-1.11,-0.0644,37
+"Asia","India","India – West. Ghats","WG",2703914,-0.369,0.102,-0.575,-0.166,19
+"Asia","Indonesia","Indonesia","IDN",126473252,-0.736,0.0619,-0.853,-0.609,46
+"Asia","Laos","Laos","LAO",9689918,-0.442,0.0764,-0.578,-0.273,24
+"Asia","Malaysia","Malaysia","MYS",22314895,-2.08,0.0924,-2.27,-1.9,82
+"Asia","Myanmar","Myanmar","MMR",15380127,-0.167,0.0807,-0.321,-0.0165,10
+"Asia","New Caledonia","New Caledonia","NCL",879083,NA,NA,NA,NA,NA
+"Asia","Papua New Guinea","Papua New Guinea","PNG",39791231,NA,NA,NA,NA,NA
+"Asia","Philippines","Philippines","PHL",13684111,-0.153,0.0777,-0.309,-0.00586,12
+"Asia","Singapore","Singapore","SGP",15219,-1.35,0.263,-1.89,-0.815,59
+"Asia","Solomon Isl.","Solomon Isl.","SLB",2757047,NA,NA,NA,NA,NA
+"Asia","Sri Lanka","Sri Lanka","LKA",1734951,-0.516,0.0616,-0.653,-0.404,25
+"Asia","Thailand","Thailand","THA",6341227,-0.159,0.0544,-0.258,-0.0524,12
+"Asia","Timor-Leste","Timor-Leste","TLS",89349,-0.12,0.0724,-0.261,0.0166,8
+"Asia","Vanuatu","Vanuatu","VUT",1157826,-0.505,0.176,-0.848,-0.153,39
+"Asia","Vietnam","Vietnam","VNM",8628085,-0.536,0.0729,-0.685,-0.396,31

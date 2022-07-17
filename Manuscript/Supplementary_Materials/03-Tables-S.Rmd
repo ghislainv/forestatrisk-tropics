@@ -153,7 +153,7 @@ perc <- df$perc[df$var=="PA"]
 perc_w <- df$perc_w[df$var=="PA"]
 ```
 
-(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
+(ref:cap-pa) **Effect of protected areas on deforestation**. We show here the estimated effect of the presence of a protected area on the probability of deforestation for each study area. We computed the mean ("Mean"), the standard-deviation ("Sd"), and the bayesian 95% credible interval ("CI 95%") of the estimated parameter. Column "P" indicates the percentage of decrease in the deforestation risk inside protected areas. Column "signif" indicates (with a star) that the estimated effect was negative and significantly different from zero (zero not included in the credible interval). Out of the `r nsa` study areas, `r nsignif` showed a significant negative effect (`r perc`% of the countries). These `r nsignif` study areas accounted for `r perc_w`% of the moist tropical forest in 2010 ("fc2010" in Kha).\vspace{0.5cm}
 
 ```{r pa, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
@@ -182,12 +182,12 @@ df <- df %>%
   dplyr::select(-area_cont, -area_ctry, -area_code, -CI_low, -CI_high) %>%
   dplyr::mutate(CI=ifelse(CI=="(NA, NA)", NA, CI)) %>%
   dplyr::mutate(sign=ifelse(sign==1, "$\\star$", "")) %>%
-  dplyr::relocate(CI, .before=sign)
+  dplyr::relocate(CI, .before=P)
 ## Make table
-vect.align <- c(rep("l", 1), rep("r", 4), "c")
+vect.align <- c(rep("l", 1), rep("r", 5), "c")
 col.names <- c("Country -- study area", "fc2010", "Mean", "Sd", "CI 95%",
-               "signif")
-unit.vect <- c("", "(Kha)", "", "", "", "")
+               "P", "signif")
+unit.vect <- c("", "(Kha)", "", "", "", "\\%", "")
 knitr::kable(df, caption="(ref:cap-pa)", booktabs=TRUE, longtable=TRUE,
                          format.args=list(big.mark=","),
                          digits=3,

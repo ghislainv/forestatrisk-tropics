@@ -1388,6 +1388,13 @@ parea_tab <- parea_tab %>%
     dplyr::mutate(for2010=fcc_tab$for2010) %>%
     dplyr::relocate(for2010, .after=area_code)
 
+## Adding percentage of decrease in deforestation risk
+f <- here("Analysis", dataset, "parameter_estimates.csv")
+df_par <- read.table(f, header=TRUE, sep=",")
+Perc <- 100 * (inv_logit(df_par$int)-inv_logit(df_par$int + df_par$pa)) / inv_logit(df_par$int)
+parea_tab <- parea_tab %>%
+    dplyr::mutate(P=round(Perc))
+
 ## Save results
 f <- here("Analysis", dataset, "parea_estimates.csv")
 write.table(parea_tab, file=f, sep=",", row.names=FALSE)
