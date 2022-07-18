@@ -1,358 +1,358 @@
 "area_cont","area_ctry","area_name","area_code","proj","C2020","C2030","C2040","C2050","C2060","C2070","C2080","C2090","C2100","C2110"
-"America","Antigua and B.","Antigua and B.","ATG","low",5,0,2,5,9,13,17,22,26,31
-"America","Antigua and B.","Antigua and B.","ATG","mean",5,3,12,22,33,45,55,55,55,55
-"America","Antigua and B.","Antigua and B.","ATG","high",5,8,24,42,55,55,55,55,55,55
-"America","Bahamas","Bahamas","BHS","low",352,172,308,462,629,809,999,1196,1399,1609
-"America","Bahamas","Bahamas","BHS","mean",352,313,642,1021,1431,1859,2173,2173,2173,2173
-"America","Bahamas","Bahamas","BHS","high",352,474,1029,1658,2173,2173,2173,2173,2173,2173
-"America","Barbados","Barbados","BRB","low",6,1,2,4,6,8,10,12,15,17
-"America","Barbados","Barbados","BRB","mean",6,5,12,22,32,44,48,48,48,48
-"America","Barbados","Barbados","BRB","high",6,10,26,46,48,48,48,48,48,48
-"America","Belize","Belize","BLZ","low",5174,3536,6849,9956,13078,16358,19840,23537,27384,31418
-"America","Belize","Belize","BLZ","mean",5174,5850,11185,16670,22746,29317,36462,44332,53265,62510
-"America","Belize","Belize","BLZ","high",5174,8087,15649,24230,33851,44785,57702,64923,64923,64923
-"America","Bolivia","Bolivia","BOL","low",160736,91415,181879,271407,361595,452979,545300,638773,733925,830558
-"America","Bolivia","Bolivia","BOL","mean",160736,164738,327097,492428,661293,835199,1013658,1196907,1384070,1573772
-"America","Bolivia","Bolivia","BOL","high",160736,237329,474876,720248,975703,1240985,1513648,1791374,2073852,2359828
-"America","Brazil","Brazil – Acre","AC","low",48177,41300,82228,124475,168649,215360,264256,314748,366022,420095
-"America","Brazil","Brazil – Acre","AC","mean",48177,48140,96093,147590,205814,268629,337618,409644,483235,564822
-"America","Brazil","Brazil – Acre","AC","high",48177,54931,110970,177429,254972,341149,431588,530798,671936,816996
-"America","Brazil","Brazil – Alagoas","AL","low",157,84,173,258,343,596,1088,2074,2273,2273
-"America","Brazil","Brazil – Alagoas","AL","mean",157,164,324,712,2273,2273,2273,2273,2273,2273
-"America","Brazil","Brazil – Alagoas","AL","high",157,239,627,2273,2273,2273,2273,2273,2273,2273
-"America","Brazil","Brazil – Amapa","AP","low",7161,3716,7925,12294,16887,22266,28555,35855,43870,53892
-"America","Brazil","Brazil – Amapa","AP","mean",7161,5339,11356,18440,28482,41237,58854,80297,105830,143536
-"America","Brazil","Brazil – Amapa","AP","high",7161,7016,15369,28585,48671,76919,113306,166180,287914,606248
-"America","Brazil","Brazil – Amazonas","AM","low",146603,118327,225731,327684,428470,529110,630715,733890,837547,943658
-"America","Brazil","Brazil – Amazonas","AM","mean",146603,166799,315999,462107,610545,762256,918815,1079079,1242177,1414860
-"America","Brazil","Brazil – Amazonas","AM","high",146603,213664,405958,600602,802886,1012553,1227905,1454700,1724511,2104693
-"America","Brazil","Brazil – Bahia","BA","low",8364,4223,8625,13327,18379,24267,30967,38460,46390,55844
-"America","Brazil","Brazil – Bahia","BA","mean",8364,7640,16145,26350,39584,55076,74483,96591,121796,135330
-"America","Brazil","Brazil – Bahia","BA","high",8364,11255,24935,44143,69403,101310,135330,135330,135330,135330
-"America","Brazil","Brazil – Ceara","CE","low",333,197,364,523,706,1376,2000,2000,2000,2000
-"America","Brazil","Brazil – Ceara","CE","mean",333,342,657,1720,2000,2000,2000,2000,2000,2000
-"America","Brazil","Brazil – Ceara","CE","high",333,479,1441,2000,2000,2000,2000,2000,2000,2000
-"America","Brazil","Brazil – Espirito Santo","ES","low",996,447,840,1226,1625,2356,3544,5227,7238,10545
-"America","Brazil","Brazil – Espirito Santo","ES","mean",996,1013,2003,3589,7115,12689,20863,20863,20863,20863
-"America","Brazil","Brazil – Espirito Santo","ES","high",996,1585,3671,9289,20863,20863,20863,20863,20863,20863
-"America","Brazil","Brazil – Goias","GO","low",2305,1483,2831,4055,5223,5628,5628,5628,5628,5628
-"America","Brazil","Brazil – Goias","GO","mean",2305,2181,4061,5628,5628,5628,5628,5628,5628,5628
-"America","Brazil","Brazil – Goias","GO","high",2305,2837,5336,5628,5628,5628,5628,5628,5628,5628
-"America","Brazil","Brazil – Maranhao","MA","low",42198,25127,47391,69445,91538,114615,140425,175670,258078,258078
-"America","Brazil","Brazil – Maranhao","MA","mean",42198,42549,81873,122942,182113,258078,258078,258078,258078,258078
-"America","Brazil","Brazil – Maranhao","MA","high",42198,59935,117572,201064,258078,258078,258078,258078,258078,258078
-"America","Brazil","Brazil – Mato Grosso","MT","low",232028,178520,358643,542639,730725,928276,1135118,1353222,1584587,1830569
-"America","Brazil","Brazil – Mato Grosso","MT","mean",232028,222162,448429,680945,928239,1191403,1476556,1784712,2112504,2463330
-"America","Brazil","Brazil – Mato Grosso","MT","high",232028,266161,539359,828062,1142364,1486900,1864751,2276773,2747803,2812158
-"America","Brazil","Brazil – Mato Grosso do Sul","MS","low",2558,2176,4034,5676,7197,8975,11022,13318,15778,19140
-"America","Brazil","Brazil – Mato Grosso do Sul","MS","mean",2558,2860,5246,7609,10964,15013,19140,19140,19140,19140
-"America","Brazil","Brazil – Mato Grosso do Sul","MS","high",2558,3539,6544,10991,17565,19140,19140,19140,19140,19140
-"America","Brazil","Brazil – Minas Gerais","MG","low",12311,6544,12373,18805,25950,35542,43661,43661,43661,43661
-"America","Brazil","Brazil – Minas Gerais","MG","mean",12311,12067,25170,43661,43661,43661,43661,43661,43661,43661
-"America","Brazil","Brazil – Minas Gerais","MG","high",12311,18129,43661,43661,43661,43661,43661,43661,43661,43661
-"America","Brazil","Brazil – Para","PA","low",427130,397678,758204,1109346,1462022,1831683,2221239,2619329,3024063,3440860
-"America","Brazil","Brazil – Para","PA","mean",427130,477956,912020,1339884,1788587,2267867,2763367,3272835,3799605,4351963
-"America","Brazil","Brazil – Para","PA","high",427130,557129,1065440,1581341,2141290,2730264,3338465,3978498,4688093,5548517
-"America","Brazil","Brazil – Paraiba","PB","low",63,39,62,82,104,295,723,883,883,883
-"America","Brazil","Brazil – Paraiba","PB","mean",63,72,128,409,883,883,883,883,883,883
-"America","Brazil","Brazil – Paraiba","PB","high",63,105,349,883,883,883,883,883,883,883
-"America","Brazil","Brazil – Parana","PR","low",11893,7575,14028,20441,26893,33878,41565,49962,58811,69126
-"America","Brazil","Brazil – Parana","PR","mean",11893,11171,21145,31784,44768,59721,78296,100099,126915,163603
-"America","Brazil","Brazil – Parana","PR","high",11893,14731,28695,46498,69462,99009,138542,163603,163603,163603
-"America","Brazil","Brazil – Pernambouco","PE","low",198,107,194,284,373,646,1159,1971,2997,2997
-"America","Brazil","Brazil – Pernambouco","PE","mean",198,209,402,849,2365,2997,2997,2997,2997,2997
-"America","Brazil","Brazil – Pernambouco","PE","high",198,314,784,2997,2997,2997,2997,2997,2997,2997
-"America","Brazil","Brazil – Piaui","PI","low",813,343,715,1109,1483,2171,2293,2293,2293,2293
-"America","Brazil","Brazil – Piaui","PI","mean",813,846,1718,2293,2293,2293,2293,2293,2293,2293
-"America","Brazil","Brazil – Piaui","PI","high",813,1353,2293,2293,2293,2293,2293,2293,2293,2293
-"America","Brazil","Brazil – Rio de Janeiro","RJ","low",1707,286,658,1084,1549,2432,3869,5920,8353,12219
-"America","Brazil","Brazil – Rio de Janeiro","RJ","mean",1707,1379,3276,6109,11614,19521,32221,46667,52747,52747
-"America","Brazil","Brazil – Rio de Janeiro","RJ","high",1707,2720,7002,16259,32832,52747,52747,52747,52747,52747
-"America","Brazil","Brazil – Rio Grande do Norte","RN","low",39,29,56,82,107,279,379,379,379,379
-"America","Brazil","Brazil – Rio Grande do Norte","RN","mean",39,46,87,334,379,379,379,379,379,379
-"America","Brazil","Brazil – Rio Grande do Norte","RN","high",39,62,230,379,379,379,379,379,379,379
-"America","Brazil","Brazil – Rio Grande do Sul","RS","low",4824,2726,5361,8144,11065,14461,18464,23157,28360,34789
-"America","Brazil","Brazil – Rio Grande do Sul","RS","mean",4824,4000,8084,12855,19489,28031,39668,53726,70254,94751
-"America","Brazil","Brazil – Rio Grande do Sul","RS","high",4824,5305,11174,20093,33623,52485,76393,103244,103244,103244
-"America","Brazil","Brazil – Rondonia","RO","low",127750,110540,207184,305293,415966,538598,667565,802803,941674,1086211
-"America","Brazil","Brazil – Rondonia","RO","mean",127750,129622,243797,368720,515249,673879,845193,1023742,1208200,1334346
-"America","Brazil","Brazil – Rondonia","RO","high",127750,148455,282286,441940,628292,832509,1047369,1275845,1334346,1334346
-"America","Brazil","Brazil – Roraima","RR","low",55421,20621,40558,59973,78942,98154,118386,139408,160670,183767
-"America","Brazil","Brazil – Roraima","RR","mean",55421,61536,119079,177614,239389,304781,375663,449708,529061,620567
-"America","Brazil","Brazil – Roraima","RR","high",55421,100424,197588,301574,415646,542589,682853,837817,1039018,1363953
-"America","Brazil","Brazil – Santa Catarina","SC","low",8051,5581,11173,16848,22597,28926,35925,43614,51707,61275
-"America","Brazil","Brazil – Santa Catarina","SC","mean",8051,7385,14844,23076,33609,45891,61518,79204,98689,125093
-"America","Brazil","Brazil – Santa Catarina","SC","high",8051,9196,18975,32580,50839,74083,100907,136213,165746,165746
-"America","Brazil","Brazil – Sao Paulo","SP","low",5535,1561,3348,5962,9236,13444,18604,24718,31426,39827
-"America","Brazil","Brazil – Sao Paulo","SP","mean",5535,3049,8241,15872,27027,40995,59347,80446,103818,135256
-"America","Brazil","Brazil – Sao Paulo","SP","high",5535,5126,15075,31638,55375,86140,121887,167556,212880,212880
-"America","Brazil","Brazil – Sergipe","SE","low",145,40,80,124,171,410,936,1460,1460,1460
-"America","Brazil","Brazil – Sergipe","SE","mean",145,119,258,681,1460,1460,1460,1460,1460,1460
-"America","Brazil","Brazil – Sergipe","SE","high",145,209,643,1460,1460,1460,1460,1460,1460,1460
-"America","Brazil","Brazil – Tocantins","TO","low",16279,8673,15307,22339,31084,34128,34128,34128,34128,34128
-"America","Brazil","Brazil – Tocantins","TO","mean",16279,13616,26301,34128,34128,34128,34128,34128,34128,34128
-"America","Brazil","Brazil – Tocantins","TO","high",16279,18812,34128,34128,34128,34128,34128,34128,34128,34128
-"America","Colombia","Colombia","COL","low",181668,160652,318063,483691,655637,827388,999579,1176887,1366795,1567911
-"America","Colombia","Colombia","COL","mean",181668,191471,382551,586170,792260,998631,1212603,1444578,1690875,1947859
-"America","Colombia","Colombia","COL","high",181668,222599,449017,688846,929193,1174896,1443508,1731659,2034012,2346943
-"America","Costa Rica","Costa Rica","CRI","low",4691,2574,5623,9024,12702,16576,20600,24767,29100,33627
-"America","Costa Rica","Costa Rica","CRI","mean",4691,4245,9473,15351,21632,28281,35392,43077,51442,60588
-"America","Costa Rica","Costa Rica","CRI","high",4691,6032,13659,22150,31347,41491,52852,65683,79978,90711
-"America","Cuba","Cuba","CUB","low",3124,1195,2954,4817,6798,8890,11079,13399,15904,18632
-"America","Cuba","Cuba","CUB","mean",3124,2630,6082,9910,14113,18965,24430,30472,36948,37890
-"America","Cuba","Cuba","CUB","high",3124,4150,9524,15748,23329,32121,37890,37890,37890,37890
-"America","Dominica","Dominica","DMA","low",72,27,62,101,141,185,232,281,332,385
-"America","Dominica","Dominica","DMA","mean",72,63,143,234,336,443,552,664,777,894
-"America","Dominica","Dominica","DMA","high",72,102,236,392,556,724,899,1082,1270,1464
-"America","Dominican Rep.","Dominican Rep.","DOM","low",3245,1690,3533,5572,7715,9968,12293,14718,17249,19929
-"America","Dominican Rep.","Dominican Rep.","DOM","mean",3245,3054,6619,10516,14685,19196,24302,30549,31638,31638
-"America","Dominican Rep.","Dominican Rep.","DOM","high",3245,4507,9938,15921,22740,31638,31638,31638,31638,31638
-"America","Ecuador","Ecuador","ECU","low",34207,14155,32805,53530,76002,99494,123698,148762,174571,200872
-"America","Ecuador","Ecuador","ECU","mean",34207,25785,59631,97524,137539,179675,223061,267208,312409,359083
-"America","Ecuador","Ecuador","ECU","high",34207,38379,88990,144556,203867,264961,328064,394153,463082,534243
-"America","El Salvador","El Salvador","SLV","low",382,235,493,754,1020,1290,1557,1821,2082,2335
-"America","El Salvador","El Salvador","SLV","mean",382,371,771,1182,1592,1996,2383,2752,3105,3105
-"America","El Salvador","El Salvador","SLV","high",382,510,1056,1610,2150,2658,3105,3105,3105,3105
-"America","French Guiana","French Guiana","GUF","low",2734,3215,5673,7662,9667,11836,14115,16396,18702,21035
-"America","French Guiana","French Guiana","GUF","mean",2734,3863,6669,9109,11778,14612,17448,20347,23278,26267
-"America","French Guiana","French Guiana","GUF","high",2734,4494,7609,10647,13991,17384,20845,24372,27987,31751
-"America","Grenada","Grenada","GRD","low",52,8,19,30,42,54,66,78,91,104
-"America","Grenada","Grenada","GRD","mean",52,49,107,173,245,322,404,513,513,513
-"America","Grenada","Grenada","GRD","high",52,94,213,349,513,513,513,513,513,513
-"America","Guadeloupe","Guadeloupe","GLP","low",62,48,94,140,186,229,271,315,359,405
-"America","Guadeloupe","Guadeloupe","GLP","mean",62,74,145,216,282,351,422,496,577,666
-"America","Guadeloupe","Guadeloupe","GLP","high",62,99,197,287,381,479,588,714,867,1048
-"America","Guatemala","Guatemala","GTM","low",16649,13953,28549,44372,61443,79675,99190,117270,117270,117270
-"America","Guatemala","Guatemala","GTM","mean",16649,17948,37259,58672,82000,107651,117270,117270,117270,117270
-"America","Guatemala","Guatemala","GTM","high",16649,22029,46415,73839,104314,117270,117270,117270,117270,117270
-"America","Guyana","Guyana","GUY","low",12848,15236,24917,35058,44888,54721,64865,75270,85825,96456
-"America","Guyana","Guyana","GUY","mean",12848,19810,34189,48502,63076,78236,93669,109386,125328,141394
-"America","Guyana","Guyana","GUY","high",12848,24089,43178,62172,82134,102531,123405,144532,165804,187187
-"America","Haiti","Haiti","HTI","low",811,602,1188,1755,2393,2749,2749,2749,2749,2749
-"America","Haiti","Haiti","HTI","mean",811,912,1763,2712,2749,2749,2749,2749,2749,2749
-"America","Haiti","Haiti","HTI","high",811,1196,2411,2749,2749,2749,2749,2749,2749,2749
-"America","Honduras","Honduras","HND","low",17863,13537,28696,43691,58139,72084,85965,102136,122434,128520
-"America","Honduras","Honduras","HND","mean",17863,19075,39728,59529,78521,99077,126836,128520,128520,128520
-"America","Honduras","Honduras","HND","high",17863,24633,50473,74826,100842,128520,128520,128520,128520,128520
-"America","Jamaica","Jamaica","JAM","low",799,397,822,1280,1763,2264,2772,3290,3813,4341
-"America","Jamaica","Jamaica","JAM","mean",799,749,1600,2517,3463,4429,5422,6457,7541,8686
-"America","Jamaica","Jamaica","JAM","high",799,1124,2432,3813,5238,6747,8367,10129,12080,14252
-"America","Martinique","Martinique","MTQ","low",76,45,82,121,164,213,264,316,368,421
-"America","Martinique","Martinique","MTQ","mean",76,73,142,225,315,407,502,600,702,807
-"America","Martinique","Martinique","MTQ","high",76,101,212,341,474,613,761,918,1092,1294
-"America","Mexico","Mexico","MEX","low",39995,32207,63435,96566,131598,167949,206184,249731,266722,266722
-"America","Mexico","Mexico","MEX","mean",39995,41899,84136,129774,177870,230272,266722,266722,266722,266722
-"America","Mexico","Mexico","MEX","high",39995,51768,105703,164165,228048,266722,266722,266722,266722,266722
-"America","Montserrat","Montserrat","MSR","low",1,0,1,1,2,2,3,3,4,4
-"America","Montserrat","Montserrat","MSR","mean",1,1,2,3,5,6,7,8,10,11
-"America","Montserrat","Montserrat","MSR","high",1,2,3,6,8,9,11,13,15,17
-"America","Nicaragua","Nicaragua","NIC","low",33339,20434,42330,62486,82835,103587,127531,162692,173264,173264
-"America","Nicaragua","Nicaragua","NIC","mean",33339,38522,75396,113555,173264,173264,173264,173264,173264,173264
-"America","Nicaragua","Nicaragua","NIC","high",33339,55162,109523,173264,173264,173264,173264,173264,173264,173264
-"America","Panama","Panama","PAN","low",6524,4805,9678,14605,19803,25367,31260,37485,44030,50871
-"America","Panama","Panama","PAN","mean",6524,6663,13409,20572,28410,36869,45945,55585,65790,76616
-"America","Panama","Panama","PAN","high",6524,8519,17283,27009,37777,49528,62195,75836,90489,106216
-"America","Paraguay","Paraguay","PRY","low",18519,10879,20433,29179,37770,45950,51448,51448,51448,51448
-"America","Paraguay","Paraguay","PRY","mean",18519,18875,34827,49848,51448,51448,51448,51448,51448,51448
-"America","Paraguay","Paraguay","PRY","high",18519,26153,48417,51448,51448,51448,51448,51448,51448,51448
-"America","Peru","Peru","PER","low",121862,106360,213461,321134,429725,538971,648138,757195,866177,974735
-"America","Peru","Peru","PER","mean",121862,125205,251991,379216,507806,636556,765116,893527,1021213,1148373
-"America","Peru","Peru","PER","high",121862,144244,290437,437638,585999,734041,881970,1029017,1175464,1321827
-"America","Puerto Rico","Puerto Rico","PRI","low",1032,275,663,1125,1622,2145,2685,3250,3835,4444
-"America","Puerto Rico","Puerto Rico","PRI","mean",1032,823,1992,3287,4706,6257,7957,9814,11869,13481
-"America","Puerto Rico","Puerto Rico","PRI","high",1032,1475,3493,5818,8499,11600,13481,13481,13481,13481
-"America","Saint Kitts and N.","Saint Kitts and N.","KNA","low",6,0,2,4,6,8,11,13,16,19
-"America","Saint Kitts and N.","Saint Kitts and N.","KNA","mean",6,4,10,17,25,33,41,50,58,68
-"America","Saint Kitts and N.","Saint Kitts and N.","KNA","high",6,8,19,32,46,61,76,93,110,128
-"America","Saint Lucia","Saint Lucia","LCA","low",51,27,57,84,110,137,164,191,219,248
-"America","Saint Lucia","Saint Lucia","LCA","mean",51,60,116,172,231,293,359,429,502,580
-"America","Saint Lucia","Saint Lucia","LCA","high",51,89,175,266,366,474,591,721,864,1021
-"America","Saint Martin","Saint Martin","MAF","low",3,0,1,2,2,3,4,4,5,5
-"America","Saint Martin","Saint Martin","MAF","mean",3,4,5,5,5,5,5,5,5,5
-"America","Saint Martin","Saint Martin","MAF","high",3,5,5,5,5,5,5,5,5,5
-"America","Saint Vincent","Saint Vincent","VCT","low",12,4,10,18,25,33,41,49,58,67
-"America","Saint Vincent","Saint Vincent","VCT","mean",12,10,25,40,57,75,94,115,137,161
-"America","Saint Vincent","Saint Vincent","VCT","high",12,17,40,65,94,126,161,200,242,289
-"America","Sint Maarten","Sint Maarten","SXM","low",1,0,0,1,1,1,1,1,1,1
-"America","Sint Maarten","Sint Maarten","SXM","mean",1,1,1,1,1,1,1,1,1,1
-"America","Sint Maarten","Sint Maarten","SXM","high",1,1,1,1,1,1,1,1,1,1
-"America","Suriname","Suriname","SUR","low",12301,13265,24239,34736,44794,54416,64236,74376,84750,95225
-"America","Suriname","Suriname","SUR","mean",12301,16449,30216,43305,55669,68381,81560,94984,108415,121776
-"America","Suriname","Suriname","SUR","high",12301,19583,36073,51483,66841,82920,99296,115664,131957,148294
-"America","Trinidad and Tobago","Trinidad and Tobago","TTO","low",569,73,154,242,333,425,521,617,716,817
-"America","Trinidad and Tobago","Trinidad and Tobago","TTO","mean",569,537,1162,1841,2569,3338,4153,5018,5943,6935
-"America","Trinidad and Tobago","Trinidad and Tobago","TTO","high",569,1057,2328,3751,5335,7131,8857,11545,11545,11545
-"America","Venezuela","Venezuela","VEN","low",95678,57411,128169,204789,284791,369612,459582,553467,650021,749416
-"America","Venezuela","Venezuela","VEN","mean",95678,90903,203524,324376,456619,597513,744551,896818,1054206,1215900
-"America","Venezuela","Venezuela","VEN","high",95678,126959,282150,455133,643699,842759,1050731,1266342,1486943,1710747
-"America","Virgin Isl. UK","Virgin Isl. UK","VGB","low",17,5,11,18,26,35,46,53,53,53
-"America","Virgin Isl. UK","Virgin Isl. UK","VGB","mean",17,21,53,53,53,53,53,53,53,53
-"America","Virgin Isl. UK","Virgin Isl. UK","VGB","high",17,44,53,53,53,53,53,53,53,53
-"America","Virgin Isl. US","Virgin Isl. US","VIR","low",31,11,24,35,46,55,65,75,84,94
-"America","Virgin Isl. US","Virgin Isl. US","VIR","mean",31,48,90,130,172,210,210,210,210,210
-"America","Virgin Isl. US","Virgin Isl. US","VIR","high",31,80,152,210,210,210,210,210,210,210
-"Africa","Angola","Angola","AGO","low",34218,22102,45994,72082,98806,125331,151753,178160,204595,231939
-"Africa","Angola","Angola","AGO","mean",34218,35920,77279,119864,162086,204303,249097,308581,366503,366503
-"Africa","Angola","Angola","AGO","high",34218,50998,109209,167249,225832,298891,366503,366503,366503,366503
-"Africa","Benin","Benin","BEN","low",64,38,81,126,169,169,169,169,169,169
-"Africa","Benin","Benin","BEN","mean",64,71,150,169,169,169,169,169,169,169
-"Africa","Benin","Benin","BEN","high",64,101,169,169,169,169,169,169,169,169
-"Africa","Burundi","Burundi","BDI","low",193,38,85,152,256,398,552,714,890,1077
-"Africa","Burundi","Burundi","BDI","mean",193,187,684,1324,2108,3069,3760,4761,4761,4761
-"Africa","Burundi","Burundi","BDI","high",193,523,1631,3204,4761,4761,4761,4761,4761,4761
-"Africa","Cameroon","Cameroon","CMR","low",57839,35514,81339,135322,196125,260328,325806,392756,461605,533787
-"Africa","Cameroon","Cameroon","CMR","mean",57839,45299,105509,177284,255999,336812,420023,506818,599939,698903
-"Africa","Cameroon","Cameroon","CMR","high",57839,55705,131473,221627,316948,415419,518956,631480,751311,876398
-"Africa","CAR","CAR","CAF","low",22812,19387,39145,58738,77994,97627,117881,138828,160725,183984
-"Africa","CAR","CAR","CAF","mean",22812,27691,55530,82917,111183,140753,172358,206998,245320,287776
-"Africa","CAR","CAR","CAF","high",22812,35909,71703,107872,146235,188363,236097,290612,351522,419060
-"Africa","Comoros","Comoros","COM","low",103,23,57,94,132,174,220,272,328,390
-"Africa","Comoros","Comoros","COM","mean",103,55,127,211,312,430,550,678,808,937
-"Africa","Comoros","Comoros","COM","high",103,89,207,365,542,731,923,1127,1355,1597
-"Africa","Congo","Congo","COG","low",25616,34087,54486,77667,105741,137370,172111,209075,247210,287769
-"Africa","Congo","Congo","COG","mean",25616,41061,70766,108249,152335,201777,253772,309917,370254,435255
-"Africa","Congo","Congo","COG","high",25616,48515,89558,142868,204878,271690,345034,425623,513636,608085
-"Africa","DRC","DRC","COD","low",518135,433168,914699,1439365,2014192,2627954,3278423,3973709,4720204,5522475
-"Africa","DRC","DRC","COD","mean",518135,573055,1226418,1958761,2760476,3628012,4576376,5618065,6727029,7872114
-"Africa","DRC","DRC","COD","high",518135,718143,1555233,2510871,3563236,4737383,6047206,7439014,8868663,10328821
-"Africa","Eq. Guinea","Eq. Guinea","GNQ","low",3016,2364,4938,7786,10718,13663,16605,19566,22555,25582
-"Africa","Eq. Guinea","Eq. Guinea","GNQ","mean",3016,3229,6940,10897,14879,18875,22916,27030,31203,35444
-"Africa","Eq. Guinea","Eq. Guinea","GNQ","high",3016,4144,8995,14021,19058,24173,29397,34721,40152,45666
-"Africa","Ethiopia","Ethiopia","ETH","low",30685,20337,43451,69679,98747,131433,168946,201730,201730,201730
-"Africa","Ethiopia","Ethiopia","ETH","mean",30685,40362,91170,154295,201730,201730,201730,201730,201730,201730
-"Africa","Ethiopia","Ethiopia","ETH","high",30685,62848,149548,201730,201730,201730,201730,201730,201730,201730
-"Africa","Gabon","Gabon","GAB","low",11064,8921,15053,21594,28439,35681,43421,51507,59804,68256
-"Africa","Gabon","Gabon","GAB","mean",11064,11864,21244,31439,42601,54555,66935,79483,92084,104778
-"Africa","Gabon","Gabon","GAB","high",11064,14728,27710,42188,58060,74550,91197,107977,124910,142074
-"Africa","Gambia","Gambia","GMB","low",37,3,6,9,12,15,19,22,25,28
-"Africa","Gambia","Gambia","GMB","mean",37,18,37,56,77,100,116,116,116,116
-"Africa","Gambia","Gambia","GMB","high",37,33,69,116,116,116,116,116,116,116
-"Africa","Ghana","Ghana","GHA","low",28186,19257,37729,58204,83421,149664,185303,185303,185303,185303
-"Africa","Ghana","Ghana","GHA","mean",28186,33417,70498,177804,185303,185303,185303,185303,185303,185303
-"Africa","Ghana","Ghana","GHA","high",28186,48258,156146,185303,185303,185303,185303,185303,185303,185303
-"Africa","Guinea","Guinea","GIN","low",13132,11357,25738,53254,53254,53254,53254,53254,53254,53254
-"Africa","Guinea","Guinea","GIN","mean",13132,15648,39787,53254,53254,53254,53254,53254,53254,53254
-"Africa","Guinea","Guinea","GIN","high",13132,20277,53254,53254,53254,53254,53254,53254,53254,53254
-"Africa","Guinea Bissau","Guinea Bissau","GNB","low",727,502,942,1373,1815,2286,2803,3399,3504,3504
-"Africa","Guinea Bissau","Guinea Bissau","GNB","mean",727,659,1241,1835,2480,3233,3504,3504,3504,3504
-"Africa","Guinea Bissau","Guinea Bissau","GNB","high",727,808,1546,2326,3259,3504,3504,3504,3504,3504
-"Africa","Ivory Coast","Ivory Coast","CIV","low",95269,53746,116705,232466,232466,232466,232466,232466,232466,232466
-"Africa","Ivory Coast","Ivory Coast","CIV","mean",95269,84718,232466,232466,232466,232466,232466,232466,232466,232466
-"Africa","Ivory Coast","Ivory Coast","CIV","high",95269,121581,232466,232466,232466,232466,232466,232466,232466,232466
-"Africa","Kenya","Kenya","KEN","low",5249,2585,5380,8258,11246,14411,17689,21099,24660,28467
-"Africa","Kenya","Kenya","KEN","mean",5249,6580,13922,22057,31268,41834,54204,57392,57392,57392
-"Africa","Kenya","Kenya","KEN","high",5249,10783,23555,39219,57392,57392,57392,57392,57392,57392
-"Africa","Liberia","Liberia","LBR","low",50841,35167,70184,109943,157834,213451,276917,348936,428747,514749
-"Africa","Liberia","Liberia","LBR","mean",50841,46783,95859,157890,233721,324130,428921,544642,667355,795945
-"Africa","Liberia","Liberia","LBR","high",50841,58357,125039,213583,324218,457190,605347,763710,901493,1011995
-"Africa","Madagascar","Madagascar","MDG","low",78168,55512,115534,182460,256077,336522,422724,499865,499865,499865
-"Africa","Madagascar","Madagascar","MDG","mean",78168,81751,175677,283857,405614,499865,499865,499865,499865,499865
-"Africa","Madagascar","Madagascar","MDG","high",78168,109366,241209,397122,499865,499865,499865,499865,499865,499865
-"Africa","Malawi","Malawi","MWI","low",1935,1205,2402,2424,2424,2424,2424,2424,2424,2424
-"Africa","Malawi","Malawi","MWI","mean",1935,2055,2424,2424,2424,2424,2424,2424,2424,2424
-"Africa","Malawi","Malawi","MWI","high",1935,2424,2424,2424,2424,2424,2424,2424,2424,2424
-"Africa","Mauritius","Mauritius","MUS","low",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Africa","Mauritius","Mauritius","MUS","mean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Africa","Mauritius","Mauritius","MUS","high",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Africa","Mayotte","Mayotte","MYT","low",242,69,156,235,313,395,477,551,644,662
-"Africa","Mayotte","Mayotte","MYT","mean",242,269,544,662,662,662,662,662,662,662
-"Africa","Mayotte","Mayotte","MYT","high",242,469,662,662,662,662,662,662,662,662
-"Africa","Nigeria","Nigeria","NGA","low",27239,18405,39459,63404,90380,122013,156244,190640,227553,283363
-"Africa","Nigeria","Nigeria","NGA","mean",27239,28994,64634,107734,159500,212788,296124,310869,310869,310869
-"Africa","Nigeria","Nigeria","NGA","high",27239,40551,93144,161123,235600,310869,310869,310869,310869,310869
-"Africa","Reunion","Reunion","REU","low",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Africa","Reunion","Reunion","REU","mean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Africa","Reunion","Reunion","REU","high",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Africa","Rwanda","Rwanda","RWA","low",551,200,405,769,1634,2773,4060,5464,6886,7863
-"Africa","Rwanda","Rwanda","RWA","mean",551,599,3146,6886,13964,13964,13964,13964,13964,13964
-"Africa","Rwanda","Rwanda","RWA","high",551,1956,7863,13964,13964,13964,13964,13964,13964,13964
-"Africa","Senegal","Senegal","SEN","low",99,1,4,6,9,12,14,16,18,21
-"Africa","Senegal","Senegal","SEN","mean",99,91,187,288,396,520,662,692,692,692
-"Africa","Senegal","Senegal","SEN","high",99,185,391,652,692,692,692,692,692,692
-"Africa","Sierra Leone","Sierra Leone","SLE","low",32294,27981,56131,83426,83426,83426,83426,83426,83426,83426
-"Africa","Sierra Leone","Sierra Leone","SLE","mean",32294,39329,83426,83426,83426,83426,83426,83426,83426,83426
-"Africa","Sierra Leone","Sierra Leone","SLE","high",32294,51288,83426,83426,83426,83426,83426,83426,83426,83426
-"Africa","South Sudan","South Sudan","SSD","low",847,276,649,1329,2133,2405,2405,2405,2405,2405
-"Africa","South Sudan","South Sudan","SSD","mean",847,454,1404,2405,2405,2405,2405,2405,2405,2405
-"Africa","South Sudan","South Sudan","SSD","high",847,707,2361,2405,2405,2405,2405,2405,2405,2405
-"Africa","Tanzania","Tanzania","TZA","low",3778,2363,5077,8102,11438,15058,18884,22959,27352,32115
-"Africa","Tanzania","Tanzania","TZA","mean",3778,4041,8922,14610,20912,27954,35950,44797,54386,64815
-"Africa","Tanzania","Tanzania","TZA","high",3778,5797,13244,21945,32159,44105,57502,70789,78269,78269
-"Africa","Togo","Togo","TGO","low",519,310,649,1045,1323,1323,1323,1323,1323,1323
-"Africa","Togo","Togo","TGO","mean",519,619,1323,1323,1323,1323,1323,1323,1323,1323
-"Africa","Togo","Togo","TGO","high",519,966,1323,1323,1323,1323,1323,1323,1323,1323
-"Africa","Uganda","Uganda","UGA","low",10106,7451,21501,42938,65612,65612,65612,65612,65612,65612
-"Africa","Uganda","Uganda","UGA","mean",10106,16170,51978,65612,65612,65612,65612,65612,65612,65612
-"Africa","Uganda","Uganda","UGA","high",10106,28676,65612,65612,65612,65612,65612,65612,65612,65612
-"Africa","Zambia","Zambia","ZMB","low",1657,1014,2080,3085,3896,4007,4007,4007,4007,4007
-"Africa","Zambia","Zambia","ZMB","mean",1657,1764,3433,4007,4007,4007,4007,4007,4007,4007
-"Africa","Zambia","Zambia","ZMB","high",1657,2511,4007,4007,4007,4007,4007,4007,4007,4007
-"Asia","Australia","Australia – Queensland","QLD","low",14010,8544,16773,25115,33352,41408,49398,57527,65787,74202
-"Asia","Australia","Australia – Queensland","QLD","mean",14010,14730,29289,43470,57630,72221,87455,103775,121292,139843
-"Asia","Australia","Australia – Queensland","QLD","high",14010,20975,41505,61793,83076,106282,131895,159336,188410,218778
-"Asia","Bangladesh","Bangladesh","BGD","low",2084,1638,2958,4241,5557,6799,8035,9278,10549,11830
-"Asia","Bangladesh","Bangladesh","BGD","mean",2084,2400,4356,6350,8253,10192,12174,14182,16184,18188
-"Asia","Bangladesh","Bangladesh","BGD","high",2084,3067,5782,8363,11000,13706,16412,19124,21840,24594
-"Asia","Bhutan","Bhutan","BTN","low",8948,4985,9999,15169,20462,25832,31226,36639,42083,47531
-"Asia","Bhutan","Bhutan","BTN","mean",8948,8472,17265,26354,35530,44777,54069,63442,72876,82338
-"Asia","Bhutan","Bhutan","BTN","high",8948,12041,24737,37698,50772,63990,77310,90717,104270,117923
-"Asia","Brunei","Brunei","BRN","low",493,424,797,1192,1607,2033,2456,2874,3287,3701
-"Asia","Brunei","Brunei","BRN","mean",493,550,1063,1614,2183,2746,3301,3857,4424,5010
-"Asia","Brunei","Brunei","BRN","high",493,676,1338,2049,2756,3451,4155,4880,5639,6429
-"Asia","Cambodia","Cambodia","KHM","low",105090,74059,157880,254684,304171,304171,304171,304171,304171,304171
-"Asia","Cambodia","Cambodia","KHM","mean",105090,106408,235429,304171,304171,304171,304171,304171,304171,304171
-"Asia","Cambodia","Cambodia","KHM","high",105090,140922,304171,304171,304171,304171,304171,304171,304171,304171
-"Asia","Fiji","Fiji","FJI","low",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Fiji","Fiji","FJI","mean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Fiji","Fiji","FJI","high",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","India","India – Andaman and N.","AN","low",1159,154,342,561,803,1062,1326,1589,1850,2111
-"Asia","India","India – Andaman and N.","AN","mean",1159,1018,2284,3456,4584,5739,6946,8185,9443,10716
-"Asia","India","India – Andaman and N.","AN","high",1159,2023,4113,6195,8403,10674,13007,15411,17912,20517
-"Asia","India","India – North-East","NE","low",38498,23360,49165,76670,104918,133602,162597,191881,221433,251364
-"Asia","India","India – North-East","NE","mean",38498,36668,78214,121603,165825,210719,256366,302896,350519,399406
-"Asia","India","India – North-East","NE","high",38498,50653,108070,167436,228030,290091,354018,420265,489349,561241
-"Asia","India","India – West. Ghats","WG","low",20646,10431,25606,44608,66084,88994,113298,139963,160894,160894
-"Asia","India","India – West. Ghats","WG","mean",20646,19249,49349,85358,125189,160894,160894,160894,160894,160894
-"Asia","India","India – West. Ghats","WG","high",20646,29725,76464,131355,160894,160894,160894,160894,160894,160894
-"Asia","Indonesia","Indonesia","IDN","low",759115,449407,944777,1495357,2121098,2828380,3607525,4454457,5355619,6301388
-"Asia","Indonesia","Indonesia","IDN","mean",759115,667922,1442055,2368522,3459258,4693175,6037603,7451720,8904188,10384852
-"Asia","Indonesia","Indonesia","IDN","high",759115,897162,1999935,3386022,5019182,6825636,8718321,10665976,12657081,14549477
-"Asia","Laos","Laos","LAO","low",125524,97446,204533,316535,433441,555942,685652,827859,934282,934282
-"Asia","Laos","Laos","LAO","mean",125524,126113,265114,411873,567528,735609,934282,934282,934282,934282
-"Asia","Laos","Laos","LAO","high",125524,155225,327078,510872,710596,934282,934282,934282,934282,934282
-"Asia","Malaysia","Malaysia","MYS","low",210968,129022,285230,468468,677018,905859,1153439,1416789,1691242,1973012
-"Asia","Malaysia","Malaysia","MYS","mean",210968,178891,406841,681682,993318,1337003,1703057,2082223,2465991,2837581
-"Asia","Malaysia","Malaysia","MYS","high",210968,232510,541369,915960,1342592,1804210,2283102,2763025,2961607,2961607
-"Asia","Myanmar","Myanmar","MMR","low",166454,93887,206087,328718,458554,593855,734036,879325,1030239,1186995
-"Asia","Myanmar","Myanmar","MMR","mean",166454,151632,336193,537588,750896,976383,1215344,1468917,1740499,1825638
-"Asia","Myanmar","Myanmar","MMR","high",166454,213074,474250,759352,1066707,1399025,1762671,1825638,1825638,1825638
-"Asia","New Caledonia","New Caledonia","NCL","low",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","New Caledonia","New Caledonia","NCL","mean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","New Caledonia","New Caledonia","NCL","high",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Papua New Guinea","Papua New Guinea","PNG","low",44714,36739,63730,91148,118689,146286,173846,201498,229331,257321
-"Asia","Papua New Guinea","Papua New Guinea","PNG","mean",44714,54383,99547,145119,190691,236664,283145,330697,379425,429358
-"Asia","Papua New Guinea","Papua New Guinea","PNG","high",44714,72044,135527,199151,263499,329482,397709,468208,540434,614213
-"Asia","Philippines","Philippines","PHL","low",58391,28223,60973,95900,132289,169343,206896,244907,283413,322614
-"Asia","Philippines","Philippines","PHL","mean",58391,56396,122320,191537,262430,335385,411597,492421,579405,674006
-"Asia","Philippines","Philippines","PHL","high",58391,86217,186426,290616,400236,519344,652633,804565,977327,1105743
-"Asia","Singapore","Singapore","SGP","low",19,7,20,36,54,74,97,122,150,180
-"Asia","Singapore","Singapore","SGP","mean",19,15,41,72,110,155,205,258,318,403
-"Asia","Singapore","Singapore","SGP","high",19,24,65,117,182,255,343,424,424,424
-"Asia","Solomon Isl.","Solomon Isl.","SLB","low",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Solomon Isl.","Solomon Isl.","SLB","mean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Solomon Isl.","Solomon Isl.","SLB","high",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Sri Lanka","Sri Lanka","LKA","low",5629,2388,5099,8508,12269,16232,20406,24721,29145,33669
-"Asia","Sri Lanka","Sri Lanka","LKA","mean",5629,4283,10188,16980,24327,32023,39968,48153,56609,65477
-"Asia","Sri Lanka","Sri Lanka","LKA","high",5629,6579,15866,26320,37438,49035,61211,74518,90842,90842
-"Asia","Thailand","Thailand","THA","low",39142,22948,49069,76872,105891,135963,166920,198736,231333,264708
-"Asia","Thailand","Thailand","THA","mean",39142,38083,81945,128863,178133,229504,282823,338084,395454,455955
-"Asia","Thailand","Thailand","THA","high",39142,53905,116475,183795,255001,329850,408692,493909,601829,601829
-"Asia","Timor-Leste","Timor-Leste","TLS","low",750,269,529,801,1081,1367,1655,1939,2226,2516
-"Asia","Timor-Leste","Timor-Leste","TLS","mean",750,739,1529,2325,3128,3939,4748,5247,5247,5247
-"Asia","Timor-Leste","Timor-Leste","TLS","high",750,1243,2552,3877,5247,5247,5247,5247,5247,5247
-"Asia","Vanuatu","Vanuatu","VUT","low",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Vanuatu","Vanuatu","VUT","mean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Vanuatu","Vanuatu","VUT","high",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Asia","Vietnam","Vietnam","VNM","low",71021,53469,105347,160967,219711,281036,344921,411709,482369,558826
-"Asia","Vietnam","Vietnam","VNM","mean",71021,73471,149124,231047,318029,410342,510318,623600,672766,672766
-"Asia","Vietnam","Vietnam","VNM","high",71021,94198,194945,304760,423271,555601,672766,672766,672766,672766
+"America","Antigua and B.","Antigua and B.","ATG","low",5,0,2,5,8,12,16,20,24,28
+"America","Antigua and B.","Antigua and B.","ATG","mean",5,3,11,20,30,40,48,48,48,48
+"America","Antigua and B.","Antigua and B.","ATG","high",5,7,22,38,48,48,48,48,48,48
+"America","Bahamas","Bahamas","BHS","low",230,113,245,369,485,595,702,809,914,1019
+"America","Bahamas","Bahamas","BHS","mean",230,250,493,714,930,1145,1327,1327,1327,1327
+"America","Bahamas","Bahamas","BHS","high",230,378,719,1044,1327,1327,1327,1327,1327,1327
+"America","Barbados","Barbados","BRB","low",13,3,7,11,15,19,23,28,32,36
+"America","Barbados","Barbados","BRB","mean",13,13,28,44,63,86,92,92,92,92
+"America","Barbados","Barbados","BRB","high",13,24,52,89,92,92,92,92,92,92
+"America","Belize","Belize","BLZ","low",6832,4282,8347,12319,16403,20627,24923,29271,33648,38082
+"America","Belize","Belize","BLZ","mean",6832,7121,13917,21020,28352,35793,43462,51506,59897,68216
+"America","Belize","Belize","BLZ","high",6832,9918,19725,30070,40696,51950,63880,70449,70449,70449
+"America","Bolivia","Bolivia","BOL","low",153229,93861,189016,287127,387363,490178,594842,701572,810803,922411
+"America","Bolivia","Bolivia","BOL","mean",153229,170630,348852,534793,727365,927783,1135780,1350783,1571465,1796943
+"America","Bolivia","Bolivia","BOL","high",153229,249546,514929,795054,1091386,1402661,1725221,2059398,2408749,2773043
+"America","Brazil","Brazil – Acre","AC","low",49506,54146,111280,171071,233900,300912,372091,447100,523760,604704
+"America","Brazil","Brazil – Acre","AC","mean",49506,63478,130941,203859,287166,378534,481319,588979,700694,827339
+"America","Brazil","Brazil – Acre","AC","high",49506,72871,152022,246485,358449,486605,622045,774223,997662,1232679
+"America","Brazil","Brazil – Alagoas","AL","low",264,152,303,459,621,1086,1935,3320,3498,3498
+"America","Brazil","Brazil – Alagoas","AL","mean",264,286,585,1290,3498,3498,3498,3498,3498,3498
+"America","Brazil","Brazil – Alagoas","AL","high",264,424,1142,3498,3498,3498,3498,3498,3498,3498
+"America","Brazil","Brazil – Amapa","AP","low",10032,6940,14572,22383,30439,39640,50203,62271,75221,91003
+"America","Brazil","Brazil – Amapa","AP","mean",10032,9931,20717,33116,50081,70999,98636,129670,163592,209769
+"America","Brazil","Brazil – Amapa","AP","high",10032,12947,27796,50253,82831,124973,173078,235569,359920,656245
+"America","Brazil","Brazil – Amazonas","AM","low",172515,152690,297538,437738,576809,716172,856420,998359,1140132,1284430
+"America","Brazil","Brazil – Amazonas","AM","mean",172515,217285,421635,623373,828613,1037266,1250705,1467707,1687342,1918312
+"America","Brazil","Brazil – Amazonas","AM","high",172515,281054,545722,814899,1092838,1377800,1668181,1971215,2326186,2819611
+"America","Brazil","Brazil – Bahia","BA","low",8387,3852,8394,13293,18552,24615,31502,39206,47400,57216
+"America","Brazil","Brazil – Bahia","BA","mean",8387,7374,16232,26754,40364,56416,76668,99706,124938,136774
+"America","Brazil","Brazil – Bahia","BA","high",8387,11128,25300,45076,71354,104568,136774,136774,136774,136774
+"America","Brazil","Brazil – Ceara","CE","low",214,124,229,329,431,752,996,996,996,996
+"America","Brazil","Brazil – Ceara","CE","mean",214,215,405,896,996,996,996,996,996,996
+"America","Brazil","Brazil – Ceara","CE","high",214,303,780,996,996,996,996,996,996,996
+"America","Brazil","Brazil – Espirito Santo","ES","low",1834,834,1607,2359,3097,4355,6227,8794,11740,16250
+"America","Brazil","Brazil – Espirito Santo","ES","mean",1834,1948,3761,6297,11565,19015,28282,28282,28282,28282
+"America","Brazil","Brazil – Espirito Santo","ES","high",1834,3024,6424,14580,28282,28282,28282,28282,28282,28282
+"America","Brazil","Brazil – Goias","GO","low",6700,4416,8903,13373,17795,19393,19393,19393,19393,19393
+"America","Brazil","Brazil – Goias","GO","mean",6700,6670,13396,19393,19393,19393,19393,19393,19393,19393
+"America","Brazil","Brazil – Goias","GO","high",6700,8925,18209,19393,19393,19393,19393,19393,19393,19393
+"America","Brazil","Brazil – Maranhao","MA","low",45039,27771,54179,80998,107572,136463,169508,212441,302967,302967
+"America","Brazil","Brazil – Maranhao","MA","mean",45039,48330,95874,147146,219895,302967,302967,302967,302967,302967
+"America","Brazil","Brazil – Maranhao","MA","high",45039,69519,140249,241402,302967,302967,302967,302967,302967,302967
+"America","Brazil","Brazil – Mato Grosso","MT","low",247192,224567,460979,706257,958634,1219095,1486239,1763454,2053649,2360479
+"America","Brazil","Brazil – Mato Grosso","MT","mean",247192,281442,580235,892073,1219046,1558215,1918403,2303238,2713595,3157095
+"America","Brazil","Brazil – Mato Grosso","MT","high",247192,339011,701862,1087679,1495517,1931371,2403179,2920914,3508666,3583446
+"America","Brazil","Brazil – Mato Grosso do Sul","MS","low",4360,3170,6326,9456,12521,16063,20139,24735,29660,35051
+"America","Brazil","Brazil – Mato Grosso do Sul","MS","mean",4360,4294,8599,13341,20026,28133,35051,35051,35051,35051
+"America","Brazil","Brazil – Mato Grosso do Sul","MS","high",4360,5446,11207,20079,33044,35051,35051,35051,35051,35051
+"America","Brazil","Brazil – Minas Gerais","MG","low",24046,13643,28051,43441,59870,78586,92244,92244,92244,92244
+"America","Brazil","Brazil – Minas Gerais","MG","mean",24046,27302,58150,92244,92244,92244,92244,92244,92244,92244
+"America","Brazil","Brazil – Minas Gerais","MG","high",24046,41846,92244,92244,92244,92244,92244,92244,92244,92244
+"America","Brazil","Brazil – Para","PA","low",416679,440445,878086,1321925,1772718,2241511,2724379,3211689,3703493,4206320
+"America","Brazil","Brazil – Para","PA","mean",416679,535997,1071058,1616449,2187322,2781677,3387051,4003946,4636768,5292190
+"America","Brazil","Brazil – Para","PA","high",416679,631377,1265988,1924854,2626029,3346753,4083042,4849996,5687180,6684779
+"America","Brazil","Brazil – Paraiba","PB","low",88,38,77,118,157,465,1102,1272,1272,1272
+"America","Brazil","Brazil – Paraiba","PB","mean",88,98,197,646,1272,1272,1272,1272,1272,1272
+"America","Brazil","Brazil – Paraiba","PB","high",88,159,552,1272,1272,1272,1272,1272,1272,1272
+"America","Brazil","Brazil – Parana","PR","low",13093,9348,17986,26544,35150,44422,54465,65285,76506,89304
+"America","Brazil","Brazil – Parana","PR","mean",13093,14166,27483,41657,58610,77647,100392,125173,151484,182884
+"America","Brazil","Brazil – Parana","PR","high",13093,18926,37552,60842,89716,124003,161625,182884,182884,182884
+"America","Brazil","Brazil – Pernambouco","PE","low",264,147,285,421,559,967,1707,2832,3970,3970
+"America","Brazil","Brazil – Pernambouco","PE","mean",264,307,604,1262,3334,3970,3970,3970,3970,3970
+"America","Brazil","Brazil – Pernambouco","PE","high",264,467,1168,3970,3970,3970,3970,3970,3970,3970
+"America","Brazil","Brazil – Piaui","PI","low",590,217,487,741,994,1514,1631,1631,1631,1631
+"America","Brazil","Brazil – Piaui","PI","mean",590,571,1162,1631,1631,1631,1631,1631,1631,1631
+"America","Brazil","Brazil – Piaui","PI","high",590,904,1631,1631,1631,1631,1631,1631,1631,1631
+"America","Brazil","Brazil – Rio de Janeiro","RJ","low",3321,911,1889,2844,3806,5504,7982,11264,14957,20617
+"America","Brazil","Brazil – Rio de Janeiro","RJ","mean",3321,3455,6987,11558,19748,30866,47673,65842,73653,73653
+"America","Brazil","Brazil – Rio de Janeiro","RJ","high",3321,6018,12927,26343,48457,73653,73653,73653,73653,73653
+"America","Brazil","Brazil – Rio Grande do Norte","RN","low",64,45,89,130,171,402,494,494,494,494
+"America","Brazil","Brazil – Rio Grande do Norte","RN","mean",64,72,138,455,494,494,494,494,494,494
+"America","Brazil","Brazil – Rio Grande do Norte","RN","high",64,97,347,494,494,494,494,494,494,494
+"America","Brazil","Brazil – Rio Grande do Sul","RS","low",5995,4446,8921,13408,17916,22927,28522,34705,41212,48917
+"America","Brazil","Brazil – Rio Grande do Sul","RS","mean",5995,6649,13313,20586,29906,40810,54549,69960,86708,108763
+"America","Brazil","Brazil – Rio Grande do Sul","RS","high",5995,8827,18081,30710,47546,68644,92548,115420,115420,115420
+"America","Brazil","Brazil – Rondonia","RO","low",152293,159346,309072,460536,617548,779924,949662,1126702,1308473,1494356
+"America","Brazil","Brazil – Rondonia","RO","mean",152293,188418,366527,552220,749292,957947,1182271,1414563,1648580,1807845
+"America","Brazil","Brazil – Rondonia","RO","high",152293,217299,425874,652504,898040,1165638,1444837,1733985,1807845,1807845
+"America","Brazil","Brazil – Roraima","RR","low",68476,26185,52334,77880,103027,129267,156938,185919,215523,247584
+"America","Brazil","Brazil – Roraima","RR","mean",68476,79943,157889,239051,323817,409875,498378,587760,682608,790441
+"America","Brazil","Brazil – Roraima","RR","high",68476,132382,266676,405754,546792,698661,862873,1040539,1269083,1636765
+"America","Brazil","Brazil – Santa Catarina","SC","low",8094,6498,12920,19361,25802,32811,40445,48684,57181,67006
+"America","Brazil","Brazil – Santa Catarina","SC","mean",8094,8580,17094,26336,37932,51094,67251,84883,103633,127765
+"America","Brazil","Brazil – Santa Catarina","SC","high",8094,10659,21753,36814,56280,79841,105720,137369,161043,161043
+"America","Brazil","Brazil – Sao Paulo","SP","low",9435,4904,10198,16001,21928,28579,36144,44639,53589,64467
+"America","Brazil","Brazil – Sao Paulo","SP","mean",9435,9406,20225,32196,47756,65964,89045,114887,142571,178012
+"America","Brazil","Brazil – Sao Paulo","SP","high",9435,14300,31026,53867,84099,121725,163209,212329,257759,257759
+"America","Brazil","Brazil – Sergipe","SE","low",174,73,140,204,266,562,1178,1703,1703,1703
+"America","Brazil","Brazil – Sergipe","SE","mean",174,198,377,886,1703,1703,1703,1703,1703,1703
+"America","Brazil","Brazil – Sergipe","SE","high",174,315,841,1703,1703,1703,1703,1703,1703,1703
+"America","Brazil","Brazil – Tocantins","TO","low",24106,13789,27727,42269,58189,63510,63510,63510,63510,63510
+"America","Brazil","Brazil – Tocantins","TO","mean",24106,24193,49936,63510,63510,63510,63510,63510,63510,63510
+"America","Brazil","Brazil – Tocantins","TO","high",24106,34965,63510,63510,63510,63510,63510,63510,63510,63510
+"America","Colombia","Colombia","COL","low",171784,182318,361404,548156,738911,927324,1118361,1317577,1529148,1752379
+"America","Colombia","Colombia","COL","mean",171784,217536,434390,662209,888778,1117295,1357504,1615570,1888621,2174991
+"America","Colombia","Colombia","COL","high",171784,253042,509268,775445,1039621,1315346,1614382,1933910,2271469,2624564
+"America","Costa Rica","Costa Rica","CRI","low",5625,3183,7340,12138,17507,23335,29506,35975,42743,49808
+"America","Costa Rica","Costa Rica","CRI","mean",5625,5424,12782,21482,31103,41463,52548,64279,76496,89080
+"America","Costa Rica","Costa Rica","CRI","high",5625,7912,18934,31905,46252,61891,78495,95705,113028,125231
+"America","Cuba","Cuba","CUB","low",3092,1177,3025,4942,6991,9132,11314,13537,15824,18202
+"America","Cuba","Cuba","CUB","mean",3092,2688,6249,10157,14199,18486,23038,27856,32821,33516
+"America","Cuba","Cuba","CUB","high",3092,4253,9772,15685,22136,29134,33516,33516,33516,33516
+"America","Dominica","Dominica","DMA","low",73,31,65,103,141,181,223,266,310,354
+"America","Dominica","Dominica","DMA","mean",73,66,142,225,313,402,492,582,675,771
+"America","Dominica","Dominica","DMA","high",73,104,226,359,495,632,776,930,1091,1262
+"America","Dominican Rep.","Dominican Rep.","DOM","low",6205,3293,7030,11069,15300,19671,24145,28755,33516,38469
+"America","Dominican Rep.","Dominican Rep.","DOM","mean",6205,6055,13142,20733,28693,37127,46157,55590,56949,56949
+"America","Dominican Rep.","Dominican Rep.","DOM","high",6205,8975,19611,31021,43491,56949,56949,56949,56949,56949
+"America","Ecuador","Ecuador","ECU","low",30827,15016,33475,54088,76767,100933,126306,153036,181061,210214
+"America","Ecuador","Ecuador","ECU","mean",30827,26498,60190,98890,141016,186676,235274,286172,339528,395911
+"America","Ecuador","Ecuador","ECU","high",30827,39022,90063,148520,213577,283547,358284,439131,525857,617875
+"America","El Salvador","El Salvador","SLV","low",506,349,677,996,1314,1631,1943,2252,2550,2832
+"America","El Salvador","El Salvador","SLV","mean",506,524,1017,1503,1984,2451,2885,3283,3631,3631
+"America","El Salvador","El Salvador","SLV","high",506,698,1357,2006,2627,3182,3631,3631,3631,3631
+"America","French Guiana","French Guiana","GUF","low",2761,2840,5383,7718,10077,12581,15125,17590,20013,22409
+"America","French Guiana","French Guiana","GUF","mean",2761,3483,6529,9427,12515,15668,18709,21702,24714,27784
+"America","French Guiana","French Guiana","GUF","high",2761,4114,7653,11217,14990,18642,22213,25835,29544,33350
+"America","Grenada","Grenada","GRD","low",94,14,34,56,79,102,125,146,167,188
+"America","Grenada","Grenada","GRD","mean",94,94,193,285,377,470,572,706,706,706
+"America","Grenada","Grenada","GRD","high",94,172,337,504,706,706,706,706,706,706
+"America","Guadeloupe","Guadeloupe","GLP","low",82,71,133,192,249,302,360,421,485,551
+"America","Guadeloupe","Guadeloupe","GLP","mean",82,107,199,285,375,472,576,690,818,962
+"America","Guadeloupe","Guadeloupe","GLP","high",82,140,261,382,515,665,837,1041,1286,1562
+"America","Guatemala","Guatemala","GTM","low",23685,18526,38355,58319,78258,98408,118628,135598,135598,135598
+"America","Guatemala","Guatemala","GTM","mean",23685,23997,49603,75113,100908,126844,135598,135598,135598,135598
+"America","Guatemala","Guatemala","GTM","high",23685,29581,60775,92047,123645,135598,135598,135598,135598,135598
+"America","Guyana","Guyana","GUY","low",11145,12508,21965,31828,41555,51293,61278,71522,81913,92345
+"America","Guyana","Guyana","GUY","mean",11145,16850,30975,45143,59519,74444,89605,105010,120609,136364
+"America","Guyana","Guyana","GUY","high",11145,21141,39856,58629,78278,98302,118725,139441,160306,181276
+"America","Haiti","Haiti","HTI","low",1232,846,1727,2622,3522,4024,4024,4024,4024,4024
+"America","Haiti","Haiti","HTI","mean",1232,1292,2635,3969,4024,4024,4024,4024,4024,4024
+"America","Haiti","Haiti","HTI","high",1232,1739,3546,4024,4024,4024,4024,4024,4024,4024
+"America","Honduras","Honduras","HND","low",28299,21806,45729,68938,90781,112128,133939,157077,181282,188247
+"America","Honduras","Honduras","HND","mean",28299,30573,62847,92882,122192,153023,186338,188247,188247,188247
+"America","Honduras","Honduras","HND","high",28299,39348,79218,116386,155377,188247,188247,188247,188247,188247
+"America","Jamaica","Jamaica","JAM","low",1032,586,1210,1836,2463,3079,3689,4291,4887,5475
+"America","Jamaica","Jamaica","JAM","mean",1032,1105,2255,3384,4490,5572,6631,7677,8716,9753
+"America","Jamaica","Jamaica","JAM","high",1032,1627,3283,4886,6440,7961,9470,10984,12521,14070
+"America","Martinique","Martinique","MTQ","low",75,53,95,136,182,228,277,327,379,431
+"America","Martinique","Martinique","MTQ","mean",75,84,159,239,327,417,512,612,716,824
+"America","Martinique","Martinique","MTQ","high",75,114,227,352,484,626,777,937,1110,1311
+"America","Mexico","Mexico","MEX","low",46536,35902,72580,110552,148846,186634,224701,266418,283494,283494
+"America","Mexico","Mexico","MEX","mean",46536,47313,96494,146901,196664,247866,283494,283494,283494,283494
+"America","Mexico","Mexico","MEX","high",46536,58930,120739,182776,245740,283494,283494,283494,283494,283494
+"America","Montserrat","Montserrat","MSR","low",2,1,1,2,3,4,4,5,6,7
+"America","Montserrat","Montserrat","MSR","mean",2,2,3,5,7,9,11,13,15,17
+"America","Montserrat","Montserrat","MSR","high",2,3,5,9,12,15,18,21,25,28
+"America","Nicaragua","Nicaragua","NIC","low",41399,27339,56231,84640,112724,143495,178302,220485,231755,231755
+"America","Nicaragua","Nicaragua","NIC","mean",41399,50975,102340,158452,231755,231755,231755,231755,231755,231755
+"America","Nicaragua","Nicaragua","NIC","high",41399,74292,152421,231755,231755,231755,231755,231755,231755,231755
+"America","Panama","Panama","PAN","low",11736,10772,20745,30766,40836,51016,61231,71531,81956,92565
+"America","Panama","Panama","PAN","mean",11736,14579,28372,42279,56353,70532,84951,99755,115047,130824
+"America","Panama","Panama","PAN","high",11736,18367,36021,53915,72002,90502,109706,129702,150520,172135
+"America","Paraguay","Paraguay","PRY","low",17284,10122,20395,30683,41171,51534,58591,58591,58591,58591
+"America","Paraguay","Paraguay","PRY","mean",17284,18613,37533,56448,58591,58591,58591,58591,58591,58591
+"America","Paraguay","Paraguay","PRY","high",17284,27085,54672,58591,58591,58591,58591,58591,58591,58591
+"America","Peru","Peru","PER","low",111402,136566,267447,399309,532362,666133,800546,936175,1073485,1212392
+"America","Peru","Peru","PER","mean",111402,159907,314567,470473,627961,786226,946086,1108250,1272433,1438224
+"America","Peru","Peru","PER","high",111402,183236,361680,542065,723857,907229,1093544,1282550,1473744,1666647
+"America","Puerto Rico","Puerto Rico","PRI","low",1851,643,1442,2298,3184,4066,4952,5859,6778,7718
+"America","Puerto Rico","Puerto Rico","PRI","mean",1851,1744,3810,5918,8119,10421,12835,15337,17905,19797
+"America","Puerto Rico","Puerto Rico","PRI","high",1851,2926,6241,9778,13580,17581,19797,19797,19797,19797
+"America","Saint Kitts and N.","Saint Kitts and N.","KNA","low",9,1,3,6,8,11,15,18,21,25
+"America","Saint Kitts and N.","Saint Kitts and N.","KNA","mean",9,5,14,23,33,44,55,66,78,91
+"America","Saint Kitts and N.","Saint Kitts and N.","KNA","high",9,10,26,43,61,81,102,124,146,168
+"America","Saint Lucia","Saint Lucia","LCA","low",64,27,56,86,117,150,182,214,246,280
+"America","Saint Lucia","Saint Lucia","LCA","mean",64,59,124,192,260,333,410,488,568,648
+"America","Saint Lucia","Saint Lucia","LCA","high",64,93,195,302,418,538,660,787,918,1051
+"America","Saint Martin","Saint Martin","MAF","low",5,1,2,3,3,4,5,6,6,6
+"America","Saint Martin","Saint Martin","MAF","mean",5,5,6,6,6,6,6,6,6,6
+"America","Saint Martin","Saint Martin","MAF","high",5,6,6,6,6,6,6,6,6,6
+"America","Saint Vincent","Saint Vincent","VCT","low",20,9,20,31,41,52,61,71,81,91
+"America","Saint Vincent","Saint Vincent","VCT","mean",20,20,41,60,79,99,120,141,162,185
+"America","Saint Vincent","Saint Vincent","VCT","high",20,31,60,89,120,151,185,220,255,293
+"America","Sint Maarten","Sint Maarten","SXM","low",2,0,1,1,2,2,3,3,3,3
+"America","Sint Maarten","Sint Maarten","SXM","mean",2,2,3,3,3,3,3,3,3,3
+"America","Sint Maarten","Sint Maarten","SXM","high",2,3,3,3,3,3,3,3,3,3
+"America","Suriname","Suriname","SUR","low",11704,12426,23673,34746,45433,55764,66291,77038,87958,99020
+"America","Suriname","Suriname","SUR","mean",11704,15637,29981,43842,57109,70701,84601,98765,113033,127387
+"America","Suriname","Suriname","SUR","high",11704,18827,36163,52617,69066,86033,103333,120800,138369,156044
+"America","Trinidad and Tobago","Trinidad and Tobago","TTO","low",1231,172,364,560,766,978,1199,1425,1655,1889
+"America","Trinidad and Tobago","Trinidad and Tobago","TTO","mean",1231,1237,2696,4340,6165,8128,10200,12330,14505,16705
+"America","Trinidad and Tobago","Trinidad and Tobago","TTO","high",1231,2448,5554,9180,13091,17122,20549,25533,25533,25533
+"America","Venezuela","Venezuela","VEN","low",101927,69956,147451,230446,319647,415147,516464,622517,731417,842928
+"America","Venezuela","Venezuela","VEN","mean",101927,107296,229052,364276,513123,672242,837485,1006744,1180325,1357021
+"America","Venezuela","Venezuela","VEN","high",101927,146152,316674,511447,724300,946822,1176508,1411859,1650765,1892223
+"America","Virgin Isl. UK","Virgin Isl. UK","VGB","low",34,8,17,28,40,52,64,72,72,72
+"America","Virgin Isl. UK","Virgin Isl. UK","VGB","mean",34,33,72,72,72,72,72,72,72,72
+"America","Virgin Isl. UK","Virgin Isl. UK","VGB","high",34,62,72,72,72,72,72,72,72,72
+"America","Virgin Isl. US","Virgin Isl. US","VIR","low",54,11,23,36,48,60,73,87,101,116
+"America","Virgin Isl. US","Virgin Isl. US","VIR","mean",54,51,109,170,225,269,269,269,269,269
+"America","Virgin Isl. US","Virgin Isl. US","VIR","high",54,95,200,269,269,269,269,269,269,269
+"Africa","Angola","Angola","AGO","low",50739,32351,67499,104682,142630,181052,220013,259430,299338,340502
+"Africa","Angola","Angola","AGO","mean",50739,52937,112054,173069,235388,298894,365560,440316,493217,493217
+"Africa","Angola","Angola","AGO","high",50739,74679,157607,243089,331394,429821,493217,493217,493217,493217
+"Africa","Benin","Benin","BEN","low",157,85,184,311,517,517,517,517,517,517
+"Africa","Benin","Benin","BEN","mean",157,159,424,517,517,517,517,517,517,517
+"Africa","Benin","Benin","BEN","high",157,240,517,517,517,517,517,517,517,517
+"Africa","Burundi","Burundi","BDI","low",318,80,177,299,449,615,788,966,1146,1329
+"Africa","Burundi","Burundi","BDI","mean",318,355,933,1559,2216,2886,3316,3878,3878,3878
+"Africa","Burundi","Burundi","BDI","high",318,757,1828,2973,3878,3878,3878,3878,3878,3878
+"Africa","Cameroon","Cameroon","CMR","low",57161,48818,104804,164722,228357,294513,362162,430871,501026,573382
+"Africa","Cameroon","Cameroon","CMR","mean",57161,61377,132303,208870,290031,373496,458714,546567,637848,731691
+"Africa","Cameroon","Cameroon","CMR","high",57161,74289,160600,254613,353029,454024,558674,668005,780765,896938
+"Africa","CAR","CAR","CAF","low",42132,35035,70507,105735,141003,176638,212863,249758,287392,325929
+"Africa","CAR","CAR","CAF","mean",42132,49961,99960,150013,200920,253122,306863,362503,420044,479375
+"Africa","CAR","CAR","CAF","high",42132,64725,129422,194990,262632,333000,406595,483213,562476,644227
+"Africa","Comoros","Comoros","COM","low",91,40,82,128,174,217,258,303,351,398
+"Africa","Comoros","Comoros","COM","mean",91,80,168,250,338,428,514,602,693,782
+"Africa","Comoros","Comoros","COM","high",91,122,247,379,508,640,772,912,1060,1214
+"Africa","Congo","Congo","COG","low",36864,43101,78624,116235,158028,202597,248437,295617,343563,393067
+"Africa","Congo","Congo","COG","mean",36864,55629,105366,161652,222716,286348,351680,419455,488487,559391
+"Africa","Congo","Congo","COG","high",36864,68518,134323,210069,290282,373617,460067,549070,641509,736743
+"Africa","DRC","DRC","COD","low",614823,556889,1158415,1794984,2459662,3155609,3885148,4651258,5446386,6263463
+"Africa","DRC","DRC","COD","mean",614823,734117,1539813,2396360,3305004,4272479,5296020,6358823,7444442,8539625
+"Africa","DRC","DRC","COD","high",614823,915271,1931294,3023355,4201019,5464257,6783030,8127521,9480473,10845205
+"Africa","Eq. Guinea","Eq. Guinea","GNQ","low",2084,2314,4862,7540,10188,12871,15594,18384,21248,24177
+"Africa","Eq. Guinea","Eq. Guinea","GNQ","mean",2084,3173,6766,10349,13989,17728,21596,25586,29644,33745
+"Africa","Eq. Guinea","Eq. Guinea","GNQ","high",2084,4080,8636,13199,17901,22812,27890,33046,38274,43563
+"Africa","Ethiopia","Ethiopia","ETH","low",43741,29541,58771,88586,119129,151003,185002,214296,214296,214296
+"Africa","Ethiopia","Ethiopia","ETH","mean",43741,55082,111380,171937,214296,214296,214296,214296,214296,214296
+"Africa","Ethiopia","Ethiopia","ETH","high",43741,81041,167663,214296,214296,214296,214296,214296,214296,214296
+"Africa","Gabon","Gabon","GAB","low",10283,9177,17578,26298,35257,44506,54056,63773,73566,83413
+"Africa","Gabon","Gabon","GAB","mean",10283,13205,25833,39120,53060,67387,81886,96409,111061,125908
+"Africa","Gabon","Gabon","GAB","high",10283,17136,34314,52556,71518,90701,110032,129663,149576,169806
+"Africa","Gambia","Gambia","GMB","low",242,23,46,67,87,107,126,146,165,184
+"Africa","Gambia","Gambia","GMB","mean",242,122,231,334,435,537,591,591,591,591
+"Africa","Gambia","Gambia","GMB","high",242,213,401,591,591,591,591,591,591,591
+"Africa","Ghana","Ghana","GHA","low",55382,37738,72631,109838,150161,221780,252021,252021,252021,252021
+"Africa","Ghana","Ghana","GHA","mean",55382,64519,130416,245730,252021,252021,252021,252021,252021,252021
+"Africa","Ghana","Ghana","GHA","high",55382,92138,227400,252021,252021,252021,252021,252021,252021,252021
+"Africa","Guinea","Guinea","GIN","low",18015,16285,34862,56084,56084,56084,56084,56084,56084,56084
+"Africa","Guinea","Guinea","GIN","mean",18015,22224,47702,56084,56084,56084,56084,56084,56084,56084
+"Africa","Guinea","Guinea","GIN","high",18015,28353,56084,56084,56084,56084,56084,56084,56084,56084
+"Africa","Guinea Bissau","Guinea Bissau","GNB","low",2047,1615,2892,4157,5459,6828,8309,9950,10214,10214
+"Africa","Guinea Bissau","Guinea Bissau","GNB","mean",2047,2073,3774,5516,7390,9503,10214,10214,10214,10214
+"Africa","Guinea Bissau","Guinea Bissau","GNB","high",2047,2508,4663,6951,9573,10214,10214,10214,10214,10214
+"Africa","Ivory Coast","Ivory Coast","CIV","low",133273,95891,204800,319052,319052,319052,319052,319052,319052,319052
+"Africa","Ivory Coast","Ivory Coast","CIV","mean",133273,149440,319052,319052,319052,319052,319052,319052,319052,319052
+"Africa","Ivory Coast","Ivory Coast","CIV","high",133273,212444,319052,319052,319052,319052,319052,319052,319052,319052
+"Africa","Kenya","Kenya","KEN","low",4677,2299,4637,6908,9167,11485,13874,16337,18851,21425
+"Africa","Kenya","Kenya","KEN","mean",4677,5602,11128,17018,23251,29816,36556,38106,38106,38106
+"Africa","Kenya","Kenya","KEN","high",4677,8823,18081,28235,38106,38106,38106,38106,38106,38106
+"Africa","Liberia","Liberia","LBR","low",47865,33669,71556,114905,164920,221072,283075,351536,425799,504481
+"Africa","Liberia","Liberia","LBR","mean",47865,45898,99738,164977,241138,328167,425959,531542,641118,754063
+"Africa","Liberia","Liberia","LBR","high",47865,58475,130927,221204,328249,451933,585975,725821,847739,949138
+"Africa","Madagascar","Madagascar","MDG","low",60669,42822,86791,132655,180246,230300,283192,330993,330993,330993
+"Africa","Madagascar","Madagascar","MDG","mean",60669,62371,128144,197702,272655,330993,330993,330993,330993,330993
+"Africa","Madagascar","Madagascar","MDG","high",60669,82391,170799,267448,330993,330993,330993,330993,330993,330993
+"Africa","Malawi","Malawi","MWI","low",1840,1157,2219,2253,2253,2253,2253,2253,2253,2253
+"Africa","Malawi","Malawi","MWI","mean",1840,1877,2253,2253,2253,2253,2253,2253,2253,2253
+"Africa","Malawi","Malawi","MWI","high",1840,2253,2253,2253,2253,2253,2253,2253,2253,2253
+"Africa","Mauritius","Mauritius","MUS","low",59,4,7,10,13,16,20,23,27,30
+"Africa","Mauritius","Mauritius","MUS","mean",59,63,130,206,294,392,500,616,738,863
+"Africa","Mauritius","Mauritius","MUS","high",59,126,284,482,711,956,1189,1314,1314,1314
+"Africa","Mayotte","Mayotte","MYT","low",275,80,163,245,330,414,494,565,643,656
+"Africa","Mayotte","Mayotte","MYT","mean",275,284,558,656,656,656,656,656,656,656
+"Africa","Mayotte","Mayotte","MYT","high",275,487,656,656,656,656,656,656,656,656
+"Africa","Nigeria","Nigeria","NGA","low",44581,33648,73258,116474,161880,211263,260709,306374,351819,407509
+"Africa","Nigeria","Nigeria","NGA","mean",44581,53730,118606,189597,265210,334012,417524,427625,427625,427625
+"Africa","Nigeria","Nigeria","NGA","high",44581,75251,166387,267444,361135,427625,427625,427625,427625,427625
+"Africa","Reunion","Reunion","REU","low",177,116,249,385,525,659,804,948,1098,1252
+"Africa","Reunion","Reunion","REU","mean",177,185,386,592,806,1026,1256,1495,1740,1993
+"Africa","Reunion","Reunion","REU","high",177,250,527,807,1104,1416,1742,2083,2438,2807
+"Africa","Rwanda","Rwanda","RWA","low",993,376,802,1317,2227,3274,4368,5474,6546,7269
+"Africa","Rwanda","Rwanda","RWA","mean",993,1089,3599,6546,11537,11537,11537,11537,11537,11537
+"Africa","Rwanda","Rwanda","RWA","high",993,2533,7269,11537,11537,11537,11537,11537,11537,11537
+"Africa","Senegal","Senegal","SEN","low",286,7,12,17,23,28,33,37,42,48
+"Africa","Senegal","Senegal","SEN","mean",286,249,511,767,1034,1312,1488,1499,1499,1499
+"Africa","Senegal","Senegal","SEN","high",286,505,1021,1483,1499,1499,1499,1499,1499,1499
+"Africa","Sierra Leone","Sierra Leone","SLE","low",33411,28734,59419,79457,79457,79457,79457,79457,79457,79457
+"Africa","Sierra Leone","Sierra Leone","SLE","mean",33411,41342,79457,79457,79457,79457,79457,79457,79457,79457
+"Africa","Sierra Leone","Sierra Leone","SLE","high",33411,54576,79457,79457,79457,79457,79457,79457,79457,79457
+"Africa","South Sudan","South Sudan","SSD","low",1763,746,1818,3764,6029,6595,6595,6595,6595,6595
+"Africa","South Sudan","South Sudan","SSD","mean",1763,1195,3999,6595,6595,6595,6595,6595,6595,6595
+"Africa","South Sudan","South Sudan","SSD","high",1763,2004,6525,6595,6595,6595,6595,6595,6595,6595
+"Africa","Tanzania","Tanzania","TZA","low",5117,3160,6368,9651,13229,16963,20768,24707,28823,33106
+"Africa","Tanzania","Tanzania","TZA","mean",5117,5196,10535,16506,22736,29375,36436,43756,51049,57810
+"Africa","Tanzania","Tanzania","TZA","high",5117,7159,15106,23736,33145,43202,53231,60923,63927,63927
+"Africa","Togo","Togo","TGO","low",2057,1257,2552,3940,4584,4584,4584,4584,4584,4584
+"Africa","Togo","Togo","TGO","mean",2057,2437,4584,4584,4584,4584,4584,4584,4584,4584
+"Africa","Togo","Togo","TGO","high",2057,3692,4584,4584,4584,4584,4584,4584,4584,4584
+"Africa","Uganda","Uganda","UGA","low",12353,8837,19789,33371,45772,45772,45772,45772,45772,45772
+"Africa","Uganda","Uganda","UGA","mean",12353,15969,38594,45772,45772,45772,45772,45772,45772,45772
+"Africa","Uganda","Uganda","UGA","high",12353,24561,45772,45772,45772,45772,45772,45772,45772,45772
+"Africa","Zambia","Zambia","ZMB","low",2700,1551,3094,4626,5996,6203,6203,6203,6203,6203
+"Africa","Zambia","Zambia","ZMB","mean",2700,2634,5202,6203,6203,6203,6203,6203,6203,6203
+"Africa","Zambia","Zambia","ZMB","high",2700,3741,6203,6203,6203,6203,6203,6203,6203,6203
+"Asia","Australia","Australia – Queensland","QLD","low",5980,3783,7316,10874,14133,17138,20080,23103,26240,29542
+"Asia","Australia","Australia – Queensland","QLD","mean",5980,6436,12555,17895,23142,28755,34972,41965,49748,58317
+"Asia","Australia","Australia – Queensland","QLD","high",5980,9130,17174,24709,33149,43064,54601,67682,82055,97348
+"Asia","Bangladesh","Bangladesh","BGD","low",1084,889,1720,2519,3232,3902,4552,5194,5829,6457
+"Asia","Bangladesh","Bangladesh","BGD","mean",1084,1348,2585,3660,4666,5652,6622,7577,8494,9364
+"Asia","Bangladesh","Bangladesh","BGD","high",1084,1793,3352,4723,6052,7353,8596,9752,10841,11894
+"Asia","Bhutan","Bhutan","BTN","low",3220,2153,4096,6015,7936,9857,11781,13698,15627,17555
+"Asia","Bhutan","Bhutan","BTN","mean",3220,3512,6777,10042,13306,16583,19858,23142,26433,29724
+"Asia","Bhutan","Bhutan","BTN","high",3220,4863,9466,14072,18697,23333,27978,32632,37306,41984
+"Asia","Brunei","Brunei","BRN","low",282,297,579,891,1223,1564,1900,2234,2573,2918
+"Asia","Brunei","Brunei","BRN","mean",282,392,787,1229,1684,2131,2584,3048,3527,4017
+"Asia","Brunei","Brunei","BRN","high",282,486,1008,1576,2139,2708,3300,3909,4541,5201
+"Asia","Cambodia","Cambodia","KHM","low",59205,48104,96623,146021,170714,170714,170714,170714,170714,170714
+"Asia","Cambodia","Cambodia","KHM","mean",59205,67966,136413,170714,170714,170714,170714,170714,170714,170714
+"Asia","Cambodia","Cambodia","KHM","high",59205,87441,170714,170714,170714,170714,170714,170714,170714,170714
+"Asia","Fiji","Fiji","FJI","low",915,332,758,1222,1731,2267,2820,3386,3939,4498
+"Asia","Fiji","Fiji","FJI","mean",915,700,1593,2601,3647,4694,5822,7013,8235,9486
+"Asia","Fiji","Fiji","FJI","high",915,1093,2527,4051,5656,7403,9215,11127,13183,15382
+"Asia","India","India – Andaman and N.","AN","low",599,35,111,205,313,437,567,699,831,963
+"Asia","India","India – Andaman and N.","AN","mean",599,415,1051,1665,2284,2931,3610,4294,4982,5679
+"Asia","India","India – Andaman and N.","AN","high",599,919,2025,3189,4413,5657,6938,8267,9634,11039
+"Asia","India","India – North-East","NE","low",10364,5562,12245,19625,27502,35711,44130,52707,61409,70215
+"Asia","India","India – North-East","NE","mean",10364,8990,20049,32258,45075,58250,71686,85279,98948,112621
+"Asia","India","India – North-East","NE","high",10364,12637,28399,45546,63348,81554,99940,118312,136478,154108
+"Asia","India","India – West. Ghats","WG","low",6378,3153,7906,14048,20858,27798,34961,42542,48217,48217
+"Asia","India","India – West. Ghats","WG","mean",6378,5878,15581,26707,38396,48217,48217,48217,48217,48217
+"Asia","India","India – West. Ghats","WG","high",6378,9235,24034,40145,48217,48217,48217,48217,48217,48217
+"Asia","Indonesia","Indonesia","IDN","low",528972,380792,799616,1260007,1766221,2317141,2909168,3547718,4226051,4936177
+"Asia","Indonesia","Indonesia","IDN","mean",528972,566338,1215891,1961030,2796927,3727593,4738167,5803743,6910733,8052598
+"Asia","Indonesia","Indonesia","IDN","high",528972,759595,1669824,2741427,3973058,5330616,6768416,8270633,9813691,11262589
+"Asia","Laos","Laos","LAO","low",56470,50734,100489,149770,198683,247666,297695,350659,389729,389729
+"Asia","Laos","Laos","LAO","mean",56470,64380,127455,189835,252199,316538,389729,389729,389729,389729
+"Asia","Laos","Laos","LAO","high",56470,77979,154282,229879,307134,389729,389729,389729,389729,389729
+"Asia","Malaysia","Malaysia","MYS","low",106148,87579,198802,326247,464246,607674,756923,911733,1070581,1232565
+"Asia","Malaysia","Malaysia","MYS","mean",106148,123427,283988,467241,660935,865147,1077382,1295348,1516728,1728848
+"Asia","Malaysia","Malaysia","MYS","high",106148,161451,375333,613863,868421,1135560,1411056,1687010,1798757,1798757
+"Asia","Myanmar","Myanmar","MMR","low",56874,37170,75327,113911,152902,192329,232190,272438,313057,354083
+"Asia","Myanmar","Myanmar","MMR","mean",56874,57337,116201,176055,236921,298699,361399,425198,491056,513395
+"Asia","Myanmar","Myanmar","MMR","high",56874,77590,157530,239289,322702,407908,496519,513395,513395,513395
+"Asia","New Caledonia","New Caledonia","NCL","low",670,387,774,1195,1646,2091,2545,3005,3478,3966
+"Asia","New Caledonia","New Caledonia","NCL","mean",670,621,1308,2039,2780,3544,4348,5169,6005,6865
+"Asia","New Caledonia","New Caledonia","NCL","high",670,879,1873,2896,3974,5108,6269,7475,8718,10002
+"Asia","Papua New Guinea","Papua New Guinea","PNG","low",33507,36063,62350,88479,115089,141887,169125,196855,225033,253647
+"Asia","Papua New Guinea","Papua New Guinea","PNG","mean",33507,53350,96558,140735,185984,232502,280257,329665,380681,433188
+"Asia","Papua New Guinea","Papua New Guinea","PNG","high",33507,70276,131379,194493,259999,328397,399882,474112,550435,628478
+"Asia","Philippines","Philippines","PHL","low",37108,21000,45682,72652,100651,128616,156384,184054,211680,239482
+"Asia","Philippines","Philippines","PHL","mean",37108,42168,93000,145073,196682,248495,301730,357098,414931,475354
+"Asia","Philippines","Philippines","PHL","high",37108,65161,141297,216810,293856,375210,461955,554078,651378,720922
+"Asia","Singapore","Singapore","SGP","low",37,23,54,86,120,156,193,232,272,313
+"Asia","Singapore","Singapore","SGP","mean",37,43,95,152,214,279,346,416,485,570
+"Asia","Singapore","Singapore","SGP","high",37,63,139,224,316,412,510,593,593,593
+"Asia","Solomon Isl.","Solomon Isl.","SLB","low",847,445,924,1504,2172,2880,3590,4336,5095,5862
+"Asia","Solomon Isl.","Solomon Isl.","SLB","mean",847,735,1687,2833,4017,5265,6523,7788,9071,10369
+"Asia","Solomon Isl.","Solomon Isl.","SLB","high",847,1087,2584,4234,5978,7736,9524,11332,13148,14966
+"Asia","Sri Lanka","Sri Lanka","LKA","low",2349,1030,2446,4036,5729,7480,9273,11107,12977,14882
+"Asia","Sri Lanka","Sri Lanka","LKA","mean",2349,2037,4795,7804,10940,14186,17564,21101,24842,28818
+"Asia","Sri Lanka","Sri Lanka","LKA","high",2349,3153,7321,11786,16484,21486,26903,32837,39331,39331
+"Asia","Thailand","Thailand","THA","low",16248,9594,20629,32429,44868,57705,70834,84198,97784,111596
+"Asia","Thailand","Thailand","THA","mean",16248,15995,34602,54678,75562,97026,119061,141670,164791,188545
+"Asia","Thailand","Thailand","THA","high",16248,22671,49395,77937,107587,138318,170051,203007,242752,242752
+"Asia","Timor-Leste","Timor-Leste","TLS","low",918,426,787,1129,1459,1790,2120,2450,2778,3107
+"Asia","Timor-Leste","Timor-Leste","TLS","mean",918,1055,1974,2890,3806,4714,5612,6123,6123,6123
+"Asia","Timor-Leste","Timor-Leste","TLS","high",918,1646,3148,4644,6123,6123,6123,6123,6123,6123
+"Asia","Vanuatu","Vanuatu","VUT","low",230,66,144,262,378,495,616,737,856,979
+"Asia","Vanuatu","Vanuatu","VUT","mean",230,170,425,690,956,1223,1475,1722,1962,2198
+"Asia","Vanuatu","Vanuatu","VUT","high",230,309,716,1129,1523,1901,2264,2617,2965,3316
+"Asia","Vietnam","Vietnam","VNM","low",36008,32446,59735,87041,114821,143113,172121,202390,234849,271110
+"Asia","Vietnam","Vietnam","VNM","mean",36008,43274,81330,120102,159950,201768,247926,303114,328684,328684
+"Asia","Vietnam","Vietnam","VNM","high",36008,54066,103206,153927,207666,269544,328684,328684,328684,328684

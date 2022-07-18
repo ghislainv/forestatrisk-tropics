@@ -107,12 +107,12 @@ Download the raw data:
 * ODF Spreadsheet: [carbon_emissions_uncertainty.ods](tropics/supplementary-data/carbon_emissions_uncertainty.ods)
 * Excel 2007--365: [carbon_emissions_uncertainty.xlsx](tropics/supplementary-data/carbon_emissions_uncertainty.xlsx)
 
-Data S2: **Uncertainty around projected carbon emissions**. We combined our maps of projected forest cover change together with the aboveground biomass map by @Avitabile2016 to compute the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg=10^9^ g). Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2010--2020, (ii) the lower bound $d'$ of the confidence interval for the annual deforested area, or (iii) the upper bound $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.\vspace{0.5cm}
+Data S2: **Uncertainty around projected carbon emissions**. We combined our maps of projected forest cover change together with three different aboveground biomass maps: the WUR map at 1 km resolution by @Avitabile2016, the WHRC map at 30 m resolution by @Zarin2016, and the ESA CCI map at 100 m resolution by @Santoro2021. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg=10^9^ g). We present here the results obtained with the ESA CCI biomass map. Maps of projected forest cover change were derived using either (i) the mean annual deforested area $d$ for the ten-year period 2010--2020, (ii) the lower bound $d'$ of the confidence interval for the annual deforested area, or (iii) the upper bound $d''$ of the confidence interval for the annual deforested area. Column "C2020" indicates the carbon emissions associated with past deforestation during the period 2010--2020 for comparison.\vspace{0.5cm}
 
 ```{r c-em-uncertainty, results="asis", echo=FALSE}
 options(knitr.kable.NA="--")
 ## Import data
-df <- read.table("_tables/C_emissions_ci.csv", header=TRUE, sep=",")
+df <- read.table("_tables/C_emissions_ci_cci.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::select(area_cont:area_code, proj, C2020:C2110, -C2035, -C2055, -C2085) %>%
