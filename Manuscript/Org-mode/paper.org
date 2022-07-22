@@ -1,4 +1,4 @@
-# -*- mode: org -*-
+p# -*- mode: org -*-
 # -*- coding: utf-8 -*-
 
 # ==============================================================================
@@ -143,7 +143,7 @@ yr-uncertainty: +/-44 yr
 
 #+NAME: val-C-summary
 #+begin_src R :results output org :exports none
-df <- read_csv(here("Analysis", "jrc2020", "C_trend_mean.csv"))
+df <- read_csv(here("Analysis", "jrc2020", "C_trend_mean_cci.csv"))
 ascii(df, include.rownames=FALSE, digits=3)
 #+end_src
 
@@ -151,10 +151,10 @@ ascii(df, include.rownames=FALSE, digits=3)
 #+begin_src org
 | area_cont      | T10_20 | T20_30 | T30_40 | T40_50 | T50_60 | T60_70 | T70_80 | T80_90 | T90_100 | T100_110 |
 |----------------+--------+--------+--------+--------+--------+--------+--------+--------+---------+----------|
-| Africa         |  0.105 |  0.114 |  0.136 |  0.136 |  0.134 |  0.134 |  0.139 |  0.144 |   0.151 |    0.151 |
-| America        |  0.194 |  0.202 |  0.197 |  0.203 |  0.214 |  0.221 |  0.223 |  0.225 |   0.233 |    0.239 |
-| Asia           |  0.167 |  0.154 |  0.179 |  0.198 |  0.214 |  0.235 |  0.251 |  0.243 |   0.244 |    0.223 |
-| All continents |  0.467 |  0.471 |  0.512 |  0.536 |  0.562 |  0.590 |  0.612 |  0.612 |   0.628 |    0.613 |
+| Africa         |  0.129 |  0.150 |  0.164 |  0.154 |  0.148 |  0.148 |  0.151 |  0.149 |   0.149 |    0.146 |
+| America        |  0.206 |  0.247 |  0.250 |  0.259 |  0.268 |  0.272 |  0.274 |  0.275 |   0.283 |    0.288 |
+| Asia           |  0.096 |  0.107 |  0.119 |  0.128 |  0.135 |  0.146 |  0.156 |  0.156 |   0.159 |    0.155 |
+| All continents |  0.432 |  0.504 |  0.533 |  0.541 |  0.551 |  0.566 |  0.581 |  0.581 |   0.590 |    0.589 |
 #+end_src
 
 #+NAME: trend-C-summary
@@ -168,7 +168,7 @@ print(glue("Min (Pg/yr): {round(Min, 3)}, Max (Pg/yr): {round(Max, 3)}, Diff (Pg
 
 #+RESULTS: trend-C-summary
 #+begin_src org
-Min (Pg/yr): 0.467, Max (Pg/yr): 0.628, Diff (Pg/yr): 0.161, Inc (%): 35
+Min (Pg/yr): 0.432, Max (Pg/yr): 0.59, Diff (Pg/yr): 0.159, Inc (%): 37
 #+end_src
 
 #+begin_abstract
@@ -351,7 +351,7 @@ ascii(df, include.rownames=FALSE)
 | All continents | 1259421759.00 | 1173144287.00 | 1108945401.00 | 8313577.00 | 0.70 | 553755054.00 |  56.03 | 4842.00 | max  |
 #+end_src
 
-Using the study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 6.4 Mha (4.5--8.3 Mha) of tropical moist forest have been disappearing each year during the last decade (2010--2020), which corresponds to an annual area of 64,000 km^{2}, about the size of Greece or West Virginia. We show here that under a business-as-usual scenario of deforestation, 48% (39--56%) of the world's tropical moist forests will have disappeared over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}). The percentage of emerge lands covered by tropical moist forests would then decrease from 8.5% (1259 Mha) in 2000 to 4.7% (554 Mha) in 2100. We observed marked differences in the percentage of forest cover loss at continental and country scales (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}). In Southeast Asia, where the forest area remaining in 2020 is estimated at 248 Mha and the area deforested each year is estimated at 2.0 Mha/yr, the percentage of forest cover loss over the 21^{st} century would reach 67% (52--79%). In Africa, where the annual deforestation rate is lower (1.9 Mha/yr), this percentage would be 53% (45--60%). In Latin America, where the annual deforestation rate is the highest (2.5 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage would be 38% (31--45%). Under a business-as-usual scenario of deforestation, three-quarters of the tropical moist forests that remained in 2000 will have disappeared around years 2120, 2160, and 2220 in Southeast Asia, Africa, and Latin America, respectively, with an average uncertainty of \pm45 years (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
+Using the study by [cite/t:@Vancutsem2021] as a reference, we estimate that around 6.4 Mha (4.5--8.3 Mha) of tropical moist forest have been disappearing each year during the last decade (2010--2020), which corresponds to an annual area of 64,000 km^{2}, about the size of Greece or West Virginia. We show here that under a business-as-usual scenario of deforestation, 48% (39--56%) of the world's tropical moist forests will have disappeared over the course of the 21^{st} century (Fig. [[fig:fcc2100]] and Table \ref{tab:fcc}). The percentage of lands covered by tropical moist forests would then decrease from 8.5% (1259 Mha) in 2000 to 4.7% (656 Mha) in 2100. We observed marked differences in the percentage of forest cover loss at continental and country scales (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}). In Southeast Asia, where the forest area remaining in 2020 is estimated at 248 Mha and the area deforested each year is estimated at 2.0 Mha/yr, the percentage of forest cover loss over the 21^{st} century would reach 67% (52--79%). In Africa, where the annual deforestation rate is lower (1.9 Mha/yr), this percentage would be 53% (45--60%). In Latin America, where the annual deforestation rate is the highest (2.5 Mha/yr), but where the remaining tropical moist forest in 2020 is also much larger than in Southeast Asia and Africa (621 Mha), this percentage would be 38% (31--45%). Under a business-as-usual scenario of deforestation, three-quarters of the tropical moist forests that remained in 2000 will have disappeared around years 2120, 2160, and 2220 in Southeast Asia, Africa, and Latin America, respectively, with an average uncertainty of \pm45 years (Fig. [[fig:perc-loss]] and Table \ref{tab:fcc}).
 # \enlargethispage{1\baselineskip}
 
 #+begin_src R :results output org :exports none
@@ -719,7 +719,7 @@ Decrease: -30%, Increase: 30%
 
 #+begin_src R :results output org :exports none
 # Carbon emmissions with high deforestation
-df <- read_csv(here("Analysis", "jrc2020", "C_trend_max.csv"))
+df <- read_csv(here("Analysis", "jrc2020", "C_trend_max_cci.csv"))
 ascii(df, include.rownames=FALSE, digits=3)
 #+end_src
 
@@ -727,10 +727,10 @@ ascii(df, include.rownames=FALSE, digits=3)
 #+begin_src org
 | area_cont      | T10_20 | T20_30 | T30_40 | T40_50 | T50_60 | T60_70 | T70_80 | T80_90 | T90_100 | T100_110 |
 |----------------+--------+--------+--------+--------+--------+--------+--------+--------+---------+----------|
-| Africa         |  0.105 |  0.150 |  0.176 |  0.164 |  0.165 |  0.170 |  0.179 |  0.183 |   0.187 |    0.188 |
-| America        |  0.194 |  0.254 |  0.251 |  0.265 |  0.277 |  0.284 |  0.289 |  0.302 |   0.314 |    0.320 |
-| Asia           |  0.167 |  0.207 |  0.249 |  0.274 |  0.307 |  0.333 |  0.325 |  0.292 |   0.268 |    0.222 |
-| All continents |  0.467 |  0.611 |  0.676 |  0.703 |  0.749 |  0.787 |  0.793 |  0.778 |   0.768 |    0.730 |
+| Africa         |  0.129 |  0.196 |  0.203 |  0.182 |  0.182 |  0.184 |  0.182 |  0.179 |   0.179 |    0.179 |
+| America        |  0.206 |  0.313 |  0.321 |  0.333 |  0.342 |  0.347 |  0.350 |  0.365 |   0.379 |    0.379 |
+| Asia           |  0.096 |  0.142 |  0.163 |  0.174 |  0.193 |  0.208 |  0.210 |  0.204 |   0.192 |    0.164 |
+| All continents |  0.432 |  0.651 |  0.687 |  0.690 |  0.717 |  0.739 |  0.742 |  0.748 |   0.749 |    0.722 |
 #+end_src
 
 #+begin_src R :results output org :exports none
@@ -748,9 +748,9 @@ print(glue("Percentage of emerged land, in 2000: {p_2000}%, 2100 mean defor: {p_
 Percentage of emerged land, in 2000: 8.5%, 2100 mean defor: 4.4%, 2100 high defor: 3.7%
 #+end_src
 
-Despite the uncertainty surrounding the mean annual deforested area for each country ([[SI:][/SI Appendix/, Figs. S13, S14, and Table S20]]), the consequences of a business-as-usual deforestation scenario on the loss of biodiversity and carbon emissions by 2100 remain clear and alarming (Figs. [[fig:perc-loss]], [[fig:c-em]] and [[SI][/SI Appendix/, Data S1, S2]]). Moreover, given the current global context, the business-as-usual deforestation scenario can be considered as conservative. For example, we do not account for the effect of future population growth [cite:@Raftery2012], which will likely have a major impact on deforestation, particularly in Africa, where a large part of the population depends on slash-and-burn agriculture for their livelihood [cite:@Barnes1990; @Vieilledent2020]. Nor do we account for the increasing demand for agricultural commodities from the tropics, such as palm oil, beef and soybean, which will likely lead to a significant increase in deforestation [cite:@Strona2018; @Karstensen2013]. Our projections using high estimates of the annual deforested area for each study area, corresponding to a total deforestation of 8.3 Mha/yr at the pantropical scale, give an indication on the consequences of a 30% increase in the annual deforested area in the future. This would lead to a 56% loss of tropical moist forest cover over the 21^{st} century and a much faster increase in carbon emissions, up to 0.793 Pg/yr in the 2070s, corresponding to a +70% increase in annual carbon emissions compared to the 2010s (Fig. [[fig:c-em]]). The percentage of lands covered by tropical moist forests would then drop to 3.7% (554 Mha) in 2100 ([[SI:][/SI Appendix/, Fig. S14]]).
+Despite the uncertainty surrounding the mean annual deforested area for each country ([[SI:][/SI Appendix/, Figs. S14--S15, and Table S20]]), the consequences of a business-as-usual deforestation scenario on the loss of biodiversity and carbon emissions by 2100 remain clear and alarming (Figs. [[fig:perc-loss]], [[fig:c-em]] and [[SI][/SI Appendix/, Data S1, S2]]). Moreover, given the current global context, the business-as-usual deforestation scenario can be considered as conservative. For example, we do not account for the effect of future population growth [cite:@Raftery2012], which will likely have a major impact on deforestation, particularly in Africa, where a large part of the population depends on slash-and-burn agriculture for their livelihood [cite:@Barnes1990; @Vieilledent2020]. Nor do we account for the increasing demand for agricultural commodities from the tropics, such as palm oil, beef and soybean, which will likely lead to a significant increase in deforestation [cite:@Strona2018; @Karstensen2013]. Our projections using high estimates of the annual deforested area for each study area, corresponding to a total deforestation of 8.3 Mha/yr at the pantropical scale, give an indication on the consequences of a 30% increase in the annual deforested area in the future. This would lead to a 56% loss of tropical moist forest cover over the 21^{st} century and the percentage of lands covered by tropical moist forests would then drop to 3.7% (554 Mha) in 2100 ([[SI:][/SI Appendix/, Fig. S15]]). This would also lead to a faster decrease in carbon absorption by tropical forests down to 0.267 Pg/yr in 2100, and a faster increase in carbon emissions up to 0.749--0.793 Pg/yr (Fig. [[fig:c-em]] and [[SI:][/SI Appendix/, Fig. S13]]), turning tropical moist forests into an even bigger net carbon source. 
 
-Although conservation strategies, such as protected areas, can help save some time in the fight against deforestation (being efficient at displacing deforestation toward areas of lower biodiversity or carbon stocks), it is extremely urgent to find political and socio-economic solutions that are efficient at curbing deforestation in the long term. Several initiatives involving actors from the political and economical world have already been taken to this end, without having so far led to a significant decrease in deforestation rates in the tropics [cite:@Vancutsem2021]. Such initiatives include recent national or multinational strategies against imported deforestation [cite:@Bager2021], certification schemes for private companies providing agricultural commodities such as the Roundtable on Sustainable Palm Oil [cite:@CazzollaGatti2020], or the REDD+ mechanism [cite:@Goetz2015]. The outcomes of our study could facilitate the concrete implementation of these initiatives on the ground and help increase their effectiveness. In particular, our deforestation probability map can be used to monitor areas having a high risk of being deforested. Our projections by country could also be used as reference scenarios of deforestation and carbon emissions which are necessary for implementing REDD+ at a wide scale on the basis of a common methodology. Doing so, we hope to contribute to the fight against deforestation and that our map of tropical forest cover projected in 2100 will never become a reality.
+Although conservation strategies, such as protected areas, can help save some time in the fight against deforestation (being efficient at displacing deforestation toward areas of lower biodiversity or carbon stocks), it is extremely urgent to find political and socio-economic solutions that are effective at curbing deforestation in the long term. Several initiatives involving actors from the political and economical world have already been taken to this end, without having so far led to a significant decrease in deforestation rates in the tropics [cite:@Vancutsem2021]. Such initiatives include recent national or multinational strategies against imported deforestation [cite:@Bager2021], certification schemes for private companies providing agricultural commodities such as the Roundtable on Sustainable Palm Oil [cite:@CazzollaGatti2020], or the REDD+ mechanism [cite:@Goetz2015]. The outcomes of our study could facilitate the concrete implementation of these initiatives on the ground and help increase their effectiveness. In particular, our deforestation probability map can be used to monitor areas having a high risk of being deforested. Our projections by country can also be used as reference scenarios of deforestation and carbon emissions which are necessary for implementing REDD+ at a wide scale on the basis of a common methodology. Doing so, we hope to contribute to the fight against deforestation and that our map of tropical forest cover in 2100 never comes true.
 
 * Methods                                                            :ignore:
 
@@ -787,7 +787,7 @@ We estimated the number of endemic plant and vertebrate species committed to ext
 
 @@latex:\subsection*{Uncertainty and alternative scenarios}@@
 
-To account for the uncertainty around the mean annual deforested area in our predictions, we computed the 95% confidence interval of the annual deforested area for each study area considering the deforestation observations in the period 2010--2020 ([[SI:][/SI Appendix/, Table S20]]). We thus obtained three different predictions of the forest cover change and associated carbon emissions: an average prediction considering the mean annual deforested area, and two additional predictions considering the lower and upper bound estimates of the mean annual deforested area per study area ([[SI:][/SI Appendix/, Figs. S13--S14, and Data S1, S2]]).
+To account for the uncertainty around the mean annual deforested area in our predictions, we computed the 95% confidence interval of the annual deforested area for each study area considering the deforestation observations in the period 2010--2020 ([[SI:][/SI Appendix/, Table S20]]). We thus obtained three different predictions of the forest cover change and associated carbon emissions: an average prediction considering the mean annual deforested area, and two additional predictions considering the lower and upper bound estimates of the mean annual deforested area per study area ([[SI:][/SI Appendix/, Figs. S14--S15, and Data S1, S2]]).
 
 @@latex:\subsection*{Software}@@
 
