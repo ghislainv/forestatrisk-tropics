@@ -8,6 +8,11 @@ classoption: a4paper
 bibliography: /home/ghislain/Documents/Bibliography/biblio.bib
 biblio-style: bib/naturemag.bst
 link-citations: yes
+colorlinks: yes
+citecolor: RoyalBlue
+urlcolor: Maroon
+linkcolor: RoyalBlue
+toccolor: RoyalBlue
 csl: bib/ecology.csl
 output:
   bookdown::bs4_book
