@@ -135,7 +135,7 @@ system("cp doc/sm.pdf ../../Website/article/Vieilledent2022-preprint-SI.pdf")
 system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
 
 # ==============================================================================
-# Combined with LaTex
+# Combined with LaTeX
 # ==============================================================================
 
 require(here)
