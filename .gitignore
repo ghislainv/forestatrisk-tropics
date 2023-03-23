@@ -32,6 +32,7 @@ Manuscript/Combined/*.pdf
 Manuscript/LaTeX/*
 Manuscript/Nature
 Manuscript/NatureComm
+Manuscript/PNAS
 Manuscript/Org-mode/*.pdf
 Manuscript/Org-mode/*.tex
 Manuscript/Org-mode/biblio/*
