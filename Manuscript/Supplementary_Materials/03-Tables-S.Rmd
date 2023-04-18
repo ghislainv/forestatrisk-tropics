@@ -565,7 +565,7 @@ df <- read.table("tables/C_emissions_mean_cci.csv", header=TRUE, sep=",")
 ## Arrange data
 df <- df %>%
   dplyr::select(area_name, C2040, C2060, C2080, C2100) %>%
-  dplyr::na_if(0) %>%
+  mutate_at(.var=vars(starts_with("C")), ~na_if(., 0)) %>%
   mutate_at(.var=vars(starts_with("C")),.fun=function(x){round(x/1000)})
  
 ## Make table
