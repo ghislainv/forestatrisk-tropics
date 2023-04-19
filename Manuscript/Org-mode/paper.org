@@ -18,7 +18,7 @@
 
 #+LANGUAGE: en
 #+LATEX_CLASS: koma-article
-#+LATEX_CLASS_OPTIONS: [paper=a4, 12pt, DIV=12, english]
+#+LATEX_CLASS_OPTIONS: [paper=a4, 12pt, DIV=12, english, dvipsnames]
 
 #+LATEX_HEADER: \usepackage{amsfonts}
 #+LATEX_HEADER: \usepackage{bookmark}
@@ -35,6 +35,8 @@
 #+LATEX_HEADER: \usepackage[modulo]{lineno}
 # https://tex.stackexchange.com/questions/135747/problem-with-and-within-hypersetuppdfauthor
 #+LATEX_HEADER: \pdfstringdefDisableCommands{\def\and{and }}
+# Caption with KOMA
+#+LATEX_HEADER: \setcapindent{0em}
 # #+LATEX_HEADER: \usepackage[numbers,sort&compress,merge,round]{natbib}
 
 #+LINK: FARmaps https://forestatrisk.cirad.fr/maps.html
