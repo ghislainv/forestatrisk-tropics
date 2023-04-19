@@ -10,7 +10,7 @@ biblio-style: bib/naturemag.bst
 link-citations: yes
 colorlinks: yes
 citecolor: RoyalBlue
-urlcolor: Maroon
+urlcolor: RoyalBlue
 linkcolor: RoyalBlue
 toccolor: RoyalBlue
 csl: bib/ecology.csl
