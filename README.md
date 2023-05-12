@@ -21,12 +21,12 @@ following scientific article:
 <a href="https://orcid.org/0000-0002-8800-3593"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
 **P. Ploton,**
 <a href="https://orcid.org/0000-0002-5686-2764"><img alt="ORCID logo" src="Website/images/Logo_ORCID.png" width="16" height="16" /></a>
-**P. Verley,** **and** **F. Achard.** 2022. Spatial scenario of tropical
+**P. Verley,** **and** **F. Achard.** 2023. Spatial scenario of tropical
 deforestation and carbon emissions for the 21<sup>st</sup> century.
 *bioRxiv*. doi:
 [10.1101/2022.03.22.485306](https://doi.org/10.1101/2022.03.22.485306).
 [![manuscript in
-pdf](Website/images/logo-pdf.png "manuscript in pdf")](https://www.biorxiv.org/content/10.1101/2022.03.22.485306v1.full.pdf)
+pdf](Website/images/logo-pdf.png "manuscript in pdf")](https://www.biorxiv.org/content/10.1101/2022.03.22.485306v2.full.pdf)
 Supplementary Information
 [![SI](Website/images/logo-zip.png "supplementary information")](https://www.biorxiv.org/content/biorxiv/early/2022/03/25/2022.03.22.485306/DC1/embed/media-1.pdf)
 
@@ -115,31 +115,31 @@ We release interactive pantropical maps of the past forest cover change
 (2000–2010–2020), of the risk of deforestation (2020), and of the
 projected forest cover in 2050 and 2100:
 
--   [Map of the tropics](https://forestatrisk.cirad.fr/maps.html)
+- [Map of the tropics](https://forestatrisk.cirad.fr/maps.html)
 
 ### Download
 
 Rasters of results from this study can be downloaded as Cloud Optimized
 GeoTIFFs ([COG](https://www.cogeo.org/)):
 
--   [Rasters](https://forestatrisk.cirad.fr/rasters.html)
--   [COG tutorial](https://forestatrisk.cirad.fr/notebooks/cog.html)
+- [Rasters](https://forestatrisk.cirad.fr/rasters.html)
+- [COG tutorial](https://forestatrisk.cirad.fr/notebooks/cog.html)
 
 ### Supplementary data
 
--   [Data S1](https://forestatrisk.cirad.fr/data-s.html): Uncertainty
-    around projected forest cover.
--   [Data S2](https://forestatrisk.cirad.fr/data-s.html): Uncertainty
-    around projected carbon emissions.
+- [Data S1](https://forestatrisk.cirad.fr/data-s.html): Uncertainty
+  around projected forest cover.
+- [Data S2](https://forestatrisk.cirad.fr/data-s.html): Uncertainty
+  around projected carbon emissions.
 
 ### `forestatrisk` Python package
 
 Results from this study have been obtained with the `forestatrisk`
 Python package:
 
--   [Package website](https://ecology.ghislainv.fr/forestatrisk/) (with
-    full documentation)
--   [Tutorials](https://ecology.ghislainv.fr/forestatrisk/articles.html)
+- [Package website](https://ecology.ghislainv.fr/forestatrisk/) (with
+  full documentation)
+- [Tutorials](https://ecology.ghislainv.fr/forestatrisk/articles.html)
 
 <span style="display: block; height: 15px;"></span>
 <p>
