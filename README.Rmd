@@ -22,7 +22,7 @@ This repository includes the code used to produce the results of the following s
 **P. Verley,**
 **and**
 **F. Achard.**
-2022.
+2023.
 Spatial scenario of tropical deforestation and carbon emissions for the 21^st^ century.
 _bioRxiv_.
 doi: [10.1101/2022.03.22.485306](https://doi.org/10.1101/2022.03.22.485306).

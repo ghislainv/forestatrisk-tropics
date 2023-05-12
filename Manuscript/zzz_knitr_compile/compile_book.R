@@ -76,7 +76,7 @@ pdf_format <- bookdown::pdf_document2(#citation_package="natbib",
 params <- list(title="",author="",date="")
 bookdown::render_book("index.Rmd", output_format=pdf_format)
 
-system("cp doc/sm.pdf ../../Website/article/Vieilledent2022-preprint-SI.pdf")
+system("cp doc/sm.pdf ../../Website/article/Vieilledent2023-preprint-SI.pdf")
 
 # # params
 # title_html <- "SUPPLEMENTARY MATERIALS\nForest refuge areas and carbon emissions from tropical deforestation in the 21^st^ century"
@@ -132,50 +132,50 @@ system("cp doc/sm.pdf ../../Website/article/Vieilledent2022-preprint-SI.pdf")
 
 # Move files to server
 # system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/supplementary-data.html fdb:/home/www/forestatrisk/tropics/supplementary-data/index.html")
-system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
+# system("scp ~/Code/forestatrisk-tropics/Manuscript/Supplementary_Data/tables_website/* fdb:/home/www/forestatrisk/tropics/supplementary-data/")
 
 # ==============================================================================
 # Combined with LaTeX
 # ==============================================================================
 
-require(here)
-
-# Working directory
-setwd(here::here("Manuscript/LaTeX"))
-
-# Copy article
-f_in <- here("Manuscript", "Article", "doc", "article.tex")
-f_out <- here("Manuscript", "LaTeX", "article.tex")
-file.copy(f_in, f_out, overwrite=TRUE)
-
-# Copy sm
-f_in <- here("Manuscript", "Supplementary_Materials", "doc", "sm.tex")
-f_out <- here("Manuscript", "LaTeX", "sm.tex")
-file.copy(f_in, f_out, overwrite=TRUE)
-
-# Combine article and sm
-# article
-article <- readLines(f_in <- here("Manuscript", "LaTeX", "article.tex"))
-article <- gsub(pattern="\\{figures/", replace="\\{figs_article/", x=article)
-l_a <- length(article)
-article <- article[-l_a]
-# sm
-sm <- readLines(f_in <- here("Manuscript", "LaTeX", "sm.tex"))
-sm <- gsub(pattern="\\{figures/", replace="\\{figs_sm/", x=sm)
-l_sm <- length(sm)
-sm <- sm[-c(1:110, (l_sm-8):(l_sm-1))]
-# sm header
-sm_head <- c("\\renewcommand{\\thetable}{S\\arabic{table}}",
-             "\\renewcommand{\\thefigure}{S\\arabic{figure}}",
-             "\\renewcommand{\\theequation}{S\\arabic{equation}}",
-             "\\setcounter{figure}{0}",
-             "\\setcounter{table}{0}",
-             "\\newpage~\\newpage")
-# Combine
-combined <- c(article, sm_head, sm)
-writeLines(combined, here("Manuscript", "LaTeX", "combined.tex"))
-
-# Compile with pdflatex
-tools::texi2dvi(here("Manuscript", "LaTeX", "combined.tex"), pdf=TRUE, clean=TRUE)
+# require(here)
+# 
+# # Working directory
+# setwd(here::here("Manuscript/LaTeX"))
+# 
+# # Copy article
+# f_in <- here("Manuscript", "Article", "doc", "article.tex")
+# f_out <- here("Manuscript", "LaTeX", "article.tex")
+# file.copy(f_in, f_out, overwrite=TRUE)
+# 
+# # Copy sm
+# f_in <- here("Manuscript", "Supplementary_Materials", "doc", "sm.tex")
+# f_out <- here("Manuscript", "LaTeX", "sm.tex")
+# file.copy(f_in, f_out, overwrite=TRUE)
+# 
+# # Combine article and sm
+# # article
+# article <- readLines(f_in <- here("Manuscript", "LaTeX", "article.tex"))
+# article <- gsub(pattern="\\{figures/", replace="\\{figs_article/", x=article)
+# l_a <- length(article)
+# article <- article[-l_a]
+# # sm
+# sm <- readLines(f_in <- here("Manuscript", "LaTeX", "sm.tex"))
+# sm <- gsub(pattern="\\{figures/", replace="\\{figs_sm/", x=sm)
+# l_sm <- length(sm)
+# sm <- sm[-c(1:110, (l_sm-8):(l_sm-1))]
+# # sm header
+# sm_head <- c("\\renewcommand{\\thetable}{S\\arabic{table}}",
+#              "\\renewcommand{\\thefigure}{S\\arabic{figure}}",
+#              "\\renewcommand{\\theequation}{S\\arabic{equation}}",
+#              "\\setcounter{figure}{0}",
+#              "\\setcounter{table}{0}",
+#              "\\newpage~\\newpage")
+# # Combine
+# combined <- c(article, sm_head, sm)
+# writeLines(combined, here("Manuscript", "LaTeX", "combined.tex"))
+# 
+# # Compile with pdflatex
+# tools::texi2dvi(here("Manuscript", "LaTeX", "combined.tex"), pdf=TRUE, clean=TRUE)
 
 # EOF

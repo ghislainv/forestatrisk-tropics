@@ -23,21 +23,25 @@ Intensity/output/*
 !Intensity/output/ForestArea_grid_*.csv
 !Intensity/output/d_uncertainty.csv
 
+# Journals
+Manuscript/Nature
+Manuscript/NatureComm
+Manuscript/PNAS
+Manuscript/GCB
+
+# Latex
+Manuscript/LaTeX
+
 # Manuscript
 Manuscript/Supplementary_Materials/doc/*.pdf
 Manuscript/Supplementary_Materials/doc/*.tex
 Manuscript/Article/doc/*.pdf
 Manuscript/Article/doc/*.tex
-Manuscript/Combined/*.pdf
-Manuscript/LaTeX/*
-Manuscript/Nature
-Manuscript/NatureComm
-Manuscript/PNAS
+Manuscript/Article/biblio/*
+Manuscript/Article/tables/*
+Manuscript/Article/figures/*
 Manuscript/Org-mode/*.pdf
 Manuscript/Org-mode/*.tex
-Manuscript/Org-mode/biblio/*
-Manuscript/Org-mode/tables/*
-Manuscript/Org-mode/figures/*
 
 # GIS data
 *.gpkg
@@ -51,7 +55,7 @@ Manuscript/Cover_Letter
 # Figures
 *.png
 !Manuscript/Supplementary_Materials/figures/*.png
-!Manuscript/Article/figures/*.png
+!Manuscript/Org-mode/figures/*.png
 !Analysis/*/results/*.png
 !Analysis/*/*.png
 !Website/images/*.png

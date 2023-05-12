@@ -520,41 +520,13 @@ knitr::kable(df, caption="(ref:cap-fcc-proj-reg)", booktabs=TRUE, longtable=FALS
                 position="center", font_size=11, repeat_header_method="replace")
 ```
 
-<!------------------------------------------------->
-<!-- Endemic species in biodiversity hotspots    -->
-<!------------------------------------------------->
-
-## Table S18 -- Endemic species in the biodiversity hotspots {-}
-
-(ref:cap-hotspots) **Plant and vertebrate species endemic to each of the biodiversity hotspots**. Estimates come from @Mittermeier2011. P: Plants, B: Birds, R: Reptiles, F: Freshwater fishes, A: Amphibians, M: Mammals.\vspace{0.5cm}
-
-```{r hotspots, results="asis", echo=FALSE}
-## Import data
-df <- read.table("tables/species_biodiversity_hotspots.csv", header=TRUE, sep=",")
-## Arrange data
-df <- df %>%
-  dplyr::select(Hotspot, ends_with("_E"))
-## Make table
-vect.align <- c(rep("l", 1), rep("r", 6))
-col.names <- c("Hotspot", "P", "B", "R", "F", "A", "M")
-knitr::kable(df, caption="(ref:cap-hotspots)", booktabs=TRUE, longtable=FALSE,
-                         format.args=list(big.mark=","),
-                         digits=0,
-                         escape=FALSE,
-                         col.names=col.names,
-                         align=vect.align, linesep="") %>%
-  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),
-                full_width=FALSE,
-                position="center", font_size=11, repeat_header_method="replace")
-```
-
 \newpage
 
 <!------------------------------------------------->
 <!-- Carbon emissions associated with deforestation -->
 <!------------------------------------------------->
 
-## Table S19 -- Cumulative carbon emissions associated with deforestation {-}
+## Table S18 -- Cumulative carbon emissions associated with deforestation {-}
 
 (ref:cap-c-em-sm) **Cumulative carbon emissions associated with future deforestation**. We computed the cumulative carbon emissions associated with future deforestation from 2020 for each study area (C in Gg, $10^9$ g). To do so, we used our maps of projected forest cover change together with available global or pantropical maps of aboveground biomass (either the WUR, WHRC or CCI map). We present here the results obtained with the ESA CCI aboveground biomass map by @Santoro2021.\vspace{0.5cm}
 
@@ -592,7 +564,7 @@ knitr::kable(df, caption="(ref:cap-c-em-sm)", booktabs=TRUE, longtable=TRUE,
 <!-- Uncertainty -->
 <!--------------------------------------------->
 
-## Table S20 -- Confidence interval of the annual deforested area {-}
+## Table S19 -- Confidence interval of the annual deforested area {-}
 
 (ref:cap-ci-d) **Confidence interval of the annual deforested area**. We computed the 95% confidence interval of the annual deforested area $d$ (in ha/yr) for each study area. We used the deforestation observations $d_t$ for the ten years $t$ from 2010 to 2020. The lower and upper bounds of the confidence interval were denoted $d'$ and $d''$, respectively. Forest cover areas (in Kha) for the years 2010 and 2020 ("fc2010" and "fc2020") are also provided for comparison.\vspace{0.5cm}
 
