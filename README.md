@@ -30,7 +30,7 @@ pdf](Website/images/logo-pdf.png "manuscript in pdf")](https://www.biorxiv.org/c
 Supplementary Information
 [![SI](Website/images/logo-zip.png "supplementary information")](https://www.biorxiv.org/content/biorxiv/early/2022/03/25/2022.03.22.485306/DC1/embed/media-1.pdf)
 
-<img alt="ORCID logo" src="Manuscript/Article/figures/prob_zoom.png" />
+<img alt="ORCID logo" src="Manuscript/Org-mode/figures/prob_zoom.png" />
 
 Figure: **Pantropical map of the risk of deforestation.**
 
