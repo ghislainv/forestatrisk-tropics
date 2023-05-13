@@ -198,7 +198,7 @@ Few authors have attempted to provide spatialized forest cover change scenarios 
 
 * Methods                                                           
 
-We present below a summary of the materials and methods used in this study. A more detailed description of the workflow using the Republic Democratic of the Congo as an example can be find in the [[SI][/SI Appendix/, Materials and Methods]].
+We present below a summary of the materials and methods used in this study. A more detailed description of the workflow using Democratic Republic of the Congo as an example can be find in the [[SI][/SI Appendix/, Materials and Methods]].
 
 ** Study-areas and data
 
