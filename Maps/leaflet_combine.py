@@ -48,27 +48,55 @@ def run_combine(index_cont):
     far.make_dir(rdir + "/Maps/" + cont)
     os.chdir(rdir + "/Maps/" + cont)
 
-    # # ===================
-    # # fcc123
-    # # ===================
-    # # List of tif files
-    # cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
-    #     cont_regex + ".*fcc123.tif$' > list_tif.txt"
-    # subprocess.call(cmd, shell=True)
-    # # COG
-    # leaflet_cog(input_file_list="list_tif.txt",
-    #             output_file="fcc123_epsg3857.tif", num_threads="ALL_CPUS")
+    # ===================
+    # fcc123
+    # ===================
+    # List of tif files
+    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+        cont_regex + ".*fcc123.tif$' > list_tif.txt"
+    subprocess.call(cmd, shell=True)
+    # COG
+    leaflet_cog(input_file_list="list_tif.txt",
+                output_file="fcc123_epsg3857.tif", num_threads="ALL_CPUS")
+    # Crop raster for Asia
+    if cont == "Asia":
+        gdal_cmd = ["gdal_translate",
+                    "-projwin", "8036480 3981450 20037480 -3539340",
+                    "-projwin_srs", "EPSG:3857",
+                    "-of COG",
+                    "-co", "COMPRESS=DEFLATE",
+                    "-co", "PREDICTOR=YES",
+                    "-co", "BIGTIFF=YES",
+                    "fcc123_epsg3857.tif", "fcc123_epsg3857_cut.tif"]
+        subprocess.call(" ".join(gdal_cmd), shell=True)
+        os.remove("fcc123_epsg3857.tif")
+        os.rename("fcc123_epsg3857_cut.tif",
+                  "fcc123_epsg3857.tif")
 
-    # # ===================
-    # # Spatial probability
-    # # ===================
-    # # List of tif files
-    # cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
-    #     cont_regex + ".*prob.tif$' > list_tif.txt"
-    # subprocess.call(cmd, shell=True)
-    # # COG
-    # leaflet_cog(input_file_list="list_tif.txt",
-    #             output_file="prob_epsg3857.tif", num_threads="ALL_CPUS")
+    # ===================
+    # Spatial probability
+    # ===================
+    # List of tif files
+    cmd = "find " + rdir + " -regextype posix-egrep -regex '.*" + \
+        cont_regex + ".*prob.tif$' > list_tif.txt"
+    subprocess.call(cmd, shell=True)
+    # COG
+    leaflet_cog(input_file_list="list_tif.txt",
+                output_file="prob_epsg3857.tif", num_threads="ALL_CPUS")
+    # Crop raster for Asia
+    if cont == "Asia":
+        gdal_cmd = ["gdal_translate",
+                    "-projwin", "8036480 3981450 20037480 -3539340",
+                    "-projwin_srs", "EPSG:3857",
+                    "-of COG",
+                    "-co", "COMPRESS=DEFLATE",
+                    "-co", "PREDICTOR=YES",
+                    "-co", "BIGTIFF=YES",
+                    "prob_epsg3857.tif", "prob_epsg3857_cut.tif"]
+        subprocess.call(" ".join(gdal_cmd), shell=True)
+        os.remove("prob_epsg3857.tif")
+        os.rename("prob_epsg3857_cut.tif",
+                  "prob_epsg3857.tif")
 
     # =========================================
     # Forest cover in 20XX - mean deforestation
@@ -92,6 +120,21 @@ def run_combine(index_cont):
         leaflet_cog(input_file_list="list_tif.txt",
                     output_file="fcc_" + d + "_epsg3857.tif",
                     num_threads="ALL_CPUS")
+        # Crop raster for Asia
+        if cont == "Asia":
+            gdal_cmd = ["gdal_translate",
+                        "-projwin", "8036480 3981450 20037480 -3539340",
+                        "-projwin_srs", "EPSG:3857",
+                        "-of COG",
+                        "-co", "COMPRESS=DEFLATE",
+                        "-co", "PREDICTOR=YES",
+                        "-co", "BIGTIFF=YES",
+                        "fcc_" + d + "_epsg3857.tif",
+                        "fcc_" + d + "_epsg3857_cut.tif"]
+            subprocess.call(" ".join(gdal_cmd), shell=True)
+            os.remove("fcc_" + d + "_epsg3857.tif")
+            os.rename("fcc_" + d + "_epsg3857_cut.tif",
+                      "fcc_" + d + "_epsg3857.tif")
 
 
 # Run funtion
